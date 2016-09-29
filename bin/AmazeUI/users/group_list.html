@@ -1,0 +1,44 @@
+{{template "header.html" .}}
+
+{{template "sidebar.html" .}}
+
+<div class="am-cf am-padding">
+    <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">
+            用户组列表 </strong>  <small></small>
+    </div>
+    <div class="am-fr am-cf">
+      <button class="am-btn am-btn-default am-input-sm" onclick="location.replace('/group_edit');" type="button">添加用户组</button>
+    </div>
+</div>
+
+  <!-- content start -->
+<form id="mainForm" method="get" action="/group_list" class="am-form">
+  <table class="am-table am-table-striped am-table-hover">
+    <thead>
+      <tr>
+          <th class="am-text-nowrap table-title">组名称</th>
+          <th class="am-text-nowrap">权限</th>
+          <th class="am-text-nowrap table-set">操作</th>
+      </tr>
+  </thead>
+  <tbody>
+           {{ range $v := .list }}
+           <tr>
+               <td class="am-text-middle table-title">{{ $v.Name }}</td>
+               <td class="am-text-middle">{{ $v.Menu }}</td>
+               <td class="am-text-middle">
+                   <a href="?act=group_edit&do=edit&id={{ $v.Id }}">编辑</a> <a onclick="return confirm('确认要删除吗？');" href="?act=group_list&do=del&id={{ $v.Id }}">删除</a>
+               </td>
+           </tr>
+           {{ end }}
+  </tbody>
+</table>
+<hr>
+
+{{template "pager.html" .}}
+
+
+</form>
+  <!-- content end -->
+
+{{template "footer.html" .}}

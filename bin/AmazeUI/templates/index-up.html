@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>多文件上传</title>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <style type="text/css">
+    </style>
+    <script type="text/javascript">
+    //上传进度
+    function uploadProgress(evt) {
+    	  if (evt.lengthComputable) {
+    	    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+    	    document.getElementById('progressNumber').innerHTML = percentComplete.toString() + '%';
+    	  }
+    	  else {
+    	    document.getElementById('progressNumber').innerHTML = 'unable to compute';
+    	  }
+    }
+    
+    function cleanProgress(){
+    	document.getElementById('progressNumber').innerHTML = '';
+    }
+    
+        //监听选择文件信息
+    function fileSelected() {
+    	//HTML5文件API操作
+    	  var file = document.getElementById('userfile').files[0];
+    	  if (file) {
+    	    var fileSize = 0;
+    	    if (file.size > 1024 * 1024)
+    	      fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+    	    else
+    	      fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+
+    	    document.getElementById('userfile').innerHTML = 'Name: ' + file.name;
+    	    document.getElementById('fileSize').innerHTML = 'Size: ' + fileSize;
+    	    document.getElementById('fileType').innerHTML = 'Type: ' + file.type;
+    	    cleanProgress();
+    	  }
+    }
+    
+    </script>
+</head>
+
+<body role="document" youdao="bind">
+<div class="container theme-showcase" role="main">
+	<br /><br />
+    <form id="uploadForm" name="uploadForm" enctype="multipart/form-data" action="/upload" method="POST">
+        <input type="file" id="userfile" name="userfile" onchange="fileSelected()" multiple/> <br/>
+    </form>
+    <button type="button" class="btn btn-primary" onclick="UpLoadFile()">上传文件</button>
+    <div id="progressNumber"></div>
+    <div id="userfile"></div>
+    <div id="fileSize"></div>
+    <div id="fileType"></div>
+</div>
+
+<script src="static/js/jquery-2.1.3.min.js"></script>
+<script src="static/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        ListFile();
+    });
+    function DelFile() {
+        var filename = new Array();
+        $(".mycheckbox").each(function () {
+            if ($(this).is(':checked')) {
+                //   console.log($(this).val())
+                filename.push($(this).parent().prev().prev().text());
+            }
+        });
+        if (filename.length < 1) return;   //没有选择时退出
+        var o = new Object();
+        o.filename = filename;
+        $.ajax({
+            type: 'DELETE',
+            url: "/file",
+            data: JSON.stringify(o),
+            contentType: 'application/json',
+            success: function (msg) {
+                // console.log(msg);
+                ListFile();
+            },
+            error: function () {
+                alert("删除文件出错");
+            }
+        });
+    }
+    function ListFile() {
+        $(".myrow").remove();
+        $.ajax({
+            type: "GET",//使用get方法访问后台
+            dataType: "json",//返回json格式的数据
+            url: "/file",//要访问的后台地址
+            cache: false,
+            success: function (msg) {//msg为返回的数据，在这里做数据绑定
+                // console.log(msg);
+                $("#mytemplate").show();
+                $.each(msg, function (i, n) {
+                    var row = $("#mytemplate").clone();
+                    row.addClass("myrow");
+                    row.find("#NO").text(i);
+                    row.find("#Name").html("<a href='/files/" + n.name + "'>" + n.name + "</a>");
+                    row.find("#Size").text(n.size);
+                    row.find("#Operation").html("<input class='mycheckbox'type='checkbox' value='" + i + "'>");
+                    row.appendTo("#datas");//添加到模板的容器中
+                });
+                $("#mytemplate").hide();   //隐藏模板
+            },
+            error: function () {
+                alert("连接服务器错误");
+            }
+        });
+    }
+    function UpLoadFile() {
+        // FormData 对象
+        var form = new FormData(document.forms.namedItem("uploadForm"));
+        //form.append("name", "dd");                        // 可以增加表单数据
+        // XMLHttpRequest 对象
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", "/file", true);
+        xhr.upload.addEventListener("progress", uploadProgress, false);
+        // xhr.upload 这是html5新增的api,储存了上传过程中的信息
+        xhr.upload.onprogress = function (ev) {
+            var percent = 0;
+            if (ev.lengthComputable) {
+                percent = 100 * ev.loaded / ev.total;
+                $("#myprogress").width(percent + "%");
+            }
+        };
+        xhr.onload = function (oEvent) {
+            if (xhr.status == 200) {
+                ListFile();
+            }
+        }
+        xhr.send(form);
+    }
+</script>
+</body>
+
+</html>
+	
+<!--<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <title>使用XMLHttpRequest上传文件</title>
+    <script type="text/javascript">
+    var xhr = new XMLHttpRequest();
+    
+    //监听选择文件信息
+    function fileSelected() {
+    	//HTML5文件API操作
+    	  var file = document.getElementById('fileName').files[0];
+    	  if (file) {
+    	    var fileSize = 0;
+    	    if (file.size > 1024 * 1024)
+    	      fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+    	    else
+    	      fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+
+    	    document.getElementById('fileName').innerHTML = 'Name: ' + file.name;
+    	    document.getElementById('fileSize').innerHTML = 'Size: ' + fileSize;
+    	    document.getElementById('fileType').innerHTML = 'Type: ' + file.type;
+    	  }
+    	}
+    
+    //上传文件
+    function uploadFile() {
+    	  var fd = new FormData();
+    	  //关联表单数据,可以是自定义参数
+    	  fd.append("name", document.getElementById('name').value);
+    	  fd.append("fileName", document.getElementById('fileName').files[0]);
+
+    	  //监听事件
+    	  xhr.upload.addEventListener("progress", uploadProgress, false);
+    	  xhr.addEventListener("load", uploadComplete, false);
+    	  xhr.addEventListener("error", uploadFailed, false);
+    	  xhr.addEventListener("abort", uploadCanceled, false);
+    	  //发送文件和表单自定义参数
+    	  //xhr.open("POST", "<%=path%>/user/uploadifyTest_doUpload");
+    	  xhr.open("post", "/files", true);
+    	  xhr.send(fd);
+    	}
+    //取消上传
+	function cancleUploadFile(){
+		xhr.abort();
+	}
+    
+    //上传进度
+    function uploadProgress(evt) {
+    	  if (evt.lengthComputable) {
+    	    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+    	    document.getElementById('progressNumber').innerHTML = percentComplete.toString() + '%';
+    	  }
+    	  else {
+    	    document.getElementById('progressNumber').innerHTML = 'unable to compute';
+    	  }
+    }
+
+    //上传成功响应
+    function uploadComplete(evt) {
+    	//服务断接收完文件返回的结果
+    	alert(evt.target.responseText);
+    }
+		
+    //上传失败
+    function uploadFailed(evt) {
+    	 alert("上传失败");
+    }
+	//取消上传
+    function uploadCanceled(evt) {
+    	alert("您取消了本次上传.");
+    }
+    </script>
+</head>
+<body>
+	<form id="form1" enctype="multipart/form-data" method="post" action="/upload">
+	<div class="row">
+	      <label for="fileToUpload">选择文件</label>
+	<input type="file" name="fileName" id="fileName" onchange="fileSelected();"/>
+	    </div>
+	<div id="fileName"></div>
+	<div id="fileSize"></div>
+	<div id="fileType"></div>
+	<div class="row">
+	上传者：<input type="text" name="name" id="name"/>
+	<input type="button" onclick="uploadFile()" value="上传" />
+	<input type="button" onclick="cancleUploadFile()" value="取消" />
+	    </div>
+	<div id="progressNumber"></div>
+	</form>
+	
+</body>
+</html>-->

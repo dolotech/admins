@@ -1,0 +1,91 @@
+{{template "header.html" .}}
+
+{{template "sidebar.html" .}}
+
+  <!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">添加账号</strong> / <small>Table</small></div>
+      </div>
+
+      <hr>
+<form action="/users/created" method="POST" class="am-form am-form-horizontal">
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label for="name" class="am-u-sm-2 am-form-label">帐号名称</label>
+                <div class="am-u-sm-10">
+                  <input id="name" type="text" name="username" value="{{ .users.Username }}" />
+                  <small>{{ .emsg.EUsername }}</small>
+                </div>
+              </div>
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label for="realname" class="am-u-sm-2 am-form-label">真实姓名</label>
+                <div class="am-u-sm-10">
+                  <input id="realname" type="text" name="name" value="{{ .users.Name }}" />
+                  <small>{{ .emsg.EName }}</small>
+                </div>
+              </div>
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label for="password" class="am-u-sm-2 am-form-label">密码</label>
+                <div class="am-u-sm-10">
+                  <input id="password" type="password" name="password" value="" />
+                  <small>{{ .emsg.EPasswd }}</small>
+                </div>
+              </div>
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
+                <div class="am-u-sm-10">
+                  <input id="password1" type="password" name="password1" value="" />
+                  <small>{{ .emsg.EPasswd }}</small>
+                </div>
+              </div>
+
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">用户组</label>
+{{template "select.html" .}}
+                <div class="am-u-sm-10">
+                    {{ .emsg.EGroup_id }}
+                </div>
+              </div>
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">限制登录IP</label>
+                <div class="am-u-sm-10">
+                    <input type="text" name="ip_limit" value="{{ .users.Ip_limit }}" />
+                    <small>多个IP用英文,号分开</small>
+                </div>
+              </div>
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">描述</label>
+                <div class="am-u-sm-10">
+                    <textarea name="description" style="width:500px; height:160px;">{{ .users.Description }}</textarea>
+                </div>
+              </div>
+
+          <div class="am-g am-margin-vertical-sm">
+              <div class="am-form-group">
+                <label class="am-u-sm-2 am-form-label"></label>
+                <div class="am-u-sm-10">
+                    <input type="submit" name="submit" class="am-btn am-btn-primary" value="提交" />
+                    <input type="button" class="am-btn" value="返回" onclick="location.replace('/users/list');" />
+                </div>
+              </div>
+          </div>
+
+          <hr />
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <!-- content end -->
+
+{{template "footer.html" .}}

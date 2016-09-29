@@ -1,0 +1,28 @@
+            <div class="am-cf">
+              共 {{ .pager.Size }} 条记录
+              <div class="am-fr">
+                <ul class="am-pagination">
+                {{$pa := .pager.Page}}
+                {{ if eq $pa .pager.First }}  <!-- eq相等, ne/neq不相等, gt大于, lt小于, gte/ge大于等于, lte/le小于等于 -->
+                  <li class="am-disabled"><a href="#">«</a></li>
+                {{ else }}
+                  <li><a href="?act=prev&page={{ .pager.Prev }}">«</a></li>
+                {{ end }}
+
+                {{ range $p := .pager.List }}
+                    {{ if eq 1 $p }}
+                    <li class="am-active"><a href="?page={{ $p }}">{{ $p }}</a></li>
+                    {{ else }}
+                    <li><a href="?page={{ $p }}">{{ $p }}</a></li>
+                    {{ end }}
+                {{ end }}
+
+                {{ if eq 1 .pager.Last }}
+                  <li class="am-disabled"><a href="#">»</a></li>
+                {{ else }}
+                  <li><a href="?act=next&page={{ .pager.Next }}">»</a></li>
+                {{ end }}
+                </ul>
+              </div>
+            </div>
+

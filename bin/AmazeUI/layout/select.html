@@ -1,0 +1,14 @@
+        <div class="am-u-sm-12 am-u-md-3">
+          <div class="am-form-group">
+            <select name="{{ .selected.Name }}" data-am-selected="{btnSize: 'sm'}">
+            {{ $setd := .selected.Setd }}
+            {{ range $k, $v := .selected.Option }}
+                {{ if eq $k $setd }}
+                    <option selected="selected" value="{{ $k }}">{{ $v }}</option>
+                {{ else }}
+                    <option value="{{ $k }}">{{ $v }}</option>
+                {{ end }}
+            {{ end }}
+            </select>
+          </div>
+        </div>

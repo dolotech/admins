@@ -1,0 +1,180 @@
+{{template "header.html" .}}
+
+{{template "sidebar.html" .}}
+
+
+
+
+<div class="am-popup am-popup-inner" id="my-popups">
+  <div class="am-popup-hd">
+    <h4 class="am-popup-title">修改玩家数据</h4>
+    <span data-am-modal-close class="am-close">&times;</span> </div>
+  <div class="am-popup-bd">
+    <form class="am-form tjlanmu">
+
+
+      <div class="am-form-group">
+        <div class="zuo">复制到：</div>
+        <div class="you">
+
+          <select data-am-selected="{btnWidth: 200, btnSize: 'sm', btnStyle: 'danger'}">
+            <option value="a">Apple</option>
+            <option value="b">Banana</option>
+            <option value="o">Orange</option>
+            <option value="m">Mango</option>
+          </select>
+          顶级栏目选默认
+
+        </div>
+      </div>
+
+
+      <div class="am-form-group">
+        <div class="zuo">新栏目名称：</div>
+        <div class="you">
+          <input type="email" class="am-input-sm" id="doc-ipt-email-1" placeholder="请输入标题">
+        </div>
+      </div>
+      <div class="am-form-group">
+        <div class="zuo">栏目关键词：</div>
+        <div class="you">
+          <input type="password" class="am-input-sm" id="doc-ipt-pwd-1" placeholder="请输入关键词">
+        </div>
+      </div>
+      <div class="am-form-group am-cf">
+        <div class="zuo">栏目描述：</div>
+        <div class="you">
+          <textarea class="" rows="2" id="doc-ta-1"></textarea>
+        </div>
+      </div>
+      <div class="am-form-group am-cf">
+        <div class="zuo">上传玩家头像：</div>
+        <div class="you" style="height: 45px;">
+          <input type="file" id="doc-ipt-file-1">
+          <p class="am-form-help">请选择要上传的文件...</p>
+        </div>
+      </div>
+      <div class="am-form-group am-cf">
+        <div class="zuo">简介：</div>
+        <div class="you">
+          <textarea class="" rows="2" id="doc-ta-1"></textarea>
+        </div>
+      </div>
+      <div class="am-form-group am-cf">
+        <div class="zuo">状态：</div>
+        <div class="you" style="margin-top: 3px;">
+          <label class="am-checkbox-inline">
+            <input type="checkbox" value="option1">
+            显示 </label>
+          <label class="am-checkbox-inline">
+            <input type="checkbox" value="option2">
+            隐藏 </label>
+        </div>
+      </div>
+      <div class="am-form-group am-cf">
+        <div class="you"  style = "text-align:right">
+          <p>
+            <button type="submit" class="am-btn am-btn-success am-radius">提交</button>
+          </p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+  <!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">玩家数据</strong> / <small>玩家列表</small></div>
+      </div>
+
+      <hr>
+
+      <form action="/roles/list" class="am-form" data-am-validator>
+      <div class="am-g">
+
+		{{template "select.html" .}}
+      <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+            <input type="text" name="start_id" value="{{ .start_id }}" class="am-form-field am-input-sm" placeholder="开始玩家ID" />
+      </div>
+      <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+            <input type="text" name="end_id" value="{{ .end_id }}" class="am-form-field am-input-sm" placeholder="结束玩家ID" />
+      </div>
+      <div class="am-u-sm-12 am-u-md-2 am-u-end">
+            <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>
+      </div>
+
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <!--<form class="am-form">-->
+            <table class="am-table am-table-striped am-table-hover table-main">
+
+              <thead>
+              <tr>
+                <th class="am-text-nowrap am-hide-sm-only table-id">玩家ID</th>
+                <th class="am-text-nowrap table-title">昵称</th>
+                <th class="am-text-nowrap table-title">电话</th>
+                <th class="am-text-nowrap table-type">金币</th>
+                <th class="am-text-nowrap table-type">钻石</th>
+                <th class="am-text-nowrap table-type">VIP</th>
+                <th class="am-text-nowrap table-author am-hide-sm-only">注册IP</th>
+                <th class="am-text-nowrap table-date am-hide-sm-only">注册时间</th>
+				<th class="am-text-nowrap table-date am-hide-sm-only">操作</th>
+			
+              </tr>
+              </thead>
+
+              <tbody>
+
+	              {{ range $element := .users }}
+              <tr>
+                <td class="am-text-middle am-hide-sm-only">{{ $element.Userid }}</td>
+                <td class="am-text-middle am-hide-sm-only">{{ $element.Nickname }}</td>
+                <td class="am-text-middle am-hide-sm-only">{{ $element.PhoneN }}</td>
+                <td class="am-text-middle am-hide-sm-only">{{ $element.Coin }}</td>
+                <td class="am-text-middle am-hide-sm-only">{{ $element.Diamond }}</td>
+                <td class="am-text-middle am-hide-sm-only">{{ $element.Vip }}</td>
+                <td class="am-text-middle am-hide-sm-only">{{ $element.Create_ip }}</td>
+                <td class="am-text-middle am-hide-sm-only">{{ $element.Create_time }}</td>
+				 <td>
+                  <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                     <a class="am-btn am-btn-default am-btn-xs am-text-secondary"  data-am-modal="{target: '#my-popups'}"> <span class="am-icon-pencil-square-o"></span>编辑</a>
+                 
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              {{ end }}
+
+              </tbody>
+            </table>
+				{{template "pager.html" .}}
+            <hr />
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- content end -->
+{{template "footer.html" .}}
+ <script>
+ $('#my-secondary').on('click', function() {
+    $('#my-prompt').modal({
+      relatedTarget: this,
+      onConfirm: function(e) {
+        alert('你输入的是：' + e.data || '')
+      },
+      onCancel: function(e) {
+        alert('不想说!');
+      }
+    });
+  });
+ </script>
+
+

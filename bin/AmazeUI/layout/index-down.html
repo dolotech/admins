@@ -1,0 +1,51 @@
+{{template "header.html" .}}
+
+{{template "sidebar.html" .}}
+
+{{template "up-down.html" .}}
+  <!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">下载文件</strong> / <small>Table</small></div>
+      </div>
+
+      <hr>
+
+<div class="container theme-showcase" role="main">
+    <br>
+    </p>
+    </P>
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-striped" id="datas">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>名称</th>
+                    <th>大小(KB)</th>
+                    <th>选择</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr id="mytemplate">
+                    <td id="NO"></td>
+                    <td id="Name"></td>
+                    <td id="Size"></td>
+                    <td id="Operation"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <button type="button" class="btn btn-danger" onclick="DelFile()">删除选中的文件</button>
+</div>
+
+            <hr />
+          </form>
+      </div>
+    </div>
+
+  <!-- content end -->
+
+{{template "footer.html" .}}
