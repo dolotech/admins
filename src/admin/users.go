@@ -20,6 +20,9 @@ import (
 	"github.com/golang/glog"
 )
 
+var Pager pager
+var Selected selected
+
 const (
 	USERS_INDEX      string = "users_index"
 	USER_GROUP_INDEX string = "user_group_index"

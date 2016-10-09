@@ -7,8 +7,6 @@
  * *******************************************************/
 package admin
 
-var Selected selected = selected{}
-
 type selected struct {
 	Name   string //
 	Setd   string

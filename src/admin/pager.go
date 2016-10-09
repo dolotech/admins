@@ -13,8 +13,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var Pager pager = pager{}
-
 type pager struct {
 	Page  int    // 当前第几页
 	Limit int    // 当前页数量

@@ -372,6 +372,54 @@ func Clone(dst, src interface{}) error {
 	return gob.NewDecoder(bytes.NewBuffer(buf.Bytes())).Decode(dst)
 }
 
+//----------------------一下几个函数只对数字字符串有效----------------------------
+func IsNumString(str string) bool {
+	runeArr := []rune(str)
+	for i := 0; i < len(runeArr); i++ {
+		if runeArr[i] > 56 {
+			return false
+		} else if runeArr[i] < 48 {
+			return false
+		}
+	}
+	return true
+}
+func Between(startid, endid string) []string {
+	if startid == endid {
+		return []string{startid}
+	}
+	ids := []string{}
+	if len(startid) > len(endid) {
+		return ids
+	}
+	start := []rune(startid)
+	end := []rune(endid)
+
+	for i := 0; i < len(start); i++ {
+		if int(end[i]) < int(start[i]) {
+			return ids
+		} else if int(end[i]) > int(start[i]) {
+			break
+		}
+	}
+	for {
+		ids = append(ids, startid)
+		startid = StringAdd(startid)
+		if startid == endid {
+			ids = append(ids, startid)
+			break
+		}
+	}
+	return ids
+}
+
+func StringAddNum(numStr string, num int) string {
+	for i := 0; i < num; i++ {
+		numStr = StringAdd(numStr)
+	}
+	return numStr
+}
+
 // 字符串加法
 func StringAdd(numStr string) string {
 	runeArr := []rune(numStr)
@@ -392,6 +440,7 @@ func StringAdd(numStr string) string {
 	return string(runeArr)
 }
 
+//-----------------------------------------------------------------
 const FORMAT string = "2006-01-02 15:04:05"
 const FORMATDATA string = "2006-01-02 "
 
