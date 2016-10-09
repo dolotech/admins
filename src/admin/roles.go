@@ -12,6 +12,7 @@ import (
 	"basic/utils"
 	"data"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
@@ -66,9 +67,12 @@ func (this *roles) List(c *gin.Context) {
 	page_s := c.Query("page") // string
 	act_s := c.Query("act")   // string
 	limit_s := c.Query("limit")
-	this.pager.SetPager(page_s, limit_s, act_s)
 
 	lastID, _ := gossdb.C().Get(data.KEY_LAST_USER_ID)
+
+	this.pager.SetPager(page_s, limit_s, act_s)
+
+	this.selector.SetSelect("limit", limit_s, OPTION)
 
 	glog.Infoln(start_id, end_id, act_s, limit_s, page_s, lastID.String())
 	var ids []string
@@ -93,20 +97,23 @@ func (this *roles) List(c *gin.Context) {
 			boolean = false
 		}
 		if boolean {
-			ids = utils.Between(start_id, end_id)
+			startidnum, _ := strconv.ParseUint(start_id, 10, 64)
+			endidnum, _ := strconv.ParseUint(end_id, 10, 64)
+			this.pager.SetSize(uint32(endidnum - startidnum))
+
+			ids = utils.Between(utils.StringAddNum(start_id, this.pager.GetStart()), utils.StringAddNum(start_id, this.pager.GetEnd()))
 		}
 	} else {
-		p := this.pager.Page * this.pager.Limit
-		s := (this.pager.Page-1)*this.pager.Limit + 1
-		//for ; s <= p; s++ {
-		//	ids = append(ids, strconv.Itoa(int(id-s)))
-		//}
-
-		ids = utils.Between(utils.StringAddNum(lastID.String(), s), utils.StringAddNum(lastID.String(), p))
-
+		idnum, err := strconv.ParseUint(lastID.String(), 10, 64)
+		if err == nil && idnum > 60001 {
+			size := idnum - 60001
+			glog.Infoln("size ", size)
+			this.pager.SetSize(uint32(size))
+		}
+		glog.Infoln(this.pager.GetStart(), this.pager.GetEnd())
+		ids = utils.Between(strconv.FormatUint(idnum-uint64(this.pager.GetEnd()), 10), strconv.FormatUint(idnum-uint64(this.pager.GetStart()), 10))
 	}
 
-	this.selector.SetSelect("limit", limit_s, OPTION)
 	lists := data.GetMultiUser(ids)
 	users := make([]*user, 0, len(lists))
 	for _, v := range lists {
@@ -123,7 +130,6 @@ func (this *roles) List(c *gin.Context) {
 		users = append(users, u)
 	}
 	glog.Infoln("users : ", this.pager, len(users))
-	this.pager.SetSize(uint32(LIMIT))
 
 	c.HTML(http.StatusOK, "lists.html", gin.H{
 		"pager":    this.pager,

@@ -19,3 +19,11 @@ func (s *selected) SetSelect(name, setd string, option map[string]string) {
 	s.Setd = setd
 	s.Option = option
 }
+
+//func (s *selected) GetSelect() int {
+//	if num, err := strconv.Atoa(this.Setd); err != nil {
+//		return 30
+//	} else {
+//		return num
+//	}
+//}

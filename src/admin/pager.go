@@ -8,9 +8,11 @@
 package admin
 
 import (
+	"math"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang/glog"
 )
 
 type pager struct {
@@ -27,6 +29,21 @@ type pager struct {
 	Eid   string //
 }
 
+func (p *pager) GetEnd() int {
+	glog.Infoln(p.Size, p.Page, p.Limit)
+	if p.Size >= uint32((p.Page)*p.Limit) {
+		return p.Page * p.Limit
+	}
+	return int(p.Size)
+}
+func (p *pager) GetStart() int {
+	glog.Infoln(p.Size, p.Page, p.Limit)
+	if p.Size >= uint32((p.Page-1)*p.Limit) {
+		return (p.Page - 1) * p.Limit
+	}
+	return 0
+}
+
 // &pager{}.SetPager(page_s, limit_s, act)
 func (p *pager) SetPager(page_s, limit_s, act string) {
 	page, _ := strconv.Atoi(page_s) // int
@@ -35,18 +52,24 @@ func (p *pager) SetPager(page_s, limit_s, act string) {
 	} else if act == "next" {
 		page = page + 1
 	}
-	if page < 1 {
-		page = 1
-	}
 	limit, _ := strconv.Atoi(limit_s) // int
 	if limit < 1 {
 		limit = LIMIT
 	}
+
 	p.Page = page
+
 	p.First = 1
 	p.Limit = limit
 	p.Prev = page - 1
 	p.Next = page + 1
+	if p.Page > int(math.Ceil(float64(p.Size/uint32(p.Limit)))) {
+		p.Page = int(math.Ceil(float64(p.Size / uint32(p.Limit))))
+	}
+	if p.Page < 1 {
+		p.Page = 1
+	}
+
 }
 
 func (p *pager) SetSize(size uint32) {
