@@ -122,10 +122,7 @@ func (this *roles) Edit(c *gin.Context) {
 	}
 	glog.Infoln(m, pwd, pwd1)
 	user.MultiHsetSave(m)
-	//	c.HTML(http.StatusOK, "edit.html", gin.H{
-	//		"user": user,
-	//	})
-	this.List(c)
+	c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "玩家数据修改成功"})
 }
 
 func (this *roles) EditUser(c *gin.Context) {

@@ -13,17 +13,7 @@
 
     <div class="am-g">
       <div class="am-u-md-6">
-    <form action="/roles/edit" method="POST" class="am-form am-form-horizontal">
-<!--
-      <div class="am-form-group am-margin-vertical-sm">
-        <label for="name" class="am-u-sm-2 am-form-label">帐号名称</label>
-        <div class="am-u-sm-10">
-          <input id="name" type="text" name="username" value="{{ .user.Nickname }}" />
-          <small>{{ .user.Nickname  }}</small>
-        </div>
-      </div>-->
-
-
+    <form  class="am-form am-form-horizontal">
 
       <div class="am-form-group am-margin-vertical-sm">
         <label for="Userid" class="am-u-sm-2 am-form-label">帐号ID</label>
@@ -171,10 +161,10 @@
       </div>
 
       <div class="am-g am-margin-vertical-sm">
-        <div class="am-form-group">
+        <div   class="am-form-group">
           <label class="am-u-sm-2 am-form-label"></label>
           <div class="am-u-sm-10">
-            <input type="submit" name="submit" class="am-btn am-btn-primary" value="提交" />
+            <input type="button" name="send" id="send" class="am-btn am-btn-primary" value="提交" />
            <input type="button" class="am-btn" value="返回" onclick="location.replace('/roles/list');" />
           <!--    <input type="button" class="am-btn" value="返回" onclick="location.replace({{ .goback }});" />-->
 
@@ -193,3 +183,50 @@
 <!-- content end -->
 
 {{template "footer.html" .}}
+
+<script>
+    $(function(){
+        $('#send').click(function(){
+            var sex=null;
+            var obj=document.getElementsByName("Sex")
+            for (var i=0;i<obj.length;i++){ //遍历Radio
+                if(obj[i].checked){
+                    sex=obj[i].value;
+                    break;
+                }
+            }
+          //  alertMsg(chkObjs)
+         //   return
+            $.ajax({
+                type: "POST",
+                url: "/roles/edit",
+                data: {Userid:$("#Userid").val(),
+                    Nickname:$("#Nickname").val(),
+                        Diamond:$("#Diamond").val(),
+                    Coin:$("#Coin").val(),
+                Phone:$("#Phone").val(),
+            Vip:$("#Vip").val(),
+    Ticket:$("#Ticket").val(),
+    Exchange:$("#Exchange").val(),
+    Exp:$("#Exp").val(),
+    Sex:sex,
+
+    Photo:$("#Photo").val(),
+                    Win:$("#Win").val(),
+                    Lost:$("#Lost").val(),
+                    Ping:$("#Ping").val(),
+                    password:$("#password").val(),
+                    password1:$("#password1").val()},
+                dataType: "json",
+                success: function(data){
+                    if( data["status"] == "ok"){
+                        alertMsg(data["msg"], 0)
+                        window.location.href="/roles/list";
+                    }else{
+                        alertMsg(data["msg"], 0)
+                    }
+                }
+            });
+        });
+    });
+</script>

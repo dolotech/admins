@@ -101,15 +101,8 @@ func (u *User) Authenticate(c *gin.Context) {
 
 	glog.Infoln("username:", username, "password:", password)
 	if len(username) == 0 || len(password) == 0 {
-		//	c.Redirect(http.StatusMovedPermanently, "/users/login")
-		message := "账号或密码不能为空"
 		glog.Infoln(c.Request.URL.Path)
-
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": message})
-		//	c.HTML(http.StatusOK, "login.html", gin.H{
-		//		"message": message,
-		//	})
-
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "账号或密码不能为空"})
 	} else {
 		keys := utils.Md5(username + password)
 		session := sessions.Default(c)
@@ -126,8 +119,6 @@ func (u *User) Authenticate(c *gin.Context) {
 		//			true,
 		//			true,
 		//		)
-		//c.Redirect(http.StatusMovedPermanently, "/roles/list")
-
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 
 	}
