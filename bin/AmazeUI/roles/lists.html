@@ -66,7 +66,8 @@
                   <div class="am-btn-toolbar">
                     <div class="am-btn-group am-btn-group-xs">
                   <!--   <a class="am-btn am-btn-default am-btn-xs am-text-secondary"  data-am-modal="{target: '#my-popups'}"> <span class="am-icon-pencil-square-o"></span>编辑</a>-->
-                      <button class="am-btn am-btn-default am-input-sm" onclick="location.replace('?mod=users&act=group_edit');" type="button">编辑</button>
+                      <!--<button class="am-btn am-btn-default am-input-sm" onclick="location.replace('?mod=users&act=group_edit');" type="button">编辑</button>-->
+                      <button class="am-btn am-btn-default am-input-sm" onclick="location.replace('/roles/edit?userid={{ $element.Userid }}');" type="button">编辑</button>
                     </div>
                   </div>
                 </td>

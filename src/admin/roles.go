@@ -40,6 +40,7 @@ type user struct {
 	Vip         uint32 // Vip
 	Create_ip   string // 注册账户时的IP地址
 	Create_time string // 注册时间
+	Sex         uint32
 }
 type roles struct {
 	pager    pager
@@ -48,14 +49,49 @@ type roles struct {
 
 // 玩家信息编辑
 func (this *roles) Edit(c *gin.Context) {
+	//userid := c.Query("userid")
+	//	nickname := c.Query("nickname")
+	//	sex := c.Query("sex")
+	//	phone := c.Query("phone")
+	//	vip := c.Query("vip")
+	//	coin := c.Query("coin")
+	//	diamond := c.Query("diamond")
+	//	glog.Infoln(userid, nickname, sex, phone, vip, coin, diamond)
+	user := &user{Nickname: "MIhcael"}
+	c.HTML(http.StatusOK, "edit.html", gin.H{
+		"user": user,
+	})
+
+}
+
+func (this *roles) EditUser(c *gin.Context) {
 	userid := c.Query("userid")
-	nickname := c.Query("nickname")
-	sex := c.Query("sex")
-	phone := c.Query("phone")
-	vip := c.Query("vip")
-	coin := c.Query("coin")
-	diamond := c.Query("diamond")
-	glog.Infoln(userid, nickname, sex, phone, vip, coin, diamond)
+	//	nickname := c.Query("nickname")
+	//	sex := c.Query("sex")
+	//	phone := c.Query("phone")
+	//	vip := c.Query("vip")
+	//	coin := c.Query("coin")
+	//	diamond := c.Query("diamond")
+	//	glog.Infoln(userid, nickname, sex, phone, vip, coin, diamond)
+	data := &data.User{Userid: userid}
+	data.Get()
+	u := &user{
+		Userid:      data.Userid,
+		PhoneN:      data.Phone,
+		Create_ip:   utils.InetTontoa(data.Create_ip).String(),
+		Create_time: utils.Unix2Str(int64(data.Create_time)),
+
+		//		Create_ip:   data.Create_ip,
+		//		Create_time: data.Create_time,
+		Sex:      data.Sex,
+		Nickname: data.Nickname,
+		Diamond:  data.Diamond,
+		Coin:     data.Coin,
+		Vip:      data.Vip,
+	}
+	c.HTML(http.StatusOK, "edit.html", gin.H{
+		"user": u,
+	})
 }
 
 // 玩家列表, 根据条件检索玩家

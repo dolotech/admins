@@ -10,37 +10,84 @@
     </div>
 
     <hr>
-    <form action="/users/created" method="POST" class="am-form am-form-horizontal">
-
+    <form action="/users/edit" method="POST" class="am-form am-form-horizontal">
+<!--
       <div class="am-form-group am-margin-vertical-sm">
         <label for="name" class="am-u-sm-2 am-form-label">帐号名称</label>
         <div class="am-u-sm-10">
-          <input id="name" type="text" name="username" value="{{ .users.Username }}" />
-          <small>{{ .emsg.EUsername }}</small>
+          <input id="name" type="text" name="username" value="{{ .user.Nickname }}" />
+          <small>{{ .user.Nickname  }}</small>
+        </div>
+      </div>-->
+      <div class="am-form-group am-margin-vertical-sm">
+        <label for="Userid" class="am-u-sm-2 am-form-label">帐号ID</label>
+        <div class="am-u-sm-10">
+          <input id="Userid" type="text" name="" value="{{ .user.Userid }}" disabled />
+        </div>
+      </div>
+      <div class="am-form-group am-margin-vertical-sm">
+        <label for="Phone" class="am-u-sm-2 am-form-label">手机号</label>
+        <div class="am-u-sm-10">
+          <input id="Phone" type="text" name="" value="{{ .user.PhoneN }}" />
+        </div>
+      </div>
+
+      <div class="am-form-group am-margin-vertical-sm">
+        <label for="Nickname" class="am-u-sm-2 am-form-label">玩家昵称</label>
+        <div class="am-u-sm-10">
+          <input id="Nickname" type="text" name="" value="{{ .user.Nickname }}" />
         </div>
       </div>
 
 
       <div class="am-form-group am-margin-vertical-sm">
-        <label class="am-u-sm-2 am-form-label">用户组</label>
-        {{template "select.html" .}}
+        <label for="Coin" class="am-u-sm-2 am-form-label">金币</label>
         <div class="am-u-sm-10">
-          {{ .emsg.EGroup_id }}
+          <input id="Coin" type="text" name="" value="{{ .user.Coin }}" />
+        </div>
+      </div>
+      <div class="am-form-group am-margin-vertical-sm">
+        <label for="Diamond" class="am-u-sm-2 am-form-label">钻石</label>
+        <div class="am-u-sm-10">
+          <input id="Diamond" type="text" name="" value="{{ .user.Diamond }}" />
+        </div>
+      </div>
+      <div class="am-form-group am-margin-vertical-sm">
+      <label for="vip" class="am-u-sm-2 am-form-label">VIP</label>
+      <div class="am-u-sm-10">
+        <input id="vip" type="text" name="" value="{{ .user.Vip }}" />
+      </div>
+    </div>
+
+
+
+
+      <div class="am-form-group am-margin-vertical-sm">
+        <label for="password" class="am-u-sm-2 am-form-label">密码</label>
+        <div class="am-u-sm-10">
+          <input id="password" type="password" name="items[passwd]" value="" />
+          <small>此项留空表示不修改密码！</small>
         </div>
       </div>
 
       <div class="am-form-group am-margin-vertical-sm">
-        <label class="am-u-sm-2 am-form-label">限制登录IP</label>
+        <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
         <div class="am-u-sm-10">
-          <input type="text" name="ip_limit" value="{{ .users.Vip }}" />
-          <small>多个IP用英文,号分开</small>
+          <input id="password1" type="password" name="items[passwd1]" value="" />
         </div>
       </div>
 
       <div class="am-form-group am-margin-vertical-sm">
-        <label class="am-u-sm-2 am-form-label">描述</label>
+        <label for="Time" class="am-u-sm-2 am-form-label">注册时间</label>
         <div class="am-u-sm-10">
-          <textarea name="description" style="width:500px; height:160px;">{{ .users.Description }}</textarea>
+          <input id="Time" type="text" name="" value="{{ .user.Create_time }}" disabled/>
+        </div>
+      </div>
+
+      <div class="am-form-group am-margin-vertical-sm">
+        <label for="IP" class="am-u-sm-2 am-form-label">注册IP地址</label>
+        <div class="am-u-sm-10">
+          <input id="IP" type="text" name="" value="{{ .user.Create_ip }}" disabled/>
         </div>
       </div>
 
@@ -49,7 +96,7 @@
           <label class="am-u-sm-2 am-form-label"></label>
           <div class="am-u-sm-10">
             <input type="submit" name="submit" class="am-btn am-btn-primary" value="提交" />
-            <input type="button" class="am-btn" value="返回" onclick="location.replace({{ .goback }});" />
+           <input type="button" class="am-btn" value="返回" onclick="location.replace({{ .goback }});" />
           </div>
         </div>
       </div>
