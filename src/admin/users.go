@@ -89,11 +89,9 @@ func (u *User) Delete() error {
 }
 
 func (u *User) Login(c *gin.Context) {
-	message := "账号或密码不能为空"
 	glog.Infoln(c.Request.URL.Path)
 	c.HTML(http.StatusOK, "login.html", gin.H{
-		"serverName": "麻将",
-		"message":    message,
+		"message": "",
 	})
 }
 
@@ -103,13 +101,21 @@ func (u *User) Authenticate(c *gin.Context) {
 
 	glog.Infoln("username:", username, "password:", password)
 	if len(username) == 0 || len(password) == 0 {
-		c.Redirect(http.StatusMovedPermanently, "/users/login")
+		//	c.Redirect(http.StatusMovedPermanently, "/users/login")
+		message := "账号或密码不能为空"
+		glog.Infoln(c.Request.URL.Path)
+
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": message})
+		//	c.HTML(http.StatusOK, "login.html", gin.H{
+		//		"message": message,
+		//	})
+
 	} else {
-		//	cookie := utils.Md5(username + password)
-		//	session := sessions.Default(c)
-		//	session.Set("username", cookie)
-		//	session.Save()
-		glog.Infoln("username:", username, "password:", password)
+		keys := utils.Md5(username + password)
+		session := sessions.Default(c)
+		session.Set("username", keys)
+		session.Save()
+		glog.Infoln("username:", username, "password:", password, session.Get("username"))
 		//		c.Request.Header.Set("Cookie", "username="+cookie)
 		//		c.SetCookie(
 		//			"username",
@@ -120,7 +126,10 @@ func (u *User) Authenticate(c *gin.Context) {
 		//			true,
 		//			true,
 		//		)
-		c.Redirect(http.StatusMovedPermanently, "/roles/list")
+		//c.Redirect(http.StatusMovedPermanently, "/roles/list")
+
+		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+
 	}
 }
 
@@ -128,9 +137,10 @@ func (u *User) Logout(c *gin.Context) {
 	glog.Infoln(c.Request.URL.Path)
 	session := sessions.Default(c)
 	glog.Infoln("退出登录", session.Get("username"))
+	session.Set("username", "")
 	session.Clear()
 	session.Save()
-	c.Redirect(http.StatusMovedPermanently, "/users/login")
+	//	c.Redirect(http.StatusMovedPermanently, "/users/login")
 }
 
 // func (u *User) User_Edit(c *gin.Context) {

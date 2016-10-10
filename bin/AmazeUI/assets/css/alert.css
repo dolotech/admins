@@ -1,0 +1,40 @@
+/* Write your styles */
+
+        #alertMsg {
+            display: none;
+            width: 400px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 1px 1px 10px black;
+            padding: 10px;
+            font-size: 12px;
+            position: absolute;
+            text-align: center;
+            background: #fff;
+            z-index: 100000;
+        }
+
+        #alertMsg_info {
+            padding: 2px 15px;
+            line-height: 1.6em;
+            text-align: left;
+        }
+
+        #alertMsg_btn1, #alertMsg_btn2 {
+            display: inline-block;
+            background: url(images/gray_btn.png) no-repeat left top;
+            padding-left: 3px;
+            color: #000000;
+            font-size: 12px;
+            text-decoration: none;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        #alertMsg_btn1 cite, #alertMsg_btn2 cite {
+            line-height: 24px;
+            display: inline-block;
+            padding: 0 13px 0 10px;
+            background: url(images/gray_btn.png) no-repeat right top;
+            font-style: normal;
+        }

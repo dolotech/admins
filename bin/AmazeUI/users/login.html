@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
   <link rel="stylesheet" href="../assets/css/admin.css">
   <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="../assets/css/alert.css">
 
   <style type="text/css">
   </style>
@@ -51,9 +51,9 @@
   <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
 
 
-    <form action="authenticate" method="post" class="am-form">
+    <form  class="am-form">
       <label for="email">用户名:</label>
-      <input type="email" name="username" id="email" value="">
+      <input type="email" name="username" id="username" value="">
       <br>
       <label for="password">密码:</label>
       <input type="password" name="password" id="password" value="">
@@ -63,9 +63,9 @@
         记住密码
       </label>
       <br />
-      <div class="am-cf">
-        <input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
-        <input type="submit" name="" value="忘记密码 ^_^? " class="am-btn am-btn-default am-btn-sm am-fr">
+      <div class="am-btn am-btn-primary">
+        <button type="button" name="" id="send" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl"> 登 录 </button>
+     <!--   <input type="" name="" value="忘记密码 ^_^? " class="am-btn am-btn-default am-btn-sm am-fr">-->
       </div>
     </form>
     <hr>
@@ -75,12 +75,17 @@
 
 </div>
 
+
+
+
 <a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
 
 <footer>
   <hr>
   <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
 </footer>
+
+
 
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
@@ -96,5 +101,40 @@
 <script src="../assets/js/app.js"></script>
 
 <script src="../assets/js/amazeui.dialog.min.js"></script>
+<script src="../assets/js/alert.js"></script>
+
+<script>
+$(function(){
+$('#send').click(function(){
+
+$.ajax({
+type: "POST",
+url: "/users/login",
+data: {username:$("#username").val(), password:$("#password").val()},
+dataType: "json",
+success: function(data){
+    if( data["status"] == "ok"){
+        window.location.href="/roles/list";
+    }else{
+        alertMsg(data["msg"], 0)
+    }
+$('#resText').empty();   //清空resText里面的所有内容
+var html = '';
+$.each(data, function(commentIndex, comment){
+html += '<div class="comment"><h6>' + comment['username']
+  + ':</h6><p class="para"' + comment['content']
+  + '</p></div>';
+});
+$('#resText').html(html);
+}
+});
+});
+});
+</script>
+<!--{{ $msg := .message }}
+{{ if  eq $msg "" }}
+{{ else }}
+<script>alert('{{ .message }}');</script>
+{{ end }}-->
 </body>
 </html>
