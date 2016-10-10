@@ -34,7 +34,7 @@
       <div class="am-form-group am-margin-vertical-sm">
         <label for="Phone" class="am-u-sm-2 am-form-label">手机号</label>
         <div class="am-u-sm-10">
-          <input id="Phone" type="text" name="Phone" value="{{ .user.PhoneN }}" />
+          <input id="Phone" type="text" name="Phone"  readonly = "readonly"  value="{{ .user.PhoneN }}" />
         </div>
       </div>
 
@@ -58,12 +58,58 @@
           <input id="Diamond" type="text" name="Diamond" value="{{ .user.Diamond }}" />
         </div>
       </div>
-      <div class="am-form-group am-margin-vertical-sm">
+
+    <div class="am-form-group am-margin-vertical-sm">
       <label for="vip" class="am-u-sm-2 am-form-label">VIP</label>
       <div class="am-u-sm-10">
         <input id="Vip" type="text" name="Vip" value="{{ .user.Vip }}" />
       </div>
     </div>
+
+        <div class="am-form-group am-margin-vertical-sm">
+            <label for="Exp" class="am-u-sm-2 am-form-label">经验</label>
+            <div class="am-u-sm-10">
+                <input id="Exp" type="text" name="Exp" value="{{ .user.Exp }}" />
+            </div>
+        </div>
+
+
+        <div class="am-form-group am-margin-vertical-sm">
+            <label for="Ticket" class="am-u-sm-2 am-form-label">入场券</label>
+            <div class="am-u-sm-10">
+                <input id="Ticket" type="text" name="Ticket" value="{{ .user.Ticket }}" />
+            </div>
+        </div>
+        <div class="am-form-group am-margin-vertical-sm">
+            <label for="Exchange" class="am-u-sm-2 am-form-label">兑换券</label>
+            <div class="am-u-sm-10">
+                <input id="Exchange" type="text" name="Exchange" value="{{ .user.Exchange }}" />
+            </div>
+        </div>
+
+
+        <div class="am-form-group am-margin-vertical-sm">
+            <label for="Win" class="am-u-sm-2 am-form-label">胜局</label>
+            <div class="am-u-sm-10">
+                <input id="Win" type="text" name="Win" value="{{ .user.Win }}" />
+            </div>
+        </div>
+
+
+        <div class="am-form-group am-margin-vertical-sm">
+            <label for="Lost" class="am-u-sm-2 am-form-label">败局</label>
+            <div class="am-u-sm-10">
+                <input id="Lost" type="text" name="Lost" value="{{ .user.Lost }}" />
+            </div>
+        </div>
+
+        <div class="am-form-group am-margin-vertical-sm">
+            <label for="Ping" class="am-u-sm-2 am-form-label">平局</label>
+            <div class="am-u-sm-10">
+                <input id="Ping" type="text" name="Ping" value="{{ .user.Ping }}" />
+            </div>
+        </div>
+
 
       <div class="am-form-group">
         <label class="am-u-sm-2 am-form-label">性别</label>
@@ -83,10 +129,14 @@
               <input type="radio"  name="Sex" value="2" checked  required >女
           </label>
           {{ end }}
-
-
       </div>
 
+        <div class="am-form-group am-margin-vertical-sm">
+            <label for="Photo"  class="am-u-sm-2 am-form-label">头像</label>
+            <div class="am-u-sm-10">
+                <input id="Photo" type="text" name="Photo" readonly = "readonly"  value="{{ .user.Photo }}" />
+            </div>
+        </div>
 
       <div class="am-form-group am-margin-vertical-sm">
         <label for="password" class="am-u-sm-2 am-form-label">密码</label>

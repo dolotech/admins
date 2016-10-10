@@ -103,12 +103,12 @@ func (u *User) Authenticate(c *gin.Context) {
 
 	glog.Infoln("username:", username, "password:", password)
 	if len(username) == 0 || len(password) == 0 {
-		c.Redirect(http.StatusMovedPermanently, "/v1/users/login")
+		c.Redirect(http.StatusMovedPermanently, "/users/login")
 	} else {
-		cookie := utils.Md5(username + password)
-		session := sessions.Default(c)
-		session.Set("username", cookie)
-		session.Save()
+		//	cookie := utils.Md5(username + password)
+		//	session := sessions.Default(c)
+		//	session.Set("username", cookie)
+		//	session.Save()
 		glog.Infoln("username:", username, "password:", password)
 		//		c.Request.Header.Set("Cookie", "username="+cookie)
 		//		c.SetCookie(
@@ -120,7 +120,7 @@ func (u *User) Authenticate(c *gin.Context) {
 		//			true,
 		//			true,
 		//		)
-		c.Redirect(http.StatusMovedPermanently, "/v1/roles/list")
+		c.Redirect(http.StatusMovedPermanently, "/roles/list")
 	}
 }
 
@@ -130,7 +130,7 @@ func (u *User) Logout(c *gin.Context) {
 	glog.Infoln("退出登录", session.Get("username"))
 	session.Clear()
 	session.Save()
-	c.Redirect(http.StatusMovedPermanently, "/v1/users/login")
+	c.Redirect(http.StatusMovedPermanently, "/users/login")
 }
 
 // func (u *User) User_Edit(c *gin.Context) {

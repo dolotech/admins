@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
 )
@@ -24,36 +23,36 @@ func main() {
 	}
 	conndb()
 	//store, _ := sessions.NewRedisStore([]byte("secret"))
-	store := sessions.NewCookieStore([]byte("secret"))
-	router.Use(sessions.Sessions("mysession", store))
+	//	store := sessions.NewCookieStore([]byte("secret"))
+	//	router.Use(sessions.Sessions("mysession", store))
 	//	router.Use(authorityMiddleware())
 	Router(router)
 	s.ListenAndServe()
 }
 
 // 权限验证
-func authorityMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		glog.Infoln(c.Request.URL.Path, c.Request.Method)
-
-		if c.Request.URL.Path != "/v1/users/login" && c.Request.URL.Path != "/v1/users/authenticate" {
-			session := sessions.Default(c)
-			logined := session.Get("username")
-			glog.Infoln("cookie: ", logined, "Path: ", c.Request.URL.Path)
-			if logined == nil {
-				c.Redirect(http.StatusMovedPermanently, "/v1/users/login")
-				glog.Infoln("cookie 为空", session.Get("username"))
-			} else {
-				c.Next()
-			}
-		}
-	}
-}
+//func authorityMiddleware() gin.HandlerFunc {
+//	return func(c *gin.Context) {
+//		glog.Infoln(c.Request.URL.Path, c.Request.Method)
+//
+//		if c.Request.URL.Path != "/users/login" && c.Request.URL.Path != "/users/authenticate" {
+//			session := sessions.Default(c)
+//			logined := session.Get("username")
+//			glog.Infoln("cookie: ", logined, "Path: ", c.Request.URL.Path)
+//			if logined == nil {
+//				c.Redirect(http.StatusMovedPermanently, "/users/login")
+//				glog.Infoln("cookie 为空", session.Get("username"))
+//			} else {
+//				c.Next()
+//			}
+//		}
+//	}
+//}
 
 // 页面路由
 func Router(r *gin.Engine) {
 
-	r.Use(authorityMiddleware())
+	//r.Use(authorityMiddleware())
 
 	r.GET("/file", admin.Files.List)
 	r.POST("/file", admin.Files.Upload)

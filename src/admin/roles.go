@@ -41,6 +41,13 @@ type user struct {
 	Create_ip   string // 注册账户时的IP地址
 	Create_time string // 注册时间
 	Sex         uint32
+	Ticket      uint32 //入场券
+	Exchange    uint32 //兑换券
+	Exp         uint32 // 经验
+	Win         uint32
+	Lost        uint32
+	Ping        uint32
+	Photo       string
 }
 type roles struct {
 	pager    pager
@@ -56,23 +63,60 @@ func (this *roles) Edit(c *gin.Context) {
 	vip := c.PostForm("Vip")
 	coin := c.PostForm("Coin")
 	diamond := c.PostForm("Diamond")
+	exp := c.PostForm("Exp")
+	ticket := c.PostForm("Ticket")
+	exchange := c.PostForm("Exchange")
+	win := c.PostForm("Win")
+	lost := c.PostForm("Lost")
+	ping := c.PostForm("Ping")
 	pwd := c.PostForm("Password")
 	pwd1 := c.PostForm("Password1")
+	photo := c.PostForm("Photo")
 	user := &data.User{Userid: userid}
 	m := make(map[string]interface{})
-	m["Nickname"] = nickname
+	if nickname != "" {
+		m["Nickname"] = nickname
+	}
 	if sex == "1" {
 		m["Sex"] = 1
 	} else {
 		m["Sex"] = 2
 	}
-	v, _ := strconv.Atoi(vip)
-	m["Vip"] = v
-	ci, _ := strconv.Atoi(coin)
-	m["Coin"] = ci
-	d, _ := strconv.Atoi(diamond)
-	m["Diamond"] = d
-	m["Phone"] = phone
+	if win != "" {
+		m["Win"], _ = strconv.Atoi(win)
+	}
+	if photo != "" {
+		m["Photo"], _ = strconv.Atoi(photo)
+	}
+	if lost != "" {
+		m["Lost"], _ = strconv.Atoi(lost)
+	}
+	if ping != "" {
+		m["Ping"], _ = strconv.Atoi(ping)
+	}
+	if ticket != "" {
+		m["Ticket"], _ = strconv.Atoi(ticket)
+	}
+	if exchange != "" {
+		m["Exchange"], _ = strconv.Atoi(exchange)
+	}
+
+	if exp != "" {
+		m["Exp"], _ = strconv.Atoi(exp)
+	}
+	if vip != "" {
+		m["Vip"], _ = strconv.Atoi(vip)
+	}
+	if coin != "" {
+		m["Coin"], _ = strconv.Atoi(coin)
+	}
+	if diamond != "" {
+		m["Diamond"], _ = strconv.Atoi(diamond)
+
+	}
+	if phone != "" {
+		m["Phone"] = phone
+	}
 	if pwd != "" && pwd == pwd1 {
 		user.UpdatePWD(pwd)
 	}
@@ -81,7 +125,7 @@ func (this *roles) Edit(c *gin.Context) {
 	//	c.HTML(http.StatusOK, "edit.html", gin.H{
 	//		"user": user,
 	//	})
-
+	this.List(c)
 }
 
 func (this *roles) EditUser(c *gin.Context) {
@@ -98,6 +142,13 @@ func (this *roles) EditUser(c *gin.Context) {
 		Diamond:     data.Diamond,
 		Coin:        data.Coin,
 		Vip:         data.Vip,
+		Win:         data.Win,
+		Lost:        data.Lost,
+		Ping:        data.Ping,
+		Exp:         data.Exp,
+		Ticket:      data.Ticket,
+		Exchange:    data.Exchange,
+		Photo:       data.Photo,
 	}
 	glog.Infoln(u)
 	c.HTML(http.StatusOK, "edit.html", gin.H{
@@ -114,7 +165,7 @@ func (this *roles) List(c *gin.Context) {
 	page_s := c.Query("page") // string
 	act_s := c.Query("act")   // string
 	limit_s := c.Query("limit")
-
+	phone := c.Query("phone")
 	lastID, _ := gossdb.C().Get(data.KEY_LAST_USER_ID)
 
 	this.pager.SetPager(page_s, limit_s, act_s)
@@ -122,6 +173,11 @@ func (this *roles) List(c *gin.Context) {
 	this.selector.SetSelect("limit", limit_s, OPTION)
 
 	glog.Infoln(start_id, end_id, act_s, limit_s, page_s, lastID.String())
+	if phone == "" {
+
+	} else {
+
+	}
 	var ids []string
 	if start_id != "" || end_id != "" {
 		last := []rune(lastID.String())
@@ -174,6 +230,12 @@ func (this *roles) List(c *gin.Context) {
 			Create_ip:   utils.InetTontoa(v.Create_ip).String(),
 			Create_time: utils.Unix2Str(int64(v.Create_time)),
 			Sex:         v.Sex,
+			Ping:        v.Ping,
+			Win:         v.Win,
+			Lost:        v.Lost,
+			Ticket:      v.Ticket,
+			Exchange:    v.Exchange,
+			Exp:         v.Exp,
 		}
 		users = append(users, u)
 	}
