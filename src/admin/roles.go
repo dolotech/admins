@@ -49,30 +49,43 @@ type roles struct {
 
 // 玩家信息编辑
 func (this *roles) Edit(c *gin.Context) {
-	//userid := c.Query("userid")
-	//	nickname := c.Query("nickname")
-	//	sex := c.Query("sex")
-	//	phone := c.Query("phone")
-	//	vip := c.Query("vip")
-	//	coin := c.Query("coin")
-	//	diamond := c.Query("diamond")
-	//	glog.Infoln(userid, nickname, sex, phone, vip, coin, diamond)
-	user := &user{Nickname: "MIhcael"}
-	c.HTML(http.StatusOK, "edit.html", gin.H{
-		"user": user,
-	})
+	userid := c.PostForm("Userid")
+	nickname := c.PostForm("Nickname")
+	sex := c.PostForm("Sex")
+	phone := c.PostForm("Phone")
+	vip := c.PostForm("Vip")
+	coin := c.PostForm("Coin")
+	diamond := c.PostForm("Diamond")
+	pwd := c.PostForm("Password")
+	pwd1 := c.PostForm("Password1")
+	user := &data.User{Userid: userid}
+	m := make(map[string]interface{})
+	m["Nickname"] = nickname
+	if sex == "1" {
+		m["Sex"] = 1
+	} else {
+		m["Sex"] = 2
+	}
+	v, _ := strconv.Atoi(vip)
+	m["Vip"] = v
+	ci, _ := strconv.Atoi(coin)
+	m["Coin"] = ci
+	d, _ := strconv.Atoi(diamond)
+	m["Diamond"] = d
+	m["Phone"] = phone
+	if pwd != "" && pwd == pwd1 {
+		user.UpdatePWD(pwd)
+	}
+	glog.Infoln(m, pwd, pwd1)
+	user.MultiHsetSave(m)
+	//	c.HTML(http.StatusOK, "edit.html", gin.H{
+	//		"user": user,
+	//	})
 
 }
 
 func (this *roles) EditUser(c *gin.Context) {
 	userid := c.Query("userid")
-	//	nickname := c.Query("nickname")
-	//	sex := c.Query("sex")
-	//	phone := c.Query("phone")
-	//	vip := c.Query("vip")
-	//	coin := c.Query("coin")
-	//	diamond := c.Query("diamond")
-	//	glog.Infoln(userid, nickname, sex, phone, vip, coin, diamond)
 	data := &data.User{Userid: userid}
 	data.Get()
 	u := &user{
@@ -80,15 +93,13 @@ func (this *roles) EditUser(c *gin.Context) {
 		PhoneN:      data.Phone,
 		Create_ip:   utils.InetTontoa(data.Create_ip).String(),
 		Create_time: utils.Unix2Str(int64(data.Create_time)),
-
-		//		Create_ip:   data.Create_ip,
-		//		Create_time: data.Create_time,
-		Sex:      data.Sex,
-		Nickname: data.Nickname,
-		Diamond:  data.Diamond,
-		Coin:     data.Coin,
-		Vip:      data.Vip,
+		Sex:         data.Sex,
+		Nickname:    data.Nickname,
+		Diamond:     data.Diamond,
+		Coin:        data.Coin,
+		Vip:         data.Vip,
 	}
+	glog.Infoln(u)
 	c.HTML(http.StatusOK, "edit.html", gin.H{
 		"user": u,
 	})
@@ -162,6 +173,7 @@ func (this *roles) List(c *gin.Context) {
 			Vip:         v.Vip,
 			Create_ip:   utils.InetTontoa(v.Create_ip).String(),
 			Create_time: utils.Unix2Str(int64(v.Create_time)),
+			Sex:         v.Sex,
 		}
 		users = append(users, u)
 	}

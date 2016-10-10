@@ -45,6 +45,9 @@ func GetMultiUser(userids []string) []*User {
 func (this *User) Get() error {
 	return gossdb.C().GetObject(KEY_USER+this.Userid, this)
 }
+func (this *User) MultiHsetSave(kvs map[string]interface{}) error {
+	return gossdb.C().MultiHset(KEY_USER+this.Userid, kvs)
+}
 func (this *User) Save() error {
 	return gossdb.C().PutObject(KEY_USER+this.Userid, this)
 }

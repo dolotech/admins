@@ -39,6 +39,7 @@
               <tr>
                 <th class="am-text-nowrap am-hide-sm-only table-id">玩家ID</th>
                 <th class="am-text-nowrap table-title">昵称</th>
+                <th class="am-text-nowrap table-title">性别</th>
                 <th class="am-text-nowrap table-title">电话</th>
                 <th class="am-text-nowrap table-type">金币</th>
                 <th class="am-text-nowrap table-type">钻石</th>
@@ -56,18 +57,30 @@
               <tr>
                 <td class="am-text-middle am-hide-sm-only">{{ $element.Userid }}</td>
                 <td class="am-text-middle am-hide-sm-only">{{ $element.Nickname }}</td>
+
+                {{ $sex := $element.Sex }}
+                {{ if  eq $sex 1 }}
+                <td class="am-text-middle am-hide-sm-only">男</td>
+                {{ else }}
+                <td class="am-text-middle am-hide-sm-only">女</td>
+                {{ end }}
+
                 <td class="am-text-middle am-hide-sm-only">{{ $element.PhoneN }}</td>
                 <td class="am-text-middle am-hide-sm-only">{{ $element.Coin }}</td>
                 <td class="am-text-middle am-hide-sm-only">{{ $element.Diamond }}</td>
                 <td class="am-text-middle am-hide-sm-only">{{ $element.Vip }}</td>
                 <td class="am-text-middle am-hide-sm-only">{{ $element.Create_ip }}</td>
                 <td class="am-text-middle am-hide-sm-only">{{ $element.Create_time }}</td>
+
+
+
+
 				 <td>
                   <div class="am-btn-toolbar">
                     <div class="am-btn-group am-btn-group-xs">
                   <!--   <a class="am-btn am-btn-default am-btn-xs am-text-secondary"  data-am-modal="{target: '#my-popups'}"> <span class="am-icon-pencil-square-o"></span>编辑</a>-->
                       <!--<button class="am-btn am-btn-default am-input-sm" onclick="location.replace('?mod=users&act=group_edit');" type="button">编辑</button>-->
-                      <button class="am-btn am-btn-default am-input-sm" onclick="location.replace('/roles/edit?userid={{ $element.Userid }}');" type="button">编辑</button>
+                      <button class="am-btn am-btn-default am-input-sm" onclick="location.replace('/roles/edituser?userid={{ $element.Userid }}');" type="button">编辑</button>
                     </div>
                   </div>
                 </td>

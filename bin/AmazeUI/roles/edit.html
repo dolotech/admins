@@ -4,13 +4,16 @@
 
 <!-- content start -->
 <div class="admin-content">
-  <div class="admin-content-body">
+  <!--<div class="admin-content-body">-->
     <div class="am-cf am-padding am-padding-bottom-0">
       <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">编辑玩家数据</strong> / <small>Table</small></div>
     </div>
 
     <hr>
-    <form action="/users/edit" method="POST" class="am-form am-form-horizontal">
+
+    <div class="am-g">
+      <div class="am-u-md-6">
+    <form action="/roles/edit" method="POST" class="am-form am-form-horizontal">
 <!--
       <div class="am-form-group am-margin-vertical-sm">
         <label for="name" class="am-u-sm-2 am-form-label">帐号名称</label>
@@ -19,23 +22,26 @@
           <small>{{ .user.Nickname  }}</small>
         </div>
       </div>-->
+
+
+
       <div class="am-form-group am-margin-vertical-sm">
         <label for="Userid" class="am-u-sm-2 am-form-label">帐号ID</label>
         <div class="am-u-sm-10">
-          <input id="Userid" type="text" name="" value="{{ .user.Userid }}" disabled />
+          <input id="Userid" type="text" readonly = "readonly" name="Userid" value="{{ .user.Userid }}"  />
         </div>
       </div>
       <div class="am-form-group am-margin-vertical-sm">
         <label for="Phone" class="am-u-sm-2 am-form-label">手机号</label>
         <div class="am-u-sm-10">
-          <input id="Phone" type="text" name="" value="{{ .user.PhoneN }}" />
+          <input id="Phone" type="text" name="Phone" value="{{ .user.PhoneN }}" />
         </div>
       </div>
 
       <div class="am-form-group am-margin-vertical-sm">
         <label for="Nickname" class="am-u-sm-2 am-form-label">玩家昵称</label>
         <div class="am-u-sm-10">
-          <input id="Nickname" type="text" name="" value="{{ .user.Nickname }}" />
+          <input id="Nickname" type="text" name="Nickname" value="{{ .user.Nickname }}" />
         </div>
       </div>
 
@@ -43,37 +49,60 @@
       <div class="am-form-group am-margin-vertical-sm">
         <label for="Coin" class="am-u-sm-2 am-form-label">金币</label>
         <div class="am-u-sm-10">
-          <input id="Coin" type="text" name="" value="{{ .user.Coin }}" />
+          <input id="Coin" type="text" name="Coin" value="{{ .user.Coin }}" />
         </div>
       </div>
       <div class="am-form-group am-margin-vertical-sm">
         <label for="Diamond" class="am-u-sm-2 am-form-label">钻石</label>
         <div class="am-u-sm-10">
-          <input id="Diamond" type="text" name="" value="{{ .user.Diamond }}" />
+          <input id="Diamond" type="text" name="Diamond" value="{{ .user.Diamond }}" />
         </div>
       </div>
       <div class="am-form-group am-margin-vertical-sm">
       <label for="vip" class="am-u-sm-2 am-form-label">VIP</label>
       <div class="am-u-sm-10">
-        <input id="vip" type="text" name="" value="{{ .user.Vip }}" />
+        <input id="Vip" type="text" name="Vip" value="{{ .user.Vip }}" />
       </div>
     </div>
 
+      <div class="am-form-group">
+        <label class="am-u-sm-2 am-form-label">性别</label>
+          {{ $sex := .user.Sex }}
+          {{ if  eq $sex 1 }}
+          <label class="am-radio-inline">
+              <input type="radio" name="Sex"  value="1"  checked  required> 男
+          </label>
+          <label class="am-radio-inline">
+              <input type="radio" name="Sex" value="2" > 女
+          </label>
+          {{ else }}
+          <label class="am-radio-inline">
+              <input type="radio"  value="1"  name="Sex" > 男
+          </label>
+          <label class="am-radio-inline">
+              <input type="radio"  name="Sex" value="2" checked  required >女
+          </label>
+          {{ end }}
 
+
+      </div>
 
 
       <div class="am-form-group am-margin-vertical-sm">
         <label for="password" class="am-u-sm-2 am-form-label">密码</label>
         <div class="am-u-sm-10">
-          <input id="password" type="password" name="items[passwd]" value="" />
-          <small>此项留空表示不修改密码！</small>
+          <input id="password" type="text" name="Password" value="" placeholder="此项留空表示不修改密码！"/>
+         <!-- <small>此项留空表示不修改密码！</small>-->
         </div>
       </div>
 
-      <div class="am-form-group am-margin-vertical-sm">
+
+
+
+  <div class="am-form-group am-margin-vertical-sm">
         <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
         <div class="am-u-sm-10">
-          <input id="password1" type="password" name="items[passwd1]" value="" />
+          <input id="password1" type="text" name="Password1" value="" />
         </div>
       </div>
 
@@ -96,7 +125,9 @@
           <label class="am-u-sm-2 am-form-label"></label>
           <div class="am-u-sm-10">
             <input type="submit" name="submit" class="am-btn am-btn-primary" value="提交" />
-           <input type="button" class="am-btn" value="返回" onclick="location.replace({{ .goback }});" />
+           <input type="button" class="am-btn" value="返回" onclick="location.replace('/roles/list');" />
+          <!--    <input type="button" class="am-btn" value="返回" onclick="location.replace({{ .goback }});" />-->
+
           </div>
         </div>
       </div>
@@ -107,7 +138,7 @@
 
 </div>
 </div>
-
+</div>
 </div>
 <!-- content end -->
 

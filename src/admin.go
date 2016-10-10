@@ -62,9 +62,8 @@ func Router(r *gin.Engine) {
 	r.GET("/file/indexup", admin.Files.IndexUp)
 
 	r.GET("/roles/list", admin.Roles.List)
-	//	r.GET("/roles/phone", admin.Roles.Phone)
-	r.GET("/roles/list/edit", admin.Roles.Edit)
-	r.GET("/roles/edit", admin.Roles.EditUser)
+	r.POST("/roles/edit", admin.Roles.Edit)
+	r.GET("/roles/edituser", admin.Roles.EditUser)
 
 	r.GET("/users/login", admin.Users.Login)
 	r.POST("/users/authenticate", admin.Users.Authenticate)
