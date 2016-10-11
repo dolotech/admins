@@ -6,6 +6,8 @@ import (
 	"data"
 	"flag"
 	"net/http"
+	"runtime/debug"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/contrib/sessions"
@@ -26,7 +28,7 @@ func main() {
 	//store, _ := sessions.NewRedisStore([]byte("secret"))
 	store := sessions.NewCookieStore([]byte("secret"))
 	router.Use(sessions.Sessions("mysession", store))
-	//	router.Use(authorityMiddleware())
+	router.Use(authorityMiddleware())
 	Router(router)
 	s.ListenAndServe()
 }
@@ -34,20 +36,44 @@ func main() {
 // 权限验证
 func authorityMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		glog.Infoln(c.Request.URL.Path, c.Request.Method)
-
-		if c.Request.URL.Path != "/users/login" {
-			session := sessions.Default(c)
-			logined := session.Get("username")
-			glog.Infoln("cookie: ", logined, "Path: ", c.Request.URL.Path, logined)
-			if logined == nil || logined == "" {
-				c.Redirect(http.StatusMovedPermanently, "/users/login")
-				glog.Infoln("cookie 为空", session.Get("username"))
-			} else {
-				c.Next()
+		defer func() {
+			if r := recover(); r != nil {
+				glog.Errorln(string(debug.Stack()))
 			}
+		}()
+		session := sessions.Default(c)
+		token := session.Get("username")
+
+		uri := c.Request.RequestURI
+
+		//if c.Request.URL.Path != "/users/login" {
+		//	session := sessions.Default(c)
+		//	logined := session.Get("username")
+		//	glog.Infoln("cookie: ", logined, "Path: ", c.Request.URL.Path, logined)
+		//	if logined == nil || logined == "" {
+		//		c.Redirect(http.StatusMovedPermanently, "/users/login")
+		//		glog.Infoln("cookie 为空", session.Get("username"))
+		//	} else {
+		//		c.Next()
+		//	}
+		//}
+
+		if strings.EqualFold(uri, "/users/login") || uri[:8] == "/assets/" {
+			c.Next()
+			return
 		}
+
+		if token == nil || token == "" {
+			//			c.JSON(http.StatusUnauthorized, gin.H{"eror": true, "message": "请先登录"})
+			c.Redirect(http.StatusMovedPermanently, "/users/login")
+
+			glog.Infoln(uri[:8], "token:", token, "path:", c.Request.URL.Path, "URI:", c.Request.RequestURI)
+			//c.Abort()
+			return
+		}
+		c.Next()
 	}
+
 }
 
 // 页面路由

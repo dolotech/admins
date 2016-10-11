@@ -112,9 +112,10 @@ data: {username:$("#username").val(), password:$("#password").val()},
 dataType: "json",
 success: function(data){
     if( data["status"] == "ok"){
-        window.location.href="/roles/list";
+      alertMsg(data["msg"])
+       window.location.href="/roles/list";
     }else{
-        alertMsg(data["msg"], 0)
+        alertMsg(data["msg"])
     }
 }
 });

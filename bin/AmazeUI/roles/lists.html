@@ -1,6 +1,192 @@
 {{template "header.html" .}}
 
 {{template "sidebar.html" .}}
+
+
+
+<!-- content start -->
+<div class="admin-content" id="list_pane">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">玩家数据</strong> /
+                <small>玩家列表</small>
+            </div>
+        </div>
+
+        <hr>
+
+          <form action="/roles/list" method="get" class="am-form" data-am-validator >
+        <div class="am-g">
+
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索玩家<span
+                        class="am-icon-chevron-down am-fr"></span>
+                </div>
+                <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+                    <div class="am-g am-margin-vertical-sm">
+
+                        <div class="am-u-sm-12 am-u-md-3">
+                            <div class="am-form-group">
+                                <select data-am-selected id="SelectedIDSearch" name="SelectedIDSearch">
+                                    {{ $s :=  .SearchType }}
+                                    {{if eq $s "2" }}
+                                    <option value="1" >根据玩家ID搜索</option>
+                                    <option value="2" selected >根据玩家手机号搜索</option>
+                                    {{ else }}
+
+                                    <option value="1" selected>根据玩家ID搜索</option>
+                                    <option value="2"  >根据玩家手机号搜索</option>
+                                    {{end}}
+
+
+                                </select>
+                                <input type="text" id="SearchUserid" name="SearchUserid" value="{{.SearchValue}}"
+                                       class="am-form-field am-input-sm" placeholder="根据玩家ID搜索"/>
+                            </div>
+                        </div>
+
+                      <!--  <div class="am-form-group m-u-sm-12 am-u-md-3" name="">
+                            <select data-am-selected>
+                                <option value="a" selected>金币</option>
+                                <option value="b" >钻石</option>
+                            </select>
+
+
+                            <input id="CoinStart" type="text" name="CoinStart" value="{{ .last_visit_begin }}"
+                                   class="am-form-field am-input-sm" placeholder="金币-从"/>
+                            <input id="CoinEnd" type="text" name="CoinEnd" value="{{ .last_visit_end }}"
+                                   class="am-form-field am-input-sm" placeholder="金币-到"/>
+
+                        </div>
+
+                        <div class="am-form-group am-u-sm-12 am-u-md-3">
+                            <select data-am-selected>
+                                <option value="a" selected>注册时间</option>
+                                <option value="b" >最后登录时间</option>
+                            </select>
+
+                            <div class="am-form-icon">
+                                <i id="RegistStartIcon" class="am-icon-calendar"></i>
+                                <input id="RegistStart" type="text" name="RegistStart" value="{{ .last_visit_begin }}"
+                                       class="am-form-field am-input-sm" placeholder="注册时间-从"/>
+                            </div>
+                            <div class="am-form-icon">
+                                <i id="RegistEndIcon" class="am-icon-calendar"></i>
+                                <input id="RegistEnd" type="text" name="RegistEnd" value="{{ .last_visit_end }}"
+                                       class="am-form-field am-input-sm" placeholder="注册时间-到"/>
+                            </div>-->
+
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-vertical-sm">
+
+                        <div class="am-u-sm-12 am-u-md-3">
+                            {{template "select.html" .}}
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-3 am-u-end">
+                            <input id="Search" class="am-btn am-btn-primary" value="搜索" type="submit"> </input>
+                          <a href="/roles/list"><input type="button" class="am-btn" value="重置" /> </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <!--<form class="am-form">-->
+
+                    {{ $len :=  len .users }}
+                    {{if eq $len 0 }}
+                    <p align="center"> 没有找到你要的数据!</p>
+                    {{ else }}
+
+                    <table class="am-table am-table-striped am-table-hover table-main">
+
+                        <thead>
+                        <tr>
+                            <th class="am-text-nowrap am-hide-sm-only table-id">玩家ID</th>
+                            <th class="am-text-nowrap table-title">昵称</th>
+                            <th class="am-text-nowrap table-title">性别</th>
+                            <th class="am-text-nowrap table-title">电话</th>
+                            <th class="am-text-nowrap table-type">金币</th>
+                            <th class="am-text-nowrap table-type">钻石</th>
+                            <th class="am-text-nowrap table-type">VIP</th>
+                            <th class="am-text-nowrap table-type">胜局</th>
+                            <th class="am-text-nowrap table-type">败局</th>
+                            <th class="am-text-nowrap table-type">平局</th>
+                            <th class="am-text-nowrap table-type">经验</th>
+                            <th class="am-text-nowrap table-type">入场券</th>
+                            <th class="am-text-nowrap table-type">兑换券</th>
+
+                            <!--    <th class="am-text-nowrap table-author am-hide-sm-only">注册IP</th>
+                                <th class="am-text-nowrap table-date am-hide-sm-only">注册时间</th>-->
+                            <th class="am-text-nowrap table-date am-hide-sm-only">操作</th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        {{ range $element := .users }}
+                        <tr>
+                            <td class="am-text-middle am-hide-sm-only">{{ $element.Userid }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ $element.Nickname }}</td>
+
+                            {{ $sex := $element.Sex }}
+                            {{ if eq $sex 1 }}
+                            <td class="am-text-middle am-hide-sm-only">男</td>
+                            {{ else }}
+                            <td class="am-text-middle am-hide-sm-only">女</td>
+                            {{ end }}
+
+                            <td class="am-text-middle am-hide-sm-only">{{ $element.PhoneN }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ $element.Coin }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ $element.Diamond }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ $element.Vip }}</td>
+
+                            <td class="am-text-middle am-hide-sm-only">{{ $element.Win }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ $element.Lost }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ $element.Ping }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ $element.Exp }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ $element.Ticket }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ $element.Exchange }}</td>
+
+
+                            <td>
+                                <div class="am-btn-toolbar">
+                                    <div class="am-btn-group am-btn-group-xs">
+                                        <button class="am-btn am-btn-default am-input-sm" onclick="javascript:button_onedit({{ $element.Userid }},{{ $element.Nickname }},
+                      {{ $element.Ping }},{{ $element.Win }},{{ $element.Lost }},{{ $element.Vip }},{{ $element.Ticket }},{{ $element.Exp }},
+                      {{ $element.Exchange }},{{ $element.Sex }},{{ $element.PhoneN }},{{ $element.Diamond }},{{ $element.Coin }},{{ $element.Create_ip }},{{ $element.Create_time }}
+                      );" type="button">编辑
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {{ end }}
+
+                        </tbody>
+                    </table>
+                    {{ end }}
+                </div>
+            </div>
+
+
+                    {{template "pager.html" .}}
+                    <hr/>
+                     </form>
+                </div>
+            </div>
+
+
+
 <div class="admin-content" id="edit_pane">
     <!--<div class="admin-content-body">-->
     <div class="am-cf am-padding am-padding-bottom-0">
@@ -164,186 +350,6 @@
     </div>
 </div>
 
-
-<!-- content start -->
-<div class="admin-content">
-    <div class="admin-content-body">
-        <div class="am-cf am-padding am-padding-bottom-0">
-            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">玩家数据</strong> /
-                <small>玩家列表</small>
-            </div>
-        </div>
-
-        <hr>
-
-          <form action="/roles/list" class="am-form" data-am-validator >
-        <div class="am-g">
-
-            <div class="am-panel am-panel-default">
-                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索玩家<span
-                        class="am-icon-chevron-down am-fr"></span></div>
-                <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
-
-                    <div class="am-g am-margin-vertical-sm">
-
-                        <div class="am-u-sm-12 am-u-md-3">
-                            <div class="am-form-group">
-                                <select data-am-selected id="SelectedIDSearch" name="SelectedIDSearch">
-                                    {{ $s :=  .SearchType }}
-                                    {{if eq $s "2" }}
-                                    <option value="1" >根据玩家ID搜索</option>
-                                    <option value="2" selected >根据玩家手机号搜索</option>
-                                    {{ else }}
-
-                                    <option value="1" selected>根据玩家ID搜索</option>
-                                    <option value="2"  >根据玩家手机号搜索</option>
-                                    {{end}}
-
-
-                                </select>
-                                <input type="text" id="SearchUserid" name="SearchUserid" value="{{.SearchValue}}"
-                                       class="am-form-field am-input-sm" placeholder="根据玩家ID搜索"/>
-                            </div>
-                        </div>
-
-                      <!--  <div class="am-form-group m-u-sm-12 am-u-md-3" name="">
-                            <select data-am-selected>
-                                <option value="a" selected>金币</option>
-                                <option value="b" >钻石</option>
-                            </select>
-
-
-                            <input id="CoinStart" type="text" name="CoinStart" value="{{ .last_visit_begin }}"
-                                   class="am-form-field am-input-sm" placeholder="金币-从"/>
-                            <input id="CoinEnd" type="text" name="CoinEnd" value="{{ .last_visit_end }}"
-                                   class="am-form-field am-input-sm" placeholder="金币-到"/>
-
-                        </div>
-
-                        <div class="am-form-group am-u-sm-12 am-u-md-3">
-                            <select data-am-selected>
-                                <option value="a" selected>注册时间</option>
-                                <option value="b" >最后登录时间</option>
-                            </select>
-
-                            <div class="am-form-icon">
-                                <i id="RegistStartIcon" class="am-icon-calendar"></i>
-                                <input id="RegistStart" type="text" name="RegistStart" value="{{ .last_visit_begin }}"
-                                       class="am-form-field am-input-sm" placeholder="注册时间-从"/>
-                            </div>
-                            <div class="am-form-icon">
-                                <i id="RegistEndIcon" class="am-icon-calendar"></i>
-                                <input id="RegistEnd" type="text" name="RegistEnd" value="{{ .last_visit_end }}"
-                                       class="am-form-field am-input-sm" placeholder="注册时间-到"/>
-                            </div>
-
-                        </div>-->
-                    </div>
-                    <div class="am-g am-margin-vertical-sm">
-
-                        <div class="am-u-sm-12 am-u-md-3">
-                            {{template "select.html" .}}
-                        </div>
-                        <div class="am-u-sm-12 am-u-md-3 am-u-end">
-                            <input id="Search" class="am-btn am-btn-primary" value="搜索" type="submit"> </input>
-                          <a href="/roles/list"><input type="button" class="am-btn" value="重置" /> </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-
-
-            <div class="am-g">
-                <div class="am-u-sm-12">
-                    <!--<form class="am-form">-->
-
-                    {{ $len :=  len .users }}
-                    {{if eq $len 0 }}
-                    <p align="center"> 没有找到你要的数据!</p>
-                    {{ else }}
-
-                    <table class="am-table am-table-striped am-table-hover table-main">
-
-                        <thead>
-                        <tr>
-                            <th class="am-text-nowrap am-hide-sm-only table-id">玩家ID</th>
-                            <th class="am-text-nowrap table-title">昵称</th>
-                            <th class="am-text-nowrap table-title">性别</th>
-                            <th class="am-text-nowrap table-title">电话</th>
-                            <th class="am-text-nowrap table-type">金币</th>
-                            <th class="am-text-nowrap table-type">钻石</th>
-                            <th class="am-text-nowrap table-type">VIP</th>
-                            <th class="am-text-nowrap table-type">胜局</th>
-                            <th class="am-text-nowrap table-type">败局</th>
-                            <th class="am-text-nowrap table-type">平局</th>
-                            <th class="am-text-nowrap table-type">经验</th>
-                            <th class="am-text-nowrap table-type">入场券</th>
-                            <th class="am-text-nowrap table-type">兑换券</th>
-
-                            <!--    <th class="am-text-nowrap table-author am-hide-sm-only">注册IP</th>
-                                <th class="am-text-nowrap table-date am-hide-sm-only">注册时间</th>-->
-                            <th class="am-text-nowrap table-date am-hide-sm-only">操作</th>
-
-                        </tr>
-                        </thead>
-
-                        <tbody>
-
-                        {{ range $element := .users }}
-                        <tr>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Userid }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Nickname }}</td>
-
-                            {{ $sex := $element.Sex }}
-                            {{ if eq $sex 1 }}
-                            <td class="am-text-middle am-hide-sm-only">男</td>
-                            {{ else }}
-                            <td class="am-text-middle am-hide-sm-only">女</td>
-                            {{ end }}
-
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.PhoneN }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Coin }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Diamond }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Vip }}</td>
-
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Win }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Lost }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Ping }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Exp }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Ticket }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Exchange }}</td>
-
-
-                            <td>
-                                <div class="am-btn-toolbar">
-                                    <div class="am-btn-group am-btn-group-xs">
-                                        <button class="am-btn am-btn-default am-input-sm" onclick="javascript:button_onedit({{ $element.Userid }},{{ $element.Nickname }},
-                      {{ $element.Ping }},{{ $element.Win }},{{ $element.Lost }},{{ $element.Vip }},{{ $element.Ticket }},{{ $element.Exp }},
-                      {{ $element.Exchange }},{{ $element.Sex }},{{ $element.PhoneN }},{{ $element.Diamond }},{{ $element.Coin }},{{ $element.Create_ip }},{{ $element.Create_time }}
-                      );" type="button">编辑
-                                        </button>
-
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        {{ end }}
-
-                        </tbody>
-                    </table>
-                    {{ end }}
-
-
-
-                    {{template "pager.html" .}}
-                    <hr/>
-                     </form>
-                </div>
-            </div>
-
             <!--<script> $("#edit_pane").hide(); $("#edit_pane").css("display", "none");  </script>-->
             {{template "footer.html" .}}
 
@@ -375,6 +381,9 @@
                     $("#Create_ip").val(create_ip);
                     $("#Create_time").val(create_time);
                     // alertMsg(nickname)
+
+                    $("#list_pane").hide();
+
                     $("#edit_pane").show();
                 }
 
@@ -413,53 +422,28 @@
                         dataType: "json",
                         success: function (data) {
                             if (data["status"] == "ok") {
-                                $("#edit_pane").hide();
+
+
+
                                 // window.location.href="/roles/list";
                                 alertMsg(data["msg"], 0)
-                                window.location.reload()
+                               // window.location.reload()
                             } else {
                                 alertMsg(data["msg"], 0)
-                                $("#edit_pane").hide();
+
+
                             }
+                            $("#edit_pane").hide();
+                            $("#list_pane").show();
                         }
                     });
                 }
 
-                function button_onsearch() {
-                    if ($("#SearchUserid").val() != "") {
-                        var select = $("#SelectedIDSearch")
-                        var idtext = $("#SearchUserid")
-                        var data = {}
-
-                        if (select.val() == "1") {
-                            data["Userid"] = idtext.val()
-                        } else if (select.val() == "2") {
-                            data["Nickname"] = idtext.val()
-                        } else {
-                            data["Phone"] = idtext.val()
-                        }
-                    }
-
-                    //  alertMsg(JSON.stringify(data))
-
-                    $.ajax({
-                        type: "GET",
-                        url: "/roles/list",
-                        data: data,
-                        dataType: "json",
-                        success: function (data) {
-                            if (data["status"] == "ok") {
-                                window.location.reload()
-                            } else {
-                                alertMsg(data["msg"], 0)
-                            }
-                        }
-                    });
-                }
 
 
                 function button_onback() {
                     $("#edit_pane").hide();
+                    $("#list_pane").show();
                 }
 
                 $(document).ready(function () {
