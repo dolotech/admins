@@ -89,7 +89,7 @@
                 <div class="am-form-group am-margin-vertical-sm">
                     <label for="Win" class="am-u-sm-2 am-form-label">胜局</label>
                     <div class="am-u-sm-10">
-                        <input id="Win" type="text" name="Win" value=""/>
+                        <input id="Win" type="text" name="Win" readonly="readonly" value=""/>
                     </div>
                 </div>
 
@@ -97,14 +97,14 @@
                 <div class="am-form-group am-margin-vertical-sm">
                     <label for="Lost" class="am-u-sm-2 am-form-label">败局</label>
                     <div class="am-u-sm-10">
-                        <input id="Lost" type="text" name="Lost" value=""/>
+                        <input id="Lost" type="text" name="Lost"readonly="readonly"  value=""/>
                     </div>
                 </div>
 
                 <div class="am-form-group am-margin-vertical-sm">
                     <label for="Ping" class="am-u-sm-2 am-form-label">平局</label>
                     <div class="am-u-sm-10">
-                        <input id="Ping" type="text" name="Ping" value=""/>
+                        <input id="Ping" type="text" name="Ping" readonly="readonly" value=""/>
                     </div>
                 </div>
 
@@ -186,15 +186,22 @@
 
                     <div class="am-g am-margin-vertical-sm">
 
-
                         <div class="am-u-sm-12 am-u-md-3">
                             <div class="am-form-group">
                                 <select data-am-selected id="SelectedIDSearch" name="SelectedIDSearch">
+                                    {{ $s :=  .SearchType }}
+                                    {{if eq $s "2" }}
+                                    <option value="1" >根据玩家ID搜索</option>
+                                    <option value="2" selected >根据玩家手机号搜索</option>
+                                    {{ else }}
+
                                     <option value="1" selected>根据玩家ID搜索</option>
-                                <!--    <option value="2" >根据玩家昵称搜索</option>-->
-                                    <option value="2">根据玩家手机号搜索</option>
+                                    <option value="2"  >根据玩家手机号搜索</option>
+                                    {{end}}
+
+
                                 </select>
-                                <input type="text" id="SearchUserid" name="SearchUserid" value="{{ .name }}"
+                                <input type="text" id="SearchUserid" name="SearchUserid" value="{{.SearchValue}}"
                                        class="am-form-field am-input-sm" placeholder="根据玩家ID搜索"/>
                             </div>
                         </div>
@@ -238,8 +245,9 @@
                             {{template "select.html" .}}
                         </div>
                         <div class="am-u-sm-12 am-u-md-3 am-u-end">
-                            <input id="Search" class="am-btn am-btn-primary" type="submit">
-                            </input>
+                            <input id="Search" class="am-btn am-btn-primary" value="搜索" type="submit"> </input>
+                          <a href="/roles/list"><input type="button" class="am-btn" value="重置" /> </a>
+
                         </div>
 
                     </div>

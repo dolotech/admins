@@ -156,17 +156,24 @@ func (this *roles) EditUser(c *gin.Context) {
 // 玩家列表, 根据条件检索玩家
 func (this *roles) List(c *gin.Context) {
 	searchType := c.Query("SelectedIDSearch")
-	searchVAlue := c.Query("SearchUserid")
+	searchValue := c.Query("SearchUserid")
+	page_s := c.Query("page") // string
+	act_s := c.Query("act")   // string
+	limit_s := c.Query("limit")
+
+	this.pager.SetPager(page_s, limit_s, act_s)
+
+	this.selector.SetSelect("limit", limit_s, OPTION)
 
 	var ids []string
-	if searchVAlue != "" {
+	if searchValue != "" {
 		if searchType == "1" {
-			ids = append(ids, searchVAlue)
+			ids = append(ids, searchValue)
 		} else if searchType == "2" {
-			glog.Infoln(searchVAlue)
-			glog.Infoln(utils.PhoneRegexp(searchVAlue))
-			if utils.PhoneRegexp(searchVAlue) {
-				value, err := gossdb.C().Hget(data.KEY_PHONE_INDEX, searchVAlue)
+			glog.Infoln(searchValue)
+			glog.Infoln(utils.PhoneRegexp(searchValue))
+			if utils.PhoneRegexp(searchValue) {
+				value, err := gossdb.C().Hget(data.KEY_PHONE_INDEX, searchValue)
 				if err == nil && len(value) > 0 {
 					ids = append(ids, string(value))
 				}
@@ -185,13 +192,6 @@ func (this *roles) List(c *gin.Context) {
 		ids = utils.Between(strconv.FormatUint(idnum-uint64(this.pager.GetEnd()), 10), strconv.FormatUint(idnum-uint64(this.pager.GetStart()), 10))
 
 	}
-	page_s := c.Query("page") // string
-	act_s := c.Query("act")   // string
-	limit_s := c.Query("limit")
-
-	this.pager.SetPager(page_s, limit_s, act_s)
-
-	this.selector.SetSelect("limit", limit_s, OPTION)
 
 	//if start_id != "" || end_id != "" {
 	//	last := []rune(lastID.String())
@@ -248,8 +248,10 @@ func (this *roles) List(c *gin.Context) {
 	glog.Infoln("users : ", this.pager, len(users))
 
 	c.HTML(http.StatusOK, "lists.html", gin.H{
-		"pager":    this.pager,
-		"selected": this.selector,
-		"users":    users,
+		"pager":       this.pager,
+		"selected":    this.selector,
+		"users":       users,
+		"SearchValue": searchValue,
+		"SearchType":  searchType,
 	})
 }
