@@ -155,55 +155,26 @@ func (this *roles) EditUser(c *gin.Context) {
 
 // 玩家列表, 根据条件检索玩家
 func (this *roles) List(c *gin.Context) {
-	start_id := c.Query("start_id")
-	end_id := c.Query("end_id")
-	//	phone := c.Query("phone")
+	searchType := c.Query("SelectedIDSearch")
+	searchVAlue := c.Query("SearchUserid")
 
-	page_s := c.Query("page") // string
-	act_s := c.Query("act")   // string
-	limit_s := c.Query("limit")
-	phone := c.Query("phone")
-	lastID, _ := gossdb.C().Get(data.KEY_LAST_USER_ID)
-
-	this.pager.SetPager(page_s, limit_s, act_s)
-
-	this.selector.SetSelect("limit", limit_s, OPTION)
-
-	glog.Infoln(start_id, end_id, act_s, limit_s, page_s, lastID.String())
-	if phone == "" {
-
-	} else {
-
-	}
 	var ids []string
-	if start_id != "" || end_id != "" {
-		last := []rune(lastID.String())
-
-		if start_id == "" {
-			start_id = end_id
-		} else if end_id == "" {
-			end_id = start_id
-		}
-		boolean := true
-		if len(end_id) <= len(last) && utils.IsNumString(start_id) && utils.IsNumString(end_id) {
-			for i := 0; i < len(end_id); i++ {
-				if int(end_id[i]) < int(last[i]) {
-					break
-				} else if int(end_id[i]) > int(last[i]) {
-					boolean = false
+	if searchVAlue != "" {
+		if searchType == "1" {
+			ids = append(ids, searchVAlue)
+		} else if searchType == "2" {
+			glog.Infoln(searchVAlue)
+			glog.Infoln(utils.PhoneRegexp(searchVAlue))
+			if utils.PhoneRegexp(searchVAlue) {
+				value, err := gossdb.C().Hget(data.KEY_PHONE_INDEX, searchVAlue)
+				if err == nil && len(value) > 0 {
+					ids = append(ids, string(value))
 				}
 			}
-		} else {
-			boolean = false
-		}
-		if boolean {
-			startidnum, _ := strconv.ParseUint(start_id, 10, 64)
-			endidnum, _ := strconv.ParseUint(end_id, 10, 64)
-			this.pager.SetSize(uint32(endidnum - startidnum))
-
-			ids = utils.Between(utils.StringAddNum(start_id, this.pager.GetStart()), utils.StringAddNum(start_id, this.pager.GetEnd()))
+			glog.Infoln(ids)
 		}
 	} else {
+		lastID, _ := gossdb.C().Get(data.KEY_LAST_USER_ID)
 		idnum, err := strconv.ParseUint(lastID.String(), 10, 64)
 		if err == nil && idnum > 60001 {
 			size := idnum - 60001
@@ -212,7 +183,45 @@ func (this *roles) List(c *gin.Context) {
 		}
 		glog.Infoln(this.pager.GetStart(), this.pager.GetEnd())
 		ids = utils.Between(strconv.FormatUint(idnum-uint64(this.pager.GetEnd()), 10), strconv.FormatUint(idnum-uint64(this.pager.GetStart()), 10))
+
 	}
+	page_s := c.Query("page") // string
+	act_s := c.Query("act")   // string
+	limit_s := c.Query("limit")
+
+	this.pager.SetPager(page_s, limit_s, act_s)
+
+	this.selector.SetSelect("limit", limit_s, OPTION)
+
+	//if start_id != "" || end_id != "" {
+	//	last := []rune(lastID.String())
+
+	//	if start_id == "" {
+	//		start_id = end_id
+	//	} else if end_id == "" {
+	//		end_id = start_id
+	//	}
+	//	boolean := true
+	//	if len(end_id) <= len(last) && utils.IsNumString(start_id) && utils.IsNumString(end_id) {
+	//		for i := 0; i < len(end_id); i++ {
+	//			if int(end_id[i]) < int(last[i]) {
+	//				break
+	//			} else if int(end_id[i]) > int(last[i]) {
+	//				boolean = false
+	//			}
+	//		}
+	//	} else {
+	//		boolean = false
+	//	}
+	//	if boolean {
+	//		startidnum, _ := strconv.ParseUint(start_id, 10, 64)
+	//		endidnum, _ := strconv.ParseUint(end_id, 10, 64)
+	//		this.pager.SetSize(uint32(endidnum - startidnum))
+
+	//		ids = utils.Between(utils.StringAddNum(start_id, this.pager.GetStart()), utils.StringAddNum(start_id, this.pager.GetEnd()))
+	//	}
+	//} else {
+	//}
 
 	lists := data.GetMultiUser(ids)
 	users := make([]*user, 0, len(lists))

@@ -22,7 +22,7 @@
 
         #alertMsg_btn1, #alertMsg_btn2 {
             display: inline-block;
-            background: url(images/gray_btn.png) no-repeat left top;
+            background:  no-repeat left top;
             padding-left: 3px;
             color: #000000;
             font-size: 12px;
@@ -35,6 +35,6 @@
             line-height: 24px;
             display: inline-block;
             padding: 0 13px 0 10px;
-            background: url(images/gray_btn.png) no-repeat right top;
+            background: no-repeat right top;
             font-style: normal;
 }

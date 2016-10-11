@@ -4,24 +4,91 @@
       <ul class="am-list admin-sidebar-list">
         <li><a href="/roles/list"><span class="am-icon-home"></span> 首页</a></li>
 
+
+
+
+          <li class="admin-parent">
+              <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">
+                  <span class="am-icon-file"></span> 权限管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+              </a>
+              <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+                  <li>
+                      <a href="/users/list" class="am-cf">
+                          <span class="am-icon-table"></span> 管理员列表<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="/users/list" class="am-cf">
+                          <span class="am-icon-table"></span> 新增管理员<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                      </a>
+                  </li>
+              </ul>
+          </li>
+
+
+          <li class="admin-parent">
+              <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">
+                  <span class="am-icon-file"></span> 运营管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+              </a>
+              <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+                  <li>
+                      <a href="/operation/provide" class="am-cf">
+                          <span class="am-icon-table"></span> 道具/钻石发放<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                      </a>
+                  </li>
+
+                  <li>
+                      <a href="/operation/provide" class="am-cf">
+                          <span class="am-icon-table"></span> 发放记录<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                      </a>
+                  </li>
+
+
+              </ul>
+          </li>
+
         <li class="admin-parent">
             <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">
-                <span class="am-icon-file"></span> 角色管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+                <span class="am-icon-file"></span> 玩家管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
             </a>
           <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
             <li>
               <a href="/roles/list" class="am-cf">
-                  <span class="am-icon-table"></span> 角色列表<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                  <span class="am-icon-table"></span> 玩家列表<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
               </a>
             </li>
-          <!--  <li>
-              <a href="/roles/phone" class="am-cf">
-                  <span class="am-icon-table"></span> 电话列表<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+            <li>
+              <a href="/roles/online" class="am-cf">
+                  <span class="am-icon-table"></span>  在线列表<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
               </a>
-            </li>-->
-                      </ul>
+            </li>
+
+              <li>
+                  <a href="/roles/active" class="am-cf">
+                      <span class="am-icon-table"></span>  活跃玩家<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                  </a>
+              </li>
+           </ul>
         </li>
 
+          <li class="admin-parent">
+              <a class="am-cf" data-am-collapse="{target: '#collapse-file'}">
+                  <span class="am-icon-file"></span> 订单管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+              </a>
+              <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-file">
+                  <li>
+                      <a href="/order/list" class="am-cf">
+                          <span class="am-icon-table"></span> 下单列表<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                      </a>
+
+                      <a href="/order/exchange" class="am-cf">
+                          <span class="am-icon-table"></span> 充值列表<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                      </a>
+                  </li>
+
+              </ul>
+          </li>
+<!--
         <li class="admin-parent">
             <a class="am-cf" data-am-collapse="{target: '#collapse-file'}">
                 <span class="am-icon-file"></span> 文件管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
@@ -38,7 +105,7 @@
               </a>
             </li>
           </ul>
-        </li>
+        </li>-->
 
       </ul>
 

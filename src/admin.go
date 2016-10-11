@@ -26,7 +26,7 @@ func main() {
 	//store, _ := sessions.NewRedisStore([]byte("secret"))
 	store := sessions.NewCookieStore([]byte("secret"))
 	router.Use(sessions.Sessions("mysession", store))
-	router.Use(authorityMiddleware())
+	//	router.Use(authorityMiddleware())
 	Router(router)
 	s.ListenAndServe()
 }
@@ -55,6 +55,7 @@ func Router(r *gin.Engine) {
 
 	//r.Use(authorityMiddleware())
 
+	r.GET("/", admin.Roles.List)
 	r.GET("/file", admin.Files.List)
 	r.POST("/file", admin.Files.Upload)
 	r.DELETE("/file", admin.Files.Delete)
