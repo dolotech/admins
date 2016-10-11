@@ -32,6 +32,15 @@
           </div>
         </div>
 
+        <div class="am-form-group">
+          <label class="am-u-sm-2 am-form-label">性别</label>
+        <label class="am-radio-inline">
+          <input type="radio"  value="1"  name="Sex" > 男
+        </label>
+        <label class="am-radio-inline">
+          <input type="radio"  name="Sex" value="2" checked  required >女
+        </label>
+        </div>
 
         <div class="am-form-group am-margin-vertical-sm">
           <label for="Coin" class="am-u-sm-2 am-form-label">金币</label>
@@ -112,9 +121,6 @@
             <!-- <small>此项留空表示不修改密码！</small>-->
           </div>
         </div>
-
-
-
 
         <div class="am-form-group am-margin-vertical-sm">
           <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
@@ -271,6 +277,15 @@
 
 <script type="text/javascript">
   function button_onedit(userid ,nickname,ping,win,lost,vip,ticket,exp,exchange,sex,phone,diamond,coin,create_ip,create_time){
+    var obj=document.getElementsByName("Sex")
+    if (sex == "1"){
+      obj[0].checked = true;
+      obj[1].checked = false;
+    }else{
+      obj[0].checked = false;
+      obj[1].checked = true;
+    }
+
     //这里写你要执行的语句
     $("#Nickname").val(nickname);
     $("#Userid").val(userid);
@@ -278,7 +293,7 @@
     $("#Coin").val(coin);
     $("#Exp").val(exp);
     $("#Exchange").val(exchange);
-    $("#Vip").val(userid);
+    $("#Vip").val(vip);
     $("#Ticket").val(ticket);
     $("#Ping").val(ping);
     $("#Win").val(win);
@@ -294,7 +309,14 @@
 
   function button_onSave(){
     //这里写你要执行的语句
-
+    var sex=null;
+    var obj=document.getElementsByName("Sex")
+    for (var i=0;i<obj.length;i++){ //遍历Radio
+      if(obj[i].checked){
+        sex=obj[i].value;
+        break;
+      }
+    }
 
     $.ajax({
       type: "POST",
@@ -311,7 +333,8 @@
         Diamond:$("#Diamond").val(),
         Nickname:$("#Nickname").val(),
         Phone:$("#Phone").val(),
-        Userid:$("#Userid").val()
+        Userid:$("#Userid").val(),
+        Sex:sex
       },
 
       dataType: "json",
@@ -327,20 +350,14 @@
         }
       }
     });
-
-
   }
 
-
   function button_onback(){
-    //这里写你要执行的语句
     $("#edit_pane").hide();
   }
 
   $(document).ready(function(){
     $("#edit_pane").hide();
-
-    // $("#button").click(function(){ $("#edit_pane").show();;});
   });
 
 </script>
