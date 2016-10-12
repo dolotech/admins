@@ -92,7 +92,7 @@ func Router(r *gin.Engine) {
 	r.POST("/roles/edit", admin.Roles.Edit)
 	r.GET("/roles/edituser", admin.Roles.EditUser)
 
-	r.GET("/users/login", admin.Users.Login)
+	//	r.GET("/users/login", admin.Users.Login)
 	r.POST("/users/login", admin.Users.Authenticate)
 	r.GET("/users/logout/", admin.Users.Logout)
 	r.GET("/users/list", admin.Users.List)

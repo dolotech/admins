@@ -484,7 +484,7 @@ func (this *Client) PutObject(setName, value interface{}) (err error) {
 		return goerr.NewError(err, "MultiHset %s %s error", setName, value)
 	}
 
-	if len(resp) > 0 && resp[0][0] == ok[0] && resp[0][1] == ok[1] {
+	if len(resp) > 0 && string(resp[0]) == "ok" {
 		return nil
 	}
 	return makeError(resp, setName, value)
@@ -500,12 +500,12 @@ func (this *Client) GetObject(setName string, value interface{}) error {
 
 	pv = pv.Elem()
 	resp, err := this.Do("hgetall", setName)
-
+	//	glog.Infoln(err, string(resp[0]))
 	if err != nil {
 		return goerr.NewError(err, "MultiHget %s %s error", setName)
 	}
 	size := len(resp)
-	if size > 0 && resp[0][0] == ok[0] && resp[0][1] == ok[1] {
+	if size > 1 && string(resp[0]) == "ok" {
 		for i := 1; i < size && i+1 < size; i += 2 {
 			fieldValue := pv.FieldByName(string(resp[i]))
 			if !fieldValue.IsValid() {
@@ -521,6 +521,8 @@ func (this *Client) GetObject(setName string, value interface{}) error {
 				fieldValue.Set(reflect.ValueOf(val))
 			}
 		}
+	} else {
+		return goerr.NewError(err, "MultiHget %s %s error", setName)
 	}
 	return nil
 }

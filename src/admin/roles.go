@@ -167,9 +167,9 @@ func (this *roles) List(c *gin.Context) {
 
 	var ids []string
 	if searchValue != "" {
-		if searchType == "1" {
+		if searchType == "2" {
 			ids = append(ids, searchValue)
-		} else if searchType == "2" {
+		} else if searchType == "3" {
 			glog.Infoln(searchValue)
 			glog.Infoln(utils.PhoneRegexp(searchValue))
 			if utils.PhoneRegexp(searchValue) {
@@ -225,6 +225,7 @@ func (this *roles) List(c *gin.Context) {
 
 	lists := data.GetMultiUser(ids)
 	users := make([]*user, 0, len(lists))
+	glog.Infoln(len(lists), lists)
 	for _, v := range lists {
 		u := &user{
 			Userid:      v.Userid,

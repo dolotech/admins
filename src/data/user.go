@@ -35,10 +35,9 @@ func GetMultiUser(userids []string) []*User {
 	users := make([]*User, 0, len(userids))
 	for _, v := range userids {
 		user := &User{Userid: v}
-		if err := user.Get(); err != nil {
-			glog.Errorln(err)
+		if err := user.Get(); err == nil {
+			users = append(users, user)
 		}
-		users = append(users, user)
 	}
 	return users
 }

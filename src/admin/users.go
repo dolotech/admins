@@ -119,7 +119,7 @@ func (u *User) Authenticate(c *gin.Context) {
 		//			true,
 		//			true,
 		//		)
-		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+		c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "登录成功"})
 
 	}
 }
@@ -131,7 +131,7 @@ func (u *User) Logout(c *gin.Context) {
 	session.Set("username", "")
 	session.Clear()
 	session.Save()
-	//	c.Redirect(http.StatusMovedPermanently, "/users/login")
+	c.Redirect(http.StatusMovedPermanently, "/users/login")
 }
 
 // func (u *User) User_Edit(c *gin.Context) {

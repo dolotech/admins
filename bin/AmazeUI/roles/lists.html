@@ -3,7 +3,6 @@
 {{template "sidebar.html" .}}
 
 
-
 <!-- content start -->
 <div class="admin-content" id="list_pane">
     <div class="admin-content-body">
@@ -15,176 +14,134 @@
 
         <hr>
 
-          <form action="/roles/list" method="get" class="am-form" data-am-validator >
-        <div class="am-g">
+        <form class="am-form" action="/roles/list" method="get" data-am-validator id="FormSearch">
+            <div class="am-g">
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索玩家<span
+                            class="am-icon-chevron-down am-fr"></span>
+                    </div>
+                    <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+                        <div class="am-g am-margin-vertical-sm">
+                            <div class="am-u-sm-12 am-u-md-3">
+                                <div class="am-form-group">
+                                    <select data-am-selected id="SelectedIDSearch" name="SelectedIDSearch">
+                                        {{ $s := .SearchType }}
+                                        {{if eq $s "3" }}
+                                        <option value="2">根据玩家ID搜索</option>
+                                        <option value="3" selected>根据玩家手机号搜索</option>
+                                        {{ else }}
 
-            <div class="am-panel am-panel-default">
-                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索玩家<span
-                        class="am-icon-chevron-down am-fr"></span>
-                </div>
-                <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
-
-                    <div class="am-g am-margin-vertical-sm">
-
-                        <div class="am-u-sm-12 am-u-md-3">
-                            <div class="am-form-group">
-                                <select data-am-selected id="SelectedIDSearch" name="SelectedIDSearch">
-                                    {{ $s :=  .SearchType }}
-                                    {{if eq $s "2" }}
-                                    <option value="1" >根据玩家ID搜索</option>
-                                    <option value="2" selected >根据玩家手机号搜索</option>
-                                    {{ else }}
-
-                                    <option value="1" selected>根据玩家ID搜索</option>
-                                    <option value="2"  >根据玩家手机号搜索</option>
-                                    {{end}}
-
-
-                                </select>
-                                <input type="text" id="SearchUserid" name="SearchUserid" value="{{.SearchValue}}"
-                                       class="am-form-field am-input-sm" placeholder="根据玩家ID搜索"/>
+                                        <option value="2" selected>根据玩家ID搜索</option>
+                                        <option value="3">根据玩家手机号搜索</option>
+                                        {{end}}
+                                    </select>
+                                    <input type="text" id="SearchUserid" name="SearchUserid" value="{{.SearchValue}}"
+                                           class="am-form-field am-input-sm" placeholder="根据玩家ID搜索"/>
+                                </div>
                             </div>
-                        </div>
-
-                      <!--  <div class="am-form-group m-u-sm-12 am-u-md-3" name="">
-                            <select data-am-selected>
-                                <option value="a" selected>金币</option>
-                                <option value="b" >钻石</option>
-                            </select>
-
-
-                            <input id="CoinStart" type="text" name="CoinStart" value="{{ .last_visit_begin }}"
-                                   class="am-form-field am-input-sm" placeholder="金币-从"/>
-                            <input id="CoinEnd" type="text" name="CoinEnd" value="{{ .last_visit_end }}"
-                                   class="am-form-field am-input-sm" placeholder="金币-到"/>
-
-                        </div>
-
-                        <div class="am-form-group am-u-sm-12 am-u-md-3">
-                            <select data-am-selected>
-                                <option value="a" selected>注册时间</option>
-                                <option value="b" >最后登录时间</option>
-                            </select>
-
-                            <div class="am-form-icon">
-                                <i id="RegistStartIcon" class="am-icon-calendar"></i>
-                                <input id="RegistStart" type="text" name="RegistStart" value="{{ .last_visit_begin }}"
-                                       class="am-form-field am-input-sm" placeholder="注册时间-从"/>
-                            </div>
-                            <div class="am-form-icon">
-                                <i id="RegistEndIcon" class="am-icon-calendar"></i>
-                                <input id="RegistEnd" type="text" name="RegistEnd" value="{{ .last_visit_end }}"
-                                       class="am-form-field am-input-sm" placeholder="注册时间-到"/>
-                            </div>-->
-
                         </div>
                     </div>
                     <div class="am-g am-margin-vertical-sm">
-
                         <div class="am-u-sm-12 am-u-md-3">
                             {{template "select.html" .}}
                         </div>
                         <div class="am-u-sm-12 am-u-md-3 am-u-end">
                             <input id="Search" class="am-btn am-btn-primary" value="搜索" type="submit"> </input>
-                          <a href="/roles/list"><input type="button" class="am-btn" value="重置" /> </a>
-
+                            <a href="/roles/list"><input type="button" class="am-btn" value="重置"/> </a>
                         </div>
-
                     </div>
-
                 </div>
             </div>
+        </form>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <!--     <form class="am-form">-->
+
+                {{ $len := len .users }}
+                {{if eq $len 0 }}
+                <p align="center"> 没有找到你要的数据!</p>
+                {{ else }}
+
+                <table class="am-table am-table-striped am-table-hover table-main">
+
+                    <thead>
+                    <tr>
+                        <th class="am-text-nowrap am-hide-sm-only table-id">玩家ID</th>
+                        <th class="am-text-nowrap table-title">昵称</th>
+                        <th class="am-text-nowrap table-title">性别</th>
+                        <th class="am-text-nowrap table-title">电话</th>
+                        <th class="am-text-nowrap table-type">金币</th>
+                        <th class="am-text-nowrap table-type">钻石</th>
+                        <th class="am-text-nowrap table-type">VIP</th>
+                        <th class="am-text-nowrap table-type">胜局</th>
+                        <th class="am-text-nowrap table-type">败局</th>
+                        <th class="am-text-nowrap table-type">平局</th>
+                        <th class="am-text-nowrap table-type">经验</th>
+                        <th class="am-text-nowrap table-type">入场券</th>
+                        <th class="am-text-nowrap table-type">兑换券</th>
+
+                        <!--    <th class="am-text-nowrap table-author am-hide-sm-only">注册IP</th>
+                            <th class="am-text-nowrap table-date am-hide-sm-only">注册时间</th>-->
+                        <th class="am-text-nowrap table-date am-hide-sm-only">操作</th>
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {{ range $element := .users }}
+                    <tr>
+                        <td class="am-text-middle am-hide-sm-only">{{ $element.Userid }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ $element.Nickname }}</td>
+
+                        {{ $sex := $element.Sex }}
+                        {{ if eq $sex 1 }}
+                        <td class="am-text-middle am-hide-sm-only">男</td>
+                        {{ else }}
+                        <td class="am-text-middle am-hide-sm-only">女</td>
+                        {{ end }}
+
+                        <td class="am-text-middle am-hide-sm-only">{{ $element.PhoneN }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ $element.Coin }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ $element.Diamond }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ $element.Vip }}</td>
+
+                        <td class="am-text-middle am-hide-sm-only">{{ $element.Win }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ $element.Lost }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ $element.Ping }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ $element.Exp }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ $element.Ticket }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ $element.Exchange }}</td>
 
 
-            <div class="am-g">
-                <div class="am-u-sm-12">
-                    <!--<form class="am-form">-->
-
-                    {{ $len :=  len .users }}
-                    {{if eq $len 0 }}
-                    <p align="center"> 没有找到你要的数据!</p>
-                    {{ else }}
-
-                    <table class="am-table am-table-striped am-table-hover table-main">
-
-                        <thead>
-                        <tr>
-                            <th class="am-text-nowrap am-hide-sm-only table-id">玩家ID</th>
-                            <th class="am-text-nowrap table-title">昵称</th>
-                            <th class="am-text-nowrap table-title">性别</th>
-                            <th class="am-text-nowrap table-title">电话</th>
-                            <th class="am-text-nowrap table-type">金币</th>
-                            <th class="am-text-nowrap table-type">钻石</th>
-                            <th class="am-text-nowrap table-type">VIP</th>
-                            <th class="am-text-nowrap table-type">胜局</th>
-                            <th class="am-text-nowrap table-type">败局</th>
-                            <th class="am-text-nowrap table-type">平局</th>
-                            <th class="am-text-nowrap table-type">经验</th>
-                            <th class="am-text-nowrap table-type">入场券</th>
-                            <th class="am-text-nowrap table-type">兑换券</th>
-
-                            <!--    <th class="am-text-nowrap table-author am-hide-sm-only">注册IP</th>
-                                <th class="am-text-nowrap table-date am-hide-sm-only">注册时间</th>-->
-                            <th class="am-text-nowrap table-date am-hide-sm-only">操作</th>
-
-                        </tr>
-                        </thead>
-
-                        <tbody>
-
-                        {{ range $element := .users }}
-                        <tr>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Userid }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Nickname }}</td>
-
-                            {{ $sex := $element.Sex }}
-                            {{ if eq $sex 1 }}
-                            <td class="am-text-middle am-hide-sm-only">男</td>
-                            {{ else }}
-                            <td class="am-text-middle am-hide-sm-only">女</td>
-                            {{ end }}
-
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.PhoneN }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Coin }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Diamond }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Vip }}</td>
-
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Win }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Lost }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Ping }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Exp }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Ticket }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ $element.Exchange }}</td>
-
-
-                            <td>
-                                <div class="am-btn-toolbar">
-                                    <div class="am-btn-group am-btn-group-xs">
-                                        <button class="am-btn am-btn-default am-input-sm" onclick="javascript:button_onedit({{ $element.Userid }},{{ $element.Nickname }},
+                        <td>
+                            <div class="am-btn-toolbar">
+                                <div class="am-btn-group am-btn-group-xs">
+                                    <button class="am-btn am-btn-default am-input-sm" onclick="javascript:button_onedit({{ $element.Userid }},{{ $element.Nickname }},
                       {{ $element.Ping }},{{ $element.Win }},{{ $element.Lost }},{{ $element.Vip }},{{ $element.Ticket }},{{ $element.Exp }},
                       {{ $element.Exchange }},{{ $element.Sex }},{{ $element.PhoneN }},{{ $element.Diamond }},{{ $element.Coin }},{{ $element.Create_ip }},{{ $element.Create_time }}
                       );" type="button">编辑
-                                        </button>
+                                    </button>
 
-                                    </div>
                                 </div>
-                            </td>
-                        </tr>
-                        {{ end }}
-
-                        </tbody>
-                    </table>
+                            </div>
+                        </td>
+                    </tr>
                     {{ end }}
-                </div>
+
+                    </tbody>
+                </table>
+                {{ end }}
             </div>
+        </div>
 
 
-                    {{template "pager.html" .}}
-                    <hr/>
-                     </form>
-                </div>
-            </div>
-
+        {{template "pager.html" .}}
+        <hr/>
+        <!--      </form>-->
+    </div>
+</div>
 
 
 <div class="admin-content" id="edit_pane">
@@ -283,7 +240,7 @@
                 <div class="am-form-group am-margin-vertical-sm">
                     <label for="Lost" class="am-u-sm-2 am-form-label">败局</label>
                     <div class="am-u-sm-10">
-                        <input id="Lost" type="text" name="Lost"readonly="readonly"  value=""/>
+                        <input id="Lost" type="text" name="Lost" readonly="readonly" value=""/>
                     </div>
                 </div>
 
@@ -350,140 +307,153 @@
     </div>
 </div>
 
-            <!--<script> $("#edit_pane").hide(); $("#edit_pane").css("display", "none");  </script>-->
-            {{template "footer.html" .}}
+<!--<script> $("#edit_pane").hide(); $("#edit_pane").css("display", "none");  </script>-->
+{{template "footer.html" .}}
 
-            <script type="text/javascript">
-                function button_onedit(userid, nickname, ping, win, lost, vip, ticket, exp, exchange, sex, phone, diamond, coin, create_ip, create_time) {
-                    var obj = document.getElementsByName("Sex")
-                    if (sex == "1") {
-                        obj[0].checked = true;
-                        obj[1].checked = false;
-                    } else {
-                        obj[0].checked = false;
-                        obj[1].checked = true;
-                    }
+<script type="text/javascript">
 
-                    //这里写你要执行的语句
-                    $("#Nickname").val(nickname);
-                    $("#Userid").val(userid);
-                    $("#Diamond").val(diamond);
-                    $("#Coin").val(coin);
-                    $("#Exp").val(exp);
-                    $("#Exchange").val(exchange);
-                    $("#Vip").val(vip);
-                    $("#Ticket").val(ticket);
-                    $("#Ping").val(ping);
-                    $("#Win").val(win);
 
-                    $("#Lost").val(lost);
-                    $("#Phone").val(phone);
-                    $("#Create_ip").val(create_ip);
-                    $("#Create_time").val(create_time);
-                    // alertMsg(nickname)
+    function button_onedit(userid, nickname, ping, win, lost, vip, ticket, exp, exchange, sex, phone, diamond, coin, create_ip, create_time) {
+        var obj = document.getElementsByName("Sex")
+        if (sex == "1") {
+            obj[0].checked = true;
+            obj[1].checked = false;
+        } else {
+            obj[0].checked = false;
+            obj[1].checked = true;
+        }
 
-                    $("#list_pane").hide();
+        //这里写你要执行的语句
+        $("#Nickname").val(nickname);
+        $("#Userid").val(userid);
+        $("#Diamond").val(diamond);
+        $("#Coin").val(coin);
+        $("#Exp").val(exp);
+        $("#Exchange").val(exchange);
+        $("#Vip").val(vip);
+        $("#Ticket").val(ticket);
+        $("#Ping").val(ping);
+        $("#Win").val(win);
 
-                    $("#edit_pane").show();
+        $("#Lost").val(lost);
+        $("#Phone").val(phone);
+        $("#Create_ip").val(create_ip);
+        $("#Create_time").val(create_time);
+        // alertMsg(nickname)
+
+        $("#list_pane").hide();
+
+        $("#edit_pane").show();
+    }
+
+
+    function button_onSave() {
+        //这里写你要执行的语句
+        var sex = null;
+        var obj = document.getElementsByName("Sex")
+        for (var i = 0; i < obj.length; i++) { //遍历Radio
+            if (obj[i].checked) {
+                sex = obj[i].value;
+                break;
+            }
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/roles/edit",
+            data: {
+                Vip: $("#Vip").val(),
+                Userid: $("#Userid").val(),
+                Lost: $("#Lost").val(),
+                Win: $("#Win").val(),
+                Ping: $("#Ping").val(),
+                Ticket: $("#Ticket").val(),
+                Exchange: $("#Exchange").val(),
+                Exp: $("#Exp").val(),
+                Coin: $("#Coin").val(),
+                Diamond: $("#Diamond").val(),
+                Nickname: $("#Nickname").val(),
+                Phone: $("#Phone").val(),
+                Userid: $("#Userid").val(),
+                Sex: sex
+            },
+
+            dataType: "json",
+            success: function (data) {
+                if (data["status"] == "ok") {
+
+
+
+                    // window.location.href="/roles/list";
+                    alertMsg(data["msg"], 0)
+                    window.location.reload()
+                } else {
+                    alertMsg(data["msg"], 0)
+
+
                 }
+                $("#edit_pane").hide();
+                $("#list_pane").show();
+            }
+        });
+    }
 
 
-                function button_onSave() {
-                    //这里写你要执行的语句
-                    var sex = null;
-                    var obj = document.getElementsByName("Sex")
-                    for (var i = 0; i < obj.length; i++) { //遍历Radio
-                        if (obj[i].checked) {
-                            sex = obj[i].value;
-                            break;
-                        }
-                    }
+    function button_onback() {
+        $("#edit_pane").hide();
+        $("#list_pane").show();
+    }
 
-                    $.ajax({
-                        type: "POST",
-                        url: "/roles/edit",
-                        data: {
-                            Vip: $("#Vip").val(),
-                            Userid: $("#Userid").val(),
-                            Lost: $("#Lost").val(),
-                            Win: $("#Win").val(),
-                            Ping: $("#Ping").val(),
-                            Ticket: $("#Ticket").val(),
-                            Exchange: $("#Exchange").val(),
-                            Exp: $("#Exp").val(),
-                            Coin: $("#Coin").val(),
-                            Diamond: $("#Diamond").val(),
-                            Nickname: $("#Nickname").val(),
-                            Phone: $("#Phone").val(),
-                            Userid: $("#Userid").val(),
-                            Sex: sex
-                        },
+    $(document).ready(function () {
+        $("#edit_pane").hide();
+    });
 
-                        dataType: "json",
-                        success: function (data) {
-                            if (data["status"] == "ok") {
+    $(function () {
+
+        /*   $("#FormSearch").submit(function(event) {event.preventDefault()})//取消submit的默认行为
+         $("form input[type='submit']").click(function(){
+         var url = $('FormSearch').attr('action'); // 取Form中要提交的链接
+         var param = {}; // 组装发送参数
+         param['name']  = $('form input[name=SelectedIDSearch]').val();
+         param['SearchUserid'] = $('form input[name=SearchUserid]').val();
+         $.get("/roles/list" ,param, function(dom) { $('div.get').append(dom) }) ;  // 发送并显示返回内容
+         //alertMsg(url)
+         });*/
 
 
+        var startDate = new Date(2000, 1, 1);
+        var endDate = new Date(2099, 11, 25);
+        var $alert = $('#my-alert');
 
-                                // window.location.href="/roles/list";
-                                alertMsg(data["msg"], 0)
-                               // window.location.reload()
-                            } else {
-                                alertMsg(data["msg"], 0)
+        $('#RegistStartIcon').datepicker().on('changeDate.datepicker.amui', function (event) {
+            if (event.date.valueOf() > endDate.valueOf()) {
+                $alert.find('p').text('开始日期应小于结束日期！').end().show();
+            } else {
+                $alert.hide();
+                startDate = new Date(event.date);
+                $('#RegistStart').val($('#RegistStartIcon').data('date') + ' 00:00:00');
+            }
+            $(this).datepicker('close');
+        });
 
+        $('#RegistEndIcon').datepicker().on('changeDate.datepicker.amui', function (event) {
+            if (event.date.valueOf() < startDate.valueOf()) {
+                $alert.find('p').text('结束日期应大于开始日期！').end().show();
+            } else {
+                $alert.hide();
+                endDate = new Date(event.date);
+                $('#RegistEnd').val($('#RegistEndIcon').data('date') + ' 23:59:59');
+            }
+            $(this).datepicker('close');
+        });
 
-                            }
-                            $("#edit_pane").hide();
-                            $("#list_pane").show();
-                        }
-                    });
-                }
+        var $selected = $('#SelectedIDSearch');
+        $selected.on('change', function () {
+            $("#SearchUserid").attr('placeholder', $(this).find('option').eq(this.selectedIndex).text())
+            $("#SearchUserid").val("")
+            //alertMsg($(this).find('option').eq(this.selectedIndex).val())
+        });
 
+    });
 
-
-                function button_onback() {
-                    $("#edit_pane").hide();
-                    $("#list_pane").show();
-                }
-
-                $(document).ready(function () {
-                    $("#edit_pane").hide();
-                });
-
-                $(function () {
-                    var startDate = new Date(2000, 1, 1);
-                    var endDate = new Date(2099, 11, 25);
-                    var $alert = $('#my-alert');
-
-                    $('#RegistStartIcon').datepicker().on('changeDate.datepicker.amui', function (event) {
-                        if (event.date.valueOf() > endDate.valueOf()) {
-                            $alert.find('p').text('开始日期应小于结束日期！').end().show();
-                        } else {
-                            $alert.hide();
-                            startDate = new Date(event.date);
-                            $('#RegistStart').val($('#RegistStartIcon').data('date') + ' 00:00:00');
-                        }
-                        $(this).datepicker('close');
-                    });
-
-                    $('#RegistEndIcon').datepicker().on('changeDate.datepicker.amui', function (event) {
-                        if (event.date.valueOf() < startDate.valueOf()) {
-                            $alert.find('p').text('结束日期应大于开始日期！').end().show();
-                        } else {
-                            $alert.hide();
-                            endDate = new Date(event.date);
-                            $('#RegistEnd').val($('#RegistEndIcon').data('date') + ' 23:59:59');
-                        }
-                        $(this).datepicker('close');
-                    });
-
-                    var $selected = $('#SelectedIDSearch');
-                    $selected.on('change', function () {
-                        $("#SearchUserid").attr('placeholder', $(this).find('option').eq(this.selectedIndex).text())
-                        $("#SearchUserid").val("")
-                        //alertMsg($(this).find('option').eq(this.selectedIndex).val())
-                    });
-
-                });
-
-            </script>
+</script>
