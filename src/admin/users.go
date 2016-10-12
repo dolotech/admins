@@ -24,12 +24,12 @@ var Pager pager
 var Selected selected
 
 const (
-	USERS_INDEX      string = "users_index"
-	USER_GROUP_INDEX string = "user_group_index"
-	USER_LOG_INDEX   string = "user_log_index"
-	USERS            string = "users"
-	USER_GROUP       string = "user_group"
-	USER_LOG         string = "user_log"
+	USERS_INDEX      string = "admins_users_index"
+	USER_GROUP_INDEX string = "admins_user_group_index"
+	USER_LOG_INDEX   string = "admins_user_log_index"
+	USERS            string = "admins_users"
+	USER_GROUP       string = "admins_user_group"
+	USER_LOG         string = "admins_user_log"
 )
 
 // 后台管理日志 admin_log
@@ -74,6 +74,7 @@ type User struct {
 
 var GROUPIDS = map[string]string{
 	"1": "超级管理员",
+	"2": "普通管理员",
 }
 
 func (u *User) Get() error {
@@ -120,7 +121,6 @@ func (u *User) Authenticate(c *gin.Context) {
 		//			true,
 		//		)
 		c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "登录成功"})
-
 	}
 }
 
@@ -155,13 +155,8 @@ func (u *User) Logout(c *gin.Context) {
 // }
 
 func (u *User) Create(c *gin.Context) {
-	Selected.SetSelect("group_id", "1", GROUPIDS)
-	// Emsg.validate()
-	c.HTML(http.StatusOK, "create.html", gin.H{
-		"users":    u,
-		"emsg":     Emsg,
-		"selected": Selected,
-	})
+	//Selected.SetSelect("group_id", "1", GROUPIDS)
+	c.HTML(http.StatusOK, "create.html", gin.H{})
 }
 
 func (u *User) Created(c *gin.Context) {
@@ -174,39 +169,39 @@ func (u *User) Created(c *gin.Context) {
 	u.Group_id = c.PostForm("group_id")
 	u.Description = c.PostForm("description")
 
-	var result bool = false
-	if password != password1 {
-		Emsg.validate() // 两次密码不一致
-	} else if len(u.Username) == 0 || len(u.Name) == 0 {
-		Emsg.validate() // 名字不能为空
+	glog.Infoln("password:", password, " password1:", password1, "group_id:", u.Group_id, "ip_limit:", u.Ip_limit, "username:", u.Username, "name:", u.Name)
+	msg := ""
+	val, err := GetUsersIndex(u.Username)
+	glog.Infoln(val, err, len(val))
+	if len(val) != 0 {
+		msg = "用户名已经存在"
 	} else {
-		val, err := GetUsersIndex(u.Username)
-		if err == nil || len(val) != 0 {
-			Emsg.validate() // 用户名已存在
+		if password != password1 {
+			msg = "两次密码不一致"
+		} else if len(u.Username) == 0 || len(u.Name) == 0 {
+			msg = "名字不能为空"
 		} else {
 			index_size, err := GetUsersIndexSize()
 			if err != nil {
-				fmt.Println("err:", err)
+				glog.Infoln(err)
 				index_size = 0
 			}
 			u.Id = strconv.Itoa(int(index_size + 1))
 			err = SetUsersIndex(u.Username, u.Id)
 			if err != nil {
-				fmt.Println("err:", err)
+				glog.Infoln(err)
 			}
 			err = u.Save()
 			if err != nil {
-				fmt.Println("err:", err)
+				glog.Infoln(err)
 			}
-			result = true
 		}
 	}
 
-	if result {
-		c.Redirect(http.StatusMovedPermanently, "/users/list")
+	if msg == "" {
+		c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "用户创建成功"})
 	} else {
-		// c.Redirect(http.StatusMovedPermanently, "/users/create")
-		u.Create(c)
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": msg})
 	}
 }
 

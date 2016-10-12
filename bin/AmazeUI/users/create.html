@@ -10,21 +10,21 @@
       </div>
 
       <hr>
-<form action="/users/created" method="POST" class="am-form am-form-horizontal">
+<form class="am-form am-form-horizontal">
 
               <div class="am-form-group am-margin-vertical-sm">
                 <label for="name" class="am-u-sm-2 am-form-label">帐号名称</label>
                 <div class="am-u-sm-10">
-                  <input id="name" type="text" name="username" value="{{ .users.Username }}" />
-                  <small>{{ .emsg.EUsername }}</small>
+                  <input id="username" type="text" name="username" value="" />
+
                 </div>
               </div>
 
               <div class="am-form-group am-margin-vertical-sm">
                 <label for="realname" class="am-u-sm-2 am-form-label">真实姓名</label>
                 <div class="am-u-sm-10">
-                  <input id="realname" type="text" name="name" value="{{ .users.Name }}" />
-                  <small>{{ .emsg.EName }}</small>
+                  <input id="realname" type="text" name="realname" value="" />
+
                 </div>
               </div>
 
@@ -32,7 +32,7 @@
                 <label for="password" class="am-u-sm-2 am-form-label">密码</label>
                 <div class="am-u-sm-10">
                   <input id="password" type="password" name="password" value="" />
-                  <small>{{ .emsg.EPasswd }}</small>
+
                 </div>
               </div>
 
@@ -40,23 +40,27 @@
                 <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
                 <div class="am-u-sm-10">
                   <input id="password1" type="password" name="password1" value="" />
-                  <small>{{ .emsg.EPasswd }}</small>
+
                 </div>
               </div>
 
 
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">用户组</label>
-{{template "select.html" .}}
-                <div class="am-u-sm-10">
-                    {{ .emsg.EGroup_id }}
-                </div>
+                <!--  <div class="am-u-sm-12 am-u-md-3">-->
+                      <div class="am-u-sm-10">
+                          <select id="SelectType" name="SelectType" data-am-selected="{btnSize: 'sm'}">
+                              <option selected="selected" value="1">超级管理员</option>
+                              <option value="2">普通管理员</option>
+                          </select>
+                   </div>
+                <!--     </div>-->
               </div>
 
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">限制登录IP</label>
                 <div class="am-u-sm-10">
-                    <input type="text" name="ip_limit" value="{{ .users.Ip_limit }}" />
+                    <input type="text" id="ip_limit" name="ip_limit" value="" />
                     <small>多个IP用英文,号分开</small>
                 </div>
               </div>
@@ -64,7 +68,7 @@
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">描述</label>
                 <div class="am-u-sm-10">
-                    <textarea name="description" style="width:500px; height:160px;">{{ .users.Description }}</textarea>
+                    <textarea id = "description" name="description" style="width:500px; height:160px;"></textarea>
                 </div>
               </div>
 
@@ -72,8 +76,8 @@
               <div class="am-form-group">
                 <label class="am-u-sm-2 am-form-label"></label>
                 <div class="am-u-sm-10">
-                    <input type="submit" name="submit" class="am-btn am-btn-primary" value="提交" />
-                    <input type="button" class="am-btn" value="返回" onclick="location.replace('/users/list');" />
+                    <input type="button" name="send" id="send" class="am-btn am-btn-primary" value="提交"
+                           onclick="javascript:button_onSave();"/>
                 </div>
               </div>
           </div>
@@ -89,3 +93,33 @@
   <!-- content end -->
 
 {{template "footer.html" .}}
+
+
+<script>
+    $(function(){
+        $('#send').click(function(){
+
+            $.ajax({
+                type: "POST",
+                url: "/users/created",
+                data: {username:$("#username").val(),
+                    name:$("#realname").val(),
+                    ip_limit:$("#ip_limit").val(),
+                    description:$("#description").val(),
+                    password:$("#password").val(),
+                    password1:$("#password1").val(),
+                    group_id:$("#SelectType").val()
+                  },
+                dataType: "json",
+                success: function(data){
+                    if( data["status"] == "ok"){
+                        alertMsg(data["msg"], 0)
+                        window.location.href="/users/list";
+                    }else{
+                        alertMsg(data["msg"], 0)
+                    }
+                }
+            });
+        });
+    });
+</script>

@@ -7,7 +7,6 @@ import (
 	"flag"
 	"net/http"
 	"runtime/debug"
-	"strings"
 	"time"
 
 	"github.com/gin-gonic/contrib/sessions"
@@ -25,10 +24,9 @@ func main() {
 		MaxHeaderBytes: 1 << 20,
 	}
 	conndb()
-	//store, _ := sessions.NewRedisStore([]byte("secret"))
 	store := sessions.NewCookieStore([]byte("secret"))
 	router.Use(sessions.Sessions("mysession", store))
-	//router.Use(authorityMiddleware())
+	router.Use(authorityMiddleware())
 	Router(router)
 	s.ListenAndServe()
 }
@@ -38,37 +36,29 @@ func authorityMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		defer func() {
 			if r := recover(); r != nil {
+				c.HTML(http.StatusNotFound, "admin-404.html", gin.H{
+					"message": "",
+				})
+
 				glog.Errorln(string(debug.Stack()))
 			}
 		}()
-		session := sessions.Default(c)
-		token := session.Get("username")
-
-		uri := c.Request.RequestURI
-
-		//if c.Request.URL.Path != "/users/login" {
 		//	session := sessions.Default(c)
-		//	logined := session.Get("username")
-		//	glog.Infoln("cookie: ", logined, "Path: ", c.Request.URL.Path, logined)
-		//	if logined == nil || logined == "" {
-		//		c.Redirect(http.StatusMovedPermanently, "/users/login")
-		//		glog.Infoln("cookie 为空", session.Get("username"))
-		//	} else {
+		//	token := session.Get("username")
+
+		//	uri := c.Request.RequestURI
+
+		//	if strings.EqualFold(uri, "/users/login") || (len(uri) > 8 && uri[:8] == "/assets/") {
 		//		c.Next()
+		//		return
 		//	}
-		//}
 
-		if strings.EqualFold(uri, "/users/login") || (len(uri) > 8 && uri[:8] == "/assets/") {
-			c.Next()
-			return
-		}
-
-		if token == nil || token == "" {
-			glog.Infoln("token is nil")
-			c.Redirect(http.StatusMovedPermanently, "/users/login")
-			//c.Abort()
-			return
-		}
+		//	if token == nil || token == "" {
+		//		glog.Infoln("token is nil")
+		//		c.Redirect(http.StatusMovedPermanently, "/users/login")
+		//		//c.Abort()
+		//		return
+		//	}
 		c.Next()
 	}
 
@@ -91,8 +81,10 @@ func Router(r *gin.Engine) {
 	r.POST("/users/login", admin.Users.Authenticate)
 	r.GET("/users/logout/", admin.Users.Logout)
 	r.GET("/users/list", admin.Users.List)
+
 	r.GET("/users/create", admin.Users.Create)
 	r.POST("/users/created", admin.Users.Created)
+
 	r.POST("/users/search", admin.Users.Search)
 	r.POST("/users/edit", admin.Users.Edit)
 	r.POST("/users/group_list", admin.Users.GroupList)
