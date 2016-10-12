@@ -75,7 +75,7 @@
   <tbody>
   {{ range $v := .list }}
            <tr>
-                    <td>{{ $v.Username    }}</td>
+                    <td>{{ $v.Id    }}</td>
                     <td>{{ $v.Status      }}</td>
                     <td>{{ $v.Name        }}</td>
 					<td>{{ $v.Group_id    }}</td>
@@ -85,7 +85,7 @@
                     <td>{{ $v.Last_ip     }}</td>
                     <td>{{ $v.Last_addr   }}</td>
                     <td>{{ $v.Last_visit  }}</td>
-                    <td><a href="/users/list?edit={{$v.Id}}">详细</a> <a href="javascript:if(confirm(\'你确定要删除此项吗？\'))location.replace(\'/users/list?delete={{$v.Id}}'\');">删除</a></td>
+                    <td><a href="/users/edit?username={{$v.Id}}">详细</a> <a href="javascript:if(confirm(\'你确定要删除此项吗？\'))location.replace(\'/users/list?delete={{$v.Id}}'\');">删除</a></td>
            </tr>
            {{ end }}
   </tbody>

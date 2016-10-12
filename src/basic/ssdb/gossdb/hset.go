@@ -281,7 +281,6 @@ func (this *Client) MultiHgetSliceArray(setName string, key []string) (keys []st
 //  返回 包含 key-value 的关联数组, 如果某个 key 不存在, 则它不会出现在返回数组中.
 //  返回 err，执行的错误，操作成功返回 nil
 func (this *Client) MultiHgetAll(setName string) (val map[string]Value, err error) {
-
 	resp, err := this.Do("hgetall", setName)
 
 	if err != nil {

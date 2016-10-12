@@ -12,7 +12,6 @@ import (
 	"basic/utils"
 	"fmt"
 	"net/http"
-	"strconv"
 	"sync"
 
 	"github.com/gin-gonic/contrib/sessions"
@@ -28,6 +27,7 @@ const (
 	USER_GROUP_INDEX string = "admins_user_group_index"
 	USER_LOG_INDEX   string = "admins_user_log_index"
 	USERS            string = "admins_users"
+	USERS_LIST       string = "admins_users_list"
 	USER_GROUP       string = "admins_user_group"
 	USER_LOG         string = "admins_user_log"
 )
@@ -54,7 +54,6 @@ var Users *User = &User{}
 // 后台管理员帐号base_admin_user
 type User struct {
 	Id          string
-	Username    string // '登录名',
 	Status      uint32 // '激活状态',
 	Passwd      string // '密码(md5)',
 	Name        string // '真实姓名',
@@ -80,7 +79,9 @@ var GROUPIDS = map[string]string{
 func (u *User) Get() error {
 	return gossdb.C().GetObject(USERS+u.Id, u)
 }
-
+func (u *User) MultiHsetSave(kvs map[string]interface{}) error {
+	return gossdb.C().MultiHset(USERS+u.Id, kvs)
+}
 func (u *User) Save() error {
 	return gossdb.C().PutObject(USERS+u.Id, u)
 }
@@ -155,42 +156,32 @@ func (u *User) Logout(c *gin.Context) {
 // }
 
 func (u *User) Create(c *gin.Context) {
-	//Selected.SetSelect("group_id", "1", GROUPIDS)
 	c.HTML(http.StatusOK, "create.html", gin.H{})
 }
 
 func (u *User) Created(c *gin.Context) {
 	password := c.PostForm("password")
 	password1 := c.PostForm("password1")
-	u.Username = c.PostForm("username")
+	u.Id = c.PostForm("username")
 	u.Name = c.PostForm("name")
 	u.Passwd = utils.Md5(password)
 	u.Ip_limit = c.PostForm("ip_limit")
 	u.Group_id = c.PostForm("group_id")
 	u.Description = c.PostForm("description")
 
-	glog.Infoln("password:", password, " password1:", password1, "group_id:", u.Group_id, "ip_limit:", u.Ip_limit, "username:", u.Username, "name:", u.Name)
+	glog.Infoln("password:", password, " password1:", password1, "group_id:", u.Group_id, "ip_limit:", u.Ip_limit, "username:", u.Id, "name:", u.Name)
 	msg := ""
-	val, err := GetUsersIndex(u.Username)
+	val, err := GetUsersIndex(u.Id)
 	glog.Infoln(val, err, len(val))
 	if len(val) != 0 {
 		msg = "用户名已经存在"
 	} else {
 		if password != password1 {
 			msg = "两次密码不一致"
-		} else if len(u.Username) == 0 || len(u.Name) == 0 {
+		} else if len(u.Id) == 0 || len(u.Name) == 0 {
 			msg = "名字不能为空"
 		} else {
-			index_size, err := GetUsersIndexSize()
-			if err != nil {
-				glog.Infoln(err)
-				index_size = 0
-			}
-			u.Id = strconv.Itoa(int(index_size + 1))
-			err = SetUsersIndex(u.Username, u.Id)
-			if err != nil {
-				glog.Infoln(err)
-			}
+
 			err = u.Save()
 			if err != nil {
 				glog.Infoln(err)
@@ -212,9 +203,9 @@ func (u *User) Search(c *gin.Context) {
 	end := c.PostForm("last_visit_end")
 	val, err := GetUsersIndex(username)
 	if err != nil {
-		fmt.Println("err:", err)
+		fmt.Println("err:", err, val)
 	}
-	lists := GetMultiUser([]string{val})
+	lists := GetMultiUser()
 	//
 	Selected.SetSelect("group_id", "1", GROUPIDS)
 	c.HTML(http.StatusOK, "user_list.html", gin.H{
@@ -240,18 +231,8 @@ func (u *User) List(c *gin.Context) {
 	}
 	Pager.GetPager(c)
 	Selected.SetSelect("group_id", "1", GROUPIDS)
-	index_size, err := GetUsersIndexSize()
-	if err != nil {
-		fmt.Println("List err:", err)
-	}
-	var ids []string
-	p := Pager.Page * Pager.Limit
-	s := (Pager.Page-1)*Pager.Limit + 1
-	id := int(index_size)
-	for ; s <= p; s++ {
-		ids = append(ids, strconv.Itoa(int(id-s)))
-	}
-	lists := GetMultiUser(ids)
+	lists := GetMultiUser()
+	glog.Infoln(len(lists), utils.Sdump(lists))
 	c.HTML(http.StatusOK, "user_list.html", gin.H{
 		"pager":    Pager,
 		"selected": Selected,
@@ -260,38 +241,66 @@ func (u *User) List(c *gin.Context) {
 }
 
 func (u *User) Edit(c *gin.Context) {
-	err := u.Get()
-	if err != nil {
-		fmt.Println("Eidt err:", err)
-	}
-	username := c.PostForm("username")
-	realname := c.PostForm("name")
-	passwd := c.PostForm("passwd")
-	// passwd1 := c.PostForm("passwd1")
-	group_id := c.PostForm("group_id")
-	ip_limit := c.PostForm("ip_limit")
-	error_num := c.PostForm("error_num")
-	description := c.PostForm("description")
-	u.Username = username
-	u.Name = realname
-	u.Passwd = utils.Md5(passwd)
-	u.Group_id = group_id
-	u.Ip_limit = ip_limit
-	num, _ := strconv.Atoi(error_num)
-	u.Error_num = uint32(num)
-	u.Description = description
-	u.Save()
-	if err != nil {
-		fmt.Println("err:", err)
-	}
-	Emsg.validate()
-	Selected.SetSelect("group_id", "1", GROUPIDS)
+	u.Id = c.Query("username")
+	u.Get()
 	c.HTML(http.StatusOK, "user_edit.html", gin.H{
-		"data":     u,
-		"emsg":     Emsg,
-		"selected": Selected,
-		"goback":   "list",
+		"data": u,
 	})
+
+}
+func (u *User) Edited(c *gin.Context) {
+	password := c.PostForm("password")
+	password1 := c.PostForm("password1")
+	m := make(map[string]interface{})
+	if c.PostForm("username") == "" {
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户名不能为空"})
+		return
+	}
+	m["ID"] = c.PostForm("username")
+	u.Id = c.PostForm("username")
+	u.Name = c.PostForm("name")
+	if c.PostForm("name") != "" {
+		m["Name"] = c.PostForm("name")
+	}
+	if password != "" {
+		m["Passwd "] = utils.Md5(password)
+	}
+	if c.PostForm("ip_limit") != "" {
+		m["Ip_limit "] = c.PostForm("ip_limit")
+	}
+	if c.PostForm("group_id") != "" {
+
+		m["Group_id "] = c.PostForm("group_id")
+	}
+	if c.PostForm("description") != "" {
+		m["Description "] = c.PostForm("description")
+	}
+	glog.Infoln(m)
+	msg := ""
+	val, err := GetUsersIndex(u.Id)
+	glog.Infoln(val, err, len(val))
+	if len(val) == 0 {
+		msg = "用户不存在"
+	} else {
+		if password != password1 {
+			msg = "两次密码不一致"
+		} else if len(u.Id) == 0 {
+			msg = "账户名不能为空"
+		} else if len(u.Name) == 0 {
+			msg = "真实名不能为空"
+		} else {
+			err = u.MultiHsetSave(m)
+			if err != nil {
+				glog.Infoln(err)
+			}
+		}
+	}
+
+	if msg == "" {
+		c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "用户更改成功"})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": msg})
+	}
 }
 
 func (u *User) Setpwd(c *gin.Context) {
@@ -399,18 +408,19 @@ func GetUsersIndex(name string) (string, error) {
 	return string(value), err
 }
 
-func SetUsersIndex(name, id string) error {
-	return gossdb.C().Hset(USERS_INDEX, name, id)
+func SetUsersIndex(name string) error {
+	return gossdb.C().Hset(USERS_INDEX, name, name)
 }
 
 func GetUsersIndexSize() (int64, error) {
 	return gossdb.C().Hsize(USERS_INDEX)
 }
 
-func GetMultiUser(userids []string) []*User {
+func GetMultiUser() []*User {
+	userids, _ := gossdb.C().MultiHgetAll(USERS_INDEX)
 	usersL := make([]*User, 0, len(userids))
-	for _, v := range userids {
-		user := &User{Id: v}
+	for k, _ := range userids {
+		user := &User{Id: k}
 		if err := user.Get(); err != nil {
 			fmt.Println(err)
 		}

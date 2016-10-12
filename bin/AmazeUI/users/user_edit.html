@@ -11,54 +11,50 @@
 
       <hr>
 <form action="/users/edit" method="POST" class="am-form am-form-horizontal">
-<!--
-    <input type="hidden" name="username" value="{{ .data.Username }}">
-    <input type="hidden" name="id" value="{{ .data.Id }}">
-    -->
 
               <div class="am-form-group am-margin-vertical-sm">
-                <label for="name" class="am-u-sm-2 am-form-label">帐号名称</label>
+                <label class="am-u-sm-2 am-form-label">帐号名称</label>
                 <div class="am-u-sm-10">
-                  <input id="name" type="text" name="username" value="{{ .data.Username }}" disabled />
+                  <input id="username" type="text" readonly = "readonly"  id="username" name="username" value="{{ .data.Id}}"  />
                 </div>
               </div>
 
               <div class="am-form-group am-margin-vertical-sm">
-                <label for="realname" class="am-u-sm-2 am-form-label">真实姓名</label>
+                <label class="am-u-sm-2 am-form-label">真实姓名</label>
                 <div class="am-u-sm-10">
-                  <input id="realname" type="text" name="name" value="{{ .data.Name }}" />
-                  <small>{{ .emsg.EName }}</small>
+                  <input type="text"  id="realname"  name="realname" value="{{ .data.Name }}" />
+
                 </div>
               </div>
 
               <div class="am-form-group am-margin-vertical-sm">
                 <label for="password" class="am-u-sm-2 am-form-label">密码</label>
                 <div class="am-u-sm-10">
-                  <input id="password" type="password" name="passwd" value="" />
-                  <small>此项留空表示不修改密码！{{ .emsg.EPasswd }}</small>
+                  <input id="password" type="password"  id="password"  name="password" value="" />
+                  <small>此项留空表示不修改密码！</small>
                 </div>
               </div>
 
               <div class="am-form-group am-margin-vertical-sm">
                 <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
                 <div class="am-u-sm-10">
-                  <input id="password1" type="password" name="passwd1" value="" />
+                  <input id="password1" type="password" name="password1" id="password1"  value="" />
                 </div>
               </div>
 
 
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">用户组</label>
-{{template "select.html" .}}
+<!--{{template "select.html" .}}-->
                 <div class="am-u-sm-10">
-                    {{ .emsg.EGroup_id }}
+
                 </div>
               </div>
 
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">限制登录IP</label>
                 <div class="am-u-sm-10">
-                    <input type="text" name="ip_limit" value="{{ .data.Ip_limit }}" />
+                    <input type="text" name="ip_limit" id="ip_limit" value="{{ .data.Ip_limit }}" />
                     <small>多个IP用英文,号分开</small>
                 </div>
               </div>
@@ -66,14 +62,14 @@
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">登录错误次数</label>
                 <div class="am-u-sm-10">
-                    <input type="text" name="error_num" value="{{ .data.Error_num }}" />
+                    <input type="text" name="error_num"  id="error_num" value="{{ .data.Error_num }}" />
                 </div>
               </div>
 
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">描述</label>
                 <div class="am-u-sm-10">
-                    <textarea name="description" style="width:500px; height:160px;">{{ .data.Description }}</textarea>
+                    <textarea id="description"  name="description" style="width:500px; height:160px;">{{ .data.Description }}</textarea>
                 </div>
               </div>
 
@@ -81,8 +77,8 @@
               <div class="am-form-group">
                 <label class="am-u-sm-2 am-form-label"></label>
                 <div class="am-u-sm-10">
-                    <input type="submit" name="submit" class="am-btn am-btn-primary" value="提交" />
-                    <input type="button" class="am-btn" value="返回" onclick="location.replace({{ .goback }});" />
+                    <input type="button" id="send" name="send" class="am-btn am-btn-primary" value="提交" />
+                    <input type="button" class="am-btn" value="返回" onclick="javascript:button_onback();"/>
                 </div>
               </div>
           </div>
@@ -98,3 +94,40 @@
   <!-- content end -->
 
 {{template "footer.html" .}}
+
+
+
+<script>
+
+
+    function button_onback() {
+        window.location.href="/users/list";
+    }
+
+
+    $(function(){
+        $('#send').click(function(){
+            $.ajax({
+                type: "POST",
+                url: "/users/edited",
+                data: {username:$("#username").val(),
+                    name:$("#realname").val(),
+                    ip_limit:$("#ip_limit").val(),
+                    description:$("#description").val(),
+                    password:$("#password").val(),
+                    password1:$("#password1").val(),
+                    group_id:$("#SelectType").val()
+                },
+                dataType: "json",
+                success: function(data){
+                    if( data["status"] == "ok"){
+                        alertMsg(data["msg"], 0)
+                        window.location.href="/users/list";
+                    }else{
+                        alertMsg(data["msg"], 0)
+                    }
+                }
+            });
+        });
+    });
+</script>

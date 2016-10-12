@@ -13,7 +13,7 @@
 <form class="am-form am-form-horizontal">
 
               <div class="am-form-group am-margin-vertical-sm">
-                <label for="name" class="am-u-sm-2 am-form-label">帐号名称</label>
+                <label class="am-u-sm-2 am-form-label">帐号名称</label>
                 <div class="am-u-sm-10">
                   <input id="username" type="text" name="username" value="" />
 
@@ -47,14 +47,12 @@
 
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">用户组</label>
-                <!--  <div class="am-u-sm-12 am-u-md-3">-->
                       <div class="am-u-sm-10">
                           <select id="SelectType" name="SelectType" data-am-selected="{btnSize: 'sm'}">
                               <option selected="selected" value="1">超级管理员</option>
                               <option value="2">普通管理员</option>
                           </select>
                    </div>
-                <!--     </div>-->
               </div>
 
               <div class="am-form-group am-margin-vertical-sm">
@@ -81,7 +79,6 @@
                 </div>
               </div>
           </div>
-
           <hr />
           </form>
         </div>
@@ -98,7 +95,6 @@
 <script>
     $(function(){
         $('#send').click(function(){
-
             $.ajax({
                 type: "POST",
                 url: "/users/created",
