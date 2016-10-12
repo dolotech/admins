@@ -47,7 +47,7 @@
                    {{template "select.html" .}}
               </div>
               <div class="am-u-sm-12 am-u-md-3 am-u-end">
-                  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>
+                  <button class="am-btn am-btn-default am-input-sm" type="button">搜索</button>
               </div>
 
           </div>
@@ -85,7 +85,7 @@
                     <td>{{ $v.Last_ip     }}</td>
                     <td>{{ $v.Last_addr   }}</td>
                     <td>{{ $v.Last_visit  }}</td>
-                    <td><a href="/users/edit?username={{$v.Id}}">详细</a> <a href="javascript:if(confirm(\'你确定要删除此项吗？\'))location.replace(\'/users/list?delete={{$v.Id}}'\');">删除</a></td>
+                    <td><a href="/users/edit?username={{$v.Id}}">详细</a> <a  href="#" onclick="javascript:button_ondelete({{ $v.Id    }});">删除</a></td>
            </tr>
            {{ end }}
   </tbody>
@@ -103,6 +103,23 @@
   </div>
 
 <script>
+    
+    function button_ondelete(id) {
+        $.ajax({
+            type: "POST",
+            url: "/users/delete",
+            data: {username:id},
+            dataType: "json",
+            success: function(data){
+                if( data["status"] == "ok"){
+                    alertMsg(data["msg"], 0)
+                    window.location.reload()
+                }else{
+                    alertMsg(data["msg"], 0)
+                }
+            }
+        });
+    }
 $(function() {
     var startDate = new Date(2000, 1, 1);
     var endDate = new Date(2099, 11, 25);

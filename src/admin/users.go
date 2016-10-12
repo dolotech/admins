@@ -86,8 +86,27 @@ func (u *User) Save() error {
 	return gossdb.C().PutObject(USERS+u.Id, u)
 }
 
-func (u *User) Delete() error {
-	return gossdb.C().Hclear(USERS + u.Id)
+func (u *User) Delete(c *gin.Context) {
+
+	u.Id = c.PostForm("username")
+	if u.Id != "" {
+		if u.Del() == nil {
+			c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "删除成功"})
+		} else {
+			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "删除失败"})
+		}
+	} else {
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "账号不能为空"})
+	}
+
+}
+func (u *User) Del() error {
+	err := gossdb.C().Hdel(USERS_INDEX, u.Id)
+	if err == nil {
+		return gossdb.C().Hclear(USERS + u.Id)
+	}
+
+	return err
 }
 
 func (u *User) Login(c *gin.Context) {
@@ -219,16 +238,16 @@ func (u *User) Search(c *gin.Context) {
 }
 
 func (u *User) List(c *gin.Context) {
-	delete := c.Query("delete")
-	if len(delete) > 0 {
-		u.Delete()
-	}
-	edit := c.Query("edit")
-	if len(edit) > 0 {
-		u = &User{Id: edit}
-		u.Edit(c)
-		return
-	}
+	//delete := c.Query("delete")
+	//if len(delete) > 0 {
+	//	u.Delete()
+	//}
+	//edit := c.Query("edit")
+	//if len(edit) > 0 {
+	//	u = &User{Id: edit}
+	//	u.Edit(c)
+	//	return
+	//}
 	Pager.GetPager(c)
 	Selected.SetSelect("group_id", "1", GROUPIDS)
 	lists := GetMultiUser()

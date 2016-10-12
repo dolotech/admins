@@ -74,8 +74,7 @@
               <div class="am-form-group">
                 <label class="am-u-sm-2 am-form-label"></label>
                 <div class="am-u-sm-10">
-                    <input type="button" name="send" id="send" class="am-btn am-btn-primary" value="提交"
-                           onclick="javascript:button_onSave();"/>
+                    <input type="button" name="send" id="send" class="am-btn am-btn-primary" value="提交" />
                 </div>
               </div>
           </div>
@@ -95,6 +94,11 @@
 <script>
     $(function(){
         $('#send').click(function(){
+/*            $.dtgConfirm('确定吗?', function(r) { $.dtgAlert('结果显示: ' + r, '结果提示'); },'警告');*/
+
+            $.Alert('确定吗?');
+            return
+
             $.ajax({
                 type: "POST",
                 url: "/users/created",

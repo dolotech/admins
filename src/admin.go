@@ -84,6 +84,7 @@ func Router(r *gin.Engine) {
 	r.GET("/users/list", admin.Users.List)
 	r.GET("/users/edit", admin.Users.Edit)
 	r.POST("/users/edited", admin.Users.Edited)
+	r.POST("/users/delete", admin.Users.Delete)
 
 	r.GET("/users/create", admin.Users.Create)
 	r.POST("/users/created", admin.Users.Created)
