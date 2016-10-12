@@ -28,7 +28,7 @@ func main() {
 	//store, _ := sessions.NewRedisStore([]byte("secret"))
 	store := sessions.NewCookieStore([]byte("secret"))
 	router.Use(sessions.Sessions("mysession", store))
-	router.Use(authorityMiddleware())
+	//router.Use(authorityMiddleware())
 	Router(router)
 	s.ListenAndServe()
 }
@@ -58,16 +58,14 @@ func authorityMiddleware() gin.HandlerFunc {
 		//	}
 		//}
 
-		if strings.EqualFold(uri, "/users/login") || uri[:8] == "/assets/" {
+		if strings.EqualFold(uri, "/users/login") || (len(uri) > 8 && uri[:8] == "/assets/") {
 			c.Next()
 			return
 		}
 
 		if token == nil || token == "" {
-			//			c.JSON(http.StatusUnauthorized, gin.H{"eror": true, "message": "请先登录"})
+			glog.Infoln("token is nil")
 			c.Redirect(http.StatusMovedPermanently, "/users/login")
-
-			glog.Infoln(uri[:8], "token:", token, "path:", c.Request.URL.Path, "URI:", c.Request.RequestURI)
 			//c.Abort()
 			return
 		}
@@ -78,9 +76,6 @@ func authorityMiddleware() gin.HandlerFunc {
 
 // 页面路由
 func Router(r *gin.Engine) {
-
-	//r.Use(authorityMiddleware())
-
 	r.GET("/", admin.Roles.List)
 	r.GET("/file", admin.Files.List)
 	r.POST("/file", admin.Files.Upload)
@@ -92,7 +87,7 @@ func Router(r *gin.Engine) {
 	r.POST("/roles/edit", admin.Roles.Edit)
 	r.GET("/roles/edituser", admin.Roles.EditUser)
 
-	//	r.GET("/users/login", admin.Users.Login)
+	r.GET("/users/login", admin.Users.Login)
 	r.POST("/users/login", admin.Users.Authenticate)
 	r.GET("/users/logout/", admin.Users.Logout)
 	r.GET("/users/list", admin.Users.List)
