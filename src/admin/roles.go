@@ -155,11 +155,11 @@ func (this *roles) EditUser(c *gin.Context) {
 
 // 玩家列表, 根据条件检索玩家
 func (this *roles) List(c *gin.Context) {
-	searchType := c.Query("SelectedIDSearch")
-	searchValue := c.Query("SearchUserid")
-	page_s := c.Query("page") // string
-	act_s := c.Query("act")   // string
-	limit_s := c.Query("limit")
+	searchType := c.PostForm("SelectedIDSearch")
+	searchValue := c.PostForm("SearchUserid")
+	page_s := c.PostForm("page") // string
+	act_s := c.PostForm("act")   // string
+	limit_s := c.PostForm("limit")
 
 	this.pager.SetPager(page_s, limit_s, act_s)
 

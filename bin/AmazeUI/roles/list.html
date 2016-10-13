@@ -132,17 +132,24 @@
                             <div class="am-g am-margin-vertical-sm">
                                 <div class="am-u-sm-12 am-u-md-3">
                                     <div class="am-form-group">
-                                        <select data-am-selected id="SelectedIDSearch" name="SelectedIDSearch">
-                                            {{ $s := .SearchType }}
+
+                                        <select v-model="selected">
+                                            <option v-for="option in options" v-bind:value="option.value">
+                                                {{ option.text }}
+                                            </option>
+                                        </select>
+
+                                   <!--     <select data-am-selected id="SelectedIDSearch" name="SelectedIDSearch" v-model="selected">
+                                           {{ $s := .SearchType }}
                                             {{if eq $s "2" }}
                                             <option value="2">根据玩家ID搜索</option>
                                             <option value="3" selected>根据玩家手机号搜索</option>
                                             {{ else }}
 
-                                            <option value="2" selected>根据玩家ID搜索</option>
-                                            <option value="3">根据玩家手机号搜索</option>
+                                           <option value="1" selected>根据玩家ID搜索</option>
+                                           <option value="2">根据玩家手机号搜索</option>
                                             {{end}}
-                                        </select>
+                                       </select>-->
                                         <input type="text" id="SearchUserid" name="SearchUserid" value=""
                                                class="am-form-field am-input-sm" placeholder="根据玩家ID搜索"/>
                                     </div>
@@ -154,8 +161,8 @@
                                     {{template "select.html" .}}
                             </div>-->
                             <div class="am-u-sm-12 am-u-md-3 am-u-end">
-                                <input id="Search" class="am-btn am-btn-primary" value="搜索" type="submit"> </input>
-                                <a href="/roles/list"><input type="button" class="am-btn" value="重置"/> </a>
+                                <input id="Search" class="am-btn am-btn-primary" value="搜索" type="button" v-on:click="onSearch"> </input>
+                                <a href="/roles/list.html"><input type="button" class="am-btn" value="重置"/> </a>
                             </div>
                         </div>
                     </div>
@@ -441,6 +448,56 @@
 </html>
 
 <script type="text/javascript">
+
+    var userdatalist = new Vue({
+        el: '#userdatalist',
+        data: {items:[]}
+    })
+
+    var searchButton = new Vue({
+        el: '#Search',
+        data: {
+
+        },
+        // 在 `methods` 对象中定义方法
+        methods: {
+            onSearch: function (event) {
+                $.ajax({
+                    type: "POST",
+                    url: "/roles/list",
+                    data: {SelectedIDSearch:"2",SearchUserid:"13435333722"},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data["status"] == "ok") {
+                            console.info(data["data"])
+
+                            userdatalist._data["items"] =data["data"]
+                        }
+                    }
+                });
+            }
+        }
+    })
+
+    var searchSelect= new Vue({
+        el: '#collapse-panel-search',
+        data: {
+            selected: '1',
+            options: [
+                { text: '菜单一', value: '1' },
+                { text: '菜单二', value: '2' },
+                { text: '菜单三', value: '3' }
+            ],
+        }
+    })
+/*
+    var searchSelect=new Vue({
+        el: '#collapse-panel-search',
+        data: { open: true, selected:"2" }, watch: { selected: function(val) { this.open = val == "2" ? true : false; $.Alert(val)} }
+    })
+*/
+
+
     function button_onedit(userid, nickname, ping, win, lost, vip, ticket, exp, exchange, sex, phone, diamond, coin, create_ip, create_time) {
         var obj = document.getElementsByName("Sex")
         if (sex == "1") {
@@ -526,6 +583,9 @@
         $("#list_pane").show();
     }
 
+
+
+
     $(document).ready(function () {
         $("#edit_pane").hide();
 
@@ -554,10 +614,12 @@
             success: function (data) {
                 if (data["status"] == "ok") {
                     console.info(data["data"].length)
-                    new Vue({
+                  /* new Vue({
                         el: '#userdatalist',
                         data: {items: data["data"]}
-                    })
+                    })*/
+                    console.info(userdatalist._data)
+                   userdatalist._data["items"] =data["data"]
                 }
             }
         });
