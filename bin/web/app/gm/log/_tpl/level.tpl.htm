@@ -1,0 +1,147 @@
+       <?php $this->setLayout('amazeui');?>
+
+
+
+ <?php $this->block('title');?>
+升级日志
+
+ <?php $this->endBlock('title');?>
+                 
+<?php $this->block('buttons');?>
+									 <!-- 选区按钮    这里的serverid会动态生成123...-->
+<?php echo Game::platformsServersForm($platformid, $serverid);?>
+<?php $this->endBlock('buttons');?>
+
+                                         <?php $this->block('content');?>
+
+<form id="mainForm" method="get" action="<?php echo request_uri(); ?>" class="am-form">
+    <?php foreach($_GET as $k => $v):?>        <!-- 这里的$k和$v名字是任取的，局部变量   foreach的另一种写法-->
+    <?php if($k == 'kw') continue;?>     <!-- 如果$k等于input['kw']['player_id']第一维的关键字kw的时候跳出本次foreach，不执行下行的input.. -->
+    <?php if($k == 'page') continue;?>	  <!-- 解决了查询的时候点击第N页，再搜索的时候出现的BUG -->
+    <input type="hidden" name="<?php echo $k;?>" value="<?php echo $v;?>" />
+    <?php endforeach;?>
+<!-- ------------------------------------ -->
+    <div class="am-panel am-panel-default">
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索<span class="am-icon-chevron-down am-fr" ></span></div>
+      <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+          <div class="am-g am-margin-vertical-sm">
+
+
+
+ 
+			<!-- 按日期搜索 -->
+              <div class="am-form-icon am-u-sm-12 am-u-md-6">
+                  <div class="am-form-icon">
+                      <i id="date-start-icon" class="am-icon-calendar"></i>
+                <input id="date-start" type="text" name="kw[reg_st]" value="<?php echo $_REQUEST['kw']['reg_st'];?>" class="am-form-field am-input-sm" placeholder="升级时间-开始" />
+                  </div>															<!-- 这里控制搜索完的关键字保留在框内 -->	
+              </div>
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-6">
+                  <div class="am-form-icon">
+                      <i id="date-end-icon" class="am-icon-calendar"></i>
+               <input id="date-end" type="text" name="kw[reg_et]" value="<?php echo $_REQUEST['kw']['reg_et'];?>" class="am-form-field am-input-sm" placeholder="升级时间-结束" />
+                  </div>															
+              </div>
+                <!-- 按日期搜索 -->
+
+         </div>
+
+          <div class="am-g am-margin-vertical-sm">
+
+              <div class="am-u-sm-12 am-u-md-2">
+                  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>
+              </div>
+
+          </div>
+
+
+
+
+
+      </div>
+    </div>
+
+<!-- ------------------------------------ -->
+
+  <table class="am-table am-table-striped am-table-compact am-text-xs am-table-hover">
+    <thead>
+      <tr>
+          <th>玩家ID</th>
+          <th>等级</th>
+          <th>经验</th>
+          <th title="距离上次升级的时间间隔">升级时间</th>
+          <th title="距离角色创建的时间间隔">游戏时间</th>
+          <th>日期</th>
+         
+      </tr>
+  </thead>
+
+    <tbody>
+           <?php
+           foreach($data as $value){    
+           ?>		<!-- 把data的值赋给value，key已经去掉 -->
+           <tr>
+               <td><?php echo $value['player_id'];?></td>
+               <td><?php echo $value['level'];?></td>
+               <td><?php echo $value['exp'];?></td>
+               <td><?php echo round($value['upgrade_time'] / 60,2);?>分</td>
+               <td><?php echo round($value['play_time'] / 60,2);?>分</td>
+              		  	<!-- round()保留2位小数 -->
+               <td><?php echo $date=date('Y-m-d H:i:s',$value['time']);?></td>
+          							<!-- 把时间戳转换成标准格式 -->
+           </tr>
+           <?php }?>
+           
+  </tbody>
+</table>
+
+<div class="am-cf">
+    <div class="am-fr">
+      <ul class="am-pagination">	<!-- 输出分页 -->
+        <?php echo $pages?>
+      </ul>
+    </div>
+</div>  
+</form>
+
+
+
+<script>
+
+$(function() {
+
+    var startDate = new Date(2000, 1, 1);
+    var endDate = new Date(2099, 11, 25);
+    var $alert = $('#my-alert');
+
+    $('#date-start-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+                if (event.date.valueOf() > endDate.valueOf()) {
+                $alert.find('p').text('开始日期应小于结束日期！').end().show();
+                } else {
+                $alert.hide();
+                startDate = new Date(event.date);
+                $('#date-start').val($('#date-start-icon').data('date') + ' 00:00:00');
+                }
+                $(this).datepicker('close');
+                });
+
+    $('#date-end-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+                if (event.date.valueOf() < startDate.valueOf()) {
+                $alert.find('p').text('结束日期应大于开始日期！').end().show();
+                } else {
+                $alert.hide();
+                endDate = new Date(event.date);
+                $('#date-end').val($('#date-end-icon').data('date') + ' 23:59:59');
+                }
+                $(this).datepicker('close');
+                });
+
+
+
+});
+</script>                  
+<?php $this->endBlock('content');?>

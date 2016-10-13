@@ -1,0 +1,237 @@
+<?php $this->setLayout('amazeui');?>
+
+<?php $this->block('title');?>流失统计<?php $this->endBlock('title');?>
+
+<?php $this->block('content');?>
+
+<form id="mainForm" method="post" class="am-form">
+
+    <input type="hidden" name="submit_type" value="" id="submit_type">
+    
+    <!-- panel start -->
+    <div class="am-panel am-panel-default">
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">选项<span class="am-icon-chevron-down am-fr" ></span></div>
+      <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+          <?php 
+          $ps = Game::getPlatformsServers();
+          $platformsOpt = array();
+          foreach($ps as $pid => $servers):
+          ?>
+          <div class="am-g">
+              <div class="am-u-sm-12 am-u-md-12">
+                  <div class="am-form-group">
+                      <label class="am-text-sm"><?php echo Game::platform($pid); ?>平台：</label>
+                      <label class="am-checkbox-inline am-text-warning">
+                          <input type="checkbox" id="platform-<?php echo $pid;?>" onclick="sel('<?php echo $pid;?>');">全选</label>
+                      <?php 
+                      foreach($servers as $sid => $name):
+                      $name =  $name. '区';
+                      $key = "servers[{$pid}][{$sid}]";
+                      $checked = isset($selectedServers[$pid][$sid]) ? 'checked="true"' : '';
+                      echo '<label class="am-checkbox-inline"><input '.$checked.' class="platform-'.$pid.'" type="checkbox" name="'.$key.'" value="1">'.$name.'</label>';
+                      endforeach;
+                      ?>
+                  </div>
+              </div>
+          </div>
+          <?php endforeach; ?>
+
+          <div class="am-g">
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-6">
+                  <div class="am-form-group">
+                      <label for="date-start" class="am-text-sm">登陆时间-开始：</label>
+                      <div class="am-form-icon">
+                          <i id="date-start-icon" class="am-icon-calendar"></i>
+                          <input id="date-start" type="text" name="time_start" value="<?php echo $timeStart;?>" class="am-form-field am-input-sm" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" required/>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-6">
+                  <div class="am-form-group">
+                      <label for="date-end" class="am-text-sm">登陆时间-结束(可为空)：</label>
+                      <div class="am-form-icon">
+                          <i id="date-end-icon" class="am-icon-calendar"></i>
+                          <input id="date-end" type="text" name="time_end" value="<?php echo $timeEnd;?>" class="am-form-field am-input-sm" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}"/>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+
+          <div class="am-g">
+              <div class="am-u-sm-12 am-u-md-12 am-u-end">
+                  <button onclick="$('#submit_type').val('search')" class="am-btn am-btn-default am-input-sm" type="submit">确定</button>
+              </div>
+          </div>
+
+      </div>
+    </div>
+
+    <!-- panel end -->
+
+    <?php foreach($_GET as $k => $v):?>
+    <?php if($k == 'kw') continue;?>
+    <?php if($k == 'page') continue;?>
+    <input type="hidden" name="<?php echo $k;?>" value="<?php echo $v;?>" />
+    <?php endforeach;?>
+
+<script src="assets/js/jquery.tablesort.js"></script>
+<style type="text/css">
+
+th {
+    cursor: pointer;
+}
+
+th:hover,
+th.sorted.ascending:after {
+    content: "  \2191";
+}
+
+th.sorted.descending:after {
+    content: " \2193";
+}
+
+</style>
+<table class="am-table-bordered am-table am-table-compact am-text-xs am-table-centered" id="mytable">
+    <thead>
+        <tr>
+            <th class="am-text-center am-text-middle am-text-nowrop" rowspan="2">时间</th>
+            <th class="am-text-center am-text-middle am-text-nowrop" rowspan="2">平台</th>
+            <th class="am-text-center am-text-middle number am-text-nowrop" rowspan="2">分区</th>
+            <th class="am-text-center am-text-middle number am-text-nowrop" rowspan="2">登陆人数</th>
+            <th class="am-text-center number am-text-nowrop" colspan="2">1日流失</th>
+            <th class="am-text-center number am-text-nowrop" colspan="2">3日流失</th>
+            <th class="am-text-center number am-text-nowrop" colspan="2">7日流失</th>
+            <th class="am-text-center number am-text-nowrop" colspan="2">15日流失</th>
+            <th class="am-text-center number am-text-nowrop" colspan="2">30日流失</th>
+        </tr>
+        <tr>
+            <th class="am-text-center number am-text-nowrop">人数</th>
+            <th class="am-text-center number am-text-nowrop">占比</th>
+            <th class="am-text-center number am-text-nowrop">人数</th>
+            <th class="am-text-center number am-text-nowrop">占比</th>
+            <th class="am-text-center number am-text-nowrop">人数</th>
+            <th class="am-text-center number am-text-nowrop">占比</th>
+            <th class="am-text-center number am-text-nowrop">人数</th>
+            <th class="am-text-center number am-text-nowrop">占比</th>
+            <th class="am-text-center number am-text-nowrop">人数</th>
+            <th class="am-text-center number am-text-nowrop">占比</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php 
+    foreach($data as $pid=>$row):
+    foreach(array(1, 3, 7, 15, 30) as $nth):
+        if($row['nologin'.$nth] > 0){
+            $params = "this, {$row['day']}, {$row['sid']}, '{$row['pid']}', {$nth}";
+            $row['link'.$nth] = '<a href="#" class="am-badge am-badge-success am-radius" onclick="showChart('.$params.');return false;"> '.$row['nologin'.$nth].'</a>';
+        }else{
+            $row['link'.$nth] = $row['nologin'.$nth];
+        }
+    endforeach;
+    ?>
+    <tr>
+        <td class="am-text-center"><?php echo date('Y-m-d', $row['day']).'('.$weekarray[date("w",$row['day'])].')';?></td>
+        <td class="am-text-center"><?php echo Game::platform($row['pid']);?></td>
+        <td class="am-text-center"><?php echo $row['sid'];?></td>
+        <td class="am-text-center"><?php echo $row['logins'];?></td>
+        <td class="am-text-center"><?php echo $row['link1'];?></td>
+        <td class="am-text-center"><?php echo round($row['nologin1'] / $row['logins'] * 100, 2);?>%</td>
+        <td class="am-text-center"><?php echo $row['link3'];?></td>
+        <td class="am-text-center"><?php echo round($row['nologin3'] / $row['logins'] * 100, 2);?>%</td>
+        <td class="am-text-center"><?php echo $row['link7'];?></td>
+        <td class="am-text-center"><?php echo round($row['nologin7'] / $row['logins'] * 100, 2);?>%</td>
+        <td class="am-text-center"><?php echo $row['link15'];?></td>
+        <td class="am-text-center"><?php echo round($row['nologin15'] / $row['logins'] * 100, 2);?>%</td>
+        <td class="am-text-center"><?php echo $row['link30'];?></td>
+        <td class="am-text-center"><?php echo round($row['nologin30'] / $row['logins'] * 100, 2);?>%</td>
+    </tr>
+    <?php 
+    endforeach;
+    ?>
+</table>
+
+<script src="assets/js/highcharts/highcharts.js"></script>
+<script type="text/javascript">
+
+$(function() {
+
+    $('#mytable').tablesort().data('tablesort');
+    $('thead th.number').data('sortBy', function(th, td, sorter) {
+        return parseInt(td.text(), 10);
+    });
+
+    // 日期选择
+    var startDate = new Date(2000, 1, 1);
+    var endDate = new Date(2099, 11, 25);
+    var $alert = $('#my-alert');
+    $('#date-start-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            if (event.date.valueOf() > endDate.valueOf()) {
+                $alert.find('p').text('开始日期应小于结束日期！').end().show();
+            } else {
+                $alert.hide();
+                startDate = new Date(event.date);
+                $('#date-start').val($('#date-start-icon').data('date') + ' 00:00:00');
+            }
+            $(this).datepicker('close');
+        });
+    $('#date-end-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            if (event.date.valueOf() < startDate.valueOf()) {
+                $alert.find('p').text('结束日期应大于开始日期！').end().show();
+            } else {
+                $alert.hide();
+                endDate = new Date(event.date);
+                $('#date-end').val($('#date-end-icon').data('date') + ' 23:59:59');
+            }
+            $(this).datepicker('close');
+        });
+
+
+});
+
+var $modal = $('#op-popup');
+
+function showChart(obj, day, sid, pid, nth){
+    url = "?mod=reports&act=game_stat_lost_level&do=chart&day="+day+"&sid="+sid+"&pid="+pid+"&nth="+nth;
+    // 弹出框
+    $('#op-popup-title').html("流失统计等级分布图");
+    var trObj = $(this).parent().parent();
+    var name = trObj.children("td:eq(2)").text();
+    $modal.modal();
+    $('#op-popup-content').html('正在加载数据...');
+    $.get(url, function(result){
+            $('#op-popup-content').html(result);
+    });
+}
+
+function sel(pid) {
+    var id = "platform-"+pid;
+    if($('#'+id).prop("checked")){
+        $('.'+id).prop("checked", true);
+    }else{
+        $('.'+id).prop("checked", false);
+    }
+}
+
+// Radialize the colors
+Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
+    return {
+        radialGradient: {
+            cx: 0.5,
+            cy: 0.3,
+            r: 0.7
+        },
+        stops: [
+            [0, color],
+            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+        ]
+    };
+});
+
+</script>
+<?php $this->endBlock('content');?>

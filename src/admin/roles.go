@@ -31,10 +31,10 @@ var OPTION = map[string]string{
 
 var Roles = roles{}
 
-type user struct {
+type UserData struct {
 	Userid      string // 用户id
 	Nickname    string // 用户昵称
-	PhoneN      string // 绑定的手机号码
+	Phone       string // 绑定的手机号码
 	Coin        uint32 // 金币
 	Diamond     uint32 // 钻石
 	Vip         uint32 // Vip
@@ -129,9 +129,9 @@ func (this *roles) EditUser(c *gin.Context) {
 	userid := c.Query("userid")
 	data := &data.User{Userid: userid}
 	data.Get()
-	u := &user{
+	u := &UserData{
 		Userid:      data.Userid,
-		PhoneN:      data.Phone,
+		Phone:       data.Phone,
 		Create_ip:   utils.InetTontoa(data.Create_ip).String(),
 		Create_time: utils.Unix2Str(int64(data.Create_time)),
 		Sex:         data.Sex,
@@ -193,44 +193,14 @@ func (this *roles) List(c *gin.Context) {
 
 	}
 
-	//if start_id != "" || end_id != "" {
-	//	last := []rune(lastID.String())
-
-	//	if start_id == "" {
-	//		start_id = end_id
-	//	} else if end_id == "" {
-	//		end_id = start_id
-	//	}
-	//	boolean := true
-	//	if len(end_id) <= len(last) && utils.IsNumString(start_id) && utils.IsNumString(end_id) {
-	//		for i := 0; i < len(end_id); i++ {
-	//			if int(end_id[i]) < int(last[i]) {
-	//				break
-	//			} else if int(end_id[i]) > int(last[i]) {
-	//				boolean = false
-	//			}
-	//		}
-	//	} else {
-	//		boolean = false
-	//	}
-	//	if boolean {
-	//		startidnum, _ := strconv.ParseUint(start_id, 10, 64)
-	//		endidnum, _ := strconv.ParseUint(end_id, 10, 64)
-	//		this.pager.SetSize(uint32(endidnum - startidnum))
-
-	//		ids = utils.Between(utils.StringAddNum(start_id, this.pager.GetStart()), utils.StringAddNum(start_id, this.pager.GetEnd()))
-	//	}
-	//} else {
-	//}
-
 	lists := data.GetMultiUser(ids)
-	users := make([]*user, 0, len(lists))
+	users := make([]*UserData, 0, len(lists))
 	glog.Infoln(len(lists), lists)
 	for _, v := range lists {
-		u := &user{
+		u := &UserData{
 			Userid:      v.Userid,
 			Nickname:    v.Nickname,
-			PhoneN:      v.Phone,
+			Phone:       v.Phone,
 			Coin:        v.Coin,
 			Diamond:     v.Diamond,
 			Vip:         v.Vip,
@@ -248,11 +218,13 @@ func (this *roles) List(c *gin.Context) {
 	}
 	glog.Infoln("users : ", this.pager, len(users))
 
-	c.HTML(http.StatusOK, "lists.html", gin.H{
-		"pager":       this.pager,
-		"selected":    this.selector,
-		"users":       users,
-		"SearchValue": searchValue,
-		"SearchType":  searchType,
-	})
+	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": users})
+
+	//	c.HTML(http.StatusOK, "lists.html", gin.H{
+	//		"pager":       this.pager,
+	//		"selected":    this.selector,
+	//		"users":       users,
+	//		"SearchValue": searchValue,
+	//		"SearchType":  searchType,
+	//	})
 }

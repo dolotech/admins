@@ -1,0 +1,221 @@
+<?php $this->setLayout('amazeui');?>
+
+<?php $this->block('title');?>玩家元宝消费统计<?php $this->endBlock('title');?>
+
+<?php $this->block('buttons');?>
+<?php echo Game::platformsServersForm($platformid, $serverid);?>
+<?php $this->endBlock('buttons');?>
+
+<?php $this->block('content');?>
+<script src="assets/js/log_type.js"></script>
+<script src="assets/js/highcharts/highcharts.js"></script>
+<script src="assets/js/highcharts/modules/exporting.js"></script>
+
+
+<form id="mainForm" method="get" class="am-form">
+    <?php foreach($_GET as $k => $v):?>
+    <?php if($k == 'kw') continue;?>
+    <?php if($k == 'page') continue;?>
+    <input type="hidden" name="<?php echo $k;?>" value="<?php echo $v;?>" />
+    <?php endforeach;?>
+    <input id="log_type" name="log_type" value="" type="hidden" />
+    <!-- panel start -->
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索<span class="am-icon-chevron-down am-fr" ></span></div>
+        <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+            <div class="am-g am-margin-vertical-sm">
+
+                <div class="am-u-sm-12 am-u-md-4">
+                    <input type="text" name="kw[player_id]" value="<?php echo $kw['player_id']?>" class="am-form-field am-input-sm" placeholder="角色ID" />
+                </div>
+
+                <div class="am-form-icon am-u-sm-12 am-u-md-4">
+                    <div class="am-form-icon">
+                        <i id="date-start-icon" class="am-icon-calendar"></i>
+                        <input id="date-start" type="text" name="kw[time_start]" value="<?php echo $kw['time_start'];?>" class="am-form-field am-input-sm" placeholder="时间-开始" />
+                    </div>
+                </div>
+
+                <div class="am-form-icon am-u-sm-12 am-u-md-4 am-u-end">
+                    <div class="am-form-icon">
+                        <i id="date-end-icon" class="am-icon-calendar"></i>
+                        <input id="date-end" type="text" name="kw[time_end]" value="<?php echo $kw['time_end'];?>" class="am-form-field am-input-sm" placeholder="时间-结束" />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="am-g am-margin-vertical-sm">
+                <div class="am-u-sm-12">
+                    <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- panel end -->
+
+    <!-- panel start -->
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-pie'}">图表<span class="am-icon-chevron-down am-fr" ></span></div>
+        <div class="am-panel-bd am-collapse am-in" id="collapse-panel-pie">
+
+            <div class="am-g">
+
+                <div class="am-u-sm-12 am-u-md-12">
+                    <div id="container1"></div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <!-- panel end -->
+
+    <table class="am-table am-table-striped am-text-sm am-table-hover" id="table">
+        <thead>
+      <tr class="am-text-center">
+				    <td class="am-text-nowrop">ID</td>
+                    <td class="am-text-nowrop">名称</td>
+                    <td class="am-text-nowrop">等级</td>
+                    <td class="am-text-nowrop">类型</td>
+                    <td class="am-text-nowrop">消耗元宝</td>
+                    <td class="am-text-nowrop">剩余元宝</td>
+                    <td class="am-text-nowrop">时间</td>
+                   
+      </tr>
+        </thead>
+  <tbody>
+           
+                <?php foreach($data['list'] as $k=>$v):?>
+                <tr class="am-text-center">
+					<td><?php echo $v['player_id'];?></td>
+                    <td><?php echo Game::getName($v['player_id'], $this->dbh);?></td>
+					<td><?php echo $v['level'];?></td>
+                    <td><?php echo $logType[$v['log_type']];?></td>
+					<td><?php echo $v['yb_diff'];?></td>
+					<td><?php echo $v['yb'];?></td>
+					<td><?php echo date('Y-m-d H:i:s', $v['time']);?></td>
+                </tr>
+                <?php endforeach;?>
+
+  </tbody>
+    </table>
+
+
+<div class="am-cf">
+    <div class="am-fr">
+      <ul class="am-pagination">
+        <?php echo $data['page_index']?>
+      </ul>
+    </div>
+</div>
+
+</form>
+
+<script>
+$(function() {	
+    $(".game-item").each(function(i, e){
+        var id = $(this).text();
+        //var trObj = $(this).parent();
+       // var nums = parseInt(trObj.children("td:eq(1)").text());
+        var name = typeof(log_type[id]) != "undefined" ? log_type[id]['name'] : 'undefined';
+        $(this).html(name);
+
+        
+    });
+    // 日期选择
+    var startDate = new Date(2000, 1, 1);
+    var endDate = new Date(2099, 11, 25);
+    var $alert = $('#my-alert');
+    $('#date-start-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            if (event.date.valueOf() > endDate.valueOf()) {
+                $alert.find('p').text('开始日期应小于结束日期！').end().show();
+            } else {
+                $alert.hide();
+                startDate = new Date(event.date);
+                $('#date-start').val($('#date-start-icon').data('date') + ' 00:00:00');
+            }
+            $(this).datepicker('close');
+        });
+    $('#date-end-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            if (event.date.valueOf() < startDate.valueOf()) {
+                $alert.find('p').text('结束日期应大于开始日期！').end().show();
+            } else {
+                $alert.hide();
+                endDate = new Date(event.date);
+                $('#date-end').val($('#date-end-icon').data('date') + ' 23:59:59');
+            }
+            $(this).datepicker('close');
+        });
+    
+    // Radialize the colors
+    Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
+        return {
+            radialGradient: {
+                cx: 0.5,
+                cy: 0.3,
+                r: 0.7
+            },
+            stops: [
+                [0, color],
+                [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+            ]
+        };
+    });    
+    
+    // Build the chart 生成饼图
+    $('#container1').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: '元宝消耗比例分布图'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    },
+                    connectorColor: 'silver'
+                }
+            }
+        },
+        series: [{
+            name: "Brands",
+            colorByPoint: true,
+            data: [
+                <?php 
+                $comma = '';
+                foreach($data2 as $k=>$v){     
+                		$v['sum'] = abs($v['sum']);
+                		$rate = round($v['sum']/$yb_sum, 4)*100;
+                		
+                    if($yb_sum && $rate > 0){
+                        echo $comma.'{name: "'.$logType[$v['log_type']].'", y: '.$rate.'}';
+                        $comma = ',';
+                    }
+                }?>
+            ]
+        }]
+    });
+    
+    
+});
+
+</script>
+<?php $this->endBlock('content');?>

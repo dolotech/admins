@@ -1,0 +1,106 @@
+<?php $this->setLayout('amazeui');?>
+
+
+
+<?php $this->block('title');?>
+批量发送元宝
+<?php $this->endBlock('title');?>
+
+
+
+<?php $this->block('buttons');?>
+<?php echo Game::platformsServersForm($platformid, $serverid);?>
+<?php $this->endBlock('buttons');?>
+
+
+
+
+
+<?php $this->block('content');?>
+
+
+
+
+
+<form id="mainForm" method="post" class="am-form">
+
+
+<div class="am-panel am-panel-default">
+	<div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+	
+		<div class="am-g am-margin-vertical-sm">
+		   <div class="am-u-sm-12 am-u-md-3">
+		           <?php echo $orderFields1;?>  
+		   </div>
+   <div class="am-u-sm-12 am-u-md-3">
+          <input type="number" name="data[yb_num]" value="" class="am-form-field am-input-sm" placeholder="数量" required/>
+   </div>
+   <div class="am-u-sm-12 am-u-md-3">
+         <input type="number" name="data[level_start]" value="" class="am-form-field am-input-sm" placeholder="等级范围-start" required/>
+
+   </div>
+
+   <div class="am-u-sm-12 am-u-md-3">
+         <input type="number" name="data[level_end]" value="" class="am-form-field am-input-sm" placeholder="等级范围-end" required/>
+
+   </div>
+
+		</div>
+
+<div class="am-g am-margin-top-sm">
+
+   
+
+             <div class="am-form-icon am-u-sm-12 am-u-md-3">
+                <div class="am-form-icon">
+                  <i id="login-time-icon" class="am-icon-calendar"></i>
+                  <input id="login-time" class="am-form-field am-input-sm" type="text" name="data[login_time]" value="" placeholder="登陆时间" required pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}"/>
+                </div>
+             </div>
+            
+        
+   <div class="am-u-sm-12 am-u-md-3">
+           <?php echo $orderFields2;?>  
+   </div>
+          <div class="am-u-sm-12 am-u-md-6">
+                  <button class="am-btn am-btn-default am-input-sm" type="submit">发送</button>
+          </div>
+                    
+  </div>                   
+		</div>	  
+			</div>
+
+	
+	
+	
+	
+     </form>
+     
+     
+<script>
+
+$(function() {
+
+    var startDate = new Date(2000, 1, 1);
+    var endDate = new Date(2099, 11, 25);
+    var $alert = $('#my-alert');
+
+    $('#login-time-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+                $alert.hide();
+                startDate = new Date(event.date);
+                $('#login-time').val($('#login-time-icon').data('date') + ' 00:00:00');
+                $(this).datepicker('close');
+                });
+
+
+
+
+
+});
+</script>  
+     
+     
+<?php $this->endBlock('content');?>
+
+

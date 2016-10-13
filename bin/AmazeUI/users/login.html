@@ -14,8 +14,6 @@
     <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
     <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../assets/css/admin.css">
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/alert.css">
 
     <style type="text/css">
     </style>
@@ -60,15 +58,10 @@
                 <label for="password">密码:</label>
                 <input type="password" name="password" id="password" value="">
                 <br>
-                <label for="remember-me">
-                    <input id="remember-me" type="checkbox">
-                    记住密码
-                </label>
+                <label for="remember-me"> <input id="remember-me" type="checkbox">记住密码</label>
                 <br/>
                 <div class="am-btn am-btn-primary">
-                    <button type="button" name="" id="send" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl"> 登
-                        录
-                    </button>
+                    <button type="button" name="" id="send" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl"> 登 录</button>
                     <!--   <input type="" name="" value="忘记密码 ^_^? " class="am-btn am-btn-default am-btn-sm am-fr">-->
                 </div>
             </form>
@@ -97,11 +90,8 @@
 <script src="../assets/js/jquery.min.js"></script>
 <!--<![endif]-->
 <script src="../assets/js/amazeui.min.js"></script>
-
-<script src="../assets/js/app.js"></script>
-
-<script src="../assets/js/amazeui.dialog.min.js"></script>
-<script src="../assets/js/alert.js"></script>
+<script src="../assets/js/dialog.js"></script>
+<script src="../assets/js/vue.min.js"></script>
 
 <script>
     $(function () {
@@ -114,10 +104,10 @@
                 dataType: "json",
                 success: function (data) {
                     if (data["status"] == "ok") {
-                        alertMsg(data["msg"])
-                        window.location.href = "/roles/list";
+                        $.Alert(data["msg"])
+                        window.location.href = "/roles/lists.html";
                     } else {
-                        alertMsg(data["msg"])
+                        $.Alert(data["msg"])
                     }
                 }
             });

@@ -1,0 +1,103 @@
+<?php $this->setLayout('amazeui');?>
+
+<?php $this->block('title');?>生成数据<?php $this->endBlock('title');?>
+
+<?php $this->block('content');?>
+
+<form id="mainForm" method="post" class="am-form am-form-horizontal" enctype="multipart/form-data">
+    <input type="hidden" name="submit_type" value="" id="submit_type">
+    <!-- panel start -->
+    <div class="am-panel am-panel-default">
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">生成数据<span class="am-icon-chevron-down am-fr" ></span></div>
+      <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+          <div class="am-g">
+
+              <div class="am-u-sm-12 am-u-md-6">
+                  <div class="am-form-group am-form-file">
+                      <button type="button" class="am-btn am-btn-default am-btn-sm am-btn-block">
+                          <i class="am-icon-cloud-upload"></i> <span id="file-list">选择item.txt文件</span></button>
+                      <input id="file" type="file" name="file" multiple>
+                  </div>
+              </div>
+
+              <div class="am-u-sm-12 am-u-md-6 am-u-end">
+                  <div class="am-form-group">
+                      <button onclick="$('#submit_type').val('import_items_txt')" class="am-btn am-btn-default am-input-sm am-btn-block" type="submit">导入items.txt文件</button>
+                  </div>
+              </div>
+              
+              <div class="am-u-sm-12 am-u-md-6">
+                  <div class="am-form-group am-form-file">
+                      <button type="button" class="am-btn am-btn-default am-btn-sm am-btn-block">
+                          <i class="am-icon-cloud-upload"></i> <span id="file-list2">选择reward_center.txt文件</span></button>
+                      <input id="file2" type="file" name="file2" multiple>
+                  </div>
+             </div>
+
+              <div class="am-u-sm-12 am-u-md-6 am-u-end">
+                  <div class="am-form-group">
+                      <button onclick="$('#submit_type').val('reward_center_txt')" class="am-btn am-btn-default am-input-sm am-btn-block" type="submit">导入reward_center.txt文件</button>
+                  </div>
+              </div>
+
+          </div>
+
+          <div class="am-g">
+              <div class="am-u-sm-12 am-u-md-12">
+                  <!-- 水平分隔线 -->
+                  <hr>
+              </div>
+          </div>
+
+          <div class="am-g">
+              <div class="am-u-sm-12 am-u-md-12 am-u-end">
+                  <button onclick="$('#submit_type').val('data_item_js')" class="am-btn am-btn-default am-btn-block am-input-sm" type="submit">生成data_item.js</button>
+              </div>
+          </div>
+
+          <div class="am-g">
+              <div class="am-u-sm-12 am-u-md-12">
+                  <!-- 水平分隔线 -->
+                  <hr>
+              </div>
+          </div>
+
+          <div class="am-g">
+              <div class="am-u-sm-12 am-u-md-12 am-u-end">
+                  <button onclick="$('#submit_type').val('data_item2_js')" class="am-btn am-btn-default am-btn-block am-input-sm" type="submit">生成data_item2.js</button>
+              </div>
+          </div>
+          
+                    <div class="am-g">
+              <div class="am-u-sm-12 am-u-md-12">
+                  <!-- 水平分隔线 -->
+                  <hr>
+              </div>
+          </div>
+          
+          		<div class="am-g">
+              		<div class="am-u-sm-12 am-u-md-12 am-u-end">
+                  	<button onclick="$('#submit_type').val('log_type_js')" class="am-btn am-btn-default am-btn-block am-input-sm" type="submit">生成log_type.js</button>
+             	 	</div>
+          		</div>
+
+      </div>
+    </div>
+    <!-- panel end -->
+</form>
+
+<script>
+$(function() {
+    $('#file').on('change', function() {
+        $('#file-list').html(this.value);
+        });
+    $('#file2').on('change', function() {
+        $('#file-list2').html(this.value);
+        });   
+    });
+
+<?php if(isset($alert)) echo "$('#my-alert').show().html('$alert'+'$alert2');"; ?>
+
+</script>
+<?php $this->endBlock('content');?>

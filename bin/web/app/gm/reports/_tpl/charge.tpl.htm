@@ -1,0 +1,160 @@
+<?php $this->setLayout('amazeui');?>
+
+<?php $this->block('title');?>充值订单报表<?php $this->endBlock('title');?>
+
+<?php $this->block('buttons');?>
+<?php echo Game::platformsForm($platformid);?>
+<?php $this->endBlock('buttons');?>
+
+<?php $this->block('content');?>
+
+<form id="mainForm" method="post" class="am-form">
+
+    <input type="hidden" name="submit_type" value="" id="submit_type">
+    
+    <!-- panel start -->
+    <div class="am-panel am-panel-default">
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索<span class="am-icon-chevron-down am-fr" ></span></div>
+      <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+          <div class="am-g am-margin-vertical-sm">
+
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-4">
+                  <div class="am-form-icon">
+                      <i id="date-start-icon" class="am-icon-calendar"></i>
+                      <input id="date-start" type="text" name="kw[reg_st]" value="<?php echo $_REQUEST['kw']['reg_st'];?>" class="am-form-field am-input-sm" placeholder="下单时间-开始" />
+                  </div>
+              </div>
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-4">
+                  <div class="am-form-icon">
+                      <i id="date-end-icon" class="am-icon-calendar"></i>
+                      <input id="date-end" type="text" name="kw[reg_et]" value="<?php echo $_REQUEST['kw']['reg_et'];?>" class="am-form-field am-input-sm" placeholder="下单时间-结束" />
+                  </div>
+              </div>
+
+
+
+              <div class="am-u-sm-12 am-u-md-1 am-u-end">
+                  <button onclick="$('#submit_type').val('search')" class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>
+              </div>
+              
+              <div class="am-u-sm-12 am-u-md-3 am-u-end">
+                  <button onclick="$('#submit_type').val('excel')" class="am-btn am-btn-default am-input-sm" type="submit">导出excel</button>
+              </div>
+
+          </div>
+
+      </div>
+    </div>
+
+    <!-- panel end -->
+
+    <?php foreach($_GET as $k => $v):?>
+    <?php if($k == 'kw') continue;?>
+    <?php if($k == 'page') continue;?>
+    <input type="hidden" name="<?php echo $k;?>" value="<?php echo $v;?>" />
+    <?php endforeach;?>
+
+  <table class="am-table am-table-striped am-table-compact am-text-xs am-table-hover" id="gm-table">
+    <thead>
+      <tr>
+          <th class="table-check"><input type="checkbox" /></th>
+          <th class="am-text-nowrap table-id">ID</th>
+          <th class="am-text-nowrap table-title">玩家账号</th>
+          <th class="am-text-nowrap">平台</th>
+          <th class="am-text-nowrap">分区</th>
+          <th class="am-text-nowrap">订单号</th>
+          <th class="am-text-nowrap">金额(元)</th>
+          <th class="am-text-nowrap">元宝</th>
+          <th class="am-text-nowrap">首冲</th>
+          <th class="am-text-nowrap">发货</th>
+          <th class="am-text-nowrap">时间</th>
+      </tr>
+  </thead>
+  <tbody>
+           <?php foreach($data['list'] as $v): ?>
+           <tr>
+               <td class="am-text-middle"><input type="checkbox" /></td>
+               <td class="am-text-middle"><?php echo $v['id']?></td>
+               <td class="am-text-middle"><?php echo $v['account']?></td>
+               <td class="am-text-middle"><?php echo Game::platform($v['platformId'])?></td>
+               <td class="am-text-middle"><?php echo $v['serverId']?></td>
+               <td class="am-text-middle"><?php echo $v['myOrderId']?></td>
+               <td class="am-text-middle"><?php echo $v['money']/100;?></td>
+               <td class="am-text-middle"><?php echo $v['moneyGame']?></td>
+               <td class="am-text-middle"><?php if($v['isFirst'])echo '是';else echo '否';?></td>
+               <td class="am-text-middle"><?php if($v['isVerified'])echo '已发货';else echo '未发货';?></td>
+               <td class="am-text-middle"><?php echo date('Y-m-d H:i:s', $v['ctime']);?></td>
+           </tr>
+           
+           <?php endforeach;?>
+  </tbody>
+</table>
+
+<div class="am-cf">
+    <div class="am-fr">
+      <ul class="am-pagination">
+        <?php echo $data['page_index']?>
+      </ul>
+    </div>
+</div>
+
+
+</form>
+
+<script>
+$(function() {
+    // 右边框
+    var $opOc = $('#op-offcanvas');
+    $('.op-oc-js').on('click', function() {
+        var opParams = $(this).data('op-params');
+        if ( typeof(opParams) != "undefined" ) {
+            var trObj = $(this).parent().parent();
+            var name = trObj.children("td:eq(3)").text();
+            var options = <?php echo Admin::getGmOptions();?>;
+            var content = getGmLinks(options, opParams);
+            $("#op-name").html(name);
+            $("#op-offcanvas-content").html(content);
+        }
+        $opOc.offCanvas($(this).data('rel'));
+        return false;
+    });
+
+    $opOc.on('open.offcanvas.amui', function() {
+    }).on('close.offcanvas.amui', function() {
+    });
+
+
+
+    // 日期选择
+    var startDate = new Date(2000, 1, 1);
+    var endDate = new Date(2099, 11, 25);
+    var $alert = $('#my-alert');
+    $('#date-start-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            if (event.date.valueOf() > endDate.valueOf()) {
+                $alert.find('p').text('开始日期应小于结束日期！').end().show();
+            } else {
+                $alert.hide();
+                startDate = new Date(event.date);
+                $('#date-start').val($('#date-start-icon').data('date') + ' 00:00:00');
+            }
+            $(this).datepicker('close');
+        });
+    $('#date-end-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            if (event.date.valueOf() < startDate.valueOf()) {
+                $alert.find('p').text('结束日期应大于开始日期！').end().show();
+            } else {
+                $alert.hide();
+                endDate = new Date(event.date);
+                $('#date-end').val($('#date-end-icon').data('date') + ' 23:59:59');
+            }
+            $(this).datepicker('close');
+        });
+
+});
+</script>
+<?php $this->endBlock('content');?>

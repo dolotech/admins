@@ -1,0 +1,74 @@
+/* http://colorschemedesigner.com/#3I11Tw0w0w0w04FZVK */
+
+// .slimtable-container-div {
+// 	display: inline-block;
+// }
+
+/* Paging */
+.slimtable-paging-div {
+	margin-top: 5px;
+	display: inline-block;
+	width: 100%;
+}
+
+.slimtable-paging-seldiv {
+	display: inline;
+	float: right;
+}
+
+.slimtable-paging-select {
+	margin-right: 10px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	padding: 3px;
+}
+
+.slimtable-paging-btnsdiv {
+	display: inline-block;
+}
+
+.slimtable-page-btn {
+	display: inline-block;
+	width: 38px;
+	height: 38px;
+	line-height: 38px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	text-align: center;
+	font-weight: bold;
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+.slimtable-page-btn.active {
+	background-color: #ccc;
+}
+
+/* Sprites */
+
+.slimtable-sprites {
+	margin-left: 2px;
+	margin-right: 5px;
+	vertical-align: middle;
+
+	display: inline-block;
+	background-image: url("arrows.png");
+	width: 17px;
+	height: 17px;
+}
+
+.slimtable-sortboth {
+	background-position: -1px -1px;
+}
+
+.slimtable-sortnone {
+	background-position: -19px -19px;
+}
+
+.slimtable-sortasc {
+	background-position: -1px -19px;
+}
+
+.slimtable-sortdesc {
+	background-position: -19px -1px;
+}

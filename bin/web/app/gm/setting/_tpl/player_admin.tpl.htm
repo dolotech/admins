@@ -1,0 +1,90 @@
+<?php $this->setLayout('amazeui');?>
+
+
+
+<?php $this->block('title');?>
+新手指导员
+<?php $this->endBlock('title');?>
+
+
+
+<?php $this->block('buttons');?>
+<?php echo Game::platformsServersForm($platformid, $serverid);?>
+<?php $this->endBlock('buttons');?>
+
+
+
+
+
+<?php $this->block('content');?>
+<form id="mainForm" method="get" action="<?php echo request_uri(); ?>" class="am-form">
+<!-- 使搜索的时候获取当前的mod=role&act=list 按搜索角色id时停止继续加上前面的url内容    按分页时停止继续加之前的url内容 -->
+    <?php foreach($_GET as $k => $v):?>
+    <?php if($k == 'kw') continue;?>
+    <?php if($k == 'page') continue;?>  
+    <input type="hidden" name="<?php echo $k;?>" value="<?php echo $v;?>" />
+    <?php endforeach;?>
+    <!-- panel start -->
+    <div class="am-panel am-panel-default">
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">添加<span class="am-icon-chevron-down am-fr" ></span></div>
+      <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+          <div class="am-g am-margin-vertical-sm">
+       
+              <div class="am-u-sm-12 am-u-md-3">
+                  <input type="number" name="player_id" value="<?php echo $this->input[id]; ?>" class="am-form-field am-input-sm" placeholder="角色ID" required/>
+              </div>
+              
+              <div class="am-u-sm-12 am-u-md-9">
+                  <button class="am-btn am-btn-default am-input-sm" type="submit">添加新手指导员</button>
+              </div>
+     </div>
+
+        </div>
+ </div>
+    <!-- panel end -->
+
+
+  <table class="am-table am-table-striped am-table-compact am-text-xs am-table-hover">
+    <thead>
+      <tr>
+		  <th>角色名字</th>  
+		  <th>角色ID</th>  
+		  <th></th> 
+      </tr>
+  </thead>
+  <tbody>
+           <?php
+           foreach($data['list'] as $v):
+      
+           ?>
+           <tr>       
+               <td><?php echo Game::getName($v['player_id'], $this->dbh); ?></td>
+				<td><?php echo $v['player_id'] ?></td>
+				<td class="am-text-middle"><a onclick="return display_alert();" href="?mod=setting&act=<?php echo $_GET['act'];?>&do=del&player_id=<?php echo $v['player_id']?>">删除</a></td>
+           </tr>
+           <?php endforeach;?>
+  </tbody>
+</table>
+
+<div class="am-cf">
+    <div class="am-fr">
+      <ul class="am-pagination">
+        <?php echo $data['page_index']?>
+      </ul>
+    </div>
+</div>
+
+
+</form>
+<script type="text/javascript">
+function display_alert()
+  {
+	return confirm("真的要删除吗？");
+
+  }
+</script>
+
+<?php $this->endBlock('content');?>
+
+

@@ -1,0 +1,147 @@
+<?php $this->setLayout('amazeui');?>
+
+<?php $this->block('title');?><?php echo $_GET['kw']['title'] ? $_GET['kw']['title']:'' ?>后台操作日志<?php $this->endBlock('title');?>
+
+<?php $this->block('content');?>
+<form id="mainForm" method="get" action="<?php echo request_uri(); ?>" class="am-form">
+    <!-- panel start -->
+    <div class="am-panel am-panel-default">
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索<span class="am-icon-chevron-down am-fr" ></span></div>
+      <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+          <div class="am-g am-margin-vertical-sm">
+
+              <div class="am-u-sm-12 am-u-md-3">
+                  <?php echo $events;?>
+              </div>
+
+              <div class="am-u-sm-12 am-u-md-3">
+                  <input type="text" name="kw[admin_name]" value="<?php echo $this->input['kw']['admin_name'];?>" class="am-form-field am-input-sm" placeholder="管理员" />
+              </div>
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-3">
+                  <div class="am-form-icon">
+                      <i id="date-start-icon" class="am-icon-calendar"></i>
+                      <input id="date-start" type="text" name="kw[start_time]" value="<?php echo $this->input['kw']['start_time'];?>" class="am-form-field am-input-sm" placeholder="聊天时间-开始" />
+                  </div>
+              </div>
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-3">
+                  <div class="am-form-icon">
+                      <i id="date-end-icon" class="am-icon-calendar"></i>
+                      <input id="date-end" type="text" name="kw[end_time]" value="<?php echo $this->input['kw']['end_time'];?>" class="am-form-field am-input-sm" placeholder="聊天时间-结束" />
+                  </div>
+              </div>
+
+          </div>
+          <div class="am-g am-margin-vertical-sm">
+              <div class="am-u-sm-2 am-u-md-2 am-u-end">
+                  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>
+              </div>
+
+          </div>
+
+      </div>
+    </div>
+    <!-- panel end -->
+
+    <?php foreach($_GET as $k => $v):?>
+    <?php if($k == 'kw') continue;?>
+    <input type="hidden" name="<?php echo $k;?>", value="<?php echo $v;?>" />
+    <?php endforeach;?>
+
+  <table class="am-table am-table-striped am-table-compact am-text-xs am-table-hover">
+    <thead>
+      <tr>
+				    <td class="am-text-nowrop">管理员</td>
+                    <td class="am-text-nowrop">事件</td>
+                    <td class="am-text-nowrop">备注</td>
+					<td class="am-text-nowrop am-hide-sm-only">IP</td>
+                    <td class="am-text-nowrop">时间</td>
+      </tr>
+  </thead>
+  <tbody>
+              <?php if($data): ?>
+                <?php foreach($data as $k=>$v):?>
+                <tr>
+					<td><?php echo $v['admin_name'];?></td>
+					<td><?php echo $v['event'];?></td>
+                    <td><?php if($v['memo'] != '') echo '<pre>'.$v['memo'].'</pre>'; ?></td>
+					<td class="am-hide-sm-only"><?php echo $v['ip']; ?></td>
+                    <td><?php echo $v['ctime']; ?></td>
+                </tr>
+                <?php endforeach;?>
+                <?php else: ?>
+                <tr><td colspan="5">无操作日志..</td></tr>
+                <?php endif; ?>
+  </tbody>
+</table>
+
+<div class="am-cf">
+    <div class="am-fr">
+      <ul class="am-pagination">
+          <?php echo $page ?>
+      </ul>
+    </div>
+</div>
+
+
+</form>
+
+<!-- 侧边栏内容 -->
+<div id="op-offcanvas" class="am-offcanvas">
+  <div class="am-offcanvas-bar am-offcanvas-bar-flip">
+    <div class="am-offcanvas-content">
+      <p id="op-name"> </p>
+      <p id="op-links"> </p>
+      <button class="am-btn am-btn-primary op-oc-js am-btn-xs am-btn-block am-round" data-rel="close">关闭</button>
+    </div>
+  </div>
+</div>
+
+<div class="am-popup" id="op-popup">
+  <div class="am-popup-inner">
+    <div class="am-popup-hd">
+      <h4 class="am-popup-title" id="op-popup-title"></h4>
+      <span data-am-modal-close class="am-close am-close-alt">&times;</span>
+    </div>
+    <div class="am-popup-bd" id="op-popup-content">
+    </div>
+  </div>
+</div>
+
+<script>
+
+$(function() {
+
+    var startDate = new Date(2000, 1, 1);
+    var endDate = new Date(2099, 11, 25);
+    var $alert = $('#my-alert');
+
+    $('#date-start-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+                if (event.date.valueOf() > endDate.valueOf()) {
+                $alert.find('p').text('开始日期应小于结束日期！').end().show();
+                } else {
+                $alert.hide();
+                startDate = new Date(event.date);
+                $('#date-start').val($('#date-start-icon').data('date') + ' 00:00:00');
+                }
+                $(this).datepicker('close');
+                });
+
+    $('#date-end-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+                if (event.date.valueOf() < startDate.valueOf()) {
+                $alert.find('p').text('结束日期应大于开始日期！').end().show();
+                } else {
+                $alert.hide();
+                endDate = new Date(event.date);
+                $('#date-end').val($('#date-end-icon').data('date') + ' 23:59:59');
+                }
+                $(this).datepicker('close');
+                });
+
+});
+</script>
+<?php $this->endBlock('content');?>

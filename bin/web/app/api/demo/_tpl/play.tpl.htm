@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
+    <head>
+        <title></title>
+        <meta name="google" value="notranslate" />         
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+        <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+		<link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+        <style type="text/css" media="screen"> 
+            html, body  {width:100%; height:100%; }
+            body { margin:0; padding:0; overflow:auto; text-align:center; 
+                   background-color: #000000; }   
+            object:focus { outline:none; }
+
+            #headDiv {color:#BBB;height:22px;overflow:hidden;background:url(<?php echo $clientUrl;?>/images/footer_bg2.png) 0 0 repeat-x;bottom:0px;position:absolute;width:100%;left:0}
+            #nav {height:22px;margin:0;text-indent:-9999px;border-top:#000 solid 1px;margin-left:-40px \9\0;}
+            #nav li {height:22px; float:left;list-style:none;}
+            #nav li a {display:block;width:88px;height:35px;background:url(<?php echo $clientUrl;?>/images/footer2.png) no-repeat;overflow:hidden;padding:0;}
+            #nav li a:hover {background:url(<?php echo $clientUrl;?>/images/footer2.png) no-repeat;overflow:hidden;}
+            #nav li.nav0 a {background-position:0 0;width:118px; margin:0 0 0 -45px; margin:0\9;}
+            #nav li.nav2 a {background-position:-118px 0px;}
+            #nav li.nav2 a:hover {background-position:-118px -22px;}
+            #nav li.nav3 a {background-position:-206px 0px;}
+            #nav li.nav3 a:hover {background-position:-206px -22px;}
+            #nav li.nav4 a {background-position:-383px 0px;}
+            #nav li.nav4 a:hover {background-position:-383px -22px;}
+            #nav li.nav5 a {background-position:-473px 0px;}
+            #nav li.nav5 a:hover {background-position:-473px -22px;}
+            #nav li.nav6 a {background-position:-563px 0px;}
+            #nav li.nav6 a:hover {background-position:-563px -22px;}
+            #nav li.nav7 a {background-position:-653px 0;}
+            #nav li.nav7 a:hover {background-position:-653px -22px;}
+            #nav li.nav8 a { background-position: -743px 0;}
+            #nav li.nav8 a:hover {background-position: -743px -22px;}
+            #nav li.openid {font:12px arial;width:630px;float:right;text-align:right;padding-top:2px;color:#BBB;}
+
+        </style>
+        <!-- BEGIN Browser History required section -->
+        <script type="text/javascript" src="http://182.254.229.158/js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="<?php echo $clientUrl;?>/config/config.js?version=2"></script>
+        <script type="text/javascript" charset="utf-8" src="http://fusion.qq.com/fusion_loader?appid=1102857043&platform=<?php echo $this->input['pf'];?>"></script>
+        <!-- END Browser History required section -->  
+        <script type="text/javascript">
+
+
+function payment(payment_url){
+$.getJSON(
+    payment_url,
+    function(data) {
+	if(data.ret > 0){
+		alert(data.msg);
+	}else{
+		fusion2.dialog.buy
+		({
+		    param : data.url,
+		    sandbox : true,
+		    context : "context",
+		    onSuccess : function (opt) {  },
+		    onCancel : function (opt) { },
+		    onSend : function(opt) { },
+		    onClose : function (opt) { }
+		});
+	}
+    }
+);
+}
+
+
+function check_login(openid, openkey, pf, pfkey){
+    $.getJSON(
+	"http://182.254.229.158/web/www/?mod=tencent&act=is_login&openid="+openid+"&openkey="+openkey+"&pf="+pf+"&pfkey="+pfkey,
+	function(data) {
+		if(data.ret > 0){
+			alert(data.msg);
+		}else{
+			// alert('ok');
+		}
+	}
+    );
+}
+
+function invite(){
+    fusion2.dialog.invite
+        ({
+        msg  : "一起来玩吧！特效神装免费送！无限转生爽翻天！爽快PK无人能敌！",
+
+        img : "http://182.254.229.158/images/logo75.png",
+
+        source : serverid,
+
+        context : "invite",
+
+        onSuccess : function (opt) {   },
+
+        onCancel : function (opt) {  },
+
+        onClose : function (opt) {   }
+    });
+}
+
+
+			function getQueryString(name) 
+			{
+                var url="<?php echo $query ?>";
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
+                var r = url.match(reg);
+                if (r!=null) return unescape(r[2]);
+                return null;
+			}
+			
+			//排除这个名称外的其他参数
+			function getQueryStringWithoutName(name)
+			{
+                var str="<?php echo $query ?>";
+                var strs=str.split("&");
+                for(var i=0;i<strs.length;i++)
+                {
+                    var temp = strs[i].split("=");
+                    if(temp[0] == name)
+                    {
+                        strs.splice(i , 1)
+                            break;
+                    }
+                }
+                return strs.join('&');
+			}
+
+		</script>
+		
+
+        <script type="text/javascript">
+            var swfVersionStr = "11.5.0";
+            var xiSwfUrlStr = "playerProductInstall.swf";
+            var flashvars = config.flashvars();
+            flashvars.templateVersion = "V2.0.3";
+            flashvars.applicationVersion="<?php echo $clientVersion;?>";
+            flashvars.resUrl = "<?php echo $clientResUrl;?>";
+            var params = {};
+            params.quality = "high";
+            params.bgcolor = "#000000";
+            params.allowscriptaccess = "always";
+            params.allowfullscreen = "true";
+            params.wmode = "direct"//"window";
+            params.menu = "false";
+            params.allownetworking="true";
+            
+            var attributes = {};
+            attributes.id = "NewShanHaiFuMoLu";
+            attributes.name = "NewShanHaiFuMoLu";
+            attributes.align = "middle";
+            swfobject.embedSWF(
+                "<?php echo $clientUrl;?>/NewShanHaiFuMoLu.swf?version="+flashvars.applicationVersion, "flashContent", 
+                "800", "600", 
+                swfVersionStr, xiSwfUrlStr, 
+                flashvars, params, attributes);
+            swffit.fit("NewShanHaiFuMoLu", 1000, 600, 1920, 1080, false, false);
+        </script>
+    </head>
+    <body>
+
+
+<div id="content_top"> 
+    <div id="flashContent">
+	    提示：您的flash播放器版本过低，为了能够正常运行游戏，请您点此下载最新版本。
+    </div>
+    <div id="headDiv">
+        <ul id="nav">
+            <li class="nav0"><a href="#" onclick="invite(1);return false;" title="刀剑神魔">官网</a></li>
+            <li class="nav2"><a title="进入论坛" href="http://bbs.open.qq.com/forum.php?mod=forumdisplay&action=list&fid=3835" target="_blank">进入论坛</a></li>
+            <li class="nav3"><a title="" href="http://shang.qq.com/wpa/qunwpa?idkey=f271825063bfee83a2589857a65c02923b2ff2c550712dc4dd61bacae9100b76" target="_blank">QQ群</a></li>
+            <li class="openid">您的OPENID是 <span id="player_openid"><?php echo $this->input['openid'];?></span>&nbsp;【刀剑神魔】应用由"颐森科技"提供，若您在游戏过程中遇到问题，可以进入论坛发帖咨询，或者加入QQ群 &nbsp;</li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+function resizeFlashDiv(){//调整右面flash框的宽度
+    var container = $("#content_top");
+    var containerHeight = $(document.body).height() - 22;
+    var flashDivW = document.documentElement.clientWidth;
+    container.css({"left":0,"width":flashDivW,"height":containerHeight});
+}
+resizeFlashDiv();
+
+$(document).ready(function (){
+    $(window).resize(function(){
+        resizeFlashDiv();
+    });
+
+});
+
+function doFullScene()
+{
+    // document.getElementById('content_top').width = "100%";
+    // document.getElementById('content_top').height = "100%";
+    // document.getElementById('FMain').width = "100%";
+    // document.getElementById('FMain').height = "100%";
+}
+
+function exitFullScene()
+{
+    // document.getElementById('content_top').width = "999";
+    // document.getElementById('content_top').height = "579";
+    // document.getElementById('FMain').width = "999";
+    // document.getElementById('FMain').height = "579";
+}
+
+</script>
+
+</body>
+</html>

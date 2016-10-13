@@ -1,0 +1,226 @@
+<?php $this->setLayout('amazeui');?>
+
+<?php $this->block('title');?>在线统计<?php $this->endBlock('title');?>
+
+<?php $this->block('buttons');?>
+<?php echo Game::platformsServersForm($platformid, $serverid);?>
+<?php $this->endBlock('buttons');?>
+
+<?php $this->block('content');?>
+
+<form id="mainForm" method="get" class="am-form">
+    <input type="hidden" name="mod" value="<?php echo $_GET['mod'];?>" />
+    <input type="hidden" name="act" value="<?php echo $_GET['act'];?>" />
+    <!-- panel start -->
+    <div class="am-panel am-panel-default">
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">选项<span class="am-icon-chevron-down am-fr" ></span></div>
+      <div class="am-panel-bd am-collapse am-in am-cf" id="collapse-panel-search">
+          <div class="am-g">
+              <div class="am-u-sm-12 am-u-md-12">
+                  <div class="am-form-group">
+                      <label class="am-text-sm">统计时间：</label>
+                      <label class="am-radio-inline">
+                          <input type="radio" value="today" name="type">今天
+                      </label>
+                      <label class="am-radio-inline">
+                          <input type="radio" value="yesterday" name="type">昨天
+                      </label>
+                      <label class="am-radio-inline">
+                          <input type="radio" value="day7" name="type">7天
+                      </label>
+                      <label class="am-radio-inline">
+                          <input type="radio" value="day30" name="type">30天
+                      </label>
+                      <label class="am-radio-inline">
+                          <input type="radio" value="custom" name="type">自定义
+                      </label>
+                  </div>
+              </div>
+          </div>
+
+          <div class="am-g" id="custom-time"<?php if($type != 'custom')echo ' style="display:none"';?>>
+              <div class="am-form-icon am-u-sm-12 am-u-md-6">
+                  <div class="am-form-group">
+                      <label for="date-start" class="am-text-sm">自定义统计开始时间：</label>
+                      <div class="am-form-icon">
+                          <i id="date-start-icon" class="am-icon-calendar"></i>
+                          <input id="date-start" type="text" name="time_start" value="<?php echo date('Y-m-d H:i:s', $start);?>" class="am-form-field am-input-sm" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" />
+                      </div>
+                  </div>
+              </div>
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-6">
+                  <div class="am-form-group">
+                      <label for="date-end" class="am-text-sm">自定义统计结束时间：</label>
+                      <div class="am-form-icon">
+                          <i id="date-end-icon" class="am-icon-calendar"></i>
+                          <input id="date-end" type="text" name="time_end" value="<?php echo date('Y-m-d H:i:s', $end);?>" class="am-form-field am-input-sm" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}"/>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+
+          <div class="am-g am-margin-vertical-sm">
+
+              <div class="am-u-sm-12 am-u-md-2 am-u-end">
+                  <button class="am-btn am-btn-default am-input-sm" type="submit">确定</button>
+              </div>
+
+          </div>
+      </div>
+    </div>
+
+    <!-- panel end -->
+
+</form>
+
+<!-- panel start -->
+<div class="am-panel am-panel-default">
+  <div class="am-panel-bd">
+      <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto">正在加载数据...</div>
+  </div>
+</div>
+
+<!-- panel end -->
+
+<script src="assets/js/highcharts/highcharts.js"></script>
+<script>
+
+$(function() {
+    $("input:radio").each(function(){
+        if($(this).val() == '<?php echo $type;?>'){
+            this.checked = true;
+        }
+    });
+
+    $("input:radio").change(function() { 
+        if($(this).val() == 'custom'){
+            $('#custom-time').show();
+        }else{
+            $('#custom-time').hide();
+        }
+    }); 
+
+    // 日期选择
+    var startDate = new Date(2000, 1, 1);
+    var endDate = new Date(2099, 11, 25);
+    var $alert = $('#my-alert');
+    $('#date-start-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            if (event.date.valueOf() > endDate.valueOf()) {
+                $alert.find('p').text('开始日期应小于结束日期！').end().show();
+            } else {
+                $alert.hide();
+                startDate = new Date(event.date);
+                $('#date-start').val($('#date-start-icon').data('date') + ' 00:00:00');
+            }
+            $(this).datepicker('close');
+        });
+    $('#date-end-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            if (event.date.valueOf() < startDate.valueOf()) {
+                $alert.find('p').text('结束日期应大于开始日期！').end().show();
+            } else {
+                $alert.hide();
+                endDate = new Date(event.date);
+                $('#date-end').val($('#date-end-icon').data('date') + ' 23:59:59');
+            }
+            $(this).datepicker('close');
+        });
+
+        var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                zoomType: 'x'
+            },
+            title: {
+                text: '<?php echo $this->title;?>'
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                    '可以拖动选择区域进行放大' :
+                    'Pinch the chart to zoom in'
+            },
+            xAxis: {
+                type: 'datetime',
+                labels: {  
+                    step: 1,   
+                    formatter: function () {  
+                        return Highcharts.dateFormat('<?php echo $format;?>', this.value);  
+                    }  
+                },
+                lineWidth: 2
+            },
+            yAxis: {
+                title: {
+                    text: '在线人数'
+                },
+                min: 0,
+                startOnTick: false,
+                lineWidth: 0
+            },
+            legend: {
+                enabled: true
+            },
+            tooltip: {  
+                formatter: function () {  
+                               return Highcharts.dateFormat('%Y-%m-%d %H:%M', this.x)
+                                   +'<br/><b>' + this.series.name + ': ' +  this.y + '</b>';
+                }  
+             }, 
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            }
+        });
+
+        <?php foreach($serverIds as $sid):?>
+        $.getJSON('?mod=reports&act=online&do=data&time_start=<?php echo $start;?>&time_end=<?php echo $end;?>&sid=<?php echo $sid;?>', function (data) {
+            if(data.length > 0){
+                chart.addSeries({                       
+                         type: 'line',
+                         name: '<?php echo $sid;?>区',
+                         data:data
+                     },true, true);
+            }
+        });
+        <?php endforeach;?>
+
+//    var series = chart.series[0];
+//     setInterval(function() {
+//         var x = (new Date()).getTime();
+//         // current time         
+//         var y = Math.random() * 100;
+//         console.log(x, y.toFixed(0));
+//         series.addPoint([x, y], true, true);
+//     },
+//     1000);
+
+
+});
+
+</script>
+<?php $this->endBlock('content');?>

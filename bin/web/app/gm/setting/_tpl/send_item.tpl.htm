@@ -1,0 +1,270 @@
+<?php $this->setLayout('amazeui');?>
+
+<?php $this->block('title');?>批量发送物品<?php $this->endBlock('title');?>
+
+<?php $this->block('content');?>
+
+<form id="mainForm" method="post" class="am-form">
+    <!-- panel start -->
+    <div class="am-panel am-panel-default">
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">添加物品<span class="am-icon-chevron-down am-fr" ></span></div>
+      <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+          <div class="am-g am-margin-vertical-sm">
+
+              <div class="am-u-sm-12 am-u-md-2">
+                  <div class="am-form-group">
+                      <label for="log_type" class="am-text-sm">发送类型：</label>
+                      <?php echo $logTypes; ?>
+                  </div>
+              </div>
+
+              <div class="am-u-sm-12 am-u-md-2">
+                  <div class="am-form-group">
+                      <label for="level_start" class="am-text-sm">等级开始：</label>
+                      <input type="number" id="level_start" name="data[level_start]" value="" class="am-form-field am-input-sm" required/>
+                  </div>
+              </div>
+
+              <div class="am-u-sm-12 am-u-md-2">
+                  <div class="am-form-group">
+                      <label for="level-end" class="am-text-sm">等级结束：</label>
+                      <input type="number" id="level_end" name="data[level_end]" value="" class="am-form-field am-input-sm" required/>
+                  </div>
+              </div>
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-6">
+                  <div class="am-form-group am-form-icon">
+                      <label for="level-end" class="am-text-sm">登陆起点时间：</label>
+                      <i id="login-time-icon" class="am-icon-calendar"></i>
+                      <input id="login-time" class="am-form-field am-input-sm" type="text" name="data[login_time]" value="" placeholder="何时开始至今有登陆过的..." required pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}"/>
+                  </div>
+              </div>
+
+              <div class="am-u-sm-12 am-u-md-12">
+                  <div class="am-form-group">
+                      <label for="reason" class="am-text-sm">发送理由：</label>
+                      <input name="data[reason]" value="" class="am-form-field am-input-sm" placeholder="" required/>
+                  </div>
+              </div>
+
+              <div class="am-u-sm-12 am-u-md-12">
+                  <div class="am-form-group">
+                      <button onclick="add_input_yb();" class="am-btn am-btn-default am-input-sm" type="button">+元宝</button>
+                      <button onclick="add_input_lj();" class="am-btn am-btn-default am-input-sm" type="button">+礼金</button>
+                      <button onclick="add_input_coin();" class="am-btn am-btn-default am-input-sm" type="button">+银两</button>
+                      <button onclick="add_input_item();" class="am-btn am-btn-default am-input-sm" type="button">+物品</button>
+                  </div>
+              </div>
+
+          </div>
+
+          <div class="am-g am-margin-vertical-sm" id='input-elements'>
+          </div>
+
+          <div class="am-g am-margin-vertical-sm">
+              <div class="am-u-sm-12 am-u-md-12">
+                  <div class="am-form-group">
+                      <label class="am-text-sm">选择分区：</label>
+                      <label class="am-checkbox-inline"><input type="checkbox" id="select-all" onclick="sel();">全选</label>
+                      <?php 
+
+                        $ps = Game::getPlatformsServers2();
+                        $platformsOpt = array();
+                        foreach($ps as $pid => $servers){
+                            foreach($servers as $sid => $name){
+                                $tip = Game::platform($pid).$name . '区';
+                                $key = "servers[{$pid}][]";
+                                $val = $sid;
+                                echo '<label class="am-checkbox-inline"><input class="server-checkbox" type="checkbox" name="'.$key.'" value="'.$val.'">'.$tip.'</label>';
+                            }
+                        }
+
+                        ?>
+                  </div>
+              </div>
+          </div>
+
+          <div class="am-g am-margin-vertical-sm">
+
+              <div class="am-u-sm-12 am-u-md-2 am-u-end">
+                  <button class="am-btn am-btn-default am-input-sm" type="submit">发送</button>
+              </div>
+
+          </div>
+
+      </div>
+    </div>
+    <!-- panel end -->
+
+  <table class="am-table am-table-striped am-table-compact am-text-xs am-table-hover" id="gm-table">
+    <thead>
+      <tr>
+          <th class="table-check"><input type="checkbox" /></th>
+          <th class="am-text-nowrap">服务器</th>
+          <th class="am-text-nowrap">等级范围</th>
+          <th class="am-text-nowrap">登陆起点时间</th>
+          <th class="am-text-nowrap">类型</th>
+          <th class="am-text-nowrap">内容</th>
+          <th class="am-text-nowrap">管理员</th>
+          <th class="am-text-nowrap">发送时间</th>
+          <th class="am-text-nowrap">发送理由</th>
+      </tr>
+  </thead>
+  <tbody>
+           <?php foreach($data['list'] as $v): ?>
+           <tr>
+               <td class="am-text-middle"><input type="checkbox" /></td>
+               <td class="am-text-middle">
+                   <?php echo Game::servers2string($v['servers']);?>
+               </td>
+               <td class="am-text-middle"><?php echo $v['level_start'].'~'.$v['level_end'];?></td>
+               <td class="am-text-middle"><?php echo date('Y-m-d H:i:s', $v['login_time']);?></td>
+               <td class="am-text-middle">
+                   <?php echo Game::getRewardTypeName($v['log_type']);?>
+               </td>
+               <td class="am-text-middle">
+                   <?php echo Game::items2string($v['data']);?>
+               </td>
+               <td class="am-text-middle"><?php echo $v['admin_name']?></td>
+               <td class="am-text-middle"><?php echo date('Y-m-d H:i:s', $v['ctime']);?></td>
+               <td class="am-text-middle"><?php echo $v['reason']?></td>
+           </tr>
+           <?php endforeach;?>
+  </tbody>
+</table>
+
+<div class="am-cf">
+    <div class="am-fr">
+      <ul class="am-pagination">
+        <?php echo $data['page_index']?>
+      </ul>
+    </div>
+</div>
+
+
+</form>
+
+<script type="text/javascript" src="assets/js/data_items.js"></script>
+<script>
+function add_input_yb(){
+
+    if($("#element-yb").length){
+        $("#element-yb").focus();
+        return false;
+    }
+    var html = '';
+    html += '<div class="am-u-sm-12 am-u-md-3 am-u-end">';
+    html += '    <div class="am-alert am-alert-secondary" data-am-alert>';
+    html += '        <button type="button" class="am-close">&times;</button>';
+    html += '        <label for="gift_name" class="am-text-sm">元宝：</label>';
+    html += '        <input type="number" id="element-yb" name="item[ext][1]" value="" class="am-form-field am-input-sm" required/>';
+    html += '    </div>';
+    html += '</div>';
+    $("#input-elements").append(html);
+    return true;
+
+}
+
+function add_input_lj(){
+
+    if($("#element-lj").length){
+        $("#element-lj").focus();
+        return false;
+    }
+    var html = '';
+    html += '<div class="am-u-sm-12 am-u-md-3 am-u-end">';
+    html += '    <div class="am-alert am-alert-secondary" data-am-alert>';
+    html += '        <button type="button" class="am-close">&times;</button>';
+    html += '        <label for="gift_name" class="am-text-sm">礼金：</label>';
+    html += '        <input type="number" id="element-lj" name="item[ext][2]" value="" class="am-form-field am-input-sm" required/>';
+    html += '    </div>';
+    html += '</div>';
+    $("#input-elements").append(html);
+    return true;
+
+}
+
+function add_input_coin(){
+
+    if($("#element-coin").length){
+        $("#element-coin").focus();
+        return false;
+    }
+    var html = '';
+    html += '<div class="am-u-sm-12 am-u-md-3 am-u-end">';
+    html += '    <div class="am-alert am-alert-secondary" data-am-alert>';
+    html += '        <button type="button" class="am-close">&times;</button>';
+    html += '        <label for="gift_name" class="am-text-sm">银两：</label>';
+    html += '        <input type="number" id="element-coin" name="item[ext][3]" value="" class="am-form-field am-input-sm" required/>';
+    html += '    </div>';
+    html += '</div>';
+    $("#input-elements").append(html);
+    return true;
+
+}
+
+function add_input_item(){
+    var index = $(".element-item").length;
+    var id = "element-item-"+index;
+    var html = '';
+    html += '<div class="am-u-sm-12 am-u-md-3 am-u-end">';
+    html += '    <div class="am-alert am-alert-secondary" data-am-alert>';
+    html += '        <button type="button" class="am-close">&times;</button>';
+    html += '        <label for="gift_name" class="am-text-sm">物品：</label>';
+    html += '            <div class="am-g">';
+    html += '                <div class="am-u-sm-7">';
+    html += '                        <input type="text" name="item[goods]['+index+'][id]" value="" class="am-input-sm element-item" required placeholder="物品ID" id="'+id+'"/>';
+    html += '                </div>';
+    html += '                <div class="am-u-sm-5">';
+    html += '                        <input type="number" name="item[goods]['+index+'][num]" value="" class="am-input-sm" required placeholder="数量"/>';
+    html += '                </div>';
+    html += '            </div>';
+    html += '    </div>';
+    html += '</div>';
+    $("#input-elements").append(html);
+
+
+    var items = data_items;
+
+    $( "#"+id ).autocomplete({
+        source: items,
+        close: function( event, ui ) {
+            var o = $("#"+id).val();
+            var i = o.indexOf(" ")
+            if(i > 0){
+                var v = o.substr(0, i);
+                $("#"+id).val(v);
+            }
+        }
+    });
+
+    return true;
+
+}
+
+function sel() {
+    if($("#select-all").prop("checked")){
+        $(".server-checkbox").prop("checked", true);
+    }else{
+        $(".server-checkbox").prop("checked", false);
+    }
+}
+
+$(function() {
+
+    var startDate = new Date(2000, 1, 1);
+    var endDate = new Date(2099, 11, 25);
+    var $alert = $('#my-alert');
+
+    $('#login-time-icon').datepicker().
+    on('changeDate.datepicker.amui', function(event) {
+        $alert.hide();
+        startDate = new Date(event.date);
+        $('#login-time').val($('#login-time-icon').data('date') + ' 00:00:00');
+        $(this).datepicker('close');
+    });
+
+});
+</script>
+<?php $this->endBlock('content');?>

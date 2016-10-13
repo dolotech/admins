@@ -1,0 +1,104 @@
+<?php $this->setLayout('amazeui_edit');?>
+
+<?php $this->block('title');?>编辑帐号资料<?php $this->endBlock('title');?>
+
+<?php $this->block('content');?>
+<form method="post" class="am-form am-form-horizontal">
+    <input type="hidden" name="items[username]" value="<?php echo $data['username']?>">
+    <input type="hidden" name="items[id]" value="<?php echo $data['id']?>">
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label for="name" class="am-u-sm-2 am-form-label">帐号名称</label>
+                <div class="am-u-sm-10">
+                  <input id="name" type="text" name="" value="<?php echo $data['username']?>" disabled />
+                </div>
+              </div>
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label for="realname" class="am-u-sm-2 am-form-label">真实姓名</label>
+                <div class="am-u-sm-10">
+                  <input id="realname" type="text" name="items[name]" value="<?php echo $data['name']?>" />
+                  <small><?php echo $emsg['name']?></small>
+                </div>
+              </div>
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label for="password" class="am-u-sm-2 am-form-label">密码</label>
+                <div class="am-u-sm-10">
+                  <input id="password" type="password" name="items[passwd]" value="" />
+                  <small>此项留空表示不修改密码！<?php echo $emsg['passwd']?></small>
+                </div>
+              </div>
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
+                <div class="am-u-sm-10">
+                  <input id="password1" type="password" name="items[passwd1]" value="" />
+                </div>
+              </div>
+
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">用户组</label>
+                <div class="am-u-sm-10">
+                    <?php echo $group; ?><?php echo $emsg['group_id'] ?>
+                </div>
+              </div>
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">所属平台</label>
+                <div class="am-u-sm-10">
+                    <div class="am-panel am-panel-default am-fl">
+                        <div class="am-panel-hd am-cf">如果用户组为“超级管理员”则不用选择所属平台，因为“超级管理员”一定有全部权限的~~</div>
+                        <div class="am-panel-bd">
+                            <ul class="am-list admin-content-file">
+                                <?php 
+                                $platforms = explode(',', $data['platforms']);
+                                $ps = Config::getInstance()->get('platformsServers');
+                                foreach($ps as $pid => $servers):
+                                ?>
+                                <li>
+                                <input name="platforms[]" value="<?php echo $pid; ?>" type="checkbox" <?php echo in_array($pid, $platforms) ? 'checked="checked"' :''; ?> class="" />
+                                <?php echo Game::platform($pid); ?>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">限制登录IP</label>
+                <div class="am-u-sm-10">
+                    <input type="text" name="items[ip_limit]" value="<?php echo $data['ip_limit']?>" />
+                    <small>多个IP用英文,号分开</small>
+                </div>
+              </div>
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">登录错误次数</label>
+                <div class="am-u-sm-10">
+                    <input type="text" name="items[error_num]" value="<?php echo $data['error_num']?>" />
+                </div>
+              </div>
+
+              <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">描述</label>
+                <div class="am-u-sm-10">
+                    <textarea name="items[description]" style="width:500px; height:160px;"><?php echo $data['description']?></textarea>
+                </div>
+              </div>
+
+          <div class="am-g am-margin-vertical-sm">
+              <div class="am-form-group">
+                <label class="am-u-sm-2 am-form-label"></label>
+                <div class="am-u-sm-10">
+                    <input type="submit" name="submit" class="am-btn am-btn-primary" value="提交" />
+                    <input type="button" class="am-btn" value="返回" onclick="location.replace('<?php echo $goback?>');" />
+                </div>
+              </div>
+          </div>
+
+</form>
+<?php $this->endBlock('content');?>

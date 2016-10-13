@@ -1,0 +1,21 @@
+<?php $this->setLayout('main');?>
+
+<?php $this->block('title');?>
+发送消息
+<?php $this->endBlock('title');?>
+
+<?php $this->block('content');?>
+
+<div class="tableWrapper">
+</div>
+
+<script>
+<?php
+if($alert){
+	echo "alert('{$alert}');";
+}
+?>
+history.back();
+</script>
+
+<?php $this->endBlock('content');?>

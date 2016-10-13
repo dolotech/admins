@@ -1,0 +1,223 @@
+<?php $this->setLayout('amazeui');?>
+
+<?php $this->block('title');?>元宝消费日志<?php $this->endBlock('title');?>
+
+<?php $this->block('buttons');?>
+<?php echo Game::platformsServersForm($platformid, $serverid);?>
+<?php $this->endBlock('buttons');?>
+
+<?php $this->block('content');?>
+
+<form id="mainForm" method="get" class="am-form">
+    <!-- panel start -->
+    <?php foreach($_GET as $k => $v):?>
+    <?php if($k == 'kw') continue;?>
+    <?php if($k == 'page') continue;?>
+    <input type="hidden" name="<?php echo $k;?>" value="<?php echo $v;?>" />
+    <?php endforeach;?>
+    
+    
+								 <!-- 这里一定要用kw[]格式，分页时才回带上参数 -->
+   <input type="hidden" name="kw[submit_type]" value="" id="submit_type">
+   
+    <div class="am-panel am-panel-default">
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索<span class="am-icon-chevron-down am-fr" ></span></div>
+      <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+          <div class="am-g am-margin-vertical-sm">
+
+              <div class="am-u-sm-12 am-u-md-3">
+                  <input type="text" name="kw[player_id]" value="<?php echo $kw['player_id']?>" class="am-form-field am-input-sm" placeholder="角色ID" />
+              </div>
+
+              <div class="am-u-sm-12 am-u-md-3">
+				  <?php echo $type_select;?>  
+              </div>
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-3">
+                  <div class="am-form-icon">
+                      <i id="date-start-icon" class="am-icon-calendar"></i>
+                      <input id="date-start" type="text" name="kw[time_start]" value="<?php echo $kw['time_start'];?>" class="am-form-field am-input-sm" placeholder="时间-开始" />
+                  </div>
+              </div>
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-3 am-u-end">
+                  <div class="am-form-icon">
+                      <i id="date-end-icon" class="am-icon-calendar"></i>
+                      <input id="date-end" type="text" name="kw[time_end]" value="<?php echo $kw['time_end'];?>" class="am-form-field am-input-sm" placeholder="时间-结束" />
+                  </div>
+              </div>
+          </div>
+
+          <div class="am-g am-margin-vertical-sm">
+              <div class="am-u-sm-12">
+
+                  <div class="am-panel am-panel-default">
+                      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-type'}">类型<span class="am-icon-chevron-down am-fr" ></span></div>
+                      <div class="am-panel-bd am-collapse" id="collapse-panel-type">
+                          <ul class="am-text-sm log-type-ul am-cf">
+                              <?php foreach($logType as $k => $v): ?>
+                              <li class="am-fl">
+                              <label>
+                              <?php 
+                              
+                              if(in_array($k,$type)){
+								$checked = isset($type) ? 'checked="true"' : ''; 
+								   }else{$checked='';}
+							   
+							  ?>
+                                  <input name="kw[my_log_type]" value="<?php echo $k; ?>" type="checkbox" class="" <?php echo $checked; ?> /> <?php echo $v;?>
+                              </label>
+                              </li>
+
+                              <?php endforeach; ?>
+                          </ul>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+
+          <div class="am-g am-margin-vertical-sm">
+              <div class="am-u-sm-12">
+                  <button onclick="$('#submit_type').val(fixLogType())" class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>
+              </div>
+          </div>
+      </div>
+    </div>
+    <!-- panel end -->
+
+  <table class="am-table am-table-striped am-table-compact am-text-xs am-table-hover">
+    <thead>
+      <tr>
+				    <th class="am-text-nowrop am-text-center">ID</th>
+                    <th class="am-text-nowrop am-text-center">名称</th>
+                    <th class="am-text-nowrop am-text-center">等级</th>
+                    <th class="am-text-nowrop am-text-center">类型</th>
+                    <th class="am-text-nowrop am-text-center" title="正数为获得，负数为消耗，与操作类型对应">消耗/获得元宝</th>
+                    <th class="am-text-nowrop am-text-center">剩余元宝</th>
+                    <th class="am-text-nowrop am-text-center">消耗礼金</th>
+                    <th class="am-text-nowrop am-text-center">剩余礼金</th>
+                    <th class="am-text-nowrop am-text-center">时间</th>
+                   
+      </tr>
+  </thead>
+  <tbody>
+              <?php if($data): ?>
+                <?php foreach($data as $k=>$v):?>
+                <tr class="am-text-center">
+					<td><?php echo $v['player_id'];?></td>
+                    <td><?php echo Game::getName($v['player_id'], $this->dbh);?></td>
+					<td><?php echo $v['level'];?></td>
+                    <td><?php echo $logType[$v['log_type']];?></td>
+					<td><?php echo $v['yb_diff'];?></td>
+					<td><?php echo $v['yb'];?></td>
+					<td><?php echo $v['bind_yb_diff'];?></td>
+					<td><?php echo $v['bind_yb'];?></td>
+					<td><?php echo date('Y-m-d H:i:s', $v['time']);?></td>
+                </tr>
+                <?php endforeach;?>
+                <?php else: ?>
+                <tr><td colspan="7">没有数据...</td></tr>
+                <?php endif; ?>
+  </tbody>
+</table>
+
+<div class="am-cf">
+    <div class="am-fr">
+      <ul class="am-pagination">
+          <?php echo $page ?>
+      </ul>
+    </div>
+</div>
+
+
+</form>
+
+<script>
+$(function() {
+    // 右边框
+    var $opOc = $('#op-offcanvas');
+    $('.op-oc-js').on('click', function() {
+        var opParams = $(this).data('op-params');
+        if ( typeof(opParams) != "undefined" ) {
+            var trObj = $(this).parent().parent();
+            var name = trObj.children("td:eq(3)").text();
+            var options = <?php echo Admin::getGmOptions();?>;
+            var content = getGmLinks(options, opParams);
+            $("#op-name").html(name);
+            $("#op-offcanvas-content").html(content);
+        }
+        $opOc.offCanvas($(this).data('rel'));
+        return false;
+    });
+
+    $opOc.on('open.offcanvas.amui', function() {
+    }).on('close.offcanvas.amui', function() {
+    });
+
+    // 弹出框
+    var $modal = $('#op-popup');
+    $('#op-offcanvas').on('click', '.op-modal-open-js', function() {
+        var name = $("#op-name").html();
+        var url = $(this).data('url');
+        var actionName = $(this).html();
+        $('#op-popup-title').html(actionName + "： " + name);
+        $modal.modal();
+        $.get(url, function(result){
+            $('#op-popup-content').html(result);
+        });
+    }).on('click', '.op-page-js', function() {
+        var url = $(this).data('url');
+        windowOpen(url, '_self');
+    }).on('click', '.op-new-page-js', function() {
+        var url = $(this).data('url');
+        windowOpen(url, '_blank');
+    });
+
+    // 日期选择
+    var startDate = new Date(2000, 1, 1);
+    var endDate = new Date(2099, 11, 25);
+    var $alert = $('#my-alert');
+    $('#date-start-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            if (event.date.valueOf() > endDate.valueOf()) {
+                $alert.find('p').text('开始日期应小于结束日期！').end().show();
+            } else {
+                $alert.hide();
+                startDate = new Date(event.date);
+                $('#date-start').val($('#date-start-icon').data('date') + ' 00:00:00');
+            }
+            $(this).datepicker('close');
+        });
+    $('#date-end-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            if (event.date.valueOf() < startDate.valueOf()) {
+                $alert.find('p').text('结束日期应大于开始日期！').end().show();
+            } else {
+                $alert.hide();
+                endDate = new Date(event.date);
+                $('#date-end').val($('#date-end-icon').data('date') + ' 23:59:59');
+            }
+            $(this).datepicker('close');
+        });
+
+});
+
+function fixLogType(){
+    var lt = '';
+    $("input[name='kw[my_log_type]']:checkbox").each(function (i, e) { 
+        //console.log($(e).prop("checked"));
+        if ($(this).prop("checked")==true) { 
+            lt += "," + $(this).val(); 
+        }
+    }); 
+  
+    return lt;
+    //alert(lt);
+
+ 
+}
+
+</script>
+<?php $this->endBlock('content');?>

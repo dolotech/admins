@@ -1,0 +1,223 @@
+<?php $this->setLayout('amazeui');?>
+
+<?php $this->block('title');?>礼包管理<?php $this->endBlock('title');?>
+
+<?php $this->block('buttons');?>
+<?php echo Game::platformsForm($platformid);?>
+<?php $this->endBlock('buttons');?>
+
+<?php $this->block('content');?>
+
+<form id="mainForm" method="post" class="am-form">
+    <!-- panel start -->
+    <div class="am-panel am-panel-default">
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">添加礼包<span class="am-icon-chevron-down am-fr" ></span></div>
+      <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+          <div class="am-g am-margin-vertical-sm">
+
+              <div class="am-u-sm-12 am-u-md-6">
+                  <div class="am-form-group">
+                      <label for="gift_sn" class="am-text-sm">礼包编号：</label>
+                      <input type="text" id="gift_sn" name="gift_sn" value="" class="am-form-field am-input-sm" required/>
+                  </div>
+              </div>
+
+              <div class="am-u-sm-12 am-u-md-6">
+                  <div class="am-form-group">
+                      <label for="gift_name" class="am-text-sm">礼包名称：</label>
+                      <input type="text" id="gift_name" name="gift_name" value="" class="am-form-field am-input-sm" required/>
+                  </div>
+              </div>
+
+              <div class="am-u-sm-12 am-u-md-12">
+                  <div class="am-form-group">
+                      <label for="gift_text" class="am-text-sm">礼包描述：</label>
+                      <input name="gift_text" value="" class="am-form-field am-input-sm" placeholder="在这里输入礼包描述..." required/>
+                  </div>
+              </div>
+
+              <div class="am-u-sm-12 am-u-md-12">
+                  <div class="am-form-group">
+                      <button onclick="add_input_yb();" class="am-btn am-btn-default am-input-sm" type="button">+元宝</button>
+                      <button onclick="add_input_lj();" class="am-btn am-btn-default am-input-sm" type="button">+礼金</button>
+                      <button onclick="add_input_coin();" class="am-btn am-btn-default am-input-sm" type="button">+银两</button>
+                      <button onclick="add_input_item();" class="am-btn am-btn-default am-input-sm" type="button">+物品</button>
+                  </div>
+              </div>
+
+          </div>
+
+          <div class="am-g am-margin-vertical-sm" id='input-elements'>
+          </div>
+
+          <div class="am-g am-margin-vertical-sm">
+
+              <div class="am-u-sm-12 am-u-md-2 am-u-end">
+                  <button class="am-btn am-btn-default am-input-sm" type="submit">增加新礼包</button>
+              </div>
+
+          </div>
+
+      </div>
+    </div>
+    <!-- panel end -->
+
+  <table class="am-table am-table-striped am-table-compact am-text-xs am-table-hover" id="gm-table">
+    <thead>
+      <tr>
+          <th class="table-check"><input type="checkbox" /></th>
+          <th class="am-text-nowrap">ID</th>
+          <th class="am-text-nowrap">名称</th>
+          <th class="am-text-nowrap">编号</th>
+          <th class="am-text-nowrap">内容</th>
+          <th class="am-text-nowrap">描述</th>
+          <th class="am-text-nowrap">添加时间</th>
+          <th class="am-text-nowrap">激活码统计</th>
+          <th class="am-text-nowrap">操作</th>
+      </tr>
+  </thead>
+  <tbody>
+           <?php 
+           foreach($data['list'] as $v): 
+           $count = $this->getGiftCount($v['giftid']);
+           ?>
+           <tr>
+               <td class="am-text-middle"><input type="checkbox" /></td>
+               <td class="am-text-middle">
+                   <?php echo $v['giftid']?>
+               </td>
+               <td class="am-text-middle"><?php echo $v['gift_name']?></td>
+               <td class="am-text-middle"><?php echo $v['gift_sn'];?></td>
+               <td class="am-text-middle">
+                   <?php echo Game::items2string($v['gift_packinfo']);?>
+               </td>
+               <td class="am-text-middle"><?php echo $v['gift_text']?></td>
+               <td class="am-text-middle"><?php echo date('Y-m-d H:i:s', $v['gift_addtime']);?></td>
+               <td class="am-text-middle">
+                   <?php echo '总数：'.$count['all'];?>
+                   <?php echo '<br/>已用：'.$count['used'];?>
+               </td>
+               <td class="am-text-middle">
+                   <a onclick="return confirm('确定要生成1000个【<?php echo $platform;?>】激活码？');" href="?mod=setting&act=<?php echo $_GET['act'];?>&do=makecode&giftid=<?php echo $v['giftid']?>&platform=<?php echo $platformid;?>&code_num=1000">生成1000个激活码</a>
+                   <br/>
+                   <a onclick="return confirm('确定要生成3000个【<?php echo $platform;?>】激活码？');" href="?mod=setting&act=<?php echo $_GET['act'];?>&do=makecode&giftid=<?php echo $v['giftid']?>&platform=<?php echo $platformid;?>&code_num=3000">生成3000个激活码</a>
+                   <br/>
+                   <a onclick="return confirm('确定要删除？');" href="?mod=setting&act=<?php echo $_GET['act'];?>&do=del&giftid=<?php echo $v['giftid']?>">删除</a>
+               </td>
+           </tr>
+           <?php endforeach;?>
+  </tbody>
+</table>
+
+<div class="am-cf">
+    <div class="am-fr">
+      <ul class="am-pagination">
+        <?php echo $data['page_index']?>
+      </ul>
+    </div>
+</div>
+
+
+</form>
+
+<script type="text/javascript" src="assets/js/data_items.js"></script>
+<script>
+function add_input_yb(){
+
+    if($("#element-yb").length){
+        $("#element-yb").focus();
+        return false;
+    }
+    var html = '';
+    html += '<div class="am-u-sm-12 am-u-md-3 am-u-end">';
+    html += '    <div class="am-alert am-alert-secondary" data-am-alert>';
+    html += '        <button type="button" class="am-close">&times;</button>';
+    html += '        <label for="gift_name" class="am-text-sm">元宝：</label>';
+    html += '        <input type="number" id="element-yb" name="item[ext][1]" value="" class="am-form-field am-input-sm" required/>';
+    html += '    </div>';
+    html += '</div>';
+    $("#input-elements").append(html);
+    return true;
+
+}
+
+function add_input_lj(){
+
+    if($("#element-lj").length){
+        $("#element-lj").focus();
+        return false;
+    }
+    var html = '';
+    html += '<div class="am-u-sm-12 am-u-md-3 am-u-end">';
+    html += '    <div class="am-alert am-alert-secondary" data-am-alert>';
+    html += '        <button type="button" class="am-close">&times;</button>';
+    html += '        <label for="gift_name" class="am-text-sm">礼金：</label>';
+    html += '        <input type="number" id="element-lj" name="item[ext][2]" value="" class="am-form-field am-input-sm" required/>';
+    html += '    </div>';
+    html += '</div>';
+    $("#input-elements").append(html);
+    return true;
+
+}
+
+function add_input_coin(){
+
+    if($("#element-coin").length){
+        $("#element-coin").focus();
+        return false;
+    }
+    var html = '';
+    html += '<div class="am-u-sm-12 am-u-md-3 am-u-end">';
+    html += '    <div class="am-alert am-alert-secondary" data-am-alert>';
+    html += '        <button type="button" class="am-close">&times;</button>';
+    html += '        <label for="gift_name" class="am-text-sm">银两：</label>';
+    html += '        <input type="number" id="element-coin" name="item[ext][3]" value="" class="am-form-field am-input-sm" required/>';
+    html += '    </div>';
+    html += '</div>';
+    $("#input-elements").append(html);
+    return true;
+
+}
+
+function add_input_item(){
+    var index = $(".element-item").length;
+    var id = "element-item-"+index;
+    var html = '';
+    html += '<div class="am-u-sm-12 am-u-md-3 am-u-end">';
+    html += '    <div class="am-alert am-alert-secondary" data-am-alert>';
+    html += '        <button type="button" class="am-close">&times;</button>';
+    html += '        <label for="gift_name" class="am-text-sm">物品：</label>';
+    html += '            <div class="am-g">';
+    html += '                <div class="am-u-sm-7">';
+    html += '                        <input type="text" name="item[goods]['+index+'][id]" value="" class="am-input-sm element-item" required placeholder="物品ID" id="'+id+'"/>';
+    html += '                </div>';
+    html += '                <div class="am-u-sm-5">';
+    html += '                        <input type="number" name="item[goods]['+index+'][num]" value="" class="am-input-sm" required placeholder="数量"/>';
+    html += '                </div>';
+    html += '            </div>';
+    html += '    </div>';
+    html += '</div>';
+    $("#input-elements").append(html);
+
+
+    var items = data_items;
+
+    $( "#"+id ).autocomplete({
+        source: items,
+        close: function( event, ui ) {
+            var o = $("#"+id).val();
+            var i = o.indexOf(" ")
+            if(i > 0){
+                var v = o.substr(0, i);
+                $("#"+id).val(v);
+            }
+        }
+    });
+
+    return true;
+
+}
+
+</script>
+<?php $this->endBlock('content');?>

@@ -1,0 +1,55 @@
+<?php $this->setLayout('amazeui');?>
+
+
+
+<?php $this->block('title');?>
+今日实时概况
+<?php $this->endBlock('title');?>
+
+
+
+<?php $this->block('buttons');?>
+<?php echo Game::platformsServersForm($platformid, $serverid);?>
+<?php $this->endBlock('buttons');?>
+
+
+<?php $this->block('content');?>
+
+<table class="am-table-bordered am-table am-table-compact am-text-xs am-table-centered" id="mytable">
+    <thead>
+        <tr>
+            <th class="am-text-center am-text-middle am-text-nowrop" >注册人数</th>
+            <th class="am-text-center am-text-middle am-text-nowrop">创角人数</th>
+            <th class="am-text-center am-text-middle am-text-nowrop" >当前在线人数</th>
+            <th class="am-text-center am-text-middle am-text-nowrop">最高在线人数</th>
+            <th class="am-text-center am-text-middle am-text-nowrop" >付费人数</th>
+            <th class="am-text-center am-text-middle am-text-nowrop">二次付费人数</th>
+            <th class="am-text-center am-text-middle am-text-nowrop">总收入(元)</th>
+
+        </tr>
+
+    </thead>
+    <tbody>
+    <tr>
+        <td class="am-text-center"><?php echo $regsum; ?></td>
+        <td class="am-text-center"><?php echo $createsum; ?></td>
+        <td class="am-text-center"><?php echo $nowol; ?></td>
+        <td class="am-text-center">
+        <?php 
+				if($olsum){echo $olsum;}else{echo "0";} 
+		?></td>
+        <td class="am-text-center"><?php echo $chargesum; ?></td>
+        <td class="am-text-center"><?php echo $charge2sum; ?></td>
+        <td class="am-text-center"><?php echo $moneysum/100; ?></td>
+
+    </tr>
+
+</table>
+
+
+
+
+
+<?php $this->endBlock('content');?>
+
+

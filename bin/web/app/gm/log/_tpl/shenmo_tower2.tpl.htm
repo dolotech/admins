@@ -1,0 +1,161 @@
+<?php $this->setLayout('amazeui');?>
+
+
+
+<?php $this->block('title');?>
+副本奖励获得日志
+<?php $this->endBlock('title');?>
+
+
+
+
+
+<?php $this->block('buttons');?>
+									 <!-- 选区按钮    这里的serverid会动态生成123...-->
+<?php echo Game::platformsServersForm($platformid, $serverid);?>
+<?php $this->endBlock('buttons');?>
+
+
+
+
+
+<?php $this->block('content');?>
+<script src="assets/js/log_type.js"></script>
+<script src="assets/js/data_items2.js"></script>
+<form id="mainForm" method="post" action="<?php echo request_uri(); ?>" class="am-form">
+<!-- 使搜索的时候获取当前的mod=role&act=list 按搜索角色id时停止继续加上前面的url内容    按分页时停止继续加之前的url内容 -->
+    <?php foreach($_GET as $k => $v):?>
+    <?php if($k == 'kw') continue;?>
+    <?php if($k == 'page') continue;?>  
+    <input type="hidden" name="<?php echo $k;?>" value="<?php echo $v;?>" />
+    <?php endforeach;?>
+    <!-- panel start -->
+    <div class="am-panel am-panel-default">
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索<span class="am-icon-chevron-down am-fr" ></span></div>
+      <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+          <div class="am-g am-margin-vertical-sm">
+
+              <div class="am-u-sm-12 am-u-md-3">
+                  <input type="text" name="kw[player_id]" value="<?php echo $kw['kw_player_id']?>" class="am-form-field am-input-sm" placeholder="角色ID" />
+              </div>
+              
+              <div class="am-u-sm-12 am-u-md-3 ">
+                  <input type="text" name="kw[player_name]" value="<?php echo $kw['kw_player_name'];?>" class="am-form-field am-input-sm" placeholder="角色名" />
+              </div>
+
+              <div class="am-u-sm-12 am-u-md-3 am-u-end">
+                  <input type="text" id="js_player_name" name="kw[mapid]" value="<?php echo $kw['kw_mapid']?>" class="am-form-field am-input-sm" placeholder="地图ID" />
+              </div>    
+
+  		</div>
+          <div class="am-g am-margin-vertical-sm">
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-3">
+                  <div class="am-form-icon">
+                      <i id="date-start-icon" class="am-icon-calendar"></i>
+                      <input id="date-start" type="text" name="kw[reg_st]" value="<?php echo $_REQUEST['kw']['reg_st'];?>" class="am-form-field am-input-sm" placeholder="时间-开始" />
+                  </div>
+              </div>
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-3">
+                  <div class="am-form-icon">
+                      <i id="date-end-icon" class="am-icon-calendar"></i>
+                      <input id="date-end" type="text" name="kw[reg_et]" value="<?php echo $_REQUEST['kw']['reg_et'];?>" class="am-form-field am-input-sm" placeholder="时间-结束" />
+                  </div>
+              </div>
+
+              <div class="am-u-sm-12 am-u-md-3 am-u-end">
+                  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>
+              </div>
+
+          </div>
+
+        </div>
+ </div>
+    <!-- panel end -->
+
+
+  <table class="am-table am-table-striped am-table-compact am-text-xs am-table-hover">
+    <thead>
+      <tr>
+		  <th>角色ID</th>
+          <th>角色名</th>
+          <th>地图ID</th>
+          <th>VIP等级</th>
+          <th>普通奖励</th>
+          <th>VIP奖励 </th>
+          <th>获得时间 </th>
+      </tr>
+  </thead>
+  <tbody>
+           <?php
+           foreach($data['list'] as $v):
+      
+           ?>
+           <tr>
+            
+               <td class="am-hide-md-down am-text-middle"><?php echo $v['player_id'] ?></td>
+               <td class="am-text-middle am-hide-sm-only"><?php echo Game::getName($v['player_id'], $this->dbh);  ?></td>
+               <td class="am-text-middle"><?php echo $v['mapid']?></td>
+               <td class="am-text-middle am-hide-sm-only log_type"><?php echo $v['level'];?></td>
+               <td class="am-text-middle am-hide-sm-only log_type"><?php echo $v['random_prize'];?></td>
+               <td class="am-text-middle am-hide-sm-only log_type"><?php echo $v['random_vip_prize'];?></td>
+               <td class="am-text-middle"><?php echo date('Y-m-d H:i:s', $v['ctime']);?></td>
+           </tr>
+           <?php endforeach;?>
+  </tbody>
+</table>
+
+<div class="am-cf">
+    <div class="am-fr">
+      <ul class="am-pagination">
+        <?php echo $data['page_index']?>
+      </ul>
+    </div>
+</div>
+
+
+</form>
+
+
+
+<script>
+
+$(function() {
+
+	
+    var startDate = new Date(2000, 1, 1);
+    var endDate = new Date(2099, 11, 25);
+    var $alert = $('#my-alert');
+
+    $('#date-start-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+                if (event.date.valueOf() > endDate.valueOf()) {
+                $alert.find('p').text('开始日期应小于结束日期！').end().show();
+                } else {
+                $alert.hide();
+                startDate = new Date(event.date);
+                $('#date-start').val($('#date-start-icon').data('date') + ' 00:00:00');
+                }
+                $(this).datepicker('close');
+                });
+
+    $('#date-end-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+                if (event.date.valueOf() < startDate.valueOf()) {
+                $alert.find('p').text('结束日期应大于开始日期！').end().show();
+                } else {
+                $alert.hide();
+                endDate = new Date(event.date);
+                $('#date-end').val($('#date-end-icon').data('date') + ' 23:59:59');
+                }
+                $(this).datepicker('close');
+                });
+
+
+
+});
+</script>  
+<?php $this->endBlock('content');?>
+

@@ -1,0 +1,110 @@
+<?php $this->setLayout('amazeui');?>
+
+<?php $this->block('title');?>执行SQL<?php $this->endBlock('title');?>
+
+<?php $this->block('content');?>
+
+<?php if($sqlnum!=$str){ ?>
+<form method="post" class="am-form">
+<div class="am-g">
+ 	<div class="am-u-sm-12 am-u-md-3">
+<input type='text' class='am-form-field am-radius' name='sqlnum' placeholder='请输入密码' />
+	</div>
+ 	<div class="am-u-sm-12 am-u-md-9">
+<button  class="am-btn am-btn-primary" type="submit">提交</button>
+
+	</div>
+</div>
+
+</form>
+<?php } ?>
+
+<?php if($sqlnum==$str){ ?>
+<form id="mainForm" method="post" class="am-form">
+   <?php //dump($_POST);?>
+    <?php foreach($_POST as $k => $v):?>
+    <input type="hidden" name="<?php echo $k;?>" value="<?php echo $v;?>" />
+    <?php endforeach;?>
+    
+    <input type="hidden" name="submit_type" value="" id="submit_type">
+    <!-- panel start -->
+    <div class="am-panel am-panel-default">
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">选项<span class="am-icon-chevron-down am-fr" ></span></div>
+      <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+          <?php 
+          $ps = Game::getPlatformsServers();
+          $platformsOpt = array();
+          foreach($ps as $pid => $servers):
+          ?>
+          <div class="am-g">
+              <div class="am-u-sm-12 am-u-md-12">
+                  <div class="am-form-group">
+                      <label class="am-text-sm"><?php echo Game::platform($pid); ?>平台：</label>
+                      <label class="am-checkbox-inline am-text-warning">
+                          <input type="checkbox" id="platform-<?php echo $pid;?>"  onclick="sel('<?php echo $pid;?>');">全选</label>
+                      <?php 
+                      foreach($servers as $sid => $name):
+                      $name =  $name. '区';
+                      $key = "servers[{$pid}][{$sid}]";
+                      $checked = isset($serv[$pid][$sid]) ? 'checked="true"' : '';//这里的isset判断记得改成act页面获取的表单值的数组
+                      echo '<label class="am-checkbox-inline"><input '.$checked.' class="platform-'.$pid.'" type="checkbox" name="'.$key.'" value="1">'.$name.'</label>';
+                      endforeach;
+                      ?>
+                  </div>
+              </div>
+          </div>
+          <?php endforeach; ?>
+
+
+    <div class="am-form-group">
+      <label for="doc-ta-1">请输入SQL语句</label>
+      <textarea class="" rows="5" id="doc-ta-1" name="sql"></textarea>
+    </div>
+
+
+
+          <div class="am-g">
+              <div class="am-u-sm-12 am-u-md-12 am-u-end">
+                  <button onclick="$('#submit_type').val('search')" class="am-btn am-btn-primary am-input-sm" type="submit">执行</button>
+              </div><!-- 这里的onclik控制上面的隐藏input传参，在这个模块并没有什么用 -->
+          </div>
+
+      </div>
+    </div>
+
+    <!-- panel end -->
+
+
+
+
+
+
+
+
+</form>
+<?php }  ?>
+<script type="text/javascript">
+
+	$(function() {
+
+		$('table').tablesort().data('tablesort');
+		$('thead th.number').data('sortBy', function(th, td, sorter) {
+			return parseInt(td.text(), 10);
+		});
+
+	});
+
+	function sel(pid) {
+	    var id = "platform-"+pid;
+	    if($('#'+id).prop("checked")){
+	        $('.'+id).prop("checked", true);
+	        //$('#'+id).prop("checked",true)
+	    }else{
+	        $('.'+id).prop("checked", false);
+	    }
+	}
+	
+</script>
+
+<?php $this->endBlock('content');?>

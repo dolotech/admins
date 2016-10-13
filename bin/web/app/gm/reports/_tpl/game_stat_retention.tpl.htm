@@ -1,0 +1,211 @@
+<?php $this->setLayout('amazeui');?>
+
+<?php $this->block('title');?>留存统计<?php $this->endBlock('title');?>
+
+<?php $this->block('content');?>
+
+<form id="mainForm" method="post" class="am-form">
+
+    <input type="hidden" name="submit_type" value="" id="submit_type">
+    
+    <!-- panel start -->
+    <div class="am-panel am-panel-default">
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">选项<span class="am-icon-chevron-down am-fr" ></span></div>
+      <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+          <?php 
+          $ps = Game::getPlatformsServers();
+          $platformsOpt = array();
+          foreach($ps as $pid => $servers):
+          ?>
+          <div class="am-g">
+              <div class="am-u-sm-12 am-u-md-12">
+                  <div class="am-form-group">
+                      <label class="am-text-sm"><?php echo Game::platform($pid); ?>平台：</label>
+                      <label class="am-checkbox-inline am-text-warning">
+                          <input type="checkbox" id="platform-<?php echo $pid;?>" onclick="sel('<?php echo $pid;?>');">全选</label>
+                      <?php 
+                      foreach($servers as $sid => $name):
+                      $name =  $name. '区';
+                      $key = "servers[{$pid}][{$sid}]";
+                      $checked = isset($selectedServers[$pid][$sid]) ? 'checked="true"' : '';
+                      echo '<label class="am-checkbox-inline"><input '.$checked.' class="platform-'.$pid.'" type="checkbox" name="'.$key.'" value="1">'.$name.'</label>';
+                      endforeach;
+                      ?>
+                  </div>
+              </div>
+          </div>
+          <?php endforeach; ?>
+
+          <div class="am-g">
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-6">
+                  <div class="am-form-group">
+                      <label for="date-start" class="am-text-sm">注册时间-开始：</label>
+                      <div class="am-form-icon">
+                          <i id="date-start-icon" class="am-icon-calendar"></i>
+                          <input id="date-start" type="text" name="time_start" value="<?php echo $timeStart;?>" class="am-form-field am-input-sm" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" required/>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="am-form-icon am-u-sm-12 am-u-md-6">
+                  <div class="am-form-group">
+                      <label for="date-end" class="am-text-sm">注册时间-结束(可为空)：</label>
+                      <div class="am-form-icon">
+                          <i id="date-end-icon" class="am-icon-calendar"></i>
+                          <input id="date-end" type="text" name="time_end" value="<?php echo $timeEnd;?>" class="am-form-field am-input-sm" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}"/>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+
+          <div class="am-g">
+              <div class="am-u-sm-12 am-u-md-12 am-u-end">
+                  <button onclick="$('#submit_type').val('search')" class="am-btn am-btn-default am-input-sm" type="submit">确定</button>
+              </div>
+          </div>
+
+      </div>
+    </div>
+
+    <!-- panel end -->
+
+    <?php foreach($_GET as $k => $v):?>
+    <?php if($k == 'kw') continue;?>
+    <?php if($k == 'page') continue;?>
+    <input type="hidden" name="<?php echo $k;?>" value="<?php echo $v;?>" />
+    <?php endforeach;?>
+
+<script src="assets/js/jquery.tablesort.js"></script>
+<style type="text/css">
+
+th {
+    cursor: pointer;
+}
+
+th:hover,
+th.sorted.ascending:after {
+    content: "  \2191";
+}
+
+th.sorted.descending:after {
+    content: " \2193";
+}
+
+</style>
+<table class="am-table-bordered am-table am-table-compact am-text-xs am-table-centered" id="mytable">
+    <thead>
+        <tr>
+            <th class="am-text-center am-text-middle am-text-nowrop" rowspan="2">时间</th>
+            <th class="am-text-center am-text-middle am-text-nowrop" rowspan="2">平台</th>
+            <th class="am-text-center am-text-middle number am-text-nowrop" rowspan="2">分区</th>
+            <th class="am-text-center am-text-middle number am-text-nowrop" rowspan="2">注册人数</th>
+            <th class="am-text-center number am-text-nowrop" colspan="2">次日留存</th>
+            <th class="am-text-center number am-text-nowrop" colspan="2">3日留存</th>
+            <th class="am-text-center number am-text-nowrop" colspan="2">4日留存</th>
+            <th class="am-text-center number am-text-nowrop" colspan="2">5日留存</th>
+            <th class="am-text-center number am-text-nowrop" colspan="2">6日留存</th>
+            <th class="am-text-center number am-text-nowrop" colspan="2">7日留存</th>
+            <th class="am-text-center number am-text-nowrop" colspan="2">15日留存</th>
+            <th class="am-text-center number am-text-nowrop" colspan="2">30日留存</th>
+        </tr>
+        <tr>
+            <th class="am-text-center number am-text-nowrop">人数</th>
+            <th class="am-text-center number am-text-nowrop">占比</th>
+            <th class="am-text-center number am-text-nowrop">人数</th>
+            <th class="am-text-center number am-text-nowrop">占比</th>
+            <th class="am-text-center number am-text-nowrop">人数</th>
+            <th class="am-text-center number am-text-nowrop">占比</th>
+            <th class="am-text-center number am-text-nowrop">人数</th>
+            <th class="am-text-center number am-text-nowrop">占比</th>
+            <th class="am-text-center number am-text-nowrop">人数</th>
+            <th class="am-text-center number am-text-nowrop">占比</th>
+            <th class="am-text-center number am-text-nowrop">人数</th>
+            <th class="am-text-center number am-text-nowrop">占比</th>
+            <th class="am-text-center number am-text-nowrop">人数</th>
+            <th class="am-text-center number am-text-nowrop">占比</th>
+            <th class="am-text-center number am-text-nowrop">人数</th>
+            <th class="am-text-center number am-text-nowrop">占比</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php 
+    foreach($data as $pid=>$row):
+    ?>
+    <tr>
+        <td class="am-text-center"><?php echo date('Y-m-d', $row['day']).'('.$weekarray[date("w",$row['day'])].')';?></td>
+        <td class="am-text-center"><?php echo Game::platform($row['pid']);?></td>
+        <td class="am-text-center"><?php echo $row['sid'];?></td>
+        <td class="am-text-center"><?php echo $row['regs'];?></td>
+        <td class="am-text-center"><?php echo $row['login2'];?></td>
+        <td class="am-text-center"><?php echo round($row['login2'] / $row['regs'] * 100, 2);?>%</td>
+        <td class="am-text-center"><?php echo $row['login3'];?></td>
+        <td class="am-text-center"><?php echo round($row['login3'] / $row['regs'] * 100, 2);?>%</td>
+        <td class="am-text-center"><?php echo $row['login4'];?></td>
+        <td class="am-text-center"><?php echo round($row['login4'] / $row['regs'] * 100, 2);?>%</td>
+        <td class="am-text-center"><?php echo $row['login5'];?></td>
+        <td class="am-text-center"><?php echo round($row['login5'] / $row['regs'] * 100, 2);?>%</td>
+        <td class="am-text-center"><?php echo $row['login6'];?></td>
+        <td class="am-text-center"><?php echo round($row['login6'] / $row['regs'] * 100, 2);?>%</td>
+        <td class="am-text-center"><?php echo $row['login7'];?></td>
+        <td class="am-text-center"><?php echo round($row['login7'] / $row['regs'] * 100, 2);?>%</td>
+        <td class="am-text-center"><?php echo $row['login15'];?></td>
+        <td class="am-text-center"><?php echo round($row['login15'] / $row['regs'] * 100, 2);?>%</td>
+        <td class="am-text-center"><?php echo $row['login30'];?></td>
+        <td class="am-text-center"><?php echo round($row['login30'] / $row['regs'] * 100, 2);?>%</td>
+    </tr>
+    <?php 
+    endforeach;
+    ?>
+</table>
+
+<script type="text/javascript">
+
+$(function() {
+
+    $('#mytable').tablesort().data('tablesort');
+    $('thead th.number').data('sortBy', function(th, td, sorter) {
+        return parseInt(td.text(), 10);
+    });
+
+    // 日期选择
+    var startDate = new Date(2000, 1, 1);
+    var endDate = new Date(2099, 11, 25);
+    var $alert = $('#my-alert');
+    $('#date-start-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            if (event.date.valueOf() > endDate.valueOf()) {
+                $alert.find('p').text('开始日期应小于结束日期！').end().show();
+            } else {
+                $alert.hide();
+                startDate = new Date(event.date);
+                $('#date-start').val($('#date-start-icon').data('date') + ' 00:00:00');
+            }
+            $(this).datepicker('close');
+        });
+    $('#date-end-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            if (event.date.valueOf() < startDate.valueOf()) {
+                $alert.find('p').text('结束日期应大于开始日期！').end().show();
+            } else {
+                $alert.hide();
+                endDate = new Date(event.date);
+                $('#date-end').val($('#date-end-icon').data('date') + ' 23:59:59');
+            }
+            $(this).datepicker('close');
+        });
+
+});
+
+function sel(pid) {
+    var id = "platform-"+pid;
+    if($('#'+id).prop("checked")){
+        $('.'+id).prop("checked", true);
+    }else{
+        $('.'+id).prop("checked", false);
+    }
+}
+</script>
+<?php $this->endBlock('content');?>

@@ -1,0 +1,82 @@
+<?php $this->setLayout('amazeui_edit');?>
+
+<?php $this->block('title');?>欢乐淘信息<?php $this->endBlock('title');?>
+
+<?php $this->block('content');?>
+<form method="post" class="am-form am-form-horizontal">
+          <div class="am-g am-margin-vertical-sm">
+              <div class="am-form-group">
+                <label for="date-start" class="am-u-sm-2 am-form-label">开始时间</label>
+                <div class="am-u-sm-10">
+                    <div class="am-form-icon">
+                  <i id="date-start-icon" class="am-icon-calendar"></i>
+                  <input id="date-start" class="am-form-field am-input-sm" type="text" name="time_st" value="<?php echo date('Y-m-d H:i:s',$data['start_time'])?>" required pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}"/>
+                </div>
+                </div>
+              </div>
+          </div>
+          
+          <div class="am-g am-margin-vertical-sm">
+              <div class="am-form-group">
+                <label for="date-end" class="am-u-sm-2 am-form-label">结束时间</label>
+                <div class="am-u-sm-10">
+                    <div class="am-form-icon">
+                  <i id="date-end-icon" class="am-icon-calendar"></i>
+                  <input id="date-end" class="am-form-field am-input-sm" type="text" name="time_ed" value="<?php echo date('Y-m-d H:i:s',$data['end_time'])?>" required pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}"/>
+                    </div>
+                  </div>
+              </div>
+          </div>
+
+     
+
+          <div class="am-g am-margin-vertical-sm">
+              <div class="am-form-group">
+                <label class="am-u-sm-2 am-form-label"></label>
+                <div class="am-u-sm-10">
+                    <input type="submit" name="submit" class="am-btn am-btn-primary" value="提交"  />
+                    <input type="button" class="am-btn" value="返回" onclick="location.replace('<?php echo $goback?>');" />
+                </div>
+              </div>
+          </div>
+
+</form>
+
+
+<script>
+
+$(function() {
+
+    var startDate = new Date(2000, 1, 1);
+    var endDate = new Date(2099, 11, 25);
+    var $alert = $('#my-alert');
+
+    $('#date-start-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+                if (event.date.valueOf() > endDate.valueOf()) {
+                $alert.find('p').text('开始日期应小于结束日期！').end().show();
+                } else {
+                $alert.hide();
+                startDate = new Date(event.date);
+                $('#date-start').val($('#date-start-icon').data('date') + ' 00:00:00');
+                }
+                $(this).datepicker('close');
+                });
+
+    $('#date-end-icon').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+                if (event.date.valueOf() < startDate.valueOf()) {
+                $alert.find('p').text('结束日期应大于开始日期！').end().show();
+                } else {
+                $alert.hide();
+                endDate = new Date(event.date);
+                $('#date-end').val($('#date-end-icon').data('date') + ' 23:59:59');
+                }
+                $(this).datepicker('close');
+                });
+
+
+
+});
+</script>     
+<?php $this->endBlock('content');?>
