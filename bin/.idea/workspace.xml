@@ -37,8 +37,8 @@
       <file leaf-file-name="list.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AmazeUI/roles/list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="473" column="69" selection-start-line="473" selection-start-column="69" selection-end-line="473" selection-end-column="69" />
+            <state relative-caret-position="368">
+              <caret line="417" column="0" selection-start-line="417" selection-start-column="0" selection-end-line="417" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -422,7 +422,7 @@
       <workItem from="1475210732956" duration="732000" />
       <workItem from="1475889784500" duration="62655000" />
       <workItem from="1476235864634" duration="20458000" />
-      <workItem from="1476326890575" duration="24499000" />
+      <workItem from="1476326890575" duration="38256000" />
     </task>
     <task id="LOCAL-00001" summary="更新登录模板">
       <created>1475138471139</created>
@@ -435,7 +435,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="117635000" />
+    <option name="totallyTimeSpent" value="131392000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
@@ -825,8 +825,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/roles/list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="473" column="69" selection-start-line="473" selection-start-column="69" selection-end-line="473" selection-end-column="69" />
+        <state relative-caret-position="368">
+          <caret line="417" column="0" selection-start-line="417" selection-start-column="0" selection-end-line="417" selection-end-column="0" />
           <folding />
         </state>
       </provider>

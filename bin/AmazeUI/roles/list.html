@@ -19,7 +19,7 @@
     <style type="text/css">
     </style>
 </head>
-<body>
+
 
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand">
@@ -66,7 +66,7 @@
         </ul>
     </div>
 </header>
-
+<body>
 <div class="am-cf admin-main">
 
     <!-- sidebar start -->
@@ -139,17 +139,17 @@
                                             </option>
                                         </select>
 
-                                   <!--     <select data-am-selected id="SelectedIDSearch" name="SelectedIDSearch" v-model="selected">
-                                           {{ $s := .SearchType }}
-                                            {{if eq $s "2" }}
-                                            <option value="2">根据玩家ID搜索</option>
-                                            <option value="3" selected>根据玩家手机号搜索</option>
-                                            {{ else }}
+                                        <!--     <select data-am-selected id="SelectedIDSearch" name="SelectedIDSearch" v-model="selected">
+                                                {{ $s := .SearchType }}
+                                                 {{if eq $s "2" }}
+                                                 <option value="2">根据玩家ID搜索</option>
+                                                 <option value="3" selected>根据玩家手机号搜索</option>
+                                                 {{ else }}
 
-                                           <option value="1" selected>根据玩家ID搜索</option>
-                                           <option value="2">根据玩家手机号搜索</option>
-                                            {{end}}
-                                       </select>-->
+                                                <option value="1" selected>根据玩家ID搜索</option>
+                                                <option value="2">根据玩家手机号搜索</option>
+                                                 {{end}}
+                                            </select>-->
                                         <input type="text" id="SearchUserid" name="SearchUserid" value=""
                                                class="am-form-field am-input-sm" placeholder="根据玩家ID搜索"/>
                                     </div>
@@ -157,11 +157,12 @@
                             </div>
                         </div>
                         <div class="am-g am-margin-vertical-sm">
-                          <!--  <div class="am-u-sm-12 am-u-md-3">
-                                    {{template "select.html" .}}
-                            </div>-->
+                            <!--  <div class="am-u-sm-12 am-u-md-3">
+                                      {{template "select.html" .}}
+                              </div>-->
                             <div class="am-u-sm-12 am-u-md-3 am-u-end">
-                                <input id="Search" class="am-btn am-btn-primary" value="搜索" type="button" v-on:click="onSearch"> </input>
+                                <input id="Search" class="am-btn am-btn-primary" value="搜索" type="button"
+                                       v-on:click="onSearch"> </input>
                                 <a href="/roles/list.html"><input type="button" class="am-btn" value="重置"/> </a>
                             </div>
                         </div>
@@ -205,8 +206,8 @@
                         <tbody>
 
                         <!--       {{ range $element := .users }}-->
-                        <tr v-for="item in items">
-                            <td class="am-text-middle am-hide-sm-only">{{item.Userid }}</td>
+                        <tr v-for="(item,index) in items">
+                            <td class="am-text-middle am-hide-sm-only"> {{ item.Userid }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{item.Nickname }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{item.Sex }}</td>
                             <!--    {{ $sex := $element.Sex }}
@@ -232,7 +233,7 @@
                                 <div class="am-btn-toolbar">
                                     <div class="am-btn-group am-btn-group-xs">
                                         <button class="am-btn am-btn-default am-input-sm"
-                                                onclick="javascript:button_onedit()">编辑
+                                                v-on:click="button_onedit(index)">编辑
                                         </button>
                                     </div>
                                 </div>
@@ -256,7 +257,6 @@
                                                     </td>-->
                         </tr>
                         <!--   {{ end }}-->
-
                         </tbody>
                     </table>
                     <!--   {{ end }}-->
@@ -280,64 +280,64 @@
         </div>
         <hr>
 
-        <div class="am-g">
+        <div class="am-g" >
             <div class="am-u-md-6">
-                <form class="am-form am-form-horizontal">
+                <form class="am-form am-form-horizontal" id="edit_user">
 
                     <div class="am-form-group am-margin-vertical-sm">
                         <label for="Userid" class="am-u-sm-2 am-form-label">帐号ID</label>
                         <div class="am-u-sm-10">
-                            <input id="Userid" type="text" readonly="readonly" name="Userid" value=""/>
+                            <input id="Userid" type="text" readonly="readonly" name="Userid" v-mode="Userid"/>
                         </div>
                     </div>
                     <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Phone" class="am-u-sm-2 am-form-label">手机号</label>
+                        <label class="am-u-sm-2 am-form-label">手机号</label>
                         <div class="am-u-sm-10">
-                            <input id="Phone" type="text" name="Phone" readonly="readonly" value=""/>
+                            <input id="Phone" type="text" name="Phone" readonly="readonly" value="" v-mode="Phone"/>
                         </div>
                     </div>
 
                     <div class="am-form-group am-margin-vertical-sm">
                         <label for="Nickname" class="am-u-sm-2 am-form-label">玩家昵称</label>
                         <div class="am-u-sm-10">
-                            <input id="Nickname" type="text" name="Nickname" value=""/>
+                            <input id="Nickname" type="text" name="Nickname" value="" v-mode="Nickname"/>
                         </div>
                     </div>
-
+                    <span>Nickname: {{ Nickname }}</span>
                     <div class="am-form-group">
                         <label class="am-u-sm-2 am-form-label">性别</label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="Sex"> 男
+                            <input type="radio" value="1" name="Sex" id="Sex1" > 男
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" name="Sex" value="2" checked required>女
+                            <input type="radio" name="Sex" value="2" id="Sex2"  checked required>女
                         </label>
                     </div>
 
                     <div class="am-form-group am-margin-vertical-sm">
                         <label for="Coin" class="am-u-sm-2 am-form-label">金币</label>
                         <div class="am-u-sm-10">
-                            <input id="Coin" type="text" name="Coin" value=""/>
+                            <input id="Coin" type="text" name="Coin" value="" v-mode="Coin"/>
                         </div>
                     </div>
                     <div class="am-form-group am-margin-vertical-sm">
                         <label for="Diamond" class="am-u-sm-2 am-form-label">钻石</label>
                         <div class="am-u-sm-10">
-                            <input id="Diamond" type="text" name="Diamond" value=""/>
+                            <input id="Diamond" type="text" name="Diamond" value="" v-mode="Diamond"/>
                         </div>
                     </div>
 
                     <div class="am-form-group am-margin-vertical-sm">
                         <label for="vip" class="am-u-sm-2 am-form-label">VIP</label>
                         <div class="am-u-sm-10">
-                            <input id="Vip" type="text" name="Vip" value=""/>
+                            <input id="Vip" type="text" name="Vip" value="" v-mode="Vip"/>
                         </div>
                     </div>
 
                     <div class="am-form-group am-margin-vertical-sm">
                         <label for="Exp" class="am-u-sm-2 am-form-label">经验</label>
                         <div class="am-u-sm-10">
-                            <input id="Exp" type="text" name="Exp" value=""/>
+                            <input id="Exp" type="text" name="Exp" value="" v-mode="Exp"/>
                         </div>
                     </div>
 
@@ -345,13 +345,13 @@
                     <div class="am-form-group am-margin-vertical-sm">
                         <label for="Ticket" class="am-u-sm-2 am-form-label">入场券</label>
                         <div class="am-u-sm-10">
-                            <input id="Ticket" type="text" name="Ticket" value=""/>
+                            <input id="Ticket" type="text" name="Ticket" value="" v-mode="Ticket"/>
                         </div>
                     </div>
                     <div class="am-form-group am-margin-vertical-sm">
                         <label for="Exchange" class="am-u-sm-2 am-form-label">兑换券</label>
                         <div class="am-u-sm-10">
-                            <input id="Exchange" type="text" name="Exchange" value=""/>
+                            <input id="Exchange" type="text" name="Exchange" value="" v-mode="Exchange"/>
                         </div>
                     </div>
 
@@ -359,7 +359,7 @@
                     <div class="am-form-group am-margin-vertical-sm">
                         <label for="Win" class="am-u-sm-2 am-form-label">胜局</label>
                         <div class="am-u-sm-10">
-                            <input id="Win" type="text" name="Win" readonly="readonly" value=""/>
+                            <input id="Win" type="text" name="Win" readonly="readonly" value="" v-mode="Win"/>
                         </div>
                     </div>
 
@@ -367,14 +367,14 @@
                     <div class="am-form-group am-margin-vertical-sm">
                         <label for="Lost" class="am-u-sm-2 am-form-label">败局</label>
                         <div class="am-u-sm-10">
-                            <input id="Lost" type="text" name="Lost" readonly="readonly" value=""/>
+                            <input id="Lost" type="text" name="Lost" readonly="readonly" value="" v-mode="Lost"/>
                         </div>
                     </div>
 
                     <div class="am-form-group am-margin-vertical-sm">
                         <label for="Ping" class="am-u-sm-2 am-form-label">平局</label>
                         <div class="am-u-sm-10">
-                            <input id="Ping" type="text" name="Ping" readonly="readonly" value=""/>
+                            <input id="Ping" type="text" name="Ping" readonly="readonly" value="" v-mode="Ping"/>
                         </div>
                     </div>
 
@@ -382,14 +382,15 @@
                     <div class="am-form-group am-margin-vertical-sm">
                         <label for="Photo" class="am-u-sm-2 am-form-label">头像</label>
                         <div class="am-u-sm-10">
-                            <input id="Photo" type="text" name="Photo" readonly="readonly" value=""/>
+                            <input id="Photo" type="text" name="Photo" readonly="readonly" value="" v-mode="Photo"/>
                         </div>
                     </div>
 
                     <div class="am-form-group am-margin-vertical-sm">
                         <label for="password" class="am-u-sm-2 am-form-label">密码</label>
                         <div class="am-u-sm-10">
-                            <input id="password" type="text" name="Password" value="" placeholder="此项留空表示不修改密码！"/>
+                            <input id="Password" type="text" name="Password" value="" placeholder="此项留空表示不修改密码！"
+                                   v-mode="Password"/>
                             <!-- <small>此项留空表示不修改密码！</small>-->
                         </div>
                     </div>
@@ -397,21 +398,21 @@
                     <div class="am-form-group am-margin-vertical-sm">
                         <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
                         <div class="am-u-sm-10">
-                            <input id="password1" type="text" name="Password1" value=""/>
+                            <input id="Password1" type="text" name="Password1" value="" v-mode="Password1"/>
                         </div>
                     </div>
 
                     <div class="am-form-group am-margin-vertical-sm">
                         <label class="am-u-sm-2 am-form-label">注册时间</label>
                         <div class="am-u-sm-10">
-                            <input id="Create_time" type="text" name="" value="" disabled/>
+                            <input id="Create_time" type="text" name="" v-mode="Create_time" value="" disabled/>
                         </div>
                     </div>
 
                     <div class="am-form-group am-margin-vertical-sm">
                         <label class="am-u-sm-2 am-form-label">注册IP地址</label>
                         <div class="am-u-sm-10">
-                            <input id="Create_ip" type="text" name="" value="" disabled/>
+                            <input id="Create_ip" type="text" name="" v-mode="Create_ip" value="" disabled/>
                         </div>
                     </div>
 
@@ -419,9 +420,12 @@
                         <div class="am-form-group">
                             <label class="am-u-sm-2 am-form-label"></label>
                             <div class="am-u-sm-10">
-                                <input type="button" name="send" id="send" class="am-btn am-btn-primary" value="提交"
-                                       onclick="javascript:button_onSave();"/>
-                                <input type="button" class="am-btn" value="返回" onclick="javascript:button_onback();"/>
+                                <button type="button" class="am-btn am-btn-primary" value=""
+                                        v-on:click="onSubmit">提交
+                                </button>
+
+                                <input type="button" class="am-btn" value="返回" v-on:click="button_onback"/>
+
 
                             </div>
                         </div>
@@ -449,29 +453,94 @@
 
 <script type="text/javascript">
 
+
+
+    var edit = new Vue({
+                el: '#edit_user',
+                data: {},
+                methods: {
+                    button_onback: function button_onback() {
+                        $("#edit_pane").hide();
+                        $("#list_pane").show();
+                        $.Alert(JSON.stringify(this.$data))
+                    },
+                    onSubmit: function () {
+                        console.info(this.$data)
+                        $.Alert( JSON.stringify(edit.$data))
+                        return
+                        $.ajax({
+                            type: "POST",
+                            url: "/roles/edit",
+                            data: {},
+
+                            dataType: "json",
+                            success: function (data) {
+                                if (data["status"] == "ok") {
+                                    // window.location.href="/roles/list";
+                                    window.location.reload()
+                                } else {
+                                    $.Alert(data["status"])
+                                }
+                                $("#edit_pane").hide();
+                                $("#list_pane").show();
+                            }
+                        });
+
+                    }
+                }
+            }
+    )
+
     var userdatalist = new Vue({
         el: '#userdatalist',
-        data: {items:[]}
+        data: {items: []},
+        methods: {
+            button_onedit: function (index) {
+                $("#list_pane").hide();
+                $("#edit_pane").show();
+                if (userdatalist.$data["items"].length > 0) {
+                    var data = userdatalist.$data["items"][index]
+
+                    console.info(data)
+                    edit.$data = data
+                    //edit.$data["Nickname"] = data.Nickname
+                     data["Password"] = ""
+                     data["Password1"] = ""
+                        for (var p in data) {
+                     if ($("#" + p) && p != "Sex") {
+                     ($("#" + p)).val(data[p])
+                     }
+                     }
+                     console.info(data.Sex, $("#Sex1"))
+                     if (data.Sex == "1") {
+                     $("#Sex1").checked = true;
+                     $("#Sex2").checked = false;
+                     } else {
+                     $("#Sex1").checked = false;
+                     $("#Sex2").checked = true;
+                     }
+
+                }
+            }
+        }
     })
 
     var searchButton = new Vue({
         el: '#Search',
-        data: {
-
-        },
+        data: {},
         // 在 `methods` 对象中定义方法
         methods: {
             onSearch: function (event) {
                 $.ajax({
                     type: "POST",
                     url: "/roles/list",
-                    data: {SelectedIDSearch:"2",SearchUserid:"13435333722"},
+                    data: {SelectedIDSearch: "2", SearchUserid: "13435333722"},
                     dataType: "json",
                     success: function (data) {
                         if (data["status"] == "ok") {
                             console.info(data["data"])
 
-                            userdatalist._data["items"] =data["data"]
+                            userdatalist.$data["items"] = data["data"]
                         }
                     }
                 });
@@ -479,165 +548,51 @@
         }
     })
 
-    var searchSelect= new Vue({
+    var searchSelect = new Vue({
         el: '#collapse-panel-search',
         data: {
             selected: '1',
             options: [
-                { text: '菜单一', value: '1' },
-                { text: '菜单二', value: '2' },
-                { text: '菜单三', value: '3' }
+                {text: '菜单一', value: '1'},
+                {text: '菜单二', value: '2'},
+                {text: '菜单三', value: '3'}
             ],
         }
     })
-/*
-    var searchSelect=new Vue({
-        el: '#collapse-panel-search',
-        data: { open: true, selected:"2" }, watch: { selected: function(val) { this.open = val == "2" ? true : false; $.Alert(val)} }
-    })
-*/
 
 
-    function button_onedit(userid, nickname, ping, win, lost, vip, ticket, exp, exchange, sex, phone, diamond, coin, create_ip, create_time) {
-        var obj = document.getElementsByName("Sex")
-        if (sex == "1") {
-            obj[0].checked = true;
-            obj[1].checked = false;
-        } else {
-            obj[0].checked = false;
-            obj[1].checked = true;
-        }
-
-        //这里写你要执行的语句
-        $("#Nickname").val(nickname);
-        $("#Userid").val(userid);
-        $("#Diamond").val(diamond);
-        $("#Coin").val(coin);
-        $("#Exp").val(exp);
-        $("#Exchange").val(exchange);
-        $("#Vip").val(vip);
-        $("#Ticket").val(ticket);
-        $("#Ping").val(ping);
-        $("#Win").val(win);
-
-        $("#Lost").val(lost);
-        $("#Phone").val(phone);
-        $("#Create_ip").val(create_ip);
-        $("#Create_time").val(create_time);
-        // alertMsg(nickname)
-
-        $("#list_pane").hide();
-
-        $("#edit_pane").show();
-    }
-
-
-    function button_onSave() {
-        //这里写你要执行的语句
-        var sex = null;
-        var obj = document.getElementsByName("Sex")
-        for (var i = 0; i < obj.length; i++) { //遍历Radio
-            if (obj[i].checked) {
-                sex = obj[i].value;
-                break;
+    $.ajax({
+        type: "POST",
+        url: "/sidebar",
+        data: {},
+        dataType: "json",
+        success: function (data) {
+            if (data["status"] == "ok") {
+                console.info(data["data"])
+                new Vue({
+                    el: '#admin-sidebar-list',
+                    data: {items: data["data"]}
+                })
             }
         }
+    });
 
-        $.ajax({
-            type: "POST",
-            url: "/roles/edit",
-            data: {
-                Vip: $("#Vip").val(),
-                Userid: $("#Userid").val(),
-                Lost: $("#Lost").val(),
-                Win: $("#Win").val(),
-                Ping: $("#Ping").val(),
-                Ticket: $("#Ticket").val(),
-                Exchange: $("#Exchange").val(),
-                Exp: $("#Exp").val(),
-                Coin: $("#Coin").val(),
-                Diamond: $("#Diamond").val(),
-                Nickname: $("#Nickname").val(),
-                Phone: $("#Phone").val(),
-                Userid: $("#Userid").val(),
-                Sex: sex
-            },
 
-            dataType: "json",
-            success: function (data) {
-                if (data["status"] == "ok") {
-                    // window.location.href="/roles/list";
-                    window.location.reload()
-                } else {
-                    $.Alert(data["status"])
-                }
-                $("#edit_pane").hide();
-                $("#list_pane").show();
+    $.ajax({
+        type: "POST",
+        url: "/roles/list",
+        data: {},
+        dataType: "json",
+        success: function (data) {
+            if (data["status"] == "ok") {
+                console.info(data["data"].length)
+                console.info(userdatalist._data)
+                userdatalist.$data["items"] = data["data"]
             }
-        });
-    }
-
-
-    function button_onback() {
-        $("#edit_pane").hide();
-        $("#list_pane").show();
-    }
-
-
-
-
-    $(document).ready(function () {
-        $("#edit_pane").hide();
-
-        $.ajax({
-            type: "POST",
-            url: "/sidebar",
-            data: {},
-            dataType: "json",
-            success: function (data) {
-                if (data["status"] == "ok") {
-                    console.info(data["data"])
-                    new Vue({
-                        el: '#admin-sidebar-list',
-                        data: {items: data["data"]}
-                    })
-                }
-            }
-        });
-
-
-        $.ajax({
-            type: "POST",
-            url: "/roles/list",
-            data: {},
-            dataType: "json",
-            success: function (data) {
-                if (data["status"] == "ok") {
-                    console.info(data["data"].length)
-                  /* new Vue({
-                        el: '#userdatalist',
-                        data: {items: data["data"]}
-                    })*/
-                    console.info(userdatalist._data)
-                   userdatalist._data["items"] =data["data"]
-                }
-            }
-        });
+        }
     });
 
     $(function () {
-
-        /*   $("#FormSearch").submit(function(event) {event.preventDefault()})//取消submit的默认行为
-         $("form input[type='submit']").click(function(){
-         var url = $('FormSearch').attr('action'); // 取Form中要提交的链接
-         var param = {}; // 组装发送参数
-         param['name']  = $('form input[name=SelectedIDSearch]').val();
-         param['SearchUserid'] = $('form input[name=SearchUserid]').val();
-         $.get("/roles/list" ,param, function(dom) { $('div.get').append(dom) }) ;  // 发送并显示返回内容
-         //alertMsg(url)
-         });*/
-
-
         var startDate = new Date(2000, 1, 1);
         var endDate = new Date(2099, 11, 25);
         var $alert = $('#my-alert');
@@ -663,14 +618,6 @@
             }
             $(this).datepicker('close');
         });
-
-        var $selected = $('#SelectedIDSearch');
-        $selected.on('change', function () {
-            $("#SearchUserid").attr('placeholder', $(this).find('option').eq(this.selectedIndex).text())
-            $("#SearchUserid").val("")
-            //alertMsg($(this).find('option').eq(this.selectedIndex).val())
-        });
-
     });
 
 </script>
