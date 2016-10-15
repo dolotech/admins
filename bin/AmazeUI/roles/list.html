@@ -107,7 +107,6 @@
 
         </div>
     </div>
-    <!-- sidebar end -->
 
     <!-- content start -->
     <div class="admin-content" id="list_pane">
@@ -120,87 +119,47 @@
 
             <hr>
 
-            <form class="am-form"  data-am-validator id="FormSearch">
-
+            <form class="am-form" data-am-validator id="Search">
                 <div class="am-g">
-                    <div class="am-u-sm-12 am-u-md-3">
-                        <div class="am-form-group">
-                            <select name=""  v-model="pages" data-am-selected="{btnSize: 'sm'}">
-                                <option v-for="page in pages" v-bind:value="page.value">
+
+                    <div class="am-u-sm-12 am-u-md-3" >
+                        <div class="am-form-group" id="SearchPages">
+
+                            <select name="" v-model="selected" data-am-selected="{btnSize: 'sm'}">
+                                <option v-for="page in pages" v-bind:value="page.value" v-if="page.value == selected" selected >
                                     {{page.text}}
+                                </option>
+                                <option v-for="page in pages" v-bind:value="page.value" v-if="page.value !=  selected">
+                                    {{page.text}}
+                                </option>
+
+                            </select>
+                            <span>Selected: {{ selected }}</span>
+
+                        </div>
+                    </div>
+
+                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                        <div class="am-form-group">
+                            <select v-model="selected" data-am-selected="{btnSize: 'sm'}">
+                                <option v-for="option in options" v-bind:value="option.value">
+                                    {{ option.text }}
                                 </option>
                             </select>
                         </div>
                     </div>
-
-
-                  <!--  {{template "select.html" .}}-->
-                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
-                        <div class="am-form-group">
-                        <select v-model="selected" data-am-selected="{btnSize: 'sm'}">
-                            <option v-for="option in options" v-bind:value="option.value">
-                                {{ option.text }}
-                            </option>
-                        </select>
-                        </div>
-                    </div>
-
 
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
                         <input type="text" id="SearchUserid" name="SearchUserid" value=""
                                class="am-form-field am-input-sm" placeholder="" v-model="SearchValue"/>
                     </div>
                     <div class="am-u-sm-12 am-u-md-2 am-u-end">
-                      <!--  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>-->
+                        <!--  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>-->
                         <input class="am-btn am-btn-primary" value="搜索" type="button"
                                v-on:click="onSearch"> </input>
                         <input type="button" class="am-btn" value="重置" v-on:click="onReset"/>
                     </div>
                 </div>
-              <!--  <div class="am-g">
-                    <div class="am-panel am-panel-default">
-                        <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索玩家<span
-                                class="am-icon-chevron-down am-fr"></span>
-                        </div>
-                        <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
-                            <div class="am-g am-margin-vertical-sm">
-                                <div class="am-u-sm-12 am-u-md-3">
-                                    <div class="am-form-group">
-
-                                        <select v-model="selected">
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <input type="text" id="SearchUserid" name="SearchUserid" value=""
-                                               class="am-form-field am-input-sm" placeholder="" v-model="SearchValue"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="am-g am-margin-vertical-sm">
-                            &lt;!&ndash;  <div class="am-u-sm-12 am-u-md-3">
-                                      {{template "select.html" .}}
-                              </div>&ndash;&gt;
-
-                            <div class="am-u-sm-12 am-u-md-3">
-                                <div class="am-form-group">
-                                    <select name="" data-am-selected="{btnSize: 'sm'}">
-                                        <option selected="selected" value="">1</option>
-                                        <option value="">2</option>
-                                    </select>
-                                </div>
-                            </div>
-
-
-                            <div class="am-u-sm-12 am-u-md-3 am-u-end">
-                                <input class="am-btn am-btn-primary" value="搜索" type="button"
-                                       v-on:click="onSearch"> </input>
-                                <input type="button" class="am-btn" value="重置" v-on:click="onReset"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
             </form>
 
             <div class="am-g">
@@ -233,11 +192,10 @@
                         </thead>
                         <tbody>
 
-                        <tr v-for="(item,index) in items">
+                        <tr v-for="(item,index) in items " >
                             <td class="am-text-middle am-hide-sm-only"> {{ item.Userid }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{item.Nickname }}</td>
-
-                            <td v-if="item.Sex==0" class="am-text-middle am-hide-sm-only">其他</td>
+                            <td v-if="item.Sex!=1 && item.Sex!=2" class="am-text-middle am-hide-sm-only">其他</td>
                             <td v-if="item.Sex==1" class="am-text-middle am-hide-sm-only">男</td>
                             <td v-if="item.Sex==2" class="am-text-middle am-hide-sm-only">女</td>
 
@@ -272,16 +230,18 @@
                 共 {{allrecords}} 条记录
                 <div class="am-fr">
                     <ul class="am-pagination">
-                        <li  class="am-enabled"  v-if="showFirst"><a href="javascript:void(0)"  type="button" v-on:click="cur--">«</a></li>
-                        <li   v-for="index in indexs"  v-bind:class="{ 'am-active': cur == index}">
-                            <a href="javascript:void(0)" type="button" v-on:click="btnClick(index)">{{ index }}</a href="#">
+                        <li class="am-enabled" v-if="showFirst"><a href="javascript:void(0)" type="button"
+                                                                   v-on:click="cur--">«</a></li>
+                        <li v-for="index in indexs" v-bind:class="{ 'am-active': cur == index}">
+                            <a href="javascript:void(0)" type="button" v-on:click="btnClick(index)">{{ index
+                                }}</a>
                         </li>
-                        <li  class="am-enabled" v-if="showLast"><a href="javascript:void(0)" type="button" v-on:click="cur++">»</a></li>
+                        <li class="am-enabled" v-if="showLast"><a href="javascript:void(0)" type="button"
+                                                                  v-on:click="cur++">»</a></li>
                     </ul>
                 </div>
             </div>
             <hr/>
-            <!--      </form>-->
         </div>
     </div>
 
@@ -330,6 +290,7 @@
                         </label>
                         <label class="am-radio-inline">
                             <input type="radio" name="Sex" value="0" id="Sex3" v-model="items.Sex">其他
+
                         </label>
                     </div>
 
@@ -580,82 +541,39 @@
         }
     })
 
-
-    var searchSelect = new Vue({
-        el: '#FormSearch',
+    var pages = new Vue({
+        el: '#SearchPages',
         data: {
-            selected: '1',
-            options: [
-                {text: '根据玩家ID搜索', value: '1'},
-                {text: '根据玩家手机号搜索', value: '2'},
-            ],
-
-
-            page: '1',
+            selected: "50",
             pages: [
-                {text: '30', value: '1'},
-                {text: '50', value: '2'},
-                {text: '100', value: '3'},
-                {text: '200', value: '4'},
-            ],
-
-            SearchValue: ""
-        },
-        methods: {
-            onReset: function () {
-                this.$data.selected = "1"
-                this.$data.SearchValue = ""
-                $.ajax({
-                    type: "POST",
-                    url: "/roles/list",
-                    data: {},
-                    dataType: "json",
-                    success: function (data) {
-                        if (data["status"] == "ok") {
-                            console.info(data["data"])
-
-                            userdatalist.$data["items"] = data["data"]
-                        }
-                    }
-                });
-                // $.Alert("reset")
-            },
-            onSearch: function (event) {
-
-                // $.Alert(this.$data.SearchValue +":"+this.$data.selected)
-                $.ajax({
-                    type: "POST",
-                    url: "/roles/list",
-                    data: {SelectedIDSearch: this.$data.selected, SearchUserid: this.$data.SearchValue},
-                    dataType: "json",
-                    success: function (data) {
-                        if (data["status"] == "ok") {
-                            console.info(data["data"])
-
-                            userdatalist.$data["items"] = data["data"]
-                        }
-                    }
-                });
-            }
+                {text: '30', value:"30"},
+                {text: '50', value: "50"},
+                {text: '100', value: "100"},
+                {text: '200', value: "200"}
+            ]
         }
     })
+
+
 
     var pageBar = new Vue({
         el: '#pageflip',
         data: {
-            all: Math.ceil(500/30),
-            allrecords:500,
+            all: Math.ceil(500 / pages.$data.selected),
+            allrecords: 500,
             cur: 1
         },
         watch: {
-            cur: function(oldValue , newValue){
-                console.log(arguments)
+            cur: function (oldValue, newValue) {
+               // console.log(arguments)
+                getUserList()
             }
         },
         methods: {
-            btnClick: function(data){//页码点击事件
-                if(data != this.cur){
+            btnClick: function (data) {//页码点击事件
+                if (data != this.cur) {
                     this.cur = data
+
                 }
             }
         },
@@ -697,8 +615,62 @@
                 return true
             }
         }
-        })
+    })
 
+    var searchSelect = new Vue({
+        el: '#Search',
+        data: {
+            selected: '1',
+            options: [
+                {text: '根据玩家ID搜索', value: '1'},
+                {text: '根据玩家手机号搜索', value: '2'}
+            ],
+            SearchValue: "",
+        },
+
+        methods: {
+            onReset: function () {
+                this.$data.selected = "1"
+                this.$data.SearchValue = ""
+                getUserList()
+            }
+            ,
+            onSearch: function (event) {
+                var data={SelectedIDSearch: this.$data.selected,
+                    SearchUserid: this.$data.SearchValue,
+                    Page:pageBar.$data.cur,
+                    PageMax:pages.$data.selected
+                }
+               //  $.Alert(JSON.stringify(data))
+                console.info(data)
+                //return
+                getUserList()
+            }
+        }
+    })
+
+function getUserList() {
+
+    var data={SelectedIDSearch: searchSelect.$data.selected,
+        SearchUserid: searchSelect.$data.SearchValue,
+        Page:pageBar.$data.cur,
+        PageMax:pages.$data.selected
+    }
+    $.ajax({
+        type: "POST",
+        url: "/roles/list",
+        data: data,
+        dataType: "json",
+        success: function (data) {
+            if (data["status"] == "ok") {
+                console.info(data["data"])
+                userdatalist.$data["items"] = data["data"]["list"]
+                pageBar.$data.allrecords = data["data"]["count"]
+                pageBar.$data.all= Math.ceil(data["data"]["count"] / pages.$data.selected)
+            }
+        }
+    });
+}
 
     $.ajax({
         type: "POST",
@@ -717,19 +689,7 @@
     });
 
 
-    $.ajax({
-        type: "POST",
-        url: "/roles/list",
-        data: {},
-        dataType: "json",
-        success: function (data) {
-            if (data["status"] == "ok") {
-                console.info(data["data"].length)
-                console.info(userdatalist._data)
-                userdatalist.$data["items"] = data["data"]
-            }
-        }
-    });
+    getUserList()
 
     $(function () {
         var startDate = new Date(2000, 1, 1);

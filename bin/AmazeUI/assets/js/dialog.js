@@ -18,7 +18,7 @@
 	
 	var uuid = $.dtggetUUID();
 	
-	var defaultStyle = "<style>.dialog"+uuid+"{position:fixed;box-shadow:0px 2px 0px 2px #ccc;border:1px solid #007aff;left:35%;top: 35%;text-align:center;z-index:999999;background:white;color:#595959;border-radius:5px;width:auto;width:30%}.dialog"+uuid+"  p{line-height:44px;}.dialog"+uuid+"  h1{margin:0;font-size:16px;text-align:left;padding:8px 8px 8px 8px;background: #007aff;border-top-left-radius:4px;border-top-right-radius:4px;color:white}.dialog"+uuid+" input{width:40%;margin: 8px;margin-top:0px;background:#007aff;border:0;color:white;border-radius:4px;line-height:22px;height:22px;}</style>";
+	var defaultStyle = "<style>.dialog"+uuid+"{position:fixed;box-shadow:0px 2px 0px 2px #ccc;border:1px solid #3bb4f2;left:35%;top: 35%;text-align:center;z-index:999999;background:white;color:#595959;border-radius:5px;width:auto;width:30%}.dialog"+uuid+"  p{line-height:40px;}.dialog"+uuid+"  h1{margin:0;font-size:16px;text-align:left;padding:8px 8px 8px 8px;background: #0e93d7;border-top-left-radius:4px;border-top-right-radius:4px;color:white}.dialog"+uuid+" input{width:40%;margin: 8px;margin-top:0px;background:#0e93d7;border:0;color:white;border-radius:4px;line-height:22px;height:35px;}</style>";
 	
     function DtgDialog(style){
 	   if( style == null ) {
@@ -47,7 +47,7 @@
 				   
 			       
 	   if(target=='alert'){
-		 html += '<input type="button" value="' + options.okBtn + '" id="dialog_ok'+uid+'" />';
+		 html += '<input type="button"  value="' + options.okBtn + '" id="dialog_ok'+uid+'" />';
 	   }
 	   if(target=='confirm'){
 		 html += '<input type="button" value="' + options.okBtn + '" id="dialog_ok'+uid+'" />'+

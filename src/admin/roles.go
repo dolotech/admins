@@ -50,8 +50,8 @@ type UserData struct {
 	Photo       string
 }
 type roles struct {
-	pager    pager
-	selector selected
+	//pager    pager
+	//	selector selected
 }
 
 // 玩家信息编辑
@@ -129,15 +129,17 @@ func (this *roles) Edit(c *gin.Context) {
 func (this *roles) List(c *gin.Context) {
 	searchType := c.PostForm("SelectedIDSearch")
 	searchValue := c.PostForm("SearchUserid")
-	page_s := c.PostForm("page") // string
-	act_s := c.PostForm("act")   // string
-	limit_s := c.PostForm("limit")
-
-	this.pager.SetPager(page_s, limit_s, act_s)
-
-	this.selector.SetSelect("limit", limit_s, OPTION)
+	page, _ := strconv.Atoi(c.PostForm("Page")) // string
+	if page == 0 {
+		page = 1
+	}
+	pageMax, _ := strconv.Atoi(c.PostForm("PageMax")) // string
+	if pageMax == 0 {
+		pageMax = 30
+	}
 
 	var ids []string
+	var count uint64 = 0
 	if searchValue != "" {
 		if searchType == "1" {
 			ids = append(ids, searchValue)
@@ -152,17 +154,19 @@ func (this *roles) List(c *gin.Context) {
 			}
 			glog.Infoln(ids)
 		}
+		count = uint64(len(ids))
 	} else {
 		lastID, _ := gossdb.C().Get(data.KEY_LAST_USER_ID)
 		idnum, err := strconv.ParseUint(lastID.String(), 10, 64)
-		if err == nil && idnum > 60001 {
-			size := idnum - 60001
-			glog.Infoln("size ", size)
-			this.pager.SetSize(uint32(size))
+		if err == nil && idnum > 60000 {
+			count = idnum - 60000
 		}
-		glog.Infoln(this.pager.GetStart(), this.pager.GetEnd())
-		ids = utils.Between(strconv.FormatUint(idnum-uint64(this.pager.GetEnd()), 10), strconv.FormatUint(idnum-uint64(this.pager.GetStart()), 10))
-
+		end := idnum - uint64(pageMax*(page-1))
+		start := idnum - uint64(pageMax*page)
+		var i uint64
+		for i = end; i > start; i-- {
+			ids = append(ids, strconv.FormatUint(i, 10))
+		}
 	}
 
 	lists := data.GetMultiUser(ids)
@@ -188,7 +192,9 @@ func (this *roles) List(c *gin.Context) {
 		}
 		users = append(users, u)
 	}
-	glog.Infoln("users : ", this.pager, len(users))
 
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": users})
+	data := make(map[string]interface{})
+	data["list"] = users
+	data["count"] = count
+	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": data})
 }
