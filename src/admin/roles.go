@@ -125,34 +125,6 @@ func (this *roles) Edit(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "玩家数据修改成功"})
 }
 
-func (this *roles) EditUser(c *gin.Context) {
-	userid := c.Query("userid")
-	data := &data.User{Userid: userid}
-	data.Get()
-	u := &UserData{
-		Userid:      data.Userid,
-		Phone:       data.Phone,
-		Create_ip:   utils.InetTontoa(data.Create_ip).String(),
-		Create_time: utils.Unix2Str(int64(data.Create_time)),
-		Sex:         data.Sex,
-		Nickname:    data.Nickname,
-		Diamond:     data.Diamond,
-		Coin:        data.Coin,
-		Vip:         data.Vip,
-		Win:         data.Win,
-		Lost:        data.Lost,
-		Ping:        data.Ping,
-		Exp:         data.Exp,
-		Ticket:      data.Ticket,
-		Exchange:    data.Exchange,
-		Photo:       data.Photo,
-	}
-	glog.Infoln(u)
-	c.HTML(http.StatusOK, "edit.html", gin.H{
-		"user": u,
-	})
-}
-
 // 玩家列表, 根据条件检索玩家
 func (this *roles) List(c *gin.Context) {
 	searchType := c.PostForm("SelectedIDSearch")
@@ -167,9 +139,9 @@ func (this *roles) List(c *gin.Context) {
 
 	var ids []string
 	if searchValue != "" {
-		if searchType == "2" {
+		if searchType == "1" {
 			ids = append(ids, searchValue)
-		} else if searchType == "3" {
+		} else if searchType == "2" {
 			glog.Infoln(searchValue)
 			glog.Infoln(utils.PhoneRegexp(searchValue))
 			if utils.PhoneRegexp(searchValue) {
@@ -219,12 +191,4 @@ func (this *roles) List(c *gin.Context) {
 	glog.Infoln("users : ", this.pager, len(users))
 
 	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": users})
-
-	//	c.HTML(http.StatusOK, "lists.html", gin.H{
-	//		"pager":       this.pager,
-	//		"selected":    this.selector,
-	//		"users":       users,
-	//		"SearchValue": searchValue,
-	//		"SearchType":  searchType,
-	//	})
 }

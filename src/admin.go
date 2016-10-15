@@ -66,41 +66,13 @@ func authorityMiddleware() gin.HandlerFunc {
 
 // 页面路由
 func Router(r *gin.Engine) {
-	//r.GET("/", admin.Roles.List)
-	//r.GET("/file", admin.Files.List)
-	//r.POST("/file", admin.Files.Upload)
-	//r.DELETE("/file", admin.Files.Delete)
-	//r.GET("/file/indexdown", admin.Files.IndexDown)
-	//r.GET("/file/indexup", admin.Files.IndexUp)
 
 	r.POST("/roles/list", admin.Roles.List)
 	r.POST("/roles/edit", admin.Roles.Edit)
 
-	//r.GET("/roles/edituser", admin.Roles.EditUser)
-
-	//r.GET("/users/login", admin.Users.Login)
-
 	r.POST("/users/login", admin.Users.Authenticate)
 	r.POST("/sidebar", admin.Sidebar)
 
-	//r.GET("/users/logout/", admin.Users.Logout)
-
-	//r.GET("/users/list", admin.Users.List)
-	//r.GET("/users/edit", admin.Users.Edit)
-	//r.POST("/users/edited", admin.Users.Edited)
-	//r.POST("/users/delete", admin.Users.Delete)
-
-	//r.GET("/users/create", admin.Users.Create)
-	//r.POST("/users/created", admin.Users.Created)
-
-	//r.POST("/users/search", admin.Users.Search)
-	//r.POST("/users/group_list", admin.Users.GroupList)
-	//r.POST("/users/group_edit", admin.Users.GroupEdit)
-	//r.POST("/users/setpwd", admin.Users.Setpwd)
-	//r.GET("/users/setpasswd", admin.Users.Setpasswd)
-	//r.POST("/users/register", admin.Users.RegisterDemo)
-
-	//	r.LoadHTMLGlob("AmazeUI/*/*.html")
 	r.Static("/assets", "AmazeUI/assets")
 	r.Static("/users", "AmazeUI/users")
 	r.Static("/roles", "AmazeUI/roles")

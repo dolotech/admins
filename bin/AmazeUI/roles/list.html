@@ -14,8 +14,6 @@
     <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
     <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../assets/css/admin.css">
-
-
     <style type="text/css">
     </style>
 </head>
@@ -122,8 +120,41 @@
 
             <hr>
 
-            <form class="am-form" action="/roles/list" method="get" data-am-validator id="FormSearch">
+            <form class="am-form"  data-am-validator id="FormSearch">
+
                 <div class="am-g">
+                    <div class="am-u-sm-12 am-u-md-3">
+                        <div class="am-form-group">
+                            <select name="" data-am-selected="{btnSize: 'sm'}">
+                                <option selected="selected" value="">1</option>
+                                <option value="">2</option>
+                            </select>
+                        </div>
+                    </div>
+                  <!--  {{template "select.html" .}}-->
+                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                        <div class="am-form-group">
+                        <select v-model="selected" data-am-selected="{btnSize: 'sm'}">
+                            <option v-for="option in options" v-bind:value="option.value">
+                                {{ option.text }}
+                            </option>
+                        </select>
+                        </div>
+                    </div>
+
+
+                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                        <input type="text" id="SearchUserid" name="SearchUserid" value=""
+                               class="am-form-field am-input-sm" placeholder="" v-model="SearchValue"/>
+                    </div>
+                    <div class="am-u-sm-12 am-u-md-2 am-u-end">
+                      <!--  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>-->
+                        <input class="am-btn am-btn-primary" value="搜索" type="button"
+                               v-on:click="onSearch"> </input>
+                        <input type="button" class="am-btn" value="重置" v-on:click="onReset"/>
+                    </div>
+                </div>
+              <!--  <div class="am-g">
                     <div class="am-panel am-panel-default">
                         <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索玩家<span
                                 class="am-icon-chevron-down am-fr"></span>
@@ -138,36 +169,35 @@
                                                 {{ option.text }}
                                             </option>
                                         </select>
-
-                                        <!--     <select data-am-selected id="SelectedIDSearch" name="SelectedIDSearch" v-model="selected">
-                                                {{ $s := .SearchType }}
-                                                 {{if eq $s "2" }}
-                                                 <option value="2">根据玩家ID搜索</option>
-                                                 <option value="3" selected>根据玩家手机号搜索</option>
-                                                 {{ else }}
-
-                                                <option value="1" selected>根据玩家ID搜索</option>
-                                                <option value="2">根据玩家手机号搜索</option>
-                                                 {{end}}
-                                            </select>-->
                                         <input type="text" id="SearchUserid" name="SearchUserid" value=""
-                                               class="am-form-field am-input-sm" placeholder="根据玩家ID搜索"/>
+                                               class="am-form-field am-input-sm" placeholder="" v-model="SearchValue"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="am-g am-margin-vertical-sm">
-                            <!--  <div class="am-u-sm-12 am-u-md-3">
+                            &lt;!&ndash;  <div class="am-u-sm-12 am-u-md-3">
                                       {{template "select.html" .}}
-                              </div>-->
+                              </div>&ndash;&gt;
+
+                            <div class="am-u-sm-12 am-u-md-3">
+                                <div class="am-form-group">
+                                    <select name="" data-am-selected="{btnSize: 'sm'}">
+                                        <option selected="selected" value="">1</option>
+                                        <option value="">2</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
                             <div class="am-u-sm-12 am-u-md-3 am-u-end">
-                                <input id="Search" class="am-btn am-btn-primary" value="搜索" type="button"
+                                <input class="am-btn am-btn-primary" value="搜索" type="button"
                                        v-on:click="onSearch"> </input>
-                                <a href="/roles/list.html"><input type="button" class="am-btn" value="重置"/> </a>
+                                <input type="button" class="am-btn" value="重置" v-on:click="onReset"/>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </form>
 
             <div class="am-g">
@@ -205,17 +235,13 @@
 
                         <tbody>
 
-                        <!--       {{ range $element := .users }}-->
                         <tr v-for="(item,index) in items">
                             <td class="am-text-middle am-hide-sm-only"> {{ item.Userid }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{item.Nickname }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{item.Sex }}</td>
-                            <!--    {{ $sex := $element.Sex }}
-                                {{ if eq $sex 1 }}
-                                <td class="am-text-middle am-hide-sm-only">男</td>
-                                {{ else }}
-                                <td class="am-text-middle am-hide-sm-only">女</td>
-                                {{ end }}-->
+
+                            <td v-if="item.Sex==0" class="am-text-middle am-hide-sm-only">其他</td>
+                            <td v-if="item.Sex==1" class="am-text-middle am-hide-sm-only">男</td>
+                            <td v-if="item.Sex==2" class="am-text-middle am-hide-sm-only">女</td>
 
                             <td class="am-text-middle am-hide-sm-only">{{ item.Phone }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{ item.Coin }}</td>
@@ -239,14 +265,21 @@
                                 </div>
                             </td>
                         </tr>
-                        <!--   {{ end }}-->
                         </tbody>
                     </table>
-                    <!--   {{ end }}-->
                 </div>
             </div>
 
-
+            <div class="am-cf">
+                共 1 条记录
+                <div class="am-fr">
+                    <ul class="am-pagination">
+                        <li class="am-disabled"><a href="#">«</a></li>
+                        <li class="am-active"><a href="?page={{ $p }}">1</a></li>
+                        <li><a href="?act=next&page={{ .pager.Next }}">»</a></li>
+                    </ul>
+                </div>
+            </div>
             <!--   {{template "pager.html" .}}-->
             <hr/>
             <!--      </form>-->
@@ -262,12 +295,6 @@
             </div>
         </div>
         <hr>
-        <!--    <div id="Test_ID">
-                <span>Test: {{ Test }}</span>
-
-              &lt;!&ndash;  <div  v-test="Test"></div>&ndash;&gt;
-                <input  v-model="Test" type="text" />
-            </div>-->
 
         <div class="am-g">
             <div class="am-u-md-6">
@@ -294,14 +321,16 @@
                         </div>
                     </div>
 
-
                     <div class="am-form-group">
                         <label class="am-u-sm-2 am-form-label">性别</label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="Sex" id="Sex1"> 男
+                            <input type="radio" value="1" name="Sex" id="Sex1" checked required v-model="items.Sex"> 男
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" name="Sex" value="2" id="Sex2" checked required>女
+                            <input type="radio" name="Sex" value="2" id="Sex2" v-model="items.Sex">女
+                        </label>
+                        <label class="am-radio-inline">
+                            <input type="radio" name="Sex" value="0" id="Sex3" v-model="items.Sex">其他
                         </label>
                     </div>
 
@@ -446,7 +475,6 @@
 </html>
 
 <script type="text/javascript">
-
     var edit = new Vue({
                 el: '#edit_user',
                 data: {items: {}},
@@ -526,7 +554,7 @@
                                 if (data["status"] == "ok") {
                                     $.Alert("恭喜，修改成功！")
                                 } else {
-                                    $.Alert(data["status"])
+                                    $.Alert(data["msg"])
                                 }
                                 $("#edit_pane").hide();
                                 $("#list_pane").show();
@@ -553,16 +581,43 @@
         }
     })
 
-    var searchButton = new Vue({
-        el: '#Search',
-        data: {},
-        // 在 `methods` 对象中定义方法
+
+    var searchSelect = new Vue({
+        el: '#FormSearch',
+        data: {
+            selected: '1',
+            options: [
+                {text: '根据玩家ID搜索', value: '1'},
+                {text: '根据玩家手机号搜索', value: '2'},
+            ],
+            SearchValue: ""
+        },
         methods: {
-            onSearch: function (event) {
+            onReset: function () {
+                this.$data.selected = "1"
+                this.$data.SearchValue = ""
                 $.ajax({
                     type: "POST",
                     url: "/roles/list",
-                    data: {SelectedIDSearch: "2", SearchUserid: "13435333722"},
+                    data: {},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data["status"] == "ok") {
+                            console.info(data["data"])
+
+                            userdatalist.$data["items"] = data["data"]
+                        }
+                    }
+                });
+                // $.Alert("reset")
+            },
+            onSearch: function (event) {
+
+                // $.Alert(this.$data.SearchValue +":"+this.$data.selected)
+                $.ajax({
+                    type: "POST",
+                    url: "/roles/list",
+                    data: {SelectedIDSearch: this.$data.selected, SearchUserid: this.$data.SearchValue},
                     dataType: "json",
                     success: function (data) {
                         if (data["status"] == "ok") {
@@ -573,18 +628,6 @@
                     }
                 });
             }
-        }
-    })
-
-    var searchSelect = new Vue({
-        el: '#collapse-panel-search',
-        data: {
-            selected: '1',
-            options: [
-                {text: '菜单一', value: '1'},
-                {text: '菜单二', value: '2'},
-                {text: '菜单三', value: '3'}
-            ],
         }
     })
 
