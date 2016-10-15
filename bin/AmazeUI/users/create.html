@@ -118,12 +118,12 @@
       </div>
 
       <hr>
-<form class="am-form am-form-horizontal">
+<form class="am-form am-form-horizontal" id ="adduser" >
 
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">帐号名称</label>
                 <div class="am-u-sm-10">
-                  <input id="username" type="text" name="username" value="" />
+                  <input id="username" type="text" name="username" value="" v-model="user.Id" />
 
                 </div>
               </div>
@@ -131,7 +131,7 @@
               <div class="am-form-group am-margin-vertical-sm">
                 <label for="realname" class="am-u-sm-2 am-form-label">真实姓名</label>
                 <div class="am-u-sm-10">
-                  <input id="realname" type="text" name="realname" value="" />
+                  <input id="realname" type="text" name="realname" value="" v-model="user.RealName"/>
 
                 </div>
               </div>
@@ -139,7 +139,7 @@
               <div class="am-form-group am-margin-vertical-sm">
                 <label for="password" class="am-u-sm-2 am-form-label">密码</label>
                 <div class="am-u-sm-10">
-                  <input id="password" type="password" name="password" value="" />
+                  <input id="password" type="password" name="password" value="" v-model="user.Pwd"/>
 
                 </div>
               </div>
@@ -147,7 +147,7 @@
               <div class="am-form-group am-margin-vertical-sm">
                 <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
                 <div class="am-u-sm-10">
-                  <input id="password1" type="password" name="password1" value="" />
+                  <input id="password1" type="password" name="password1" value="" v-model="user.Pwd1" />
 
                 </div>
               </div>
@@ -166,7 +166,7 @@
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">限制登录IP</label>
                 <div class="am-u-sm-10">
-                    <input type="text" id="ip_limit" name="ip_limit" value="" />
+                    <input type="text" id="ip_limit" name="ip_limit" value="" v-model="user.IpLimit"/>
                     <small>多个IP用英文,号分开</small>
                 </div>
               </div>
@@ -174,7 +174,7 @@
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">描述</label>
                 <div class="am-u-sm-10">
-                    <textarea id = "description" name="description" style="width:500px; height:160px;"></textarea>
+                    <textarea id = "description" name="description" style="width:500px; height:160px;" v-model="user.Desc"></textarea>
                 </div>
               </div>
 
@@ -182,7 +182,7 @@
               <div class="am-form-group">
                 <label class="am-u-sm-2 am-form-label"></label>
                 <div class="am-u-sm-10">
-                    <input type="button" name="send" id="send" class="am-btn am-btn-primary" value="提交" />
+                    <input type="button" name="send" id="send" class="am-btn am-btn-primary" v-on:click="onSubmit" value="提交" />
                 </div>
               </div>
           </div>
@@ -214,12 +214,40 @@
 </html>
 
 <script>
+    var adduser=new Vue({
+        el:"#adduser",
+        data:{
+            user:{
 
-    $(document).ready(function () {
+            }
+        },
+        methods:{
+            onSubmit:function () {
+              //  return
+                $.ajax({
+                    type: "POST",
+                    url: "/users/created",
+                    data: this.$data["user"],
+                    dataType: "json",
+                    success: function(data){
+                        if( data["status"] == "ok"){
+                            $.Alert(data["msg"])
+                        }else{
+                            $.Alert(data["msg"])
+                        }
+                    }
+                });
+            }
+        }
+    })
+
+
         $.ajax({
             type: "POST",
             url: "/sidebar",
-            data: {},
+            data: {
+
+            },
             dataType: "json",
             success: function(data){
                 if( data["status"] == "ok"){
@@ -231,35 +259,5 @@
                 }
             }
         });
-    });
 
-    $(function(){
-        $('#send').click(function(){
-/*            $.dtgConfirm('确定吗?', function(r) { $.dtgAlert('结果显示: ' + r, '结果提示'); },'警告');*/
-            $.Alert('确定吗?');
-            return
-
-            $.ajax({
-                type: "POST",
-                url: "/users/created",
-                data: {username:$("#username").val(),
-                    name:$("#realname").val(),
-                    ip_limit:$("#ip_limit").val(),
-                    description:$("#description").val(),
-                    password:$("#password").val(),
-                    password1:$("#password1").val(),
-                    group_id:$("#SelectType").val()
-                  },
-                dataType: "json",
-                success: function(data){
-                    if( data["status"] == "ok"){
-                        alertMsg(data["msg"], 0)
-                        window.location.href="/users/list";
-                    }else{
-                        alertMsg(data["msg"], 0)
-                    }
-                }
-            });
-        });
-    });
 </script>

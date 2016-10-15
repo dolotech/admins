@@ -73,6 +73,10 @@ func Router(r *gin.Engine) {
 	r.POST("/users/login", admin.Users.Authenticate)
 	r.POST("/sidebar", admin.Sidebar)
 
+	r.POST("/users/created", admin.Users.Created)
+	r.POST("/users/list", admin.Users.List)
+	r.POST("/users/delete", admin.Users.Delete)
+
 	r.Static("/assets", "AmazeUI/assets")
 	r.Static("/users", "AmazeUI/users")
 	r.Static("/roles", "AmazeUI/roles")

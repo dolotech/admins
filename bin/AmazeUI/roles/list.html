@@ -497,7 +497,7 @@
                     }
                 },
                 methods: {
-                    button_onback: function button_onback() {
+                    button_onback: function () {
                         $("#edit_pane").hide();
                         $("#list_pane").show();
                     },
@@ -632,6 +632,7 @@
             onReset: function () {
                 this.$data.selected = "1"
                 this.$data.SearchValue = ""
+                Page:pageBar.$data.cur = 1,
                 getUserList()
             }
             ,
@@ -640,6 +641,7 @@
                     SearchUserid: this.$data.SearchValue,
                     Page:pageBar.$data.cur,
                     PageMax:pages.$data.selected
+
                 }
                //  $.Alert(JSON.stringify(data))
                 console.info(data)

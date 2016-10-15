@@ -83,12 +83,15 @@ func (u *User) MultiHsetSave(kvs map[string]interface{}) error {
 	return gossdb.C().MultiHset(USERS+u.Id, kvs)
 }
 func (u *User) Save() error {
-	return gossdb.C().PutObject(USERS+u.Id, u)
+	err := gossdb.C().Hset(USERS_INDEX, u.Id, u.Id)
+	if err == nil {
+		return gossdb.C().PutObject(USERS+u.Id, u)
+	}
+	return err
 }
 
 func (u *User) Delete(c *gin.Context) {
-
-	u.Id = c.PostForm("username")
+	u.Id = c.PostForm("Id")
 	if u.Id != "" {
 		if u.Del() == nil {
 			c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "删除成功"})
@@ -174,19 +177,15 @@ func (u *User) Logout(c *gin.Context) {
 // 	})
 // }
 
-func (u *User) Create(c *gin.Context) {
-	c.HTML(http.StatusOK, "create.html", gin.H{})
-}
-
 func (u *User) Created(c *gin.Context) {
-	password := c.PostForm("password")
-	password1 := c.PostForm("password1")
-	u.Id = c.PostForm("username")
-	u.Name = c.PostForm("name")
+	password := c.PostForm("Pwd")
+	password1 := c.PostForm("Pwd1")
+	u.Id = c.PostForm("Id")
+	u.Name = c.PostForm("RealName")
 	u.Passwd = utils.Md5(password)
-	u.Ip_limit = c.PostForm("ip_limit")
-	u.Group_id = c.PostForm("group_id")
-	u.Description = c.PostForm("description")
+	u.Ip_limit = c.PostForm("IpLimit")
+	u.Group_id = c.PostForm("GroupId")
+	u.Description = c.PostForm("Desc")
 
 	glog.Infoln("password:", password, " password1:", password1, "group_id:", u.Group_id, "ip_limit:", u.Ip_limit, "username:", u.Id, "name:", u.Name)
 	msg := ""
@@ -238,25 +237,8 @@ func (u *User) Search(c *gin.Context) {
 }
 
 func (u *User) List(c *gin.Context) {
-	//delete := c.Query("delete")
-	//if len(delete) > 0 {
-	//	u.Delete()
-	//}
-	//edit := c.Query("edit")
-	//if len(edit) > 0 {
-	//	u = &User{Id: edit}
-	//	u.Edit(c)
-	//	return
-	//}
-	Pager.GetPager(c)
-	Selected.SetSelect("group_id", "1", GROUPIDS)
 	lists := GetMultiUser()
-	glog.Infoln(len(lists), utils.Sdump(lists))
-	c.HTML(http.StatusOK, "user_list.html", gin.H{
-		"pager":    Pager,
-		"selected": Selected,
-		"list":     lists,
-	})
+	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": lists})
 }
 
 func (u *User) Edit(c *gin.Context) {
@@ -425,10 +407,6 @@ func GetGroupIndexSize() (int64, error) {
 func GetUsersIndex(name string) (string, error) {
 	value, err := gossdb.C().Hget(USERS_INDEX, name)
 	return string(value), err
-}
-
-func SetUsersIndex(name string) error {
-	return gossdb.C().Hset(USERS_INDEX, name, name)
 }
 
 func GetUsersIndexSize() (int64, error) {
