@@ -125,12 +125,15 @@
                 <div class="am-g">
                     <div class="am-u-sm-12 am-u-md-3">
                         <div class="am-form-group">
-                            <select name="" data-am-selected="{btnSize: 'sm'}">
-                                <option selected="selected" value="">1</option>
-                                <option value="">2</option>
+                            <select name=""  v-model="pages" data-am-selected="{btnSize: 'sm'}">
+                                <option v-for="page in pages" v-bind:value="page.value">
+                                    {{page.text}}
+                                </option>
                             </select>
                         </div>
                     </div>
+
+
                   <!--  {{template "select.html" .}}-->
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
                         <div class="am-form-group">
@@ -225,14 +228,9 @@
                             <th class="am-text-nowrap table-type">经验</th>
                             <th class="am-text-nowrap table-type">入场券</th>
                             <th class="am-text-nowrap table-type">兑换券</th>
-
-                            <!--    <th class="am-text-nowrap table-author am-hide-sm-only">注册IP</th>
-                                <th class="am-text-nowrap table-date am-hide-sm-only">注册时间</th>-->
                             <th class="am-text-nowrap table-date am-hide-sm-only">操作</th>
-
                         </tr>
                         </thead>
-
                         <tbody>
 
                         <tr v-for="(item,index) in items">
@@ -270,17 +268,18 @@
                 </div>
             </div>
 
-            <div class="am-cf">
-                共 1 条记录
+            <div class="am-cf" id="pageflip">
+                共 {{allrecords}} 条记录
                 <div class="am-fr">
                     <ul class="am-pagination">
-                        <li class="am-disabled"><a href="#">«</a></li>
-                        <li class="am-active"><a href="?page={{ $p }}">1</a></li>
-                        <li><a href="?act=next&page={{ .pager.Next }}">»</a></li>
+                        <li  class="am-enabled"  v-if="showFirst"><a href="javascript:void(0)"  type="button" v-on:click="cur--">«</a></li>
+                        <li   v-for="index in indexs"  v-bind:class="{ 'am-active': cur == index}">
+                            <a href="javascript:void(0)" type="button" v-on:click="btnClick(index)">{{ index }}</a href="#">
+                        </li>
+                        <li  class="am-enabled" v-if="showLast"><a href="javascript:void(0)" type="button" v-on:click="cur++">»</a></li>
                     </ul>
                 </div>
             </div>
-            <!--   {{template "pager.html" .}}-->
             <hr/>
             <!--      </form>-->
         </div>
@@ -590,6 +589,16 @@
                 {text: '根据玩家ID搜索', value: '1'},
                 {text: '根据玩家手机号搜索', value: '2'},
             ],
+
+
+            page: '1',
+            pages: [
+                {text: '30', value: '1'},
+                {text: '50', value: '2'},
+                {text: '100', value: '3'},
+                {text: '200', value: '4'},
+            ],
+
             SearchValue: ""
         },
         methods: {
@@ -630,6 +639,65 @@
             }
         }
     })
+
+    var pageBar = new Vue({
+        el: '#pageflip',
+        data: {
+            all: Math.ceil(500/30),
+            allrecords:500,
+            cur: 1
+        },
+        watch: {
+            cur: function(oldValue , newValue){
+                console.log(arguments)
+            }
+        },
+        methods: {
+            btnClick: function(data){//页码点击事件
+                if(data != this.cur){
+                    this.cur = data
+                }
+            }
+        },
+        computed: {
+            indexs: function () {
+                var left = 1
+                var right = this.all
+                var ar = []
+                if (this.all >= 11) {
+                    if (this.cur > 5 && this.cur < this.all - 4) {
+                        left = this.cur - 5
+                        right = this.cur + 4
+                    } else {
+                        if (this.cur <= 5) {
+                            left = 1
+                            right = 10
+                        } else {
+                            right = this.all
+                            left = this.all - 9
+                        }
+                    }
+                }
+                while (left <= right) {
+                    ar.push(left)
+                    left++
+                }
+                return ar
+            },
+            showLast: function () {
+                if (this.cur == this.all) {
+                    return false
+                }
+                return true
+            },
+            showFirst: function () {
+                if (this.cur == 1) {
+                    return false
+                }
+                return true
+            }
+        }
+        })
 
 
     $.ajax({
