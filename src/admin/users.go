@@ -92,6 +92,7 @@ func (u *User) Save() error {
 
 func (u *User) Delete(c *gin.Context) {
 	u.Id = c.PostForm("Id")
+	glog.Infoln("id:", u.Id)
 	if u.Id != "" {
 		if u.Del() == nil {
 			c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "删除成功"})

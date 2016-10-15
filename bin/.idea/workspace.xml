@@ -37,10 +37,10 @@
       <file leaf-file-name="list.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AmazeUI/users/list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="256" column="32" selection-start-line="256" selection-start-column="32" selection-end-line="256" selection-end-column="32" />
+            <state relative-caret-position="544">
+              <caret line="269" column="26" selection-start-line="269" selection-start-column="26" selection-end-line="269" selection-end-column="26" />
               <folding>
-                <marker date="1476525541608" expanded="true" signature="876:999" placeholder="..." />
+                <marker date="1476526770652" expanded="true" signature="876:999" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -310,7 +310,7 @@
       <workItem from="1475889784500" duration="62655000" />
       <workItem from="1476235864634" duration="20458000" />
       <workItem from="1476326890575" duration="51709000" />
-      <workItem from="1476496084850" duration="24177000" />
+      <workItem from="1476496084850" duration="25396000" />
     </task>
     <task id="LOCAL-00001" summary="更新登录模板">
       <created>1475138471139</created>
@@ -323,7 +323,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="169022000" />
+    <option name="totallyTimeSpent" value="170241000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
@@ -696,10 +696,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/users/list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="256" column="32" selection-start-line="256" selection-start-column="32" selection-end-line="256" selection-end-column="32" />
+        <state relative-caret-position="544">
+          <caret line="269" column="26" selection-start-line="269" selection-start-column="26" selection-end-line="269" selection-end-column="26" />
           <folding>
-            <marker date="1476525541608" expanded="true" signature="876:999" placeholder="..." />
+            <marker date="1476526770652" expanded="true" signature="876:999" placeholder="..." />
           </folding>
         </state>
       </provider>

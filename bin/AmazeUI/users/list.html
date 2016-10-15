@@ -254,21 +254,23 @@
             },
             onDelete: function (id) {
               // $.Alert(id)
-                console.info(id)
-                return
-                $.ajax({
-                    type: "POST",
-                    url: "/users/delete",
-                    data: {Id: id},
-                    dataType: "json",
-                    success: function (data) {
-                        if (data["status"] == "ok") {
-                            $.Alert(data["msg"])
-                        } else {
-                            $.Alert(data["msg"])
-                        }
-                    }
-                });
+               $.Confirm("你确定要删除？",function (result) {
+                 if (result) {
+                     $.ajax({
+                         type: "POST",
+                         url: "/users/delete",
+                         data: {Id: this.$data["items"][id].Id},
+                         dataType: "json",
+                         success: function (data) {
+                             if (data["status"] == "ok") {
+                                 $.Alert(data["msg"])
+                             } else {
+                                 $.Alert(data["msg"])
+                             }
+                         }
+                     });
+                 }
+               })
             }
         }
     })
