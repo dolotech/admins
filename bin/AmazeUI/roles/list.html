@@ -42,9 +42,9 @@
                 </a>
                 <ul class="am-dropdown-content">
                     <li><a href="#"><span class="am-icon-edit"></span> 用户组管理</a></li>
-                    <li><a href="/users/list"><span class="am-icon-edit"></span> 后台用户账号管理</a></li>
+                    <li><a href="/users/list.html"><span class="am-icon-edit"></span> 后台用户账号管理</a></li>
                     <li><a href="#"><span class="am-icon-edit"></span> 后台操作日志</a></li>
-                    <li><a href=""><span class="am-icon-edit"></span> 修改我的密码</a></li>
+                    <li><a href="/users/create.html"><span class="am-icon-edit"></span> 修改我的密码</a></li>
                 </ul>
             </li>
 
@@ -645,9 +645,30 @@
 
                 }
                //  $.Alert(JSON.stringify(data))
-                console.info(data)
+               // console.info(getcookie("mysession"))
+
                 //return
-                getUserList()
+                var data={SelectedIDSearch: searchSelect.$data.selected,
+                    SearchUserid: searchSelect.$data.SearchValue,
+                    Page:pageBar.$data.cur,
+                    PageMax:pages.$data.selected
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/roles/search",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data["status"] == "ok") {
+                            console.info(data["data"])
+                            userdatalist.$data["items"] = data["data"]["list"]
+                            pageBar.$data.allrecords = data["data"]["count"]
+                            pageBar.$data.all= Math.ceil(data["data"]["count"] / pages.$data.selected)
+                        }else if (data["status"] == "fail"){
+                            $.Alert(data["msg"])
+                        }
+                    }
+                });
             }
         }
     })
@@ -692,7 +713,7 @@ function getUserList() {
     });
 
 
-    getUserList()
+    getUserList( )
 
     $(function () {
         var startDate = new Date(2000, 1, 1);

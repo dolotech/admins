@@ -5,7 +5,7 @@
  * Filename      : files.go
  * Description   :
  * *******************************************************/
-package admin
+package sys
 
 import (
 	"basic/utils"

@@ -1,14 +1,23 @@
-(function($) {
-  'use strict';
+(function ($) {
+    'use strict';
+    $(function () {
+        var $fullText = $('.admin-fullText');
+        $('#admin-fullscreen').on('click', function () {
+            $.AMUI.fullscreen.toggle();
+        });
 
-  $(function() {
-    var $fullText = $('.admin-fullText');
-    $('#admin-fullscreen').on('click', function() {
-      $.AMUI.fullscreen.toggle();
+        $(document).on($.AMUI.fullscreen.raw.fullscreenchange, function () {
+            $fullText.text($.AMUI.fullscreen.isFullscreen ? '退出全屏' : '开启全屏');
+        });
     });
-
-    $(document).on($.AMUI.fullscreen.raw.fullscreenchange, function() {
-      $fullText.text($.AMUI.fullscreen.isFullscreen ? '退出全屏' : '开启全屏');
-    });
-  });
 })(jQuery);
+
+
+//获取指定名称的cookie的值
+function getcookie(objname) {
+    var arrstr = document.cookie.split("; ");
+    for (var i = 0; i < arrstr.length; i++) {
+        var temp = arrstr[i].split("=");
+        if (temp[0] == objname) return unescape(temp[1]);
+    }
+}

@@ -5,7 +5,7 @@
  * Filename      : users.go
  * Description   :
  * *******************************************************/
-package admin
+package sys
 
 import (
 	"net/http"
@@ -24,12 +24,12 @@ type SidebarItem struct {
 
 func Sidebar(c *gin.Context) {
 	items := []SidebarList{
-		{
-			"权限管理",
-			[]SidebarItem{{"/users/list.html", "管理员列表"},
-				{"/users/create.html", "新增管理员"},
-			},
-		},
+		//	{
+		//		"权限管理",
+		//		[]SidebarItem{{"/users/list.html", "管理员列表"},
+		//			{"/users/create.html", "新增管理员"},
+		//		},
+		//	},
 		{
 			"玩家管理",
 			[]SidebarItem{{"/roles/list.html", "玩家列表"},

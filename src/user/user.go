@@ -5,11 +5,12 @@
  * Filename      : users.go
  * Description   :
  * *******************************************************/
-package admin
+package user
 
 import (
 	"basic/ssdb/gossdb"
 	"basic/utils"
+	"data"
 	"fmt"
 	"net/http"
 	"sync"
@@ -17,16 +18,6 @@ import (
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
-)
-
-const (
-	USERS_INDEX      string = "admins_users_index"
-	USER_GROUP_INDEX string = "admins_user_group_index"
-	USER_LOG_INDEX   string = "admins_user_log_index"
-	USERS            string = "admins_users"
-	USERS_LIST       string = "admins_users_list"
-	USER_GROUP       string = "admins_user_group"
-	USER_LOG         string = "admins_user_log"
 )
 
 // 后台管理日志 admin_log
@@ -74,20 +65,22 @@ var GROUPIDS = map[string]string{
 }
 
 func (u *User) Get() error {
-	return gossdb.C().GetObject(USERS+u.Id, u)
+	return gossdb.C().GetObject(data.USERS+u.Id, u)
 }
 func (u *User) MultiHsetSave(kvs map[string]interface{}) error {
-	return gossdb.C().MultiHset(USERS+u.Id, kvs)
+	return gossdb.C().MultiHset(data.USERS+u.Id, kvs)
 }
 func (u *User) Save() error {
-	err := gossdb.C().Hset(USERS_INDEX, u.Id, u.Id)
+	err := gossdb.C().Hset(data.USERS_INDEX, u.Id, u.Id)
 	if err == nil {
-		return gossdb.C().PutObject(USERS+u.Id, u)
+		return gossdb.C().PutObject(data.USERS+u.Id, u)
 	}
 	return err
 }
 
-func (u *User) Delete(c *gin.Context) {
+func Delete(c *gin.Context) {
+
+	u := &User{}
 	u.Id = c.PostForm("Id")
 	glog.Infoln("id:", u.Id)
 	if u.Id != "" {
@@ -102,14 +95,14 @@ func (u *User) Delete(c *gin.Context) {
 
 }
 func (u *User) Del() error {
-	err := gossdb.C().Hdel(USERS_INDEX, u.Id)
+	err := gossdb.C().Hdel(data.USERS_INDEX, u.Id)
 	if err == nil {
-		return gossdb.C().Hclear(USERS + u.Id)
+		return gossdb.C().Hclear(data.USERS + u.Id)
 	}
 
 	return err
 }
-func (u *User) Login(c *gin.Context) {
+func Login(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 
@@ -137,7 +130,7 @@ func (u *User) Login(c *gin.Context) {
 	}
 }
 
-func (u *User) Logout(c *gin.Context) {
+func Logout(c *gin.Context) {
 	glog.Infoln(c.Request.URL.Path)
 	session := sessions.Default(c)
 	glog.Infoln("退出登录", session.Get("loginsession"))
@@ -148,7 +141,7 @@ func (u *User) Logout(c *gin.Context) {
 	//	c.Redirect(http.StatusMovedPermanently, "/users/login")
 }
 
-func (u *User) Create(c *gin.Context) {
+func Create(c *gin.Context) {
 	if c.PostForm("Id") == "" {
 		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户名不能为空"})
 		return
@@ -167,6 +160,7 @@ func (u *User) Create(c *gin.Context) {
 
 	password := c.PostForm("Passwd")
 	password1 := c.PostForm("Passwd1")
+	u := &User{}
 	u.Id = c.PostForm("Id")
 	u.Name = c.PostForm("Name")
 	u.Passwd = utils.Md5(password)
@@ -191,11 +185,11 @@ func (u *User) Create(c *gin.Context) {
 
 	}
 }
-func (u *User) List(c *gin.Context) {
+func List(c *gin.Context) {
 	lists := GetMultiUser()
 	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": lists})
 }
-func (u *User) Edit(c *gin.Context) {
+func Edit(c *gin.Context) {
 	if c.PostForm("Id") == "" {
 		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户名不能为空"})
 		return
@@ -214,6 +208,8 @@ func (u *User) Edit(c *gin.Context) {
 
 	m := make(map[string]interface{})
 	m["ID"] = c.PostForm("Id")
+
+	u := &User{}
 	u.Id = c.PostForm("Id")
 
 	if c.PostForm("name") != "" {
@@ -295,12 +291,12 @@ var tex sync.Mutex
 // value, err := gossdb.C().Get(USER_LOG_INDEX)
 func GetLogIndex() (string, error) {
 	tex.Lock()
-	value, err := gossdb.C().Get(USER_LOG_INDEX)
+	value, err := gossdb.C().Get(data.USER_LOG_INDEX)
 	index := string(value)
 	if index == "" {
 		index = "1"
 	}
-	err = gossdb.C().Set(USER_LOG_INDEX, utils.StringAdd(index))
+	err = gossdb.C().Set(data.USER_LOG_INDEX, utils.StringAdd(index))
 	tex.Unlock()
 	return index, err
 }
@@ -308,31 +304,31 @@ func GetLogIndex() (string, error) {
 // err = gossdb.C().Hset(USER_GROUP_INDEX, Name, id)
 // value, err := gossdb.C().Hget(USER_GROUP_INDEX, Name)
 func GetGroupIndex(name string) (string, error) {
-	value, err := gossdb.C().Hget(USER_GROUP_INDEX, name)
+	value, err := gossdb.C().Hget(data.USER_GROUP_INDEX, name)
 	return string(value), err
 }
 
 func SetGroupIndex(name, id string) error {
-	return gossdb.C().Hset(USER_GROUP_INDEX, name, id)
+	return gossdb.C().Hset(data.USER_GROUP_INDEX, name, id)
 }
 
 func GetGroupIndexSize() (int64, error) {
-	return gossdb.C().Hsize(USER_GROUP_INDEX)
+	return gossdb.C().Hsize(data.USER_GROUP_INDEX)
 }
 
 // err = gossdb.C().Hset(USERS_INDEX, Name, id)
 // value, err := gossdb.C().Hget(USERS_INDEX, Name)
 func GetUsersIndex(name string) (string, error) {
-	value, err := gossdb.C().Hget(USERS_INDEX, name)
+	value, err := gossdb.C().Hget(data.USERS_INDEX, name)
 	return string(value), err
 }
 
 func GetUsersIndexSize() (int64, error) {
-	return gossdb.C().Hsize(USERS_INDEX)
+	return gossdb.C().Hsize(data.USERS_INDEX)
 }
 
 func GetMultiUser() []*User {
-	userids, _ := gossdb.C().MultiHgetAll(USERS_INDEX)
+	userids, _ := gossdb.C().MultiHgetAll(data.USERS_INDEX)
 	usersL := make([]*User, 0, len(userids))
 	for k, _ := range userids {
 		user := &User{Id: k}

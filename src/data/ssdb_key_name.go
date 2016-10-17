@@ -1,6 +1,16 @@
 package data
 
 const (
+	USERS_INDEX      string = "admins_users_index"
+	USER_GROUP_INDEX string = "admins_user_group_index"
+	USER_LOG_INDEX   string = "admins_user_log_index"
+	USERS            string = "admins_users"
+	USERS_LIST       string = "admins_users_list"
+	USER_GROUP       string = "admins_user_group"
+	USER_LOG         string = "admins_user_log"
+)
+
+const (
 	KEY_GAIN_COIN  string = "rankgain"
 	KEY_TOTAL_COIN string = "ranktotal"
 	KEY_EXP        string = "rankexp"
@@ -67,6 +77,6 @@ const (
 	KEY_TRADINGRESULTS string = "tradingresults:"
 	KEY_TRADINGOFFLINE string = "tradingoffline:"
 
-	KEY_PRIVATE_RECORD  string = "private_record:" // 私人局牌局记录roomid
-	KEY_PRIVATE_RECORDS  string = "private_records:" // 私人局牌局记录
+	KEY_PRIVATE_RECORD  string = "private_record:"  // 私人局牌局记录roomid
+	KEY_PRIVATE_RECORDS string = "private_records:" // 私人局牌局记录
 )

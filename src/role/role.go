@@ -5,7 +5,7 @@
  * Filename      : roles.go
  * Description   :
  * *******************************************************/
-package admin
+package role
 
 import (
 	"basic/ssdb/gossdb"
@@ -28,8 +28,6 @@ var OPTION = map[string]string{
 	"100": "100",
 	"200": "200",
 }
-
-var Roles = roles{}
 
 type UserData struct {
 	Userid      string // 用户id
@@ -55,7 +53,7 @@ type roles struct {
 }
 
 // 玩家信息编辑
-func (this *roles) Edit(c *gin.Context) {
+func Edit(c *gin.Context) {
 	userid := c.PostForm("Userid")
 	nickname := c.PostForm("Nickname")
 	sex := c.PostForm("Sex")
@@ -126,7 +124,7 @@ func (this *roles) Edit(c *gin.Context) {
 }
 
 // 玩家列表, 根据条件检索玩家
-func (this *roles) List(c *gin.Context) {
+func Search(c *gin.Context) {
 	searchType := c.PostForm("SelectedIDSearch")
 	searchValue := c.PostForm("SearchUserid")
 	page, _ := strconv.Atoi(c.PostForm("Page")) // string
@@ -156,17 +154,63 @@ func (this *roles) List(c *gin.Context) {
 		}
 		count = uint64(len(ids))
 	} else {
-		lastID, _ := gossdb.C().Get(data.KEY_LAST_USER_ID)
-		idnum, err := strconv.ParseUint(lastID.String(), 10, 64)
-		if err == nil && idnum > 60000 {
-			count = idnum - 60000
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "请输入搜索的内容"})
+		return
+	}
+
+	lists := data.GetMultiUser(ids)
+	users := make([]*UserData, 0, len(lists))
+	glog.Infoln(len(lists), lists)
+	for _, v := range lists {
+		u := &UserData{
+			Userid:      v.Userid,
+			Nickname:    v.Nickname,
+			Phone:       v.Phone,
+			Coin:        v.Coin,
+			Diamond:     v.Diamond,
+			Vip:         v.Vip,
+			Create_ip:   utils.InetTontoa(v.Create_ip).String(),
+			Create_time: utils.Unix2Str(int64(v.Create_time)),
+			Sex:         v.Sex,
+			Ping:        v.Ping,
+			Win:         v.Win,
+			Lost:        v.Lost,
+			Ticket:      v.Ticket,
+			Exchange:    v.Exchange,
+			Exp:         v.Exp,
 		}
-		end := idnum - uint64(pageMax*(page-1))
-		start := idnum - uint64(pageMax*page)
-		var i uint64
-		for i = end; i > start; i-- {
-			ids = append(ids, strconv.FormatUint(i, 10))
-		}
+		users = append(users, u)
+	}
+
+	data := make(map[string]interface{})
+	data["list"] = users
+	data["count"] = count
+	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": data})
+}
+
+// 玩家列表, 根据条件检索玩家
+func List(c *gin.Context) {
+	page, _ := strconv.Atoi(c.PostForm("Page")) // string
+	if page == 0 {
+		page = 1
+	}
+	pageMax, _ := strconv.Atoi(c.PostForm("PageMax")) // string
+	if pageMax == 0 {
+		pageMax = 30
+	}
+
+	var ids []string
+	var count uint64 = 0
+	lastID, _ := gossdb.C().Get(data.KEY_LAST_USER_ID)
+	idnum, err := strconv.ParseUint(lastID.String(), 10, 64)
+	if err == nil && idnum > 60000 {
+		count = idnum - 60000
+	}
+	end := idnum - uint64(pageMax*(page-1))
+	start := idnum - uint64(pageMax*page)
+	var i uint64
+	for i = end; i > start; i-- {
+		ids = append(ids, strconv.FormatUint(i, 10))
 	}
 
 	lists := data.GetMultiUser(ids)

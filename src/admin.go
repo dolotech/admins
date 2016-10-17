@@ -1,13 +1,15 @@
 package main
 
 import (
-	"admin"
 	"basic/ssdb/gossdb"
 	"data"
 	"flag"
 	"net/http"
+	"role"
 	"runtime/debug"
+	"sys"
 	"time"
+	"user"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -67,16 +69,17 @@ func authorityMiddleware() gin.HandlerFunc {
 // 页面路由
 func Router(r *gin.Engine) {
 
-	r.POST("/roles/list", admin.Roles.List)
-	r.POST("/roles/edit", admin.Roles.Edit)
+	r.POST("/roles/list", role.List)
+	r.POST("/roles/search", role.Search)
+	r.POST("/roles/edit", role.Edit)
 
-	r.POST("/users/login", admin.Users.Login)
-	r.POST("/sidebar", admin.Sidebar)
+	r.POST("/users/login", user.Login)
+	r.POST("/sidebar", sys.Sidebar)
 
-	r.POST("/users/create", admin.Users.Create)
-	r.POST("/users/edit", admin.Users.Edit)
-	r.POST("/users/list", admin.Users.List)
-	r.POST("/users/delete", admin.Users.Delete)
+	r.POST("/users/create", user.Create)
+	r.POST("/users/edit", user.Edit)
+	r.POST("/users/list", user.List)
+	r.POST("/users/delete", user.Delete)
 
 	r.Static("/assets", "AmazeUI/assets")
 	r.Static("/users", "AmazeUI/users")
