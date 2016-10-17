@@ -19,9 +19,6 @@ import (
 	"github.com/golang/glog"
 )
 
-var Pager pager
-var Selected selected
-
 const (
 	USERS_INDEX      string = "admins_users_index"
 	USER_GROUP_INDEX string = "admins_user_group_index"
@@ -112,15 +109,7 @@ func (u *User) Del() error {
 
 	return err
 }
-
 func (u *User) Login(c *gin.Context) {
-	glog.Infoln(c.Request.URL.Path)
-	c.HTML(http.StatusOK, "login.html", gin.H{
-		"message": "",
-	})
-}
-
-func (u *User) Authenticate(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 
@@ -131,7 +120,7 @@ func (u *User) Authenticate(c *gin.Context) {
 	} else {
 		keys := utils.Md5(username + password)
 		session := sessions.Default(c)
-		session.Set("username", keys)
+		session.Set("loginsession", keys)
 		session.Save()
 		glog.Infoln("username:", username, "password:", password, session.Get("username"))
 		//		c.Request.Header.Set("Cookie", "username="+cookie)
@@ -151,32 +140,13 @@ func (u *User) Authenticate(c *gin.Context) {
 func (u *User) Logout(c *gin.Context) {
 	glog.Infoln(c.Request.URL.Path)
 	session := sessions.Default(c)
-	glog.Infoln("退出登录", session.Get("username"))
-	session.Set("username", "")
+	glog.Infoln("退出登录", session.Get("loginsession"))
+	session.Set("loginsession", "")
 	session.Clear()
 	session.Save()
-	c.Redirect(http.StatusMovedPermanently, "/users/login")
+	c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "成功退出登录"})
+	//	c.Redirect(http.StatusMovedPermanently, "/users/login")
 }
-
-// func (u *User) User_Edit(c *gin.Context) {
-// 	value, err := u.Get()
-// 	c.HTML(http.StatusOK, "user_edit.html", gin.H{
-// 		"serverName": "麻将",
-// 		"message":    message,
-// 	})
-// }
-//
-// func (u *User) User_List(c *gin.Context) {
-// 	index_size, err := GetUsersIndexSize()
-// 	if err != nil {
-// 		//
-// 	}
-// 	value, err := u.Get()
-// 	c.HTML(http.StatusOK, "user_list.html", gin.H{
-// 		"serverName": "麻将",
-// 		"message":    message,
-// 	})
-// }
 
 func (u *User) Created(c *gin.Context) {
 	password := c.PostForm("Pwd")
@@ -214,29 +184,6 @@ func (u *User) Created(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": msg})
 	}
 }
-
-func (u *User) Search(c *gin.Context) {
-	username := c.PostForm("username")
-	realname := c.PostForm("name")
-	begin := c.PostForm("last_visit_begin")
-	end := c.PostForm("last_visit_end")
-	val, err := GetUsersIndex(username)
-	if err != nil {
-		fmt.Println("err:", err, val)
-	}
-	lists := GetMultiUser()
-	//
-	Selected.SetSelect("group_id", "1", GROUPIDS)
-	c.HTML(http.StatusOK, "user_list.html", gin.H{
-		"list":             lists,
-		"username":         username,
-		"name":             realname,
-		"last_visit_begin": begin,
-		"last_visit_end":   end,
-		"selected":         Selected,
-	})
-}
-
 func (u *User) List(c *gin.Context) {
 	lists := GetMultiUser()
 	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": lists})

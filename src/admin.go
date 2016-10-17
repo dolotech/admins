@@ -44,7 +44,7 @@ func authorityMiddleware() gin.HandlerFunc {
 			}
 		}()
 		//	session := sessions.Default(c)
-		//	token := session.Get("username")
+		//	token := session.Get("loginsession")
 
 		//	uri := c.Request.RequestURI
 
@@ -70,7 +70,7 @@ func Router(r *gin.Engine) {
 	r.POST("/roles/list", admin.Roles.List)
 	r.POST("/roles/edit", admin.Roles.Edit)
 
-	r.POST("/users/login", admin.Users.Authenticate)
+	r.POST("/users/login", admin.Users.Login)
 	r.POST("/sidebar", admin.Sidebar)
 
 	r.POST("/users/created", admin.Users.Created)
