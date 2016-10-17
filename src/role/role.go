@@ -47,10 +47,6 @@ type UserData struct {
 	Ping        uint32
 	Photo       string
 }
-type roles struct {
-	//pager    pager
-	//	selector selected
-}
 
 // 玩家信息编辑
 func Edit(c *gin.Context) {

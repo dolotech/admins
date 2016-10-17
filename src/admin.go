@@ -74,6 +74,7 @@ func Router(r *gin.Engine) {
 	r.POST("/roles/edit", role.Edit)
 
 	r.POST("/users/login", user.Login)
+	r.POST("/users/logout", user.Logout)
 	r.POST("/sidebar", sys.Sidebar)
 
 	r.POST("/users/create", user.Create)
@@ -81,10 +82,14 @@ func Router(r *gin.Engine) {
 	r.POST("/users/list", user.List)
 	r.POST("/users/delete", user.Delete)
 
+	r.POST("/group/create", user.CreateGroup)
+	r.POST("/group/edit", user.EditGroup)
+	r.POST("/group/list", user.ListGroup)
+	r.POST("/group/delete", user.DeleteGroup)
+
 	r.Static("/assets", "AmazeUI/assets")
 	r.Static("/users", "AmazeUI/users")
 	r.Static("/roles", "AmazeUI/roles")
-
 }
 
 // 链接数据库

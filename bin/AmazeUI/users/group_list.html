@@ -1,44 +1,422 @@
-{{template "header.html" .}}
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>贵州麻将后台管理系统</title>
+    <meta name="description" content="这是一个 user 页面">
+    <meta name="keywords" content="user">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="icon" type="image/png" href="../assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="../assets/css/admin.css">
 
-{{template "sidebar.html" .}}
 
-<div class="am-cf am-padding">
-    <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">
-            用户组列表 </strong>  <small></small>
+    <style type="text/css">
+    </style>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+    以获得更好的体验！</p>
+<![endif]-->
+
+<header class="am-topbar am-topbar-inverse admin-header">
+    <div class="am-topbar-brand">
+        <strong>贵州麻将</strong>
+        <small>后台管理系统</small>
     </div>
-    <div class="am-fr am-cf">
-      <button class="am-btn am-btn-default am-input-sm" onclick="location.replace('/group_edit');" type="button">添加用户组</button>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+            <!--
+              <li><a href="javascript:;"><span class="am-icon-envelope-o"></span> 收件箱 <span class="am-badge am-badge-warning">5</span></a></li>
+              -->
+
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <span class="am-icon-bars"></span> 系统设置 <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a href="/users/group_list.html"><span class="am-icon-edit"></span> 用户组管理</a></li>
+                    <li><a href="/users/list.html"><span class="am-icon-edit"></span> 后台用户账号管理</a></li>
+                    <li><a href="#"><span class="am-icon-edit"></span> 后台操作日志</a></li>
+                    <li><a href="/users/edit.html"><span class="am-icon-edit"></span> 修改我的密码</a></li>
+                </ul>
+            </li>
+
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
+                    <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+                    <li><a href="javascript:onlogout();" type="button" ><span class="am-icon-power-off"></span> 退出</a></li>
+                </ul>
+            </li>
+            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span
+                    class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="am-cf admin-main">
+    <!-- sidebar start -->
+    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+        <div class="am-offcanvas-bar admin-offcanvas-bar">
+            <ul class="am-list admin-sidebar-list" id="admin-sidebar-list">
+                <li><a href="/roles/list"><span class="am-icon-home"></span> 首页</a></li>
+
+                <li v-for="item in items" class="admin-parent">
+                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">
+                        <span class="am-icon-file"></span> {{ item.name }} <span
+                            class="am-icon-angle-right am-fr am-margin-right"></span>
+                    </a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+                        <!--  <li >-->
+                        <li v-for="i in item.items">
+                            <a :href="i.path" class="am-cf">
+                                <span class="am-icon-table"></span> {{ i.name}}<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+
+            <div class="am-panel am-panel-default admin-sidebar-panel">
+                <div class="am-panel-bd">
+                    <p><span class="am-icon-bookmark"></span> 公告</p>
+                    <p> 完善中... </p>
+                </div>
+            </div>
+
+            <div class="am-panel am-panel-default admin-sidebar-panel">
+                <div class="am-panel-bd">
+                    <p><span class="am-icon-tag"></span> wiki</p>
+                    <p>Welcome to the majiang wiki!</p>
+                </div>
+            </div>
+
+        </div>
+   </div>
+
+    <!-- content start -->
+    <div class="admin-content" id="userListPane">
+        <div class="admin-content-body">
+            <div class="am-cf am-padding am-padding-bottom-0">
+                <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">账号列表</strong> /
+                    <small>Table</small>
+                </div>
+                <div class="am-fr am-cf">
+                    <a href="/users/group_create.html" class="am-btn am-btn-default am-input-sm" type="button">
+                        添加用户组
+                    </a>
+                </div>
+            </div>
+
+            <hr>
+            <form id="mainForm" method="POST" class="am-form">
+                <!-- panel start -->
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索<span
+                            class="am-icon-chevron-down am-fr"></span></div>
+                    <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+
+                        <div class="am-g am-margin-vertical-sm">
+
+                            <div class="am-u-sm-12 am-u-md-3">
+                                <input type="text" name="username" value="" class="am-form-field am-input-sm"
+                                       placeholder="登陆名"/>
+                            </div>
+
+                            <div class="am-u-sm-12 am-u-md-3">
+                                <input type="text" name="name" value="" class="am-form-field am-input-sm"
+                                       placeholder="真实姓名"/>
+                            </div>
+
+                            <div class="am-form-icon am-u-sm-12 am-u-md-3">
+                                <div class="am-form-icon">
+                                    <i id="date-start-icon" class="am-icon-calendar"></i>
+                                    <input id="date-start" type="text" name="last_visit_begin" value=""
+                                           class="am-form-field am-input-sm" placeholder="最后登录时间-从"/>
+                                </div>
+                            </div>
+
+                            <div class="am-form-icon am-u-sm-12 am-u-md-3">
+                                <div class="am-form-icon">
+                                    <i id="date-end-icon" class="am-icon-calendar"></i>
+                                    <input id="date-end" type="text" name="last_visit_end" value=""
+                                           class="am-form-field am-input-sm" placeholder="最后登录时间-到"/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="am-g am-margin-vertical-sm">
+
+                            <div class="am-u-sm-12 am-u-md-3">
+                                <!-- {{template "select.html" .}}-->
+                            </div>
+                            <div class="am-u-sm-12 am-u-md-3 am-u-end">
+                                <button class="am-btn am-btn-default am-input-sm" type="button">搜索</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- panel end -->
+
+                <table class="am-table am-table-striped am-text-sm am-table-hover" id="list_pane">
+                    <thead>
+                    <tr>
+                        <td class="am-text-nowrap">组编号</td>
+                        <td class="am-text-nowrap">组名称</td>
+                        <td class="am-text-nowrap">权限</td>
+                        <td class="am-text-nowrap">操作</td>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr v-for="(v,index) in items ">
+
+                        <td>{{ v.Id }}</td>
+                        <td>{{ v.Name }}</td>
+                        <td>{{ v.Power }}</td>
+                        <td><a href="#" type="button" v-on:click="onEdit(index )">详细</a> <a href="#" type="button"
+                                                                                            v-on:click="onDelete(index )">删除</a>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+                <!--{{template "pager.html" .}}-->
+
+                <hr/>
+            </form>
+        </div>
+    </div>
+
+
+<!-- content start -->
+<div class="admin-content" id="editPane">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">编辑账号</strong> /
+                <small>Table</small>
+            </div>
+        </div>
+
+        <hr>
+        <form class="am-form am-form-horizontal" id ="adduser" >
+
+            <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">组名编号</label>
+                <div class="am-u-sm-10">
+                    <input id="id" type="text" name="username"  readonly="readonly" value="" v-model="group.Id" />
+
+                </div>
+            </div>
+
+            <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">组名称</label>
+                <div class="am-u-sm-10">
+                    <input id="username" type="text" name="username" value="" v-model="group.Name" />
+
+                </div>
+            </div>
+
+            <div class="am-form-group am-margin-vertical-sm">
+                <label for="realname" class="am-u-sm-2 am-form-label">权限</label>
+                <div class="am-u-sm-10">
+                    <input id="realname" type="text" name="realname" value="" v-model="group.Power"/>
+
+                </div>
+            </div>
+
+            <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">描述</label>
+                <div class="am-u-sm-10">
+                    <textarea id = "description" name="description" style="width:500px; height:160px;" v-model="group.Description"></textarea>
+                </div>
+            </div>
+
+            <div class="am-g am-margin-vertical-sm">
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label"></label>
+                    <div class="am-u-sm-10">
+                        <input type="button" name="send" id="send" class="am-btn am-btn-primary" v-on:click="onSave" value="保存" />
+                        <input type="button" name="send" id="send" class="am-btn am-btn-primary" v-on:click="button_onback" value="返回" />
+
+                    </div>
+                </div>
+            </div>
+            <hr />
+        </form>
     </div>
 </div>
 
-  <!-- content start -->
-<form id="mainForm" method="get" action="/group_list" class="am-form">
-  <table class="am-table am-table-striped am-table-hover">
-    <thead>
-      <tr>
-          <th class="am-text-nowrap table-title">组名称</th>
-          <th class="am-text-nowrap">权限</th>
-          <th class="am-text-nowrap table-set">操作</th>
-      </tr>
-  </thead>
-  <tbody>
-           {{ range $v := .list }}
-           <tr>
-               <td class="am-text-middle table-title">{{ $v.Name }}</td>
-               <td class="am-text-middle">{{ $v.Menu }}</td>
-               <td class="am-text-middle">
-                   <a href="?act=group_edit&do=edit&id={{ $v.Id }}">编辑</a> <a onclick="return confirm('确认要删除吗？');" href="?act=group_list&do=del&id={{ $v.Id }}">删除</a>
-               </td>
-           </tr>
-           {{ end }}
-  </tbody>
-</table>
-<hr>
-
-{{template "pager.html" .}}
+<!-- content end -->
 
 
-</form>
-  <!-- content end -->
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu"
+   data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
 
-{{template "footer.html" .}}
+<footer>
+    <hr>
+    <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+</footer>
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/dialog.js"></script>
+<script src="../assets/js/vue.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/amazeui.min.js"></script>
+</div>
+</body>
+</html>
+
+
+<script>
+
+    var edit = new Vue({
+        el: '#editPane',
+        data: {group:{}},
+
+        methods: {
+            button_onback: function () {
+                 $("#userListPane").show()
+                $("#editPane").hide()
+
+            },
+            onSave: function () {
+              /*  $.ajax({
+                    type: "POST",
+                    url: "/users/edit",
+                    data: this.$data["user"],
+                    dataType: "json",
+                    success: function(data){
+                        if( data["status"] == "ok"){
+                            $("#userListPane").show()
+                            $("#editPane").hide()
+                            $.Alert(data["msg"])
+                        }else{
+                            $.Alert(data["msg"])
+                        }
+                    }
+                });*/
+            }
+        }
+    })
+    var users = new Vue({
+        el: '#list_pane',
+        data: {items: [{Id:1,Power:1,Name:"hello"}]},
+        methods: {
+            onEdit: function (id) {
+                // $.Alert(id)
+                console.info(id)
+                $("#userListPane").hide()
+                $("#editPane").show()
+                this.$data.items[id].Passwd = ""
+               // edit.$data.user= this.$data.items[id]
+                //   return
+            },
+            onDelete: function (id) {
+                // $.Alert(id)
+                $.Confirm("你确定要删除？", function (result) {
+                    if (result) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/users/delete",
+                            data: {Id: this.$data["items"][id].Id},
+                            dataType: "json",
+                            success: function (data) {
+                                if (data["status"] == "ok") {
+                                    $.Alert(data["msg"])
+                                } else {
+                                    $.Alert(data["msg"])
+                                }
+                            }
+                        });
+                    }
+                })
+            }
+        }
+    })
+
+  /*  $.ajax({
+        type: "POST",
+        url: "/users/list",
+        data: {},
+        dataType: "json",
+        success: function (data) {
+            if (data["status"] == "ok") {
+                console.info(data["data"])
+                users.$data.items = data.data
+
+            }
+        }
+    })*/
+
+    $.ajax({
+        type: "POST",
+        url: "/sidebar",
+        data: {},
+        dataType: "json",
+        success: function (data) {
+            if (data["status"] == "ok") {
+                console.info(data["data"])
+                new Vue({
+                    el: '#admin-sidebar-list',
+                    data: {items: data["data"]}
+                })
+
+            }
+        }
+    });
+
+
+
+
+
+    $(function () {
+        var startDate = new Date(2000, 1, 1);
+        var endDate = new Date(2099, 11, 25);
+        var $alert = $('#my-alert');
+
+        $('#date-start-icon').datepicker().on('changeDate.datepicker.amui', function (event) {
+            if (event.date.valueOf() > endDate.valueOf()) {
+                $alert.find('p').text('开始日期应小于结束日期！').end().show();
+            } else {
+                $alert.hide();
+                startDate = new Date(event.date);
+                $('#date-start').val($('#date-start-icon').data('date') + ' 00:00:00');
+            }
+            $(this).datepicker('close');
+        });
+
+        $('#date-end-icon').datepicker().on('changeDate.datepicker.amui', function (event) {
+            if (event.date.valueOf() < startDate.valueOf()) {
+                $alert.find('p').text('结束日期应大于开始日期！').end().show();
+            } else {
+                $alert.hide();
+                endDate = new Date(event.date);
+                $('#date-end').val($('#date-end-icon').data('date') + ' 23:59:59');
+            }
+            $(this).datepicker('close');
+        });
+    });
+</script>
+

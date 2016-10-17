@@ -21,3 +21,15 @@ function getcookie(objname) {
         if (temp[0] == objname) return unescape(temp[1]);
     }
 }
+function onlogout() {
+    $.ajax({
+        type: "POST",
+        url: "/users/logout",
+        data: {},
+        dataType: "json",
+        success: function (data) {
+            $.Alert(data["msg"])
+            window.location.href ="/users/login.html"
+        }
+    });
+}

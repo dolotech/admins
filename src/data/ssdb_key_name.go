@@ -1,13 +1,15 @@
 package data
 
 const (
-	USERS_INDEX      string = "admins_users_index"
+	USERS_INDEX string = "admins_users_index"
+	USERS       string = "admins_users"
+
 	USER_GROUP_INDEX string = "admins_user_group_index"
-	USER_LOG_INDEX   string = "admins_user_log_index"
-	USERS            string = "admins_users"
-	USERS_LIST       string = "admins_users_list"
 	USER_GROUP       string = "admins_user_group"
-	USER_LOG         string = "admins_user_log"
+
+	USER_LOG_INDEX string = "admins_user_log_index"
+	USERS_LIST     string = "admins_users_list"
+	USER_LOG       string = "admins_user_log"
 )
 
 const (

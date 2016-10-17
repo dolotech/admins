@@ -37,8 +37,6 @@ type user_group struct {
 	Menu string // '菜单权限id,,',
 }
 
-var Users *User = &User{}
-
 // 后台管理员帐号base_admin_user
 type User struct {
 	Id          string
@@ -138,7 +136,7 @@ func Logout(c *gin.Context) {
 	session.Clear()
 	session.Save()
 	c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "成功退出登录"})
-	//	c.Redirect(http.StatusMovedPermanently, "/users/login")
+	//	c.Redirect(http.StatusMovedPermanently, "/users/login.html")
 }
 
 func Create(c *gin.Context) {
