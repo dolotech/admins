@@ -148,72 +148,78 @@ func (u *User) Logout(c *gin.Context) {
 	//	c.Redirect(http.StatusMovedPermanently, "/users/login")
 }
 
-func (u *User) Created(c *gin.Context) {
-	password := c.PostForm("Pwd")
-	password1 := c.PostForm("Pwd1")
-	u.Id = c.PostForm("Id")
-	u.Name = c.PostForm("RealName")
-	u.Passwd = utils.Md5(password)
-	u.Ip_limit = c.PostForm("IpLimit")
-	u.Group_id = c.PostForm("GroupId")
-	u.Description = c.PostForm("Desc")
+func (u *User) Create(c *gin.Context) {
+	if c.PostForm("Id") == "" {
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户名不能为空"})
+		return
+	}
+	if c.PostForm("Name") == "" {
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "真实名字不能为空"})
+		return
+	}
 
-	glog.Infoln("password:", password, " password1:", password1, "group_id:", u.Group_id, "ip_limit:", u.Ip_limit, "username:", u.Id, "name:", u.Name)
-	msg := ""
-	val, err := GetUsersIndex(u.Id)
-	glog.Infoln(val, err, len(val))
-	if len(val) != 0 {
-		msg = "用户名已经存在"
-	} else {
-		if password != password1 {
-			msg = "两次密码不一致"
-		} else if len(u.Id) == 0 || len(u.Name) == 0 {
-			msg = "名字不能为空"
-		} else {
-
-			err = u.Save()
-			if err != nil {
-				glog.Infoln(err)
-			}
+	if c.PostForm("Passwd") != "" {
+		if c.PostForm("Passwd") != c.PostForm("Passwd1") {
+			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "两次密码不一致"})
+			return
 		}
 	}
 
-	if msg == "" {
-		c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "用户创建成功"})
+	password := c.PostForm("Passwd")
+	password1 := c.PostForm("Passwd1")
+	u.Id = c.PostForm("Id")
+	u.Name = c.PostForm("Name")
+	u.Passwd = utils.Md5(password)
+	u.Ip_limit = c.PostForm("Ip_limit")
+	u.Group_id = c.PostForm("Group_id")
+	u.Description = c.PostForm("Description")
+
+	glog.Infoln("password:", password, " password1:", password1, "group_id:", u.Group_id, "ip_limit:", u.Ip_limit, "username:", u.Id, "name:", u.Name)
+
+	val, err := GetUsersIndex(u.Id)
+	glog.Infoln(val, err, len(val))
+	if len(val) != 0 {
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户名已经存在"})
 	} else {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": msg})
+		err = u.Save()
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户创建失败"})
+		} else {
+
+			c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "用户创建成功"})
+		}
+
 	}
 }
 func (u *User) List(c *gin.Context) {
 	lists := GetMultiUser()
 	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": lists})
 }
-
 func (u *User) Edit(c *gin.Context) {
-	u.Id = c.Query("username")
-	u.Get()
-	c.HTML(http.StatusOK, "user_edit.html", gin.H{
-		"data": u,
-	})
-
-}
-func (u *User) Edited(c *gin.Context) {
-	password := c.PostForm("password")
-	password1 := c.PostForm("password1")
-	m := make(map[string]interface{})
-	if c.PostForm("username") == "" {
+	if c.PostForm("Id") == "" {
 		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户名不能为空"})
 		return
 	}
-	m["ID"] = c.PostForm("username")
-	u.Id = c.PostForm("username")
-	u.Name = c.PostForm("name")
+	if c.PostForm("Name") == "" {
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "真实名字不能为空"})
+		return
+	}
+
+	if c.PostForm("Passwd") != "" {
+		if c.PostForm("Passwd") != c.PostForm("Passwd1") {
+			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "两次密码不一致"})
+			return
+		}
+	}
+
+	m := make(map[string]interface{})
+	m["ID"] = c.PostForm("Id")
+	u.Id = c.PostForm("Id")
+
 	if c.PostForm("name") != "" {
 		m["Name"] = c.PostForm("name")
 	}
-	if password != "" {
-		m["Passwd "] = utils.Md5(password)
-	}
+	m["Passwd "] = utils.Md5(c.PostForm("Passwd"))
 	if c.PostForm("ip_limit") != "" {
 		m["Ip_limit "] = c.PostForm("ip_limit")
 	}
@@ -224,31 +230,12 @@ func (u *User) Edited(c *gin.Context) {
 	if c.PostForm("description") != "" {
 		m["Description "] = c.PostForm("description")
 	}
-	glog.Infoln(m)
-	msg := ""
-	val, err := GetUsersIndex(u.Id)
-	glog.Infoln(val, err, len(val))
-	if len(val) == 0 {
-		msg = "用户不存在"
+	err := u.MultiHsetSave(m)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户数据修改失败"})
 	} else {
-		if password != password1 {
-			msg = "两次密码不一致"
-		} else if len(u.Id) == 0 {
-			msg = "账户名不能为空"
-		} else if len(u.Name) == 0 {
-			msg = "真实名不能为空"
-		} else {
-			err = u.MultiHsetSave(m)
-			if err != nil {
-				glog.Infoln(err)
-			}
-		}
-	}
 
-	if msg == "" {
 		c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "用户更改成功"})
-	} else {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": msg})
 	}
 }
 
@@ -300,23 +287,6 @@ func (u *User) RegisterDemo(c *gin.Context) {
 		"new":       true,
 		"csrfToken": "",
 	})
-}
-
-var Emsg emsg = emsg{}
-
-type emsg struct {
-	EUsername string
-	EName     string
-	EPasswd   string
-	EGroup_id string
-}
-
-// msg = &emsg{}
-func (e *emsg) validate() {
-	e.EUsername = "用户名不能为空/ 用户名已存在，请另外选择一个用户名"
-	e.EName = "名字不能为空"
-	e.EPasswd = "密码不能为空或你输入的两次密码不一致"
-	e.EGroup_id = "不能设置为超级管理员"
 }
 
 var tex sync.Mutex

@@ -73,7 +73,8 @@ func Router(r *gin.Engine) {
 	r.POST("/users/login", admin.Users.Login)
 	r.POST("/sidebar", admin.Sidebar)
 
-	r.POST("/users/created", admin.Users.Created)
+	r.POST("/users/create", admin.Users.Create)
+	r.POST("/users/edit", admin.Users.Edit)
 	r.POST("/users/list", admin.Users.List)
 	r.POST("/users/delete", admin.Users.Delete)
 

@@ -131,7 +131,7 @@
               <div class="am-form-group am-margin-vertical-sm">
                 <label for="realname" class="am-u-sm-2 am-form-label">真实姓名</label>
                 <div class="am-u-sm-10">
-                  <input id="realname" type="text" name="realname" value="" v-model="user.RealName"/>
+                  <input id="realname" type="text" name="realname" value="" v-model="user.Name"/>
 
                 </div>
               </div>
@@ -139,7 +139,7 @@
               <div class="am-form-group am-margin-vertical-sm">
                 <label for="password" class="am-u-sm-2 am-form-label">密码</label>
                 <div class="am-u-sm-10">
-                  <input id="password" type="password" name="password" value="" v-model="user.Pwd"/>
+                  <input id="password" type="password" name="password" value="" v-model="user.Passwd"/>
 
                 </div>
               </div>
@@ -147,7 +147,7 @@
               <div class="am-form-group am-margin-vertical-sm">
                 <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
                 <div class="am-u-sm-10">
-                  <input id="password1" type="password" name="password1" value="" v-model="user.Pwd1" />
+                  <input id="password1" type="password" name="password1" value="" v-model="user.Passwd1" />
 
                 </div>
               </div>
@@ -156,7 +156,7 @@
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">用户组</label>
                       <div class="am-u-sm-10">
-                          <select id="SelectType" name="SelectType" data-am-selected="{btnSize: 'sm'}">
+                          <select id="SelectType" name="SelectType" data-am-selected="{btnSize: 'sm'}" v-model="user.Group_id">
                               <option selected="selected" value="1">超级管理员</option>
                               <option value="2">普通管理员</option>
                           </select>
@@ -166,7 +166,7 @@
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">限制登录IP</label>
                 <div class="am-u-sm-10">
-                    <input type="text" id="ip_limit" name="ip_limit" value="" v-model="user.IpLimit"/>
+                    <input type="text" id="ip_limit" name="ip_limit" value="" v-model="user.Ip_limit"/>
                     <small>多个IP用英文,号分开</small>
                 </div>
               </div>
@@ -174,7 +174,7 @@
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">描述</label>
                 <div class="am-u-sm-10">
-                    <textarea id = "description" name="description" style="width:500px; height:160px;" v-model="user.Desc"></textarea>
+                    <textarea id = "description" name="description" style="width:500px; height:160px;" v-model="user.Description"></textarea>
                 </div>
               </div>
 
@@ -226,7 +226,7 @@
               //  return
                 $.ajax({
                     type: "POST",
-                    url: "/users/created",
+                    url: "/users/create",
                     data: this.$data["user"],
                     dataType: "json",
                     success: function(data){

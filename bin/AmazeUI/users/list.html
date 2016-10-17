@@ -72,8 +72,6 @@
 </header>
 
 <div class="am-cf admin-main">
-
-
     <!-- sidebar start -->
     <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
         <div class="am-offcanvas-bar admin-offcanvas-bar">
@@ -113,10 +111,10 @@
             </div>
 
         </div>
-    </div>
+   </div>
 
     <!-- content start -->
-    <div class="admin-content">
+    <div class="admin-content" id="userListPane">
         <div class="admin-content-body">
             <div class="am-cf am-padding am-padding-bottom-0">
                 <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">账号列表</strong> /
@@ -205,9 +203,9 @@
                         <td>{{ v.Last_ip }}</td>
                         <td>{{ v.Last_addr }}</td>
                         <td>{{ v.Last_visit }}</td>
-                           <td><a href="#" type="button" v-on:click="onEdit(index )">详细</a> <a href="#" type="button"
-                                                                                               v-on:click="onDelete(index )">删除</a>
-                           </td>
+                        <td><a href="#" type="button" v-on:click="onEdit(index )">详细</a> <a href="#" type="button"
+                                                                                            v-on:click="onDelete(index )">删除</a>
+                        </td>
                     </tr>
 
                     </tbody>
@@ -219,8 +217,92 @@
             </form>
         </div>
     </div>
-</div>
 
+
+<!-- content start -->
+<div class="admin-content" id="editPane">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">编辑账号</strong> /
+                <small>Table</small>
+            </div>
+        </div>
+
+        <hr>
+        <form class="am-form am-form-horizontal" id="adduser">
+
+            <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">帐号名称</label>
+                <div class="am-u-sm-10">
+                    <input id="username" type="text" name="username" value="" v-model="user.Id"/>
+
+                </div>
+            </div>
+
+            <div class="am-form-group am-margin-vertical-sm">
+                <label for="realname" class="am-u-sm-2 am-form-label">真实姓名</label>
+                <div class="am-u-sm-10">
+                    <input id="realname" type="text" name="realname" value="" v-model="user.Name"/>
+
+                </div>
+            </div>
+
+            <div class="am-form-group am-margin-vertical-sm">
+                <label for="password" class="am-u-sm-2 am-form-label">密码</label>
+                <div class="am-u-sm-10">
+                    <input id="password" type="password" name="password" value="" v-model="user.Passwd"/>
+
+                </div>
+            </div>
+
+            <div class="am-form-group am-margin-vertical-sm">
+                <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
+                <div class="am-u-sm-10">
+                    <input id="password1" type="password" name="password1" value="" v-model="user.Passwd1"/>
+
+                </div>
+            </div>
+            <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">用户组</label>
+                <div class="am-u-sm-10">
+                    <select id="SelectType" name="SelectType" data-am-selected="{btnSize: 'sm'}" >
+                        <option selected="selected" value="1">超级管理员</option>
+                        <option value="2">普通管理员</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">限制登录IP</label>
+                <div class="am-u-sm-10">
+                    <input type="text" id="ip_limit" name="ip_limit" value="" v-model="user.Ip_limit"/>
+                    <small>多个IP用英文,号分开</small>
+                </div>
+            </div>
+
+            <div class="am-form-group am-margin-vertical-sm">
+                <label class="am-u-sm-2 am-form-label">描述</label>
+                <div class="am-u-sm-10">
+                    <textarea id="description" name="description" style="width:500px; height:160px;"
+                              v-model="user.Description"></textarea>
+                </div>
+            </div>
+
+            <div class="am-g am-margin-vertical-sm">
+                <div class="am-form-group">
+                    <label class="am-u-sm-2 am-form-label"></label>
+                    <div class="am-u-sm-10">
+                        <input type="button" name="send" id="send" class="am-btn am-btn-primary" v-on:click="onSave"
+                               value="提交"/>
+                        <input type="button" class="am-btn" value="返回" v-on:click="button_onback"/>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+        </form>
+    </div>
+</div>
 
 <!-- content end -->
 
@@ -237,74 +319,108 @@
 <script src="../assets/js/vue.js"></script>
 <script src="../assets/js/app.js"></script>
 <script src="../assets/js/amazeui.min.js"></script>
-
+</div>
 </body>
 </html>
 
 
 <script>
+
+    var edit = new Vue({
+        el: '#editPane',
+        data: {user:{}},
+
+        methods: {
+            button_onback: function () {
+                 $("#userListPane").show()
+                $("#editPane").hide()
+
+            },
+            onSave: function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/users/edit",
+                    data: this.$data["user"],
+                    dataType: "json",
+                    success: function(data){
+                        if( data["status"] == "ok"){
+                            $("#userListPane").show()
+                            $("#editPane").hide()
+                            $.Alert(data["msg"])
+                        }else{
+                            $.Alert(data["msg"])
+                        }
+                    }
+                });
+            }
+        }
+    })
     var users = new Vue({
         el: '#list_pane',
         data: {items: []},
         methods: {
-            onEdit:function (id) {
-               // $.Alert(id)
+            onEdit: function (id) {
+                // $.Alert(id)
                 console.info(id)
-                return
+                $("#userListPane").hide()
+                $("#editPane").show()
+                this.$data.items[id].Passwd = ""
+                edit.$data.user= this.$data.items[id]
+                //   return
             },
             onDelete: function (id) {
-              // $.Alert(id)
-               $.Confirm("你确定要删除？",function (result) {
-                 if (result) {
-                     $.ajax({
-                         type: "POST",
-                         url: "/users/delete",
-                         data: {Id: this.$data["items"][id].Id},
-                         dataType: "json",
-                         success: function (data) {
-                             if (data["status"] == "ok") {
-                                 $.Alert(data["msg"])
-                             } else {
-                                 $.Alert(data["msg"])
-                             }
-                         }
-                     });
-                 }
-               })
+                // $.Alert(id)
+                $.Confirm("你确定要删除？", function (result) {
+                    if (result) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/users/delete",
+                            data: {Id: this.$data["items"][id].Id},
+                            dataType: "json",
+                            success: function (data) {
+                                if (data["status"] == "ok") {
+                                    $.Alert(data["msg"])
+                                } else {
+                                    $.Alert(data["msg"])
+                                }
+                            }
+                        });
+                    }
+                })
             }
         }
     })
 
-        $.ajax({
-            type: "POST",
-            url: "/users/list",
-            data: {},
-            dataType: "json",
-            success: function (data) {
-                if (data["status"] == "ok") {
-                    console.info(data["data"])
-                    users.$data.items = data.data
+    $.ajax({
+        type: "POST",
+        url: "/users/list",
+        data: {},
+        dataType: "json",
+        success: function (data) {
+            if (data["status"] == "ok") {
+                console.info(data["data"])
+                users.$data.items = data.data
 
-                }
             }
-        })
+        }
+    })
 
-        $.ajax({
-            type: "POST",
-            url: "/sidebar",
-            data: {},
-            dataType: "json",
-            success: function (data) {
-                if (data["status"] == "ok") {
-                    console.info(data["data"])
-                    new Vue({
-                        el: '#admin-sidebar-list',
-                        data: {items: data["data"]}
-                    })
+    $.ajax({
+        type: "POST",
+        url: "/sidebar",
+        data: {},
+        dataType: "json",
+        success: function (data) {
+            if (data["status"] == "ok") {
+                console.info(data["data"])
+                new Vue({
+                    el: '#admin-sidebar-list',
+                    data: {items: data["data"]}
+                })
 
-                }
             }
-        });
+        }
+    });
 
 
     var example1 = new Vue({
