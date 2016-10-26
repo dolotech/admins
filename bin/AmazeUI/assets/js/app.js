@@ -22,14 +22,21 @@ function getcookie(objname) {
     }
 }
 function onlogout() {
-    $.ajax({
-        type: "POST",
-        url: "/users/logout",
-        data: {},
-        dataType: "json",
-        success: function (data) {
-            $.Alert(data["msg"])
-            window.location.href ="/users/login.html"
+    $.Confirm("你要退出系统吗？",function (bool) {
+        $.Alert("====")
+        if (bool){
+            $.post({
+
+                type: "POST",
+                url: "/users/logout",
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                   // $.Alert(data["msg"])
+                //   window.location.href ="/users/login.html"
+                }
+            });
         }
-    });
+    })
+
 }

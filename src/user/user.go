@@ -13,7 +13,9 @@ import (
 	"data"
 	"fmt"
 	"net/http"
+	"strconv"
 	"sync"
+	"time"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -45,16 +47,16 @@ type User struct {
 	Name        string // '真实姓名',
 	Description string // '描述',
 	Last_visit  uint32 // '最后登录时间',
-	Last_ip     string // '最后登录点IP',
-	Last_addr   string // '最后登录地点',
+	Last_ip     uint32 // '最后登录点IP',
 	Login_times uint32 // '登录次数',
 	Group_id    string // '所属用户组ID',
-	Ip_limit    string //
+	Ip_limit    string // 限制登录的IP
 	Error_ip    string // '出错的ip',
 	Error_time  int64  // '出错时间',
 	Error_num   uint32 // '出错次数',
 	Members     string // '属下成员后台登录名称',
 	Platforms   string
+	Create_time uint32 // 账户创建时间
 }
 
 var GROUPIDS = map[string]string{
@@ -107,24 +109,30 @@ func Login(c *gin.Context) {
 	glog.Infoln("username:", username, "password:", password)
 	if len(username) == 0 || len(password) == 0 {
 		glog.Infoln(c.Request.URL.Path)
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "账号或密码不能为空"})
+		//		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "账号或密码不能为空"})
+
 	} else {
-		keys := utils.Md5(username + password)
+		//		user := &User{Id: username}
+		//		if user.Get() == nil {
+		t := time.Now().Unix()
+		//if user.Passwd == utils.Md5(password) {
+		keys := utils.Md5(username + password + strconv.Itoa(int(t)))
 		session := sessions.Default(c)
 		session.Set("loginsession", keys)
 		session.Save()
-		glog.Infoln("username:", username, "password:", password, session.Get("username"))
-		//		c.Request.Header.Set("Cookie", "username="+cookie)
-		//		c.SetCookie(
-		//			"username",
-		//			cookie,
-		//			864000,
-		//			"/",
-		//			"localhost",
-		//			true,
-		//			true,
-		//		)
-		c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "登录成功"})
+
+		//c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "登录成功"})
+		glog.Infoln("========================")
+
+		c.Redirect(http.StatusMovedPermanently, "/roles/list.html")
+		return
+		//	} else {
+
+		//	}
+		//		} else {
+
+		//		}
+		//		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "密码或者账户错误"})
 	}
 }
 
@@ -135,8 +143,8 @@ func Logout(c *gin.Context) {
 	session.Set("loginsession", "")
 	session.Clear()
 	session.Save()
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "成功退出登录"})
-	//	c.Redirect(http.StatusMovedPermanently, "/users/login.html")
+	//c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "成功退出登录"})
+	c.Redirect(http.StatusOK, "/users/login.html")
 }
 
 func Create(c *gin.Context) {
@@ -148,12 +156,13 @@ func Create(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "真实名字不能为空"})
 		return
 	}
-
-	if c.PostForm("Passwd") != "" {
-		if c.PostForm("Passwd") != c.PostForm("Passwd1") {
-			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "两次密码不一致"})
-			return
-		}
+	if c.PostForm("Passwd") == "" {
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "密码不能为空"})
+		return
+	}
+	if c.PostForm("Passwd") != c.PostForm("Passwd1") {
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "两次密码不一致"})
+		return
 	}
 
 	password := c.PostForm("Passwd")
@@ -173,6 +182,7 @@ func Create(c *gin.Context) {
 	if len(val) != 0 {
 		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户名已经存在"})
 	} else {
+		u.Create_time = uint32(time.Now().Unix())
 		err = u.Save()
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户创建失败"})

@@ -184,7 +184,7 @@ func Search(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": data})
 }
 
-// 玩家列表, 根据条件检索玩家
+//List 玩家列表, 根据条件检索玩家
 func List(c *gin.Context) {
 	page, _ := strconv.Atoi(c.PostForm("Page")) // string
 	if page == 0 {
@@ -196,7 +196,7 @@ func List(c *gin.Context) {
 	}
 
 	var ids []string
-	var count uint64 = 0
+	var count uint64
 	lastID, _ := gossdb.C().Get(data.KEY_LAST_USER_ID)
 	idnum, err := strconv.ParseUint(lastID.String(), 10, 64)
 	if err == nil && idnum > 60000 {

@@ -508,11 +508,13 @@ func (this *Client) GetObject(setName string, value interface{}) error {
 		for i := 1; i < size && i+1 < size; i += 2 {
 			fieldValue := pv.FieldByName(string(resp[i]))
 			if !fieldValue.IsValid() {
-				return errors.New("No such field: %s in obj" + string(resp[i]))
+				//		return errors.New("No such field: %s in obj" + string(resp[i]))
+				continue
 			}
 
 			if !fieldValue.CanSet() {
-				return errors.New("Cannot set %s field value" + string(resp[i]))
+				//	return errors.New("Cannot set %s field value" + string(resp[i]))
+				continue
 			}
 
 			val, _ := Value(resp[i+1]).Conver(fieldValue.Kind())

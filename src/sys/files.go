@@ -1,3 +1,5 @@
+package sys
+
 /**********************************************************
  * Author        : Michael
  * Email         : dolotech@163.com
@@ -5,8 +7,6 @@
  * Filename      : files.go
  * Description   :
  * *******************************************************/
-package sys
-
 import (
 	"basic/utils"
 	"fmt"

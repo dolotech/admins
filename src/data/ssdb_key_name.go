@@ -81,4 +81,5 @@ const (
 
 	KEY_PRIVATE_RECORD  string = "private_record:"  // 私人局牌局记录roomid
 	KEY_PRIVATE_RECORDS string = "private_records:" // 私人局牌局记录
+	KEY_ONLINE          string = "online"           // 在线玩家id列表
 )
