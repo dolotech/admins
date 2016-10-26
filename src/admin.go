@@ -5,6 +5,7 @@ import (
 	"data"
 	"flag"
 	"net/http"
+	"operation"
 	"role"
 	"runtime/debug"
 	"strings"
@@ -120,9 +121,12 @@ func Router(r *gin.Engine) {
 
 	r.POST("/roles/listonline", role.ListOnline) //  在线玩家列表
 
+	r.POST("/operation/normalrecord", operation.NormalRecord) //  金币场牌局记录
+
 	r.Static("/assets", "AmazeUI/assets")
 
 	r.Static("/users", "AmazeUI/users")
+	r.Static("/operation", "AmazeUI/operation")
 	r.Static("/roles", "AmazeUI/roles")
 }
 

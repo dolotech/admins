@@ -36,8 +36,11 @@ func Sidebar(c *gin.Context) {
 		},
 		{
 			"运营管理",
-			[]SidebarItem{{"/users/provide.html", "道具/钻石发放"},
-				{"/users/providerecord.html", "发放记录"}},
+			[]SidebarItem{{"/operation/provide.html", "道具/钻石发放"},
+				{"/operation/providerecord.html", "发放记录"},
+				{"/operation/privaterecord.html", "私人局记录"},
+				{"/operation/matchrecord.html", "比赛场记录"},
+				{"/operation/normalrecord.html", "金币场记录"}},
 		},
 		{
 			"订单管理",
