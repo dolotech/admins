@@ -2,7 +2,6 @@ package data
 
 import (
 	"basic/ssdb/gossdb"
-	"inter"
 	"strconv"
 
 	"github.com/golang/glog"
@@ -16,8 +15,8 @@ type GameRecord struct {
 	Ante        uint32 //
 	Ji          byte   //
 	Handcard    []byte
-	Peng        []inter.IPeng
-	Kong        []inter.IKong //
+	Peng        []uint32
+	Kong        []uint32 //
 	Otherids    []string
 	Rtype       uint32 //
 	Coin        int32  //

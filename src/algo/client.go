@@ -18,11 +18,11 @@ func NewClient() *Client {
 }
 
 type Client struct {
-	cards         []byte        // 手牌
-	outCards      []byte        // 海底牌
-	pengCards     []inter.IPeng // 碰牌
-	kongCards     []inter.IKong // 杠牌
-	huData        inter.IHu     // 胡牌状态
+	cards         []byte    // 手牌
+	outCards      []byte    // 海底牌
+	pengCards     []uint32  // 碰牌
+	kongCards     []uint32  // 杠牌
+	huData        inter.IHu // 胡牌状态
 	operateSeat   uint32
 	operateValue  uint32 // 碰杠胡掩码
 	operateCard   byte
@@ -34,8 +34,8 @@ type Client struct {
 	discardCount  uint32   // 记录玩家出牌次数
 	lastStatus    uint32   // 记录最后一次出牌状态,是否杠后打牌，用于热炮等逻辑 0:正常，1:为杠后抓牌打牌
 	ting          int64
-	konglink      []inter.IKong // 连杠列表
-	trusteeship   uint32        // 1:托管，2：取消托管
+	konglink      []uint32 // 连杠列表
+	trusteeship   uint32   // 1:托管，2：取消托管
 }
 
 //  重置数据
@@ -55,9 +55,9 @@ func (this *Client) Reset() {
 
 	this.cards = []byte{}
 	this.outCards = []byte{}
-	this.pengCards = []inter.IPeng{}
-	this.kongCards = []inter.IKong{}
-	this.konglink = []inter.IKong{}
+	this.pengCards = []uint32{}
+	this.kongCards = []uint32{}
+	this.konglink = []uint32{}
 	this.skipKongCards = []byte{}
 	this.lotsCards = []uint32{}
 
@@ -71,7 +71,7 @@ func (this *Client) SetTrusteeship(value uint32) {
 func (this *Client) GetTrusteeship() uint32 {
 	return atomic.LoadUint32(&this.trusteeship)
 }
-func (this *Client) GetLastKongStatus() []inter.IKong {
+func (this *Client) GetLastKongStatus() []uint32 {
 	return this.konglink
 }
 
@@ -187,10 +187,37 @@ func (this *Client) Peng(position uint32, card byte) {
 		}
 	}
 
-	p := &Peng{position: position, card: card}
-	this.pengCards = append(this.pengCards, p)
+	this.pengCards = append(this.pengCards, this.EncodePeng(position, card))
 	this.turn = true
 }
+
+func (this *Client) EncodePeng(seat uint32, card byte) uint32 {
+	seat = seat << 8
+	seat = seat | uint32(card)
+	return seat
+}
+
+func (this *Client) DecodePeng(value uint32) (seat uint32, card byte) {
+	seat = value >> 8
+	card = byte(value & 0xFF)
+	return
+}
+
+func (this *Client) DecodeKong(value uint32) (seat uint32, card byte, v uint32) {
+	v = value >> 16
+	seat = (value >> 8) & 0xFF
+	card = byte(value & 0xFF)
+	return
+
+}
+
+func (this *Client) EncodeKong(seat uint32, card byte, value uint32) uint32 {
+	value = value << 16
+	value = value | (seat << 8)
+	value = value | uint32(card)
+	return value
+}
+
 func (this *Client) existPeng(card byte) bool {
 	le := len(this.cards)
 	count := 0
@@ -259,7 +286,8 @@ func (this *Client) AnKong(card byte) {
 			break
 		}
 	}
-	k := &Kong{classify: AN_KONG, card: card}
+	//	k := &Kong{classify: AN_KONG, card: card}
+	k := this.EncodeKong(0, card, AN_KONG)
 	this.kongCards = append(this.kongCards, k)
 	this.konglink = append(this.konglink, k)
 }
@@ -308,7 +336,8 @@ func (this *Client) MingKong(position uint32, card byte) {
 		}
 	}
 
-	k := &Kong{position: position, classify: MING_KONG, card: card}
+	//k := &Kong{position: position, classify: MING_KONG, card: card}
+	k := this.EncodeKong(position, card, MING_KONG)
 	this.kongCards = append(this.kongCards, k)
 	this.konglink = append(this.konglink, k)
 }
@@ -316,7 +345,8 @@ func (this *Client) MingKong(position uint32, card byte) {
 func (this *Client) BuKong(card byte) {
 	le := len(this.pengCards)
 	for i := 0; i < le; i++ {
-		if card == this.pengCards[i].GetCard() {
+		_, c := this.DecodePeng(this.pengCards[i])
+		if card == c {
 			this.pengCards = append(this.pengCards[:i], this.pengCards[i+1:]...)
 			break
 		}
@@ -329,7 +359,8 @@ func (this *Client) BuKong(card byte) {
 			break
 		}
 	}
-	k := &Kong{classify: BU_KONG, card: card}
+	//k := &Kong{classify: BU_KONG, card: card}
+	k := this.EncodeKong(0, card, BU_KONG)
 	this.kongCards = append(this.kongCards, k)
 	this.konglink = append(this.konglink, k)
 }
@@ -367,7 +398,8 @@ func (this *Client) existSkipKong(card byte) bool {
 func (this *Client) existBuKong(card byte) bool {
 	le := len(this.pengCards)
 	for i := 0; i < le; i++ {
-		if card == this.pengCards[i].GetCard() {
+		_, c := this.DecodePeng(this.pengCards[i])
+		if card == c {
 			return true
 		}
 	}
@@ -394,11 +426,12 @@ func (this *Client) existHu(card byte) uint32 {
 	list := make([]byte, len(this.cards), len(this.cards))
 	copy(list, this.cards)
 	for i := 0; i < len(this.kongCards); i++ {
-		card := this.kongCards[i].GetCard()
+		_, card, _ := this.DecodeKong(this.kongCards[i])
 		list = append(list, card)
 	}
 	for i := 0; i < len(this.pengCards); i++ {
-		card := this.pengCards[i].GetCard()
+		//card := this.pengCards[i].GetCard()
+		_, card := this.DecodePeng(this.pengCards[i])
 		list = append(list, card)
 	}
 	isonecolor := onecolor(list)
@@ -423,11 +456,13 @@ func (this *Client) existZimo() uint32 {
 	list := make([]byte, len(this.cards))
 	copy(list, this.cards)
 	for i := 0; i < len(this.kongCards); i++ {
-		card := this.kongCards[i].GetCard()
+		//card := this.kongCards[i].GetCard()
+		_, card, _ := this.DecodeKong(this.kongCards[i])
 		list = append(list, card)
 	}
 	for i := 0; i < len(this.pengCards); i++ {
-		card := this.pengCards[i].GetCard()
+		//card := this.pengCards[i].GetCard()
+		_, card := this.DecodePeng(this.pengCards[i])
 		list = append(list, card)
 	}
 	isonecolor := onecolor(list)
@@ -527,11 +562,13 @@ func (this *Client) GetTing() uint32 {
 	list := make([]byte, len(this.cards), len(this.cards))
 	copy(list, this.cards)
 	for i := 0; i < len(this.kongCards); i++ {
-		card := this.kongCards[i].GetCard()
+		//card := this.kongCards[i].GetCard()
+		_, card, _ := this.DecodeKong(this.kongCards[i])
 		list = append(list, card)
 	}
 	for i := 0; i < len(this.pengCards); i++ {
-		card := this.pengCards[i].GetCard()
+		//card := this.pengCards[i].GetCard()
+		_, card := this.DecodePeng(this.pengCards[i])
 		list = append(list, card)
 	}
 
@@ -548,10 +585,10 @@ func (this *Client) SetCards(cards []byte) {
 	this.cards = cards
 }
 
-func (this *Client) GetKongCards() []inter.IKong {
+func (this *Client) GetKongCards() []uint32 {
 	return this.kongCards
 }
-func (this *Client) GetPengCards() []inter.IPeng {
+func (this *Client) GetPengCards() []uint32 {
 	return this.pengCards
 }
 func (this *Client) GetOutCards() []byte {

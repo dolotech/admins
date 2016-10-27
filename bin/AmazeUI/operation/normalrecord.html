@@ -14,6 +14,7 @@
     <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
     <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/app.css">
     <style type="text/css">
     </style>
 </head>
@@ -55,7 +56,8 @@
                 <ul class="am-dropdown-content">
                     <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
                     <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
-                    <li><a href="/users/logout"  action="POST" type="button" ><span class="am-icon-power-off"></span> 退出</a></li>
+                    <li><a href="/users/logout" action="POST" type="button"><span class="am-icon-power-off"></span>
+                        退出</a></li>
                 </ul>
             </li>
             <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span
@@ -111,8 +113,8 @@
     <div class="admin-content" id="list_pane">
         <div class="admin-content-body">
             <div class="am-cf am-padding am-padding-bottom-0">
-                <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">玩家数据</strong> /
-                    <small>玩家列表</small>
+                <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">运营管理</strong> /
+                    <small>金币场牌局记录</small>
                 </div>
             </div>
 
@@ -121,11 +123,12 @@
             <form class="am-form" data-am-validator id="Search">
                 <div class="am-g">
 
-                    <div class="am-u-sm-12 am-u-md-3" >
+                    <div class="am-u-sm-12 am-u-md-3">
                         <div class="am-form-group" id="SearchPages">
 
                             <select name="" v-model="selected" data-am-selected="{btnSize: 'sm'}">
-                                <option v-for="page in pages" v-bind:value="page.value" v-if="page.value == selected" selected >
+                                <option v-for="page in pages" v-bind:value="page.value" v-if="page.value == selected"
+                                        selected>
                                     {{page.text}}
                                 </option>
                                 <option v-for="page in pages" v-bind:value="page.value" v-if="page.value !=  selected">
@@ -133,20 +136,10 @@
                                 </option>
 
                             </select>
-                            <span>Selected: {{ selected }}</span>
 
                         </div>
                     </div>
 
-                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
-                        <div class="am-form-group">
-                            <select v-model="selected" data-am-selected="{btnSize: 'sm'}">
-                                <option v-for="option in options" v-bind:value="option.value">
-                                    {{ option.text }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
 
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
                         <input type="text" id="SearchUserid" name="SearchUserid" value=""
@@ -161,7 +154,7 @@
                 </div>
             </form>
 
-					
+
             <div class="am-g">
                 <div class="am-u-sm-12">
                     <!--     <form class="am-form">-->
@@ -184,11 +177,11 @@
                             <th class="am-text-nowrap table-type">座位</th>
                             <th class="am-text-nowrap table-type">庄</th>
 
-                   <!--         <th class="am-text-nowrap table-type">盈亏番值</th>-->
+                            <!--         <th class="am-text-nowrap table-type">盈亏番值</th>-->
                             <th class="am-text-nowrap table-type">胡牌名</th>
                             <th class="am-text-nowrap table-type">叫嘴</th>
                             <th class="am-text-nowrap table-type">胡牌方式</th>
-                            <th class="am-text-nowrap table-type">本局玩家</th>
+                            <th class="am-text-nowrap table-type">本局同桌</th>
                             <!-- <th class="am-text-nowrap table-type">胜局</th>
                             <th class="am-text-nowrap table-type">败局</th>
                             <th class="am-text-nowrap table-type">平局</th>
@@ -200,32 +193,52 @@
                         </thead>
                         <tbody>
 
-                        <tr v-for="(item,index) in items " >
+                        <tr v-for="(item,index) in items ">
 
                             <td class="am-text-middle am-hide-sm-only">{{item.Create_time }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Handcard }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Peng }}</td>
-                        <td class="am-text-middle am-hide-sm-only">{{ item.Kong }}</td>
+                            <!--  <td class="am-text-middle am-hide-sm-only">{{ item.Handcard }} <img src="../assets/i/1.png"/> </td>-->
+                            <td class="am-text-middle am-hide-sm-only">
+                                <ul class="pic_list">
+                                    <li v-for="card in item.Handcard"><img v-bind:src="card"/></li>
+                                </ul>
+                            </td>
+
+                            <td class="am-text-middle am-hide-sm-only">
+                                <ul class="pic_list">
+                                    <li v-for="card in item.Peng"><img v-bind:src="card"/></li>
+                                </ul>
+                            </td>
+
+                            <td class="am-text-middle am-hide-sm-only">
+                                <ul class="pic_list">
+                                    <li v-for="card in item.Kong"><img v-bind:src="card"/></li>
+                                </ul>
+                            </td>
+
+                         <!--   <td class="am-text-middle am-hide-sm-only">{{ item.Peng }}</td>-->
+                    <!--        <td class="am-text-middle am-hide-sm-only">{{ item.Kong }}</td>-->
                             <td class="am-text-middle am-hide-sm-only">{{ item.Ji }}</td>
 
-                                <td class="am-text-middle am-hide-sm-only">{{ item.Ante }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ item.Ante }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{ item.Coin }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{ item.Seat }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{ item.Zhuang}}</td>
 
                             <td class="am-text-middle am-hide-sm-only">{{ item.Hutype }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Tingvalue }}</td>
+                            <td v-if="item.Tingvalue>0" class="am-text-middle am-hide-sm-only">叫嘴</td>
+                            <td v-if="item.Tingvalue==0" class="am-text-middle am-hide-sm-only">未叫嘴</td>
+
                             <td class="am-text-middle am-hide-sm-only">{{ item.Huvalue}}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Otherids}}</td>
-                          <!--  <td>
+                            <!--           <td class="am-text-middle am-hide-sm-only">{{ item.Otherids}}</td>-->
+                            <td>
                                 <div class="am-btn-toolbar">
                                     <div class="am-btn-group am-btn-group-xs">
                                         <button class="am-btn am-btn-default am-input-sm"
-                                                v-on:click="button_onedit(index)">编辑
+                                                v-on:click="button_onedit(index)">查看同桌
                                         </button>
                                     </div>
                                 </div>
-                            </td>-->
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -554,14 +567,13 @@
         data: {
             selected: "50",
             pages: [
-                {text: '30', value:"30"},
+                {text: '30', value: "30"},
                 {text: '50', value: "50"},
                 {text: '100', value: "100"},
                 {text: '200', value: "200"}
             ]
         }
     })
-
 
 
     var pageBar = new Vue({
@@ -573,7 +585,7 @@
         },
         watch: {
             cur: function (oldValue, newValue) {
-               // console.log(arguments)
+                // console.log(arguments)
                 getUserList()
             }
         },
@@ -625,14 +637,20 @@
         }
     })
 
+
+    function sequence(a, b) {
+        if (a > b) {
+            return 1;
+        } else if (a < b) {
+            return -1
+        } else {
+            return 0;
+        }
+    }
+
     var searchSelect = new Vue({
         el: '#Search',
         data: {
-            selected: '1',
-            options: [
-                {text: '根据玩家ID搜索', value: '1'},
-                {text: '根据玩家手机号搜索', value: '2'}
-            ],
             SearchValue: "",
         },
 
@@ -641,24 +659,26 @@
                 this.$data.selected = "1"
                 this.$data.SearchValue = ""
                 Page:pageBar.$data.cur = 1,
-                getUserList()
+                        getUserList()
             }
             ,
             onSearch: function (event) {
-                var data={SelectedIDSearch: this.$data.selected,
+                var data = {
+                    SelectedIDSearch: this.$data.selected,
                     SearchUserid: this.$data.SearchValue,
-                    Page:pageBar.$data.cur,
-                    PageMax:pages.$data.selected
+                    Page: pageBar.$data.cur,
+                    PageMax: pages.$data.selected
 
                 }
-               //  $.Alert(JSON.stringify(data))
-               // console.info(getcookie("mysession"))
+                //  $.Alert(JSON.stringify(data))
+                // console.info(getcookie("mysession"))
 
                 //return
-                var data={SelectedIDSearch: searchSelect.$data.selected,
+                var data = {
+                    SelectedIDSearch: searchSelect.$data.selected,
                     Userid: searchSelect.$data.SearchValue,
-                    Page:pageBar.$data.cur,
-                    PageMax:pages.$data.selected,
+                    Page: pageBar.$data.cur,
+                    PageMax: pages.$data.selected,
                 }
                 $.ajax({
                     type: "POST",
@@ -667,11 +687,41 @@
                     dataType: "json",
                     success: function (data) {
                         if (data["status"] == "ok") {
-                            console.info(data["data"])
-                            userdatalist.$data["items"] = data["data"]["list"]
+
+                            var items = data["data"]["list"]
+                            for (var i = 0; i < items.length; i++) {
+                                var handcard = items[i].Handcard
+                                handcard.sort(sequence)
+                                for (var k = 0; k < handcard.length; k++) {
+                                    handcard[k] = "../assets/i/" + handcard[k] + ".png"
+
+                                }
+                            }
+
+                            for (var i = 0; i < items.length; i++) {
+                                var peng = items[i].Peng
+                                if (peng != null){
+                                    for (var k = 0; k < peng.length; k++) {
+                                        console.info(peng[k],peng[k] &0xFF)
+                                        peng[k] = "../assets/i/" + (peng[k] &0xFF) + ".png"
+                                    }
+                                }
+                            }
+
+                            for (var i = 0; i < items.length; i++) {
+                                var kong = items[i].Kong
+                                if (kong != null){
+                                    for (var k = 0; k < kong.length; k++) {
+                                        console.info(kong[k],kong[k] &0xFF)
+                                        kong[k] = "../assets/i/" +( kong[k] &0xFF) + ".png"
+                                    }
+                                }
+                            }
+
+                            userdatalist.$data["items"] = items
                             pageBar.$data.allrecords = data["data"]["count"]
-                            pageBar.$data.all= Math.ceil(data["data"]["count"] / pages.$data.selected)
-                        }else if (data["status"] == "fail"){
+                            pageBar.$data.all = Math.ceil(data["data"]["count"] / pages.$data.selected)
+                        } else if (data["status"] == "fail") {
                             $.Alert(data["msg"])
                         }
                     }
@@ -680,28 +730,29 @@
         }
     })
 
-function getUserList() {
+    function getUserList() {
 
-    var data={SelectedIDSearch: searchSelect.$data.selected,
-        SearchUserid: searchSelect.$data.SearchValue,
-        Page:pageBar.$data.cur,
-        PageMax:pages.$data.selected
-    }
-    $.ajax({
-        type: "POST",
-        url: "/operation/normalrecord",
-        data: data,
-        dataType: "json",
-        success: function (data) {
-            if (data["status"] == "ok") {
-                console.info(data["data"])
-                userdatalist.$data["items"] = data["data"]["list"]
-                pageBar.$data.allrecords = data["data"]["count"]
-                pageBar.$data.all= Math.ceil(data["data"]["count"] / pages.$data.selected)
-            }
+        var data = {
+            SelectedIDSearch: searchSelect.$data.selected,
+            SearchUserid: searchSelect.$data.SearchValue,
+            Page: pageBar.$data.cur,
+            PageMax: pages.$data.selected
         }
-    });
-}
+        $.ajax({
+            type: "POST",
+            url: "/operation/normalrecord",
+            data: data,
+            dataType: "json",
+            success: function (data) {
+                if (data["status"] == "ok") {
+                    console.info(data["data"])
+                    userdatalist.$data["items"] = data["data"]["list"]
+                    pageBar.$data.allrecords = data["data"]["count"]
+                    pageBar.$data.all = Math.ceil(data["data"]["count"] / pages.$data.selected)
+                }
+            }
+        });
+    }
 
     $.ajax({
         type: "POST",
@@ -718,8 +769,6 @@ function getUserList() {
         }
     });
 
-
-    getUserList( )
 
     $(function () {
         var startDate = new Date(2000, 1, 1);

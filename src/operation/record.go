@@ -11,15 +11,18 @@ import (
 )
 
 type Record struct {
-	Userid      string
-	Zhuang      uint32 //
-	Seat        uint32 //
-	Paoseat     uint32 //
-	Ante        uint32 //
-	Ji          byte   //
-	Handcard    []uint32
-	Peng        []uint32
-	Kong        []uint32 //
+	Userid   string
+	Zhuang   uint32 //
+	Seat     uint32 //
+	Paoseat  uint32 //
+	Ante     uint32 //
+	Ji       byte   //
+	Handcard []uint32
+	//Peng        []uint32
+	//	Kong        []uint32 //
+	Peng []uint32
+	Kong []uint32 //
+
 	Otherids    []string
 	Rtype       uint32 //
 	Coin        int32  //
@@ -51,8 +54,10 @@ func NormalRecord(c *gin.Context) {
 			Paoseat: v.Paoseat,
 			Ante:    v.Ante,
 			Ji:      v.Ji,
+			Peng:    v.Peng,
+			Kong:    v.Kong,
 			//			Handcard:    v.Handcard,
-			Otherids:    v.Otherids,
+			//	Otherids:    v.Otherids,
 			Rtype:       v.Rtype,
 			Coin:        v.Coin,
 			Tingvalue:   v.Tingvalue,
@@ -60,9 +65,18 @@ func NormalRecord(c *gin.Context) {
 			Huvalue:     v.Huvalue,
 			Create_time: utils.Unix2Str(int64(v.Create_time)),
 		}
-		//for _, v := range v.Kong {
-
+		//for i := 0; i < len(v.Kong); i++ {
+		//	u.Kong = append(u.Kong, uint32(v.Kong[i].GetCard()))
 		//}
+		//for i := 0; i < len(v.Peng); i++ {
+		//	u.Peng = append(u.Peng, uint32(v.Peng[i].GetCard()))
+		//}
+		for i := 0; i < len(v.Otherids); i++ {
+			if v.Otherids[i] != userid {
+				u.Otherids = append(u.Otherids, v.Otherids[i])
+
+			}
+		}
 		for i := 0; i < len(v.Handcard); i++ {
 			u.Handcard = append(u.Handcard, uint32(v.Handcard[i]))
 		}
