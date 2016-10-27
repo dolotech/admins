@@ -167,6 +167,7 @@
                     <table class="am-table am-table-striped am-table-hover table-main" id="userdatalist">
                         <thead>
                         <tr>
+                            <th class="am-text-nowrap am-hide-sm-only table-id">玩家ID</th>
                             <th class="am-text-nowrap">时间</th>
                             <th class="am-text-nowrap table-title">手牌</th>
                             <th class="am-text-nowrap table-title">碰牌</th>
@@ -182,21 +183,13 @@
                             <th class="am-text-nowrap table-type">叫嘴</th>
                             <th class="am-text-nowrap table-type">胡牌方式</th>
                             <th class="am-text-nowrap table-type">本局同桌</th>
-                            <!-- <th class="am-text-nowrap table-type">胜局</th>
-                            <th class="am-text-nowrap table-type">败局</th>
-                            <th class="am-text-nowrap table-type">平局</th>
-                            <th class="am-text-nowrap table-type">经验</th>
-                            <th class="am-text-nowrap table-type">入场券</th>
-                            <th class="am-text-nowrap table-type">兑换券</th>
-                           <th class="am-text-nowrap table-date am-hide-sm-only">操作</th>-->
                         </tr>
                         </thead>
                         <tbody>
 
                         <tr v-for="(item,index) in items ">
-
-                            <td class="am-text-middle am-hide-sm-only">{{item.Create_time }}</td>
-                            <!--  <td class="am-text-middle am-hide-sm-only">{{ item.Handcard }} <img src="../assets/i/1.png"/> </td>-->
+                            <td class="am-text-middle am-hide-sm-only"> {{ item.Userid }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{item.Time }}</td>
                             <td class="am-text-middle am-hide-sm-only">
                                 <ul class="pic_list">
                                     <li v-for="card in item.Handcard"><img v-bind:src="card"/></li>
@@ -215,8 +208,6 @@
                                 </ul>
                             </td>
 
-                         <!--   <td class="am-text-middle am-hide-sm-only">{{ item.Peng }}</td>-->
-                    <!--        <td class="am-text-middle am-hide-sm-only">{{ item.Kong }}</td>-->
                             <td class="am-text-middle am-hide-sm-only">{{ item.Ji }}</td>
 
                             <td class="am-text-middle am-hide-sm-only">{{ item.Ante }}</td>
@@ -229,16 +220,16 @@
                             <td v-if="item.Tingvalue==0" class="am-text-middle am-hide-sm-only">未叫嘴</td>
 
                             <td class="am-text-middle am-hide-sm-only">{{ item.Huvalue}}</td>
-                            <!--           <td class="am-text-middle am-hide-sm-only">{{ item.Otherids}}</td>-->
-                            <td>
-                                <div class="am-btn-toolbar">
-                                    <div class="am-btn-group am-btn-group-xs">
-                                        <button class="am-btn am-btn-default am-input-sm"
-                                                v-on:click="button_onedit(index)">查看同桌
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
+                          <!--  <td class="am-text-middle am-hide-sm-only">{{ item.Otherids}}</td>-->
+                             <td>
+                                 <div class="am-btn-toolbar">
+                                     <div class="am-btn-group am-btn-group-xs">
+                                         <button class="am-btn am-btn-default am-input-sm"
+                                                 v-on:click="button_onedit(index)">查看同桌
+                                         </button>
+                                     </div>
+                                 </div>
+                             </td>
                         </tr>
                         </tbody>
                     </table>
@@ -552,11 +543,29 @@
         data: {items: []},
         methods: {
             button_onedit: function (index) {
-                $("#list_pane").hide();
-                $("#edit_pane").show();
+              //  $("#list_pane").hide();
+                //$("#edit_pane").show();
                 if (userdatalist.$data["items"].length > 0) {
                     var data = userdatalist.$data["items"][index]
-                    edit.$data["items"] = data
+                   // edit.$data["items"] = data
+
+                    var data = {
+                        SelectedIDSearch: searchSelect.$data.selected,
+                        Userid: data.Userid,
+                        Create_time:data.Create_time,
+                        Page: pageBar.$data.cur,
+                        PageMax: pages.$data.selected,
+                    }
+
+                    console.info(data)
+                    $.ajax({
+                        type: "POST",
+                        url: "/operation/normalrecord",
+                        data: data,
+                        dataType: "json",
+                        success:dataloaded,
+                    });
+
                 }
             }
         }
@@ -685,50 +694,59 @@
                     url: "/operation/normalrecord",
                     data: data,
                     dataType: "json",
-                    success: function (data) {
-                        if (data["status"] == "ok") {
-
-                            var items = data["data"]["list"]
-                            for (var i = 0; i < items.length; i++) {
-                                var handcard = items[i].Handcard
-                                handcard.sort(sequence)
-                                for (var k = 0; k < handcard.length; k++) {
-                                    handcard[k] = "../assets/i/" + handcard[k] + ".png"
-
-                                }
-                            }
-
-                            for (var i = 0; i < items.length; i++) {
-                                var peng = items[i].Peng
-                                if (peng != null){
-                                    for (var k = 0; k < peng.length; k++) {
-                                        console.info(peng[k],peng[k] &0xFF)
-                                        peng[k] = "../assets/i/" + (peng[k] &0xFF) + ".png"
-                                    }
-                                }
-                            }
-
-                            for (var i = 0; i < items.length; i++) {
-                                var kong = items[i].Kong
-                                if (kong != null){
-                                    for (var k = 0; k < kong.length; k++) {
-                                        console.info(kong[k],kong[k] &0xFF)
-                                        kong[k] = "../assets/i/" +( kong[k] &0xFF) + ".png"
-                                    }
-                                }
-                            }
-
-                            userdatalist.$data["items"] = items
-                            pageBar.$data.allrecords = data["data"]["count"]
-                            pageBar.$data.all = Math.ceil(data["data"]["count"] / pages.$data.selected)
-                        } else if (data["status"] == "fail") {
-                            $.Alert(data["msg"])
-                        }
-                    }
+                    success:dataloaded,
                 });
             }
         }
     })
+
+
+    function dataloaded(data) {
+        if (data["status"] == "ok") {
+
+            console.log();
+
+            var items = data["data"]["list"]
+
+            for (var i = 0; i < items.length; i++) {
+                var t = items[i].Create_time
+                items[i].Time = format(t * 1000);
+            }
+
+            for (var i = 0; i < items.length; i++) {
+                var handcard = items[i].Handcard
+                handcard.sort(sequence)
+                for (var k = 0; k < handcard.length; k++) {
+                    handcard[k] = "../assets/i/" + handcard[k] + ".png"
+                }
+            }
+
+            for (var i = 0; i < items.length; i++) {
+                var peng = items[i].Peng
+                if (peng != null) {
+                    for (var k = 0; k < peng.length; k++) {
+                        peng[k] = "../assets/i/" + (peng[k] & 0xFF) + ".png"
+                    }
+                }
+            }
+
+            for (var i = 0; i < items.length; i++) {
+                var kong = items[i].Kong
+                if (kong != null) {
+                    for (var k = 0; k < kong.length; k++) {
+
+                        kong[k] = "../assets/i/" + ( kong[k] & 0xFF) + ".png"
+                    }
+                }
+            }
+
+            userdatalist.$data["items"] = items
+            pageBar.$data.allrecords = data["data"]["count"]
+            pageBar.$data.all = Math.ceil(data["data"]["count"] / pages.$data.selected)
+        } else if (data["status"] == "fail") {
+            $.Alert(data["msg"])
+        }
+    }
 
     function getUserList() {
 

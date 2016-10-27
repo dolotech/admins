@@ -3,8 +3,6 @@ package data
 import (
 	"basic/ssdb/gossdb"
 	"strconv"
-
-	"github.com/golang/glog"
 )
 
 type GameRecord struct {
@@ -26,6 +24,28 @@ type GameRecord struct {
 	Create_time uint32 //
 }
 
+// 获取同桌数据
+func GetDestopRecord(userid string, createTime string) ([]*GameRecord, error) {
+	value, err := gossdb.C().Hget(KEY_GAME_RECORD+":"+userid, createTime)
+	if err != nil {
+		return nil, err
+	}
+	record := &GameRecord{}
+	value.As(record)
+
+	list := make([]*GameRecord, 0, len(record.Otherids))
+	for _, v := range record.Otherids {
+		value, err := gossdb.C().Hget(KEY_GAME_RECORD+":"+v, createTime)
+		if err != nil {
+			continue
+		}
+		data := &GameRecord{}
+		value.As(data)
+		list = append(list, data)
+	}
+	return list, nil
+}
+
 //  获取金币场牌局记录
 func GetNormalRecord(userid string, startKey string, endKey string, limit int64) ([]*GameRecord, error) {
 	value, err := gossdb.C().Hrscan(KEY_GAME_RECORD+":"+userid, startKey, endKey, limit)
@@ -35,7 +55,6 @@ func GetNormalRecord(userid string, startKey string, endKey string, limit int64)
 	list := make([]*GameRecord, 0, len(value))
 	for _, v := range value {
 		data := &GameRecord{}
-		glog.Errorln(v)
 		v.As(data)
 		list = append(list, data)
 	}
