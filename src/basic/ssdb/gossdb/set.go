@@ -151,13 +151,11 @@ func (this *Client) Ttl(key string) (ttl int64, err error) {
 //  返回 val，整数，增加 num 后的新值
 //  返回 err，可能的错误，操作成功返回 nil
 func (this *Client) Incr(key string, num int64) (val int64, err error) {
-
 	resp, err := this.Do("incr", key, num)
-
 	if err != nil {
 		return -1, goerr.NewError(err, "Incr %s error", key)
 	}
-	if len(resp) == 2 && resp[0][0] == ok[0] && resp[0][1] == ok[1] {
+	if len(resp) == 2 && string(resp[0]) == "ok" {
 		return Value(resp[1]).Int64(), nil
 	}
 	return -1, makeError(resp, key)

@@ -123,6 +123,7 @@ func Router(r *gin.Engine) {
 
 	r.POST("/operation/normalrecord", operation.NormalRecord) //  金币场牌局记录
 	r.POST("/operation/issueprops", operation.IssueProps)     //
+	r.POST("/operation/issuelist", operation.IssuePropsList)  //
 
 	r.Static("/assets", "AmazeUI/assets")
 

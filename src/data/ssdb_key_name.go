@@ -7,9 +7,10 @@ const (
 	USER_GROUP_INDEX string = "admins_user_group_index"
 	USER_GROUP       string = "admins_user_group"
 
-	USER_LOG_INDEX string = "admins_user_log_index"
-	USERS_LIST     string = "admins_users_list"
-	USER_LOG       string = "admins_user_log"
+	USER_LOG_INDEX  string = "admins_user_log_index"
+	USERS_LIST      string = "admins_users_list"
+	USER_LOG        string = "admins_user_log"
+	PROPS_ISSUE_LOG string = "admins_props_issue_log"
 )
 
 const (
@@ -36,8 +37,10 @@ const (
 	KEY_TASK string = "task:"
 	KEY_USER string = "user:"
 
-	KEY_FEEDBACK     string = "feedback:"
-	KEY_GAME_RECORD  string = "gamerecord:"
+	KEY_FEEDBACK          string = "feedback:"
+	KEY_GAME_RECORD       string = "gamerecord:"       // 金币场牌局记录，用于后台系统
+	KEY_GAME_RECORD_QUEUE string = "gamerecord_queue:" // 金币场牌局记录列表，存储金币场牌局记录引用
+
 	KEY_ACTIVITY     string = "activity:"
 	KEY_NOTICE       string = "notice"
 	KEY_TRADE        string = "trade"

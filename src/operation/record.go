@@ -1,7 +1,6 @@
 package operation
 
 import (
-	"basic/ssdb/gossdb"
 	"data"
 	"net/http"
 	"strconv"
@@ -45,8 +44,7 @@ func NormalRecord(c *gin.Context) {
 	var list []*data.GameRecord
 	var count int64
 	if createTime == "" {
-		list, _ = data.GetNormalRecord(userid, "", "", 100)
-		count, _ = gossdb.C().Hsize(data.KEY_GAME_RECORD + ":" + userid)
+		list, count, _ = data.GetNormalRecord(userid, ((page - 1) * pageMax), pageMax)
 	} else {
 		list, _ = data.GetDestopRecord(userid, createTime)
 		count = 4

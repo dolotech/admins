@@ -29,7 +29,7 @@ type GameRecord struct {
 
 // 获取同桌数据
 func GetDestopRecord(userid string, createTime string) ([]*GameRecord, error) {
-	value, err := gossdb.C().Hget(KEY_GAME_RECORD+":"+userid, createTime)
+	value, err := gossdb.C().Hget(KEY_GAME_RECORD+userid, createTime)
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +38,7 @@ func GetDestopRecord(userid string, createTime string) ([]*GameRecord, error) {
 
 	list := make([]*GameRecord, 0, len(record.Otherids))
 	for _, v := range record.Otherids {
-		value, err := gossdb.C().Hget(KEY_GAME_RECORD+":"+v, createTime)
+		value, err := gossdb.C().Hget(KEY_GAME_RECORD+v, createTime)
 		if err != nil {
 			continue
 		}
@@ -50,21 +50,31 @@ func GetDestopRecord(userid string, createTime string) ([]*GameRecord, error) {
 }
 
 //  获取金币场牌局记录
-func GetNormalRecord(userid string, startKey string, endKey string, limit int64) ([]*GameRecord, error) {
-	value, err := gossdb.C().Hrscan(KEY_GAME_RECORD+":"+userid, startKey, endKey, limit)
+func GetNormalRecord(userid string, offset, limit int) ([]*GameRecord, int64, error) {
+	size, err := gossdb.C().Qsize(KEY_GAME_RECORD_QUEUE + userid)
 	if err != nil {
-		return nil, err
+		return nil, size, err
 	}
-	list := make([]*GameRecord, 0, len(value))
-	for _, v := range value {
+	rang, err := gossdb.C().Qrange(KEY_GAME_RECORD_QUEUE+userid, offset, limit)
+	if err != nil {
+		return nil, size, err
+	}
+
+	list := make([]*GameRecord, 0, len(rang))
+	for _, v := range rang {
+		value, err := gossdb.C().Hget(KEY_GAME_RECORD+userid, v.String())
+		if err != nil {
+			continue
+		}
+
 		data := &GameRecord{}
-		v.As(data)
+		value.As(data)
 		list = append(list, data)
 	}
-	return list, nil
+	return list, size, nil
 }
 func (this *GameRecord) Save() error {
-	err := gossdb.C().Hset(KEY_GAME_RECORD+":"+this.Userid, strconv.Itoa(int(this.Create_time)), this)
+	err := gossdb.C().Hset(KEY_GAME_RECORD+this.Userid, strconv.Itoa(int(this.Create_time)), this)
 	if err != nil {
 		return err
 	}
