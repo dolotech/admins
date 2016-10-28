@@ -1,0 +1,37 @@
+
+
+/* Labels */
+.label {
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: .3em .6em .3em;
+  color: #fff;
+  border-radius: 3px;
+}
+.label-default {
+  background-color: #71b6f9;
+}
+.label-primary {
+  background-color: #188ae2;
+}
+.label-success {
+  background-color: #10c469;
+}
+.label-info {
+  background-color: #35b8e0;
+}
+.label-warning {
+  background-color: #f9c851;
+}
+.label-danger {
+  background-color: #ff5b5b;
+}
+.label-purple {
+  background-color: #5b69bc;
+}
+.label-pink {
+  background-color: #ff8acc;
+}
+.label-inverse {
+  background-color: #3b3e47;
+}

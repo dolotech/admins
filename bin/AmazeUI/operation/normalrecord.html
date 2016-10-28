@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../assets/css/admin.css">
     <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/core.css">
     <style type="text/css">
     </style>
 </head>
@@ -157,6 +158,8 @@
 
             <div class="am-g">
                 <div class="am-u-sm-12">
+
+
                     <!--     <form class="am-form">-->
 
                     <!--      {{ $len := len .users }}
@@ -172,12 +175,14 @@
                             <th class="am-text-nowrap table-title">手牌</th>
                             <th class="am-text-nowrap table-title">碰牌</th>
                             <th class="am-text-nowrap table-title">杠牌</th>
+
+                            <th class="am-text-nowrap table-title">胡牌</th>
                             <th class="am-text-nowrap table-title">鸡牌</th>
                             <th class="am-text-nowrap table-title">低注</th>
                             <th class="am-text-nowrap table-title">盈亏</th>
                             <th class="am-text-nowrap table-type">座位</th>
                             <th class="am-text-nowrap table-type">庄</th>
-
+                            <th class="am-text-nowrap table-type">责任鸡英雄鸡</th>
                             <!--         <th class="am-text-nowrap table-type">盈亏番值</th>-->
                             <th class="am-text-nowrap table-type">胡牌名</th>
                             <th class="am-text-nowrap table-type">叫嘴</th>
@@ -208,16 +213,24 @@
                                 </ul>
                             </td>
 
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Ji }}</td>
+                            <td  v-if="item.HuCard != ''" class="am-text-middle am-hide-sm-only"><img v-bind:src="item.HuCard"/> </td>
+                            <td  v-if="item.HuCard == ''" class="am-text-middle am-hide-sm-only"> </td>
+                            <td v-if="item.Ji != ''" class="am-text-middle am-hide-sm-only"><img v-bind:src="item.Ji"/> </td>
+                            <td v-if="item.Ji == ''" class="am-text-middle am-hide-sm-only"> </td>
 
                             <td class="am-text-middle am-hide-sm-only">{{ item.Ante }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{ item.Coin }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{ item.Seat }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{ item.Zhuang}}</td>
 
+                            <td  v-if="item.HeroJi == 0"class="am-text-middle am-hide-sm-only">无</td>
+                            <td  v-if="item.HeroJi == 4"class="am-text-middle am-hide-sm-only">英雄鸡</td>
+                            <td  v-if="item.HeroJi == 2"class="am-text-middle am-hide-sm-only">责任鸡</td>
+                            <td  v-if="item.HeroJi == 3"class="am-text-middle am-hide-sm-only">责任鸡碰家</td>
+
                             <td class="am-text-middle am-hide-sm-only">{{ item.Hutype }}</td>
-                            <td v-if="item.Tingvalue>0" class="am-text-middle am-hide-sm-only">叫嘴</td>
-                            <td v-if="item.Tingvalue==0" class="am-text-middle am-hide-sm-only">未叫嘴</td>
+                            <td v-if="item.Tingvalue>0" ><span class="label label-success">叫嘴</span></td>
+                            <td v-if="item.Tingvalue==0"><span class="label label-warning">未叫嘴</span></td>
 
                             <td class="am-text-middle am-hide-sm-only">{{ item.Huvalue}}</td>
                           <!--  <td class="am-text-middle am-hide-sm-only">{{ item.Otherids}}</td>-->
@@ -256,180 +269,6 @@
     </div>
 
 
-    <div class="admin-content" id="edit_pane">
-        <!--<div class="admin-content-body">-->
-        <div class="am-cf am-padding am-padding-bottom-0">
-            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">编辑玩家数据</strong> /
-                <small>Table</small>
-            </div>
-        </div>
-        <hr>
-
-        <div class="am-g">
-            <div class="am-u-md-6">
-                <form class="am-form am-form-horizontal" id="edit_user">
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Userid" class="am-u-sm-2 am-form-label">帐号ID</label>
-                        <div class="am-u-sm-10">
-                            <input id="Userid" type="text" readonly="readonly" name="Userid" v-model="items.Userid"/>
-                        </div>
-                    </div>
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label class="am-u-sm-2 am-form-label">手机号</label>
-                        <div class="am-u-sm-10">
-                            <input id="Phone" type="text" name="Phone" readonly="readonly" value=""
-                                   v-model="items.Phone"/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label class="am-u-sm-2 am-form-label">玩家昵称</label>
-                        <div class="am-u-sm-10">
-                            <input id="Nickname" type="text" v-model="items.Nickname"/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group">
-                        <label class="am-u-sm-2 am-form-label">性别</label>
-                        <label class="am-radio-inline">
-                            <input type="radio" value="1" name="Sex" id="Sex1" checked required v-model="items.Sex"> 男
-                        </label>
-                        <label class="am-radio-inline">
-                            <input type="radio" name="Sex" value="2" id="Sex2" v-model="items.Sex">女
-                        </label>
-                        <label class="am-radio-inline">
-                            <input type="radio" name="Sex" value="0" id="Sex3" v-model="items.Sex">其他
-
-                        </label>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label class="am-u-sm-2 am-form-label">金币</label>
-                        <div class="am-u-sm-10">
-                            <input id="Coin" type="text" name="Coin" value="" v-model="Coin"/>
-                        </div>
-                    </div>
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Diamond" class="am-u-sm-2 am-form-label">钻石</label>
-                        <div class="am-u-sm-10">
-                            <input id="Diamond" type="text" name="Diamond" value="" v-model="Diamond"/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="vip" class="am-u-sm-2 am-form-label">VIP</label>
-                        <div class="am-u-sm-10">
-                            <input id="Vip" type="text" name="Vip" value="" v-model="Vip"/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Exp" class="am-u-sm-2 am-form-label">经验</label>
-                        <div class="am-u-sm-10">
-                            <input id="Exp" type="text" name="Exp" value="" v-model="Exp"/>
-                        </div>
-                    </div>
-
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Ticket" class="am-u-sm-2 am-form-label">入场券</label>
-                        <div class="am-u-sm-10">
-                            <input id="Ticket" type="text" name="Ticket" value="" v-model="Ticket"/>
-                        </div>
-                    </div>
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Exchange" class="am-u-sm-2 am-form-label">兑换券</label>
-                        <div class="am-u-sm-10">
-                            <input id="Exchange" type="text" name="Exchange" value="" v-model="Exchange"/>
-                        </div>
-                    </div>
-
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Win" class="am-u-sm-2 am-form-label">胜局</label>
-                        <div class="am-u-sm-10">
-                            <input id="Win" type="text" name="Win" readonly="readonly" value="" v-model="items.Win"/>
-                        </div>
-                    </div>
-
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Lost" class="am-u-sm-2 am-form-label">败局</label>
-                        <div class="am-u-sm-10">
-                            <input id="Lost" type="text" name="Lost" readonly="readonly" value="" v-model="items.Lost"/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Ping" class="am-u-sm-2 am-form-label">平局</label>
-                        <div class="am-u-sm-10">
-                            <input id="Ping" type="text" name="Ping" readonly="readonly" value="" v-model="items.Ping"/>
-                        </div>
-                    </div>
-
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Photo" class="am-u-sm-2 am-form-label">头像</label>
-                        <div class="am-u-sm-10">
-                            <input id="Photo" type="text" name="Photo" readonly="readonly" value=""
-                                   v-model="items.Photo"/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="password" class="am-u-sm-2 am-form-label">密码</label>
-                        <div class="am-u-sm-10">
-                            <input id="Password" type="text" name="Password" value="" placeholder="此项留空表示不修改密码！"
-                                   v-mode="items.Password"/>
-                            <!-- <small>此项留空表示不修改密码！</small>-->
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
-                        <div class="am-u-sm-10">
-                            <input id="Password1" type="text" name="Password1" value="" v-model="items.Password1"/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label class="am-u-sm-2 am-form-label">注册时间</label>
-                        <div class="am-u-sm-10">
-                            <input id="Create_time" type="text" name="" v-model="items.Create_time" value="" disabled/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label class="am-u-sm-2 am-form-label">注册IP地址</label>
-                        <div class="am-u-sm-10">
-                            <input id="Create_ip" type="text" name="" v-model="items.Create_ip" value="" disabled/>
-                        </div>
-                    </div>
-
-                    <div class="am-g am-margin-vertical-sm">
-                        <div class="am-form-group">
-                            <label class="am-u-sm-2 am-form-label"></label>
-                            <div class="am-u-sm-10">
-                                <button type="button" class="am-btn am-btn-primary" value=""
-                                        v-on:click="onSubmit">提交
-                                </button>
-
-                                <input type="button" class="am-btn" value="返回" v-on:click="button_onback"/>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr/>
-                </form>
-            </div>
-
-        </div>
-    </div>
-
-
     <footer>
         <hr>
         <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
@@ -446,97 +285,6 @@
 
 <script type="text/javascript">
 
-
-    var edit = new Vue({
-                el: '#edit_user',
-                data: {items: {}},
-                computed: {
-                    Coin: {
-                        get: function () {
-                            return this.items.Coin;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Coin = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
-
-                    Diamond: {
-                        get: function () {
-                            return this.items.Diamond;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Diamond = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
-                    Exp: {
-                        get: function () {
-                            return this.items.Exp;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Exp = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
-
-                    Ticket: {
-                        get: function () {
-                            return this.items.Ticket;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Ticket = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
-                    Vip: {
-                        get: function () {
-                            return this.items.Vip;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Vip = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
-                    Exchange: {
-                        get: function () {
-                            return this.items.Exchange;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Exchange = newValue.replace(/[^\d]/g, '');
-                        }
-                    }
-                },
-                methods: {
-                    button_onback: function () {
-                        $("#edit_pane").hide();
-                        $("#list_pane").show();
-                    },
-                    onSubmit: function () {
-                        console.info(this.$data.items)
-
-                        $.ajax({
-                            type: "POST",
-                            url: "/roles/edit",
-                            data: this.$data.items,
-
-                            dataType: "json",
-                            success: function (data) {
-                                if (data["status"] == "ok") {
-                                    $.Alert("恭喜，修改成功！")
-                                } else {
-                                    $.Alert(data["msg"])
-                                }
-                                $("#edit_pane").hide();
-                                $("#list_pane").show();
-                            }
-                        });
-
-                    }
-                }
-            }
-    )
 
     var userdatalist = new Vue({
         el: '#userdatalist',
@@ -709,28 +457,38 @@
             var items = data["data"]["list"]
 
             for (var i = 0; i < items.length; i++) {
+                var card = items[i].HuCard
+                if (card > 0){
+                    items[i].HuCard = "../assets/i/" + items[i].HuCard + ".png"
+                }else{
+                    items[i].HuCard = ""
+                }
+                var ji = items[i].Ji
+                if (ji > 0){
+                    items[i].Ji = "../assets/i/" + items[i].Ji + ".png"
+                }else{
+                    items[i].Ji = ""
+                }
+
                 var t = items[i].Create_time
                 items[i].Time = format(t * 1000);
-            }
 
-            for (var i = 0; i < items.length; i++) {
+
                 var handcard = items[i].Handcard
                 handcard.sort(sequence)
                 for (var k = 0; k < handcard.length; k++) {
                     handcard[k] = "../assets/i/" + handcard[k] + ".png"
                 }
-            }
 
-            for (var i = 0; i < items.length; i++) {
+
                 var peng = items[i].Peng
                 if (peng != null) {
                     for (var k = 0; k < peng.length; k++) {
                         peng[k] = "../assets/i/" + (peng[k] & 0xFF) + ".png"
                     }
                 }
-            }
 
-            for (var i = 0; i < items.length; i++) {
+
                 var kong = items[i].Kong
                 if (kong != null) {
                     for (var k = 0; k < kong.length; k++) {
@@ -738,6 +496,7 @@
                         kong[k] = "../assets/i/" + ( kong[k] & 0xFF) + ".png"
                     }
                 }
+
             }
 
             userdatalist.$data["items"] = items

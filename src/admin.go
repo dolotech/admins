@@ -122,6 +122,7 @@ func Router(r *gin.Engine) {
 	r.POST("/roles/listonline", role.ListOnline) //  在线玩家列表
 
 	r.POST("/operation/normalrecord", operation.NormalRecord) //  金币场牌局记录
+	r.POST("/operation/issueprops", operation.IssueProps)     //
 
 	r.Static("/assets", "AmazeUI/assets")
 

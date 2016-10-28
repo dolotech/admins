@@ -12,9 +12,11 @@ type GameRecord struct {
 	Paoseat     uint32 //
 	Ante        uint32 //
 	Ji          byte   //
+	HeroJi      uint32 // 0:无，1:英雄鸡，2：责任鸡，3：责任鸡碰方
+	HuCard      byte
 	Handcard    []byte
 	Peng        []uint32
-	Kong        []uint32 //
+	Kong        []uint32
 	Otherids    []string
 	Rtype       uint32 //
 	Coin        int32  //
@@ -22,6 +24,7 @@ type GameRecord struct {
 	Hutype      uint32 //
 	Huvalue     uint32 //
 	Create_time uint32 //
+	OutCards    []byte
 }
 
 // 获取同桌数据
