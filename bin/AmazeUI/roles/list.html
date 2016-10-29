@@ -140,10 +140,14 @@
 
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
                         <div class="am-form-group">
-                            <select v-model="selected" data-am-selected="{btnSize: 'sm'}">
+                           <!-- <select v-model="selected" data-am-selected="{btnSize: 'sm'}">
                                 <option v-for="option in options" v-bind:value="option.value">
                                     {{ option.text }}
                                 </option>
+                            </select>-->
+                            <select id="doc-select-1"  v-model="selected">
+                                <option selected="selected" value="1">搜玩家ID</option>
+                                <option value="2">搜手机号</option>
                             </select>
                         </div>
                     </div>
@@ -623,10 +627,6 @@
         el: '#Search',
         data: {
             selected: '1',
-            options: [
-                {text: '根据玩家ID搜索', value: '1'},
-                {text: '根据玩家手机号搜索', value: '2'}
-            ],
             SearchValue: "",
         },
 
@@ -646,9 +646,9 @@
 
                 }
                //  $.Alert(JSON.stringify(data))
-               // console.info(getcookie("mysession"))
+                console.info(data)
 
-                //return
+            
                 var data={SelectedIDSearch: searchSelect.$data.selected,
                     SearchUserid: searchSelect.$data.SearchValue,
                     Page:pageBar.$data.cur,
