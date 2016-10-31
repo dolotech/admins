@@ -27,8 +27,8 @@
       <file leaf-file-name="normalrecord.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AmazeUI/operation/normalrecord.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="488">
-              <caret line="386" column="0" selection-start-line="386" selection-start-column="0" selection-end-line="386" selection-end-column="0" />
+            <state relative-caret-position="270">
+              <caret line="246" column="54" selection-start-line="246" selection-start-column="54" selection-end-line="246" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -336,7 +336,7 @@
       <workItem from="1476948787369" duration="598000" />
       <workItem from="1477464720449" duration="20996000" />
       <workItem from="1477618728909" duration="11498000" />
-      <workItem from="1477880211672" duration="9117000" />
+      <workItem from="1477880211672" duration="9985000" />
     </task>
     <task id="LOCAL-00001" summary="更新登录模板">
       <created>1475138471139</created>
@@ -349,7 +349,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="240392000" />
+    <option name="totallyTimeSpent" value="241260000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
@@ -764,8 +764,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/operation/normalrecord.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="386" column="0" selection-start-line="386" selection-start-column="0" selection-end-line="386" selection-end-column="0" />
+        <state relative-caret-position="270">
+          <caret line="246" column="54" selection-start-line="246" selection-start-column="54" selection-end-line="246" selection-end-column="54" />
           <folding />
         </state>
       </provider>

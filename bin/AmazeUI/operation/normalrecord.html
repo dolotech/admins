@@ -241,11 +241,11 @@
                             <td class="am-text-middle am-hide-sm-only">{{ item.Coin }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{ item.Seat }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{ item.Zhuang}}</td>
-
+                           <!-- <td class="am-text-middle am-hide-sm-only">{{ item.HeroJi}}</td>-->
                             <td v-if="item.HeroJi == 0" class="am-text-middle am-hide-sm-only">无</td>
-                            <td v-if="item.HeroJi == 4" class="am-text-middle am-hide-sm-only">英雄鸡</td>
-                            <td v-if="item.HeroJi == 2" class="am-text-middle am-hide-sm-only">责任鸡</td>
-                            <td v-if="item.HeroJi == 3" class="am-text-middle am-hide-sm-only">责任鸡碰家</td>
+                            <td v-if="item.HeroJi == 3" class="am-text-middle am-hide-sm-only">英雄鸡</td>
+                            <td v-if="item.HeroJi == 1" class="am-text-middle am-hide-sm-only">责任鸡</td>
+                            <td v-if="item.HeroJi == 2" class="am-text-middle am-hide-sm-only">责任鸡碰家</td>
 
                             <td class="am-text-middle am-hide-sm-only">{{ item.Hutype }}</td>
                             <td v-if="item.Tingvalue>0"><span class="label label-success">叫嘴</span></td>
@@ -257,7 +257,7 @@
                                 <div class="am-btn-toolbar">
                                     <div class="am-btn-group am-btn-group-xs">
                                         <button class="am-btn am-btn-default am-input-sm"
-                                                v-on:click="button_onedit(index)">查看同桌
+                                                v-on:click="button_onedit(index)">查看
                                         </button>
                                     </div>
                                 </div>
@@ -266,7 +266,7 @@
                                 <div class="am-btn-toolbar">
                                     <div class="am-btn-group am-btn-group-xs">
                                         <button class="am-btn am-btn-default am-input-sm"
-                                                v-on:click="onRecord(index)">打牌记录
+                                                v-on:click="onRecord(index)"> 查看
                                         </button>
                                     </div>
                                 </div>
@@ -389,6 +389,9 @@
                                         str += ("玩家" + value.Seat + "胡" + "<img src='../assets/i/" + value.Card + ".png'/> ")
                                     }
                                     str += " --> "
+                                    if (i%4 == 0){
+                                        str += "<br>"
+                                    }
                                 }
                             }
 
