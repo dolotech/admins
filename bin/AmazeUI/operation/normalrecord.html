@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html class="no-js">
 <head>
     <meta charset="utf-8">
@@ -113,6 +113,8 @@
     <!-- content start -->
     <div class="admin-content" id="list_pane">
         <div class="admin-content-body">
+
+
             <div class="am-cf am-padding am-padding-bottom-0">
                 <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">运营管理</strong> /
                     <small>金币场牌局记录</small>
@@ -120,6 +122,20 @@
             </div>
 
             <hr>
+
+
+            <div class="am-popup" id="my-popup">
+                <div class="am-popup-inner">
+                    <div class="am-popup-hd">
+                        <h4 class="am-popup-title">打牌记录</h4>
+                    <span data-am-modal-close
+                          class="am-close">&times;</span>
+                    </div>
+                    <div class="am-popup-bd" id="cardrecordcontent">
+                        <!--  <p>为你封了国境<br>为你赦了罪<br>为你撤了历史记载<br>为你涂了装扮<br>为你喝了醉<br>为你建了城池围墙<br>一颗热的心穿着冰冷外衣<br>一张白的脸漆上多少褪色的情节<br>在我的空虚身体里面<br>爱上哪个肤浅的王位<br>在你的空虚宝座里面<br>爱过什麽女爵的滋味<br>为你封了国境</p><p>为你赦了罪<br>为你撤了历史记载<br>一颗热的心<br>穿着冰冷外衣<br>一张白的脸<br>漆上多少褪色的情节<br>在我的空虚身体里面<br>爱上哪个肤浅的王位<br>在你的空虚宝座里面<br>爱过什麽女爵的滋味<br>在我的空虚身体里面<br>爱上哪个肤浅的王位<br>在你的空虚宝座里面<br>爱过什麽女爵的滋味</p>-->
+                    </div>
+                </div>
+            </div>
 
             <form class="am-form" data-am-validator id="Search">
                 <div class="am-g">
@@ -188,6 +204,7 @@
                             <th class="am-text-nowrap table-type">叫嘴</th>
                             <th class="am-text-nowrap table-type">胡牌方式</th>
                             <th class="am-text-nowrap table-type">本局同桌</th>
+                            <th class="am-text-nowrap table-type">打牌记录</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -213,36 +230,47 @@
                                 </ul>
                             </td>
 
-                            <td  v-if="item.HuCard != ''" class="am-text-middle am-hide-sm-only"><img v-bind:src="item.HuCard"/> </td>
-                            <td  v-if="item.HuCard == ''" class="am-text-middle am-hide-sm-only"> </td>
-                            <td v-if="item.Ji != ''" class="am-text-middle am-hide-sm-only"><img v-bind:src="item.Ji"/> </td>
-                            <td v-if="item.Ji == ''" class="am-text-middle am-hide-sm-only"> </td>
+                            <td v-if="item.HuCard != ''" class="am-text-middle am-hide-sm-only"><img
+                                    v-bind:src="item.HuCard"/></td>
+                            <td v-if="item.HuCard == ''" class="am-text-middle am-hide-sm-only"></td>
+                            <td v-if="item.Ji != ''" class="am-text-middle am-hide-sm-only"><img v-bind:src="item.Ji"/>
+                            </td>
+                            <td v-if="item.Ji == ''" class="am-text-middle am-hide-sm-only"></td>
 
                             <td class="am-text-middle am-hide-sm-only">{{ item.Ante }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{ item.Coin }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{ item.Seat }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{ item.Zhuang}}</td>
 
-                            <td  v-if="item.HeroJi == 0"class="am-text-middle am-hide-sm-only">无</td>
-                            <td  v-if="item.HeroJi == 4"class="am-text-middle am-hide-sm-only">英雄鸡</td>
-                            <td  v-if="item.HeroJi == 2"class="am-text-middle am-hide-sm-only">责任鸡</td>
-                            <td  v-if="item.HeroJi == 3"class="am-text-middle am-hide-sm-only">责任鸡碰家</td>
+                            <td v-if="item.HeroJi == 0" class="am-text-middle am-hide-sm-only">无</td>
+                            <td v-if="item.HeroJi == 4" class="am-text-middle am-hide-sm-only">英雄鸡</td>
+                            <td v-if="item.HeroJi == 2" class="am-text-middle am-hide-sm-only">责任鸡</td>
+                            <td v-if="item.HeroJi == 3" class="am-text-middle am-hide-sm-only">责任鸡碰家</td>
 
                             <td class="am-text-middle am-hide-sm-only">{{ item.Hutype }}</td>
-                            <td v-if="item.Tingvalue>0" ><span class="label label-success">叫嘴</span></td>
+                            <td v-if="item.Tingvalue>0"><span class="label label-success">叫嘴</span></td>
                             <td v-if="item.Tingvalue==0"><span class="label label-warning">未叫嘴</span></td>
 
                             <td class="am-text-middle am-hide-sm-only">{{ item.Huvalue}}</td>
-                          <!--  <td class="am-text-middle am-hide-sm-only">{{ item.Otherids}}</td>-->
-                             <td>
-                                 <div class="am-btn-toolbar">
-                                     <div class="am-btn-group am-btn-group-xs">
-                                         <button class="am-btn am-btn-default am-input-sm"
-                                                 v-on:click="button_onedit(index)">查看同桌
-                                         </button>
-                                     </div>
-                                 </div>
-                             </td>
+                            <!--  <td class="am-text-middle am-hide-sm-only">{{ item.Otherids}}</td>-->
+                            <td>
+                                <div class="am-btn-toolbar">
+                                    <div class="am-btn-group am-btn-group-xs">
+                                        <button class="am-btn am-btn-default am-input-sm"
+                                                v-on:click="button_onedit(index)">查看同桌
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="am-btn-toolbar">
+                                    <div class="am-btn-group am-btn-group-xs">
+                                        <button class="am-btn am-btn-default am-input-sm"
+                                                v-on:click="onRecord(index)">打牌记录
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -254,13 +282,13 @@
                 <div class="am-fr">
                     <ul class="am-pagination">
                         <li class="am-enabled" v-if="showFirst"><a href="javascript:void(0)" type="button"
-                                                                   v-on:click="cur--">«</a></li>
+                                                                   v-on:click="cur--">?</a></li>
                         <li v-for="index in indexs" v-bind:class="{ 'am-active': cur == index}">
                             <a href="javascript:void(0)" type="button" v-on:click="btnClick(index)">{{ index
                                 }}</a>
                         </li>
                         <li class="am-enabled" v-if="showLast"><a href="javascript:void(0)" type="button"
-                                                                  v-on:click="cur++">»</a></li>
+                                                                  v-on:click="cur++">?</a></li>
                     </ul>
                 </div>
             </div>
@@ -271,7 +299,7 @@
 
     <footer>
         <hr>
-        <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+        <p class="am-padding-left">? 2014 AllMobilize, Inc. Licensed under MIT license.</p>
     </footer>
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/js/dialog.js"></script>
@@ -284,23 +312,102 @@
 </html>
 
 <script type="text/javascript">
+    var DRAW = 0
+    var DISCARD = 1
+    var PENG = 2 << 0 // 碰
+    var MING_KONG = 2 << 1 // 明杠
+    var AN_KONG = 2 << 2 // 暗杠
+    var BU_KONG = 2 << 3 // 补杠
+    var KONG = 2 << 4 // 杠(代表广义的杠)
+    var HU = 2 << 6 // 胡(代表广义的胡)
 
+    var PING_HU = 2 << 8  // 平湖
+    var HU_BIG_PAIR = 2 << 9  // 大对子
+    var HU_SEVEN_PAIR = 2 << 10 // 七小对
+    var HU_ALL_OF_ONE = 2 << 11 // 清一色
+    var HU_ONE_SUIT_BIG_PAIR = 2 << 12 // 清大对
+    var HU_ONE_SUIT_SEVEN_PAIR = 2 << 13 // 清七对
+    var HU_LONG_SEVEN_PAIR = 2 << 14 // 龙七对
+    var HU_ONE_SUIT_LONG_SEVEN_PAIR = 2 << 15 // 清龙对
+    var LONG = 2 << 16 // 龙
+
+    var SHA_BAO = 2 << 17 // 杀报,你报听其他家胡你打的牌
+    var QIANG_GANG = 2 << 18 // 抢杠, 其他家胡你补杠那张牌
+    var RE_PAO = 2 << 19 // 热炮,热炮就是当有人放杠之后，杠牌者在摸牌尾后任意打一张牌出来，正好是别人要胡的牌，就是热炮
+    var SHAN_XIANG = 2 << 20 // 一炮三响，输赢扭转，胡牌的3家分别按照自己胡牌的牌型给予放炮者番数
+    var ZIMO = 2 << 21 //自摸
+    var PAOHU = 2 << 22 // 炮胡
+    var HU_KONG_FLOWER = 2 << 24 // 杠上开花,杠完牌抓到的第一张牌自摸了
+
+    var TIAN_HU = 2 << 25 // 天胡
+    var DI_HU = 2 << 26 // 地听胡
+    var TT_HU = 2 << 27 // 天听胡
+
+    var DTING = 2 << 28 // 地听
+    var TTING = 2 << 29 // 天听
 
     var userdatalist = new Vue({
         el: '#userdatalist',
         data: {items: []},
         methods: {
+            onRecord: function (index) {
+                if (userdatalist.$data["items"].length > 0) {
+                    var data = this.$data["items"][index]
+                    console.info(data)
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/operation/cardrecord",
+                        data: {index: data.CardRecord},
+                        dataType: "json",
+                        success: function (data) {
+
+                            $('#my-popup').modal()
+                            var str = ""
+                            if (data.data != undefined && data.data.length > 0) {
+
+                                console.info(data.data.length)
+                                for (var i = 0; i < data.data.length; i++) {
+                                    var value = data.data[i]
+                                    console.info(value.Value,value.Card)
+                                    /*str +=("玩家" + value.Seat +  "牌值：" +"<img src='../assets/i/"+ value.Card +".png'/> <br>")*/
+                                    if (value.Value == DRAW) {
+                                        str += ("玩家" + value.Seat + "摸起" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                    } else if (value.Value == DISCARD) {
+                                        str += ("玩家" + value.Seat + "打出" + "<img src='../assets/i/" + value.Card + ".png'/>")
+                                    } else if (value.Value == PENG) {
+                                        str += ("玩家" + value.Seat + "碰" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                    }else if (value.Value == MING_KONG) {
+                                        str += ("玩家" + value.Seat + "明杠" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                    }else if (value.Value == BU_KONG) {
+                                        str += ("玩家" + value.Seat + "补杠" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                    }else if (value.Value == AN_KONG) {
+                                        str += ("玩家" + value.Seat + "暗杠" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                    }else if (value.Value & HU >0) {
+
+                                    }else{
+                                        str += ("玩家" + value.Seat + "胡" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                    }
+                                    str += " --> "
+                                }
+                            }
+
+                            $("#cardrecordcontent").html(str);
+                        },
+                    });
+                }
+            },
             button_onedit: function (index) {
-              //  $("#list_pane").hide();
+                //  $("#list_pane").hide();
                 //$("#edit_pane").show();
                 if (userdatalist.$data["items"].length > 0) {
                     var data = userdatalist.$data["items"][index]
-                   // edit.$data["items"] = data
+                    // edit.$data["items"] = data
 
                     var data = {
                         SelectedIDSearch: searchSelect.$data.selected,
                         Userid: data.Userid,
-                        Create_time:data.Create_time,
+                        Create_time: data.Create_time,
                         Page: pageBar.$data.cur,
                         PageMax: pages.$data.selected,
                     }
@@ -311,7 +418,7 @@
                         url: "/operation/normalrecord",
                         data: data,
                         dataType: "json",
-                        success:dataloaded,
+                        success: dataloaded,
                     });
 
                 }
@@ -442,7 +549,7 @@
                     url: "/operation/normalrecord",
                     data: data,
                     dataType: "json",
-                    success:dataloaded,
+                    success: dataloaded,
                 });
             }
         }
@@ -458,15 +565,15 @@
 
             for (var i = 0; i < items.length; i++) {
                 var card = items[i].HuCard
-                if (card > 0){
+                if (card > 0) {
                     items[i].HuCard = "../assets/i/" + items[i].HuCard + ".png"
-                }else{
+                } else {
                     items[i].HuCard = ""
                 }
                 var ji = items[i].Ji
-                if (ji > 0){
+                if (ji > 0) {
                     items[i].Ji = "../assets/i/" + items[i].Ji + ".png"
-                }else{
+                } else {
                     items[i].Ji = ""
                 }
 

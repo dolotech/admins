@@ -3,7 +3,6 @@ package gossdb
 import (
 	"basic/ssdb/goerr"
 	"basic/ssdb/to"
-	"basic/utils"
 	"encoding/json"
 	"strconv"
 	"time"
@@ -82,7 +81,7 @@ func (this *Client) encoding(value interface{}, hasArray ...bool) string {
 	case string: //byte==uint8
 		result = t
 	case []byte:
-		return utils.String(t)
+		return string(t)
 	case bool:
 		if t {
 			result = "1"
@@ -92,15 +91,15 @@ func (this *Client) encoding(value interface{}, hasArray ...bool) string {
 	case nil:
 		result = ""
 	case []bool, []string, []int, []int8, []int16, []int32, []int64, []uint, []uint16, []uint32, []uint64, []float32, []float64, []interface{}:
-		if len(hasArray) > 0 && hasArray[0] {
-			if bs, err := json.Marshal(value); err == nil {
-				return utils.String(bs)
-			}
+		//if len(hasArray) > 0 && hasArray[0] {
+		if bs, err := json.Marshal(value); err == nil {
+			return string(bs)
 		}
+		//}
 		result = "can not support slice,please open the Encoding options"
 	default:
 		if bs, err := json.Marshal(value); err == nil {
-			return utils.String(bs)
+			return string(bs)
 		}
 		result = "not open Encoding options"
 	}
@@ -128,18 +127,18 @@ func (this *Client) Do(args ...interface{}) ([]Value, error) {
 	resp, err := this.Client.Do(args...)
 	if err != nil {
 		for {
-		this.Close()
-		err = this.Start()
-		if err ==nil{
-					break
-		}else{
-			<- time.After(time. Millisecond*20)
+			this.Close()
+			err = this.Start()
+			if err == nil {
+				break
+			} else {
+				<-time.After(time.Millisecond * 20)
+			}
 		}
-	}
 		if err == nil {
 			resp, err = this.Client.Do(args...)
-		} 
-	} 	
+		}
+	}
 	if this.Pool != nil {
 		this.Pool <- this
 	}

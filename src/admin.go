@@ -122,6 +122,7 @@ func Router(r *gin.Engine) {
 	r.POST("/roles/listonline", role.ListOnline) //  在线玩家列表
 
 	r.POST("/operation/normalrecord", operation.NormalRecord) //  金币场牌局记录
+	r.POST("/operation/cardrecord", operation.CardRecode)     //  金币场牌打牌记录
 	r.POST("/operation/issueprops", operation.IssueProps)     //
 	r.POST("/operation/issuelist", operation.IssuePropsList)  //
 

@@ -38,8 +38,10 @@ const (
 	KEY_USER string = "user:"
 
 	KEY_FEEDBACK          string = "feedback:"
-	KEY_GAME_RECORD       string = "gamerecord:"       // 金币场牌局记录，用于后台系统
-	KEY_GAME_RECORD_QUEUE string = "gamerecord_queue:" // 金币场牌局记录列表，存储金币场牌局记录引用
+	KEY_GAME_RECORD       string = "gamerecord:"        // 金币场牌局记录，用于后台系统
+	KEY_GAME_RECORD_QUEUE string = "gamerecord_queue:"  // 金币场牌局记录列表，存储金币场牌局记录引用
+	KEY_CARD_RECORD       string = "card_record"        // 打牌记录
+	KEY_CARD_RECORD_INDEX string = "card_record_index:" // 打牌记录
 
 	KEY_ACTIVITY     string = "activity:"
 	KEY_NOTICE       string = "notice"

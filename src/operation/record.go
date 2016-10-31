@@ -1,11 +1,13 @@
 package operation
 
 import (
+	"basic/ssdb/gossdb"
 	"data"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang/glog"
 )
 
 type Record struct {
@@ -27,6 +29,7 @@ type Record struct {
 	Hutype      uint32 //
 	Huvalue     uint32 //
 	Create_time uint32 //
+	CardRecord  string
 }
 
 // 获取金币场牌局记录
@@ -69,6 +72,7 @@ func NormalRecord(c *gin.Context) {
 			Create_time: v.Create_time,
 			Otherids:    v.Otherids,
 			HeroJi:      v.HeroJi,
+			CardRecord:  v.CardRecord,
 		}
 		for i := 0; i < len(v.Handcard); i++ {
 			u.Handcard = append(u.Handcard, uint32(v.Handcard[i]))
@@ -80,4 +84,35 @@ func NormalRecord(c *gin.Context) {
 	data["list"] = users
 	data["count"] = count
 	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": data})
+}
+
+type CardRecodeStr struct {
+	Value uint32
+	Seat  uint32
+	Card  uint32
+}
+
+func CardRecode(c *gin.Context) {
+	index := c.PostForm("index")
+	glog.Infoln(index)
+	value, err := gossdb.C().Hget(data.KEY_CARD_RECORD, index)
+	glog.Infoln(value, err)
+	list := make([]uint64, 0)
+	glog.Infoln(value, err)
+	if err == nil {
+		value.As(&list)
+	}
+
+	array := make([]*CardRecodeStr, len(list))
+	for i := 0; i < len(list); i++ {
+		v := list[i]
+		data := &CardRecodeStr{
+			Value: uint32(v >> 32),
+			Seat:  uint32(v & 0xFF),
+			Card:  uint32(v >> 8 & 0xff),
+		}
+		array[i] = data
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": array})
 }

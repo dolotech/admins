@@ -6,7 +6,8 @@ import (
 )
 
 type GameRecord struct {
-	Userid      string
+	Userid string
+
 	Zhuang      uint32 //
 	Seat        uint32 //
 	Paoseat     uint32 //
@@ -25,6 +26,7 @@ type GameRecord struct {
 	Huvalue     uint32 //
 	Create_time uint32 //
 	OutCards    []byte
+	CardRecord  string
 }
 
 // 获取同桌数据
