@@ -160,7 +160,7 @@
 
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
                         <input type="text" id="SearchUserid" name="SearchUserid" value=""
-                               class="am-form-field am-input-sm" placeholder="" v-model="SearchValue"/>
+                               class="am-form-field am-input-sm" placeholder="输入您要查询的玩家ID" v-model="SearchValue"/>
                     </div>
                     <div class="am-u-sm-12 am-u-md-2 am-u-end">
                         <!--  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>-->
@@ -200,9 +200,9 @@
                             <th class="am-text-nowrap table-type">庄</th>
                             <th class="am-text-nowrap table-type">责任鸡英雄鸡</th>
                             <!--         <th class="am-text-nowrap table-type">盈亏番值</th>-->
-                            <th class="am-text-nowrap table-type">胡牌名</th>
-                            <th class="am-text-nowrap table-type">叫嘴</th>
                             <th class="am-text-nowrap table-type">胡牌方式</th>
+                            <th class="am-text-nowrap table-type">叫嘴</th>
+                            <th class="am-text-nowrap table-type">叫胡牌型</th>
                             <th class="am-text-nowrap table-type">本局同桌</th>
                             <th class="am-text-nowrap table-type">打牌记录</th>
                         </tr>
@@ -247,7 +247,10 @@
                             <td v-if="item.HeroJi == 2" class="am-text-middle am-hide-sm-only">责任鸡</td>
                             <td v-if="item.HeroJi == 3" class="am-text-middle am-hide-sm-only">责任鸡碰家</td>
 
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Hutype }}</td>
+                            <td v-if="item.Hutype == 2" class="am-text-middle am-hide-sm-only">炮胡</td>
+                            <td v-if="item.Hutype == 1" class="am-text-middle am-hide-sm-only">自摸</td>
+                            <td v-if="item.Hutype == 3" class="am-text-middle am-hide-sm-only">黄庄</td>
+
                             <td v-if="item.Tingvalue>0"><span class="label label-success">叫嘴</span></td>
                             <td v-if="item.Tingvalue==0"><span class="label label-warning">未叫嘴</span></td>
 
@@ -372,21 +375,21 @@
                                     console.info(value.Value,value.Card)
                                     /*str +=("玩家" + value.Seat +  "牌值：" +"<img src='../assets/i/"+ value.Card +".png'/> <br>")*/
                                     if (value.Value == DRAW) {
-                                        str += ("玩家" + value.Seat + "摸起" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                        str += ("座位" + value.Seat + "摸起" + "<img src='../assets/i/" + value.Card + ".png'/> ")
                                     } else if (value.Value == DISCARD) {
-                                        str += ("玩家" + value.Seat + "打出" + "<img src='../assets/i/" + value.Card + ".png'/>")
+                                        str += ("座位" + value.Seat + "打出" + "<img src='../assets/i/" + value.Card + ".png'/>")
                                     } else if (value.Value == PENG) {
-                                        str += ("玩家" + value.Seat + "碰" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                        str += ("座位" + value.Seat + "碰" + "<img src='../assets/i/" + value.Card + ".png'/> ")
                                     }else if (value.Value == MING_KONG) {
-                                        str += ("玩家" + value.Seat + "明杠" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                        str += ("座位" + value.Seat + "明杠" + "<img src='../assets/i/" + value.Card + ".png'/> ")
                                     }else if (value.Value == BU_KONG) {
-                                        str += ("玩家" + value.Seat + "补杠" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                        str += ("座位" + value.Seat + "补杠" + "<img src='../assets/i/" + value.Card + ".png'/> ")
                                     }else if (value.Value == AN_KONG) {
-                                        str += ("玩家" + value.Seat + "暗杠" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                        str += ("座位" + value.Seat + "暗杠" + "<img src='../assets/i/" + value.Card + ".png'/> ")
                                     }else if (value.Value & HU >0) {
 
                                     }else{
-                                        str += ("玩家" + value.Seat + "胡" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                        str += ("座位" + value.Seat + "胡" + "<img src='../assets/i/" + value.Card + ".png'/> ")
                                     }
                                     str += " --> "
                                     if (i%4 == 0){
@@ -446,8 +449,8 @@
     var pageBar = new Vue({
         el: '#pageflip',
         data: {
-            all: Math.ceil(500 / pages.$data.selected),
-            allrecords: 500,
+            all: Math.ceil(1 / pages.$data.selected),
+            allrecords: 0,
             cur: 1
         },
         watch: {
@@ -561,9 +564,6 @@
 
     function dataloaded(data) {
         if (data["status"] == "ok") {
-
-            console.log();
-
             var items = data["data"]["list"]
 
             for (var i = 0; i < items.length; i++) {

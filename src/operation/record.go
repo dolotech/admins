@@ -35,12 +35,14 @@ type Record struct {
 // 获取金币场牌局记录
 func NormalRecord(c *gin.Context) {
 	page, _ := strconv.Atoi(c.PostForm("Page")) // string
-	if page == 0 {
+	if page < 1 {
 		page = 1
 	}
 	pageMax, _ := strconv.Atoi(c.PostForm("PageMax")) // string
-	if pageMax == 0 {
+	if pageMax < 30 {
 		pageMax = 30
+	} else if pageMax > 200 {
+		pageMax = 200
 	}
 	userid := c.PostForm("Userid")
 	createTime := c.PostForm("Create_time")

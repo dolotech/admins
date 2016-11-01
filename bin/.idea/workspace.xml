@@ -24,31 +24,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="normalrecord.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AmazeUI/operation/normalrecord.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="663" column="0" selection-start-line="663" selection-start-column="0" selection-end-line="663" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AmazeUI/roles/list.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="774">
-              <caret line="681" column="36" selection-start-line="680" selection-start-column="7" selection-end-line="681" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="listonline.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="listonline.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AmazeUI/roles/listonline.html">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="449">
+              <caret line="268" column="24" selection-start-line="268" selection-start-column="24" selection-end-line="268" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="provide.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AmazeUI/operation/provide.html">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="252">
-              <caret line="676" column="20" selection-start-line="676" selection-start-column="9" selection-end-line="676" selection-end-column="20" />
+              <caret line="112" column="33" selection-start-line="112" selection-start-column="20" selection-end-line="112" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="list.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AmazeUI/roles/list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="296">
+              <caret line="257" column="28" selection-start-line="257" selection-start-column="23" selection-end-line="257" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -86,16 +86,18 @@
         <option value="$PROJECT_DIR$/AmazeUI/users/group_list.html" />
         <option value="$PROJECT_DIR$/AmazeUI/users/list.html" />
         <option value="$PROJECT_DIR$/AmazeUI/users/login.html" />
-        <option value="$PROJECT_DIR$/AmazeUI/roles/list.html" />
-        <option value="$PROJECT_DIR$/AmazeUI/roles/listonline.html" />
         <option value="$PROJECT_DIR$/AmazeUI/assets/css/amazeui.css" />
         <option value="$PROJECT_DIR$/AmazeUI/assets/js/app.js" />
         <option value="$USER_HOME$/Desktop/admin/template/template/assets/css/core.css" />
         <option value="$PROJECT_DIR$/AmazeUI/assets/css/app.css" />
         <option value="$PROJECT_DIR$/AmazeUI/assets/css/core.css" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/provide.html" />
+        <option value="$PROJECT_DIR$/AmazeUI/operation/matchrecord.html" />
+        <option value="$PROJECT_DIR$/AmazeUI/operation/privaterecord.html" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/providerecord.html" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/normalrecord.html" />
+        <option value="$PROJECT_DIR$/AmazeUI/roles/listonline.html" />
+        <option value="$PROJECT_DIR$/AmazeUI/roles/list.html" />
       </list>
     </option>
   </component>
@@ -357,7 +359,7 @@
       <workItem from="1477464720449" duration="20996000" />
       <workItem from="1477618728909" duration="11498000" />
       <workItem from="1477880211672" duration="13103000" />
-      <workItem from="1477964839424" duration="1670000" />
+      <workItem from="1477964839424" duration="7779000" />
     </task>
     <task id="LOCAL-00001" summary="更新登录模板">
       <created>1475138471139</created>
@@ -370,7 +372,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="246048000" />
+    <option name="totallyTimeSpent" value="252157000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
@@ -416,29 +418,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/AmazeUI/users/create.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1232">
-          <caret line="56" column="115" selection-start-line="56" selection-start-column="115" selection-end-line="56" selection-end-column="115" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/users/group_create.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1232">
-          <caret line="56" column="115" selection-start-line="56" selection-start-column="115" selection-end-line="56" selection-end-column="115" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/users/group_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1386">
-          <caret line="63" column="123" selection-start-line="63" selection-start-column="123" selection-end-line="63" selection-end-column="123" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/assets/js/dialog.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="785">
@@ -454,28 +433,6 @@
           <folding>
             <marker date="1476772948718" expanded="true" signature="869:992" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/users/list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="192" column="35" selection-start-line="192" selection-start-column="35" selection-end-line="192" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/assets/css/amazeui.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="3484" column="1" selection-start-line="3399" selection-start-column="0" selection-end-line="3484" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/matchrecord.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -568,6 +525,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -597,6 +555,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
           <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -691,13 +650,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/templates/admin-user.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="87" column="2" selection-start-line="87" selection-start-column="2" selection-end-line="204" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Desktop/admin/template/template/html/form_basic.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="366">
@@ -709,13 +661,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-426">
           <caret line="160" column="20" selection-start-line="160" selection-start-column="20" selection-end-line="160" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/providerecord.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-404">
-          <caret line="392" column="36" selection-start-line="392" selection-start-column="36" selection-end-line="392" selection-end-column="36" />
           <folding />
         </state>
       </provider>
@@ -724,13 +669,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
           <caret line="514" column="62" selection-start-line="514" selection-start-column="59" selection-end-line="514" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/provide.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1408">
-          <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -749,26 +687,98 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/normalrecord.html">
+    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/providerecord.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="663" column="0" selection-start-line="663" selection-start-column="0" selection-end-line="663" selection-end-column="0" />
+        <state relative-caret-position="-672">
+          <caret line="272" column="22" selection-start-line="272" selection-start-column="14" selection-end-line="272" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/roles/list.html">
+    <entry file="file://$PROJECT_DIR$/AmazeUI/users/list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="774">
-          <caret line="681" column="36" selection-start-line="680" selection-start-column="7" selection-end-line="681" selection-end-column="36" />
+        <state relative-caret-position="284">
+          <caret line="192" column="35" selection-start-line="192" selection-start-column="35" selection-end-line="192" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/privaterecord.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="564" column="25" selection-start-line="564" selection-start-column="25" selection-end-line="564" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/matchrecord.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="564" column="25" selection-start-line="564" selection-start-column="25" selection-end-line="564" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/normalrecord.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="128" column="19" selection-start-line="128" selection-start-column="19" selection-end-line="132" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/assets/css/admin.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/admin/admin1/添加新商品.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="201" column="4" selection-start-line="201" selection-start-column="4" selection-end-line="272" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/assets/css/amazeui.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="9164" column="26" selection-start-line="9164" selection-start-column="18" selection-end-line="9164" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/roles/listonline.html">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="449">
+          <caret line="268" column="24" selection-start-line="268" selection-start-column="24" selection-end-line="268" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/templates/admin-user.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="191" column="17" selection-start-line="140" selection-start-column="8" selection-end-line="191" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/provide.html">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
-          <caret line="676" column="20" selection-start-line="676" selection-start-column="9" selection-end-line="676" selection-end-column="20" />
+          <caret line="112" column="33" selection-start-line="112" selection-start-column="20" selection-end-line="112" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/roles/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="257" column="28" selection-start-line="257" selection-start-column="23" selection-end-line="257" selection-end-column="28" />
           <folding />
         </state>
       </provider>

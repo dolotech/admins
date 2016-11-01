@@ -561,8 +561,8 @@
     var pageBar = new Vue({
         el: '#pageflip',
         data: {
-            all: Math.ceil(500 / pages.$data.selected),
-            allrecords: 500,
+            all: Math.ceil(1 / pages.$data.selected),
+            allrecords: 0,
             cur: 1
         },
         watch: {
