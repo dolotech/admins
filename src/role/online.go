@@ -14,33 +14,27 @@ import (
 //List 获取在线玩家列表
 func ListOnline(c *gin.Context) {
 	page, _ := strconv.Atoi(c.PostForm("Page")) // string
-	if page == 0 {
+	if page < 1 {
 		page = 1
 	}
 	pageMax, _ := strconv.Atoi(c.PostForm("PageMax")) // string
-	if pageMax == 0 {
+	if pageMax < 30 {
 		pageMax = 30
-	}
-	count, _ := gossdb.C().Hsize(data.KEY_ONLINE)
-	list, _ := gossdb.C().Hkeys(data.KEY_ONLINE, "", "", int64(pageMax))
-	ids := make([]string, len(list))
-	for k, v := range list {
-		ids[k] = v.String()
+	} else if pageMax > 200 {
+		pageMax = 200
 	}
 
-	glog.Infoln(ids)
-	//	lastID, _ := gossdb.C().Get(data.KEY_LAST_USER_ID)
-	//	idnum, err := strconv.ParseUint(lastID.String(), 10, 64)
-	//	if err == nil && idnum > 60000 {
-	//		count = idnum - 60000
-	//	}
-	//	end := idnum - uint64(pageMax*(page-1))
-	//	start := idnum - uint64(pageMax*page)
-	//	var i uint64
-	//	for i = end; i > start; i-- {
-	//		ids = append(ids, strconv.FormatUint(i, 10))
-	//	}
-	//
+	count, _ := gossdb.C().Hsize(data.KEY_ONLINE)
+	list, _ := gossdb.C().Hkeys(data.KEY_ONLINE, "", "", int64(5000))
+
+	ids := make([]string, 0, pageMax)
+	for i := 0; i < pageMax; i++ {
+		index := (page-1)*pageMax + i
+		if index < int(count) {
+			ids = append(ids, list[index].String())
+		}
+	}
+
 	lists := data.GetMultiUser(ids)
 	users := make([]*UserData, 0, len(lists))
 	glog.Infoln(len(lists), lists)

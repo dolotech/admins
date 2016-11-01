@@ -9,7 +9,6 @@
 package gossdb
 
 import (
-	"basic/utils"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -22,8 +21,7 @@ type Value []byte
 
 //返回 string 的值
 func (this Value) String() string {
-	var b []byte = this
-	return utils.String(b)
+	return string(this)
 }
 
 //返回 int64 的值

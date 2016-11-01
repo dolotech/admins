@@ -33,12 +33,13 @@ func GenerateUserid() (string, error) {
 }
 func GetMultiUser(userids []string) []*User {
 	users := make([]*User, 0, len(userids))
-	for _, v := range userids {
-		user := &User{Userid: v}
+	for i := 0; i < len(userids); i++ {
+		glog.Errorln(userids[i])
+		user := &User{Userid: userids[i]}
 		if err := user.Get(); err == nil {
 			users = append(users, user)
 		} else {
-			glog.Errorln("list error", err)
+			glog.Errorln(userids[i])
 		}
 	}
 	return users

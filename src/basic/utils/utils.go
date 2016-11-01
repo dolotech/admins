@@ -16,37 +16,12 @@ import (
 	"math"
 	"math/rand"
 	"net"
-	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
 	"unicode/utf8"
-	"unsafe"
 )
-
-// USE AT YOUR OWN RISK
-
-// String force casts a []byte to a string.
-func String(b []byte) string {
-	var s string
-	pbytes := (*reflect.SliceHeader)(unsafe.Pointer(&b))
-	pstring := (*reflect.StringHeader)(unsafe.Pointer(&s))
-	pstring.Data = pbytes.Data
-	pstring.Len = pbytes.Len
-	return s
-}
-
-//Bytes force casts a string to a []byte
-//禁止对返回的[]byte修改，否则报运行时错误
-func Bytes(s string) (b []byte) {
-	pbytes := (*reflect.SliceHeader)(unsafe.Pointer(&b))
-	pstring := (*reflect.StringHeader)(unsafe.Pointer(&s))
-	pbytes.Data = pstring.Data
-	pbytes.Len = pstring.Len
-	pbytes.Cap = pstring.Len
-	return
-}
 
 // Auth
 func GetAuth() []rune {

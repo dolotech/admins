@@ -243,9 +243,9 @@
                             <td class="am-text-middle am-hide-sm-only">{{ item.Zhuang}}</td>
                            <!-- <td class="am-text-middle am-hide-sm-only">{{ item.HeroJi}}</td>-->
                             <td v-if="item.HeroJi == 0" class="am-text-middle am-hide-sm-only">无</td>
-                            <td v-if="item.HeroJi == 3" class="am-text-middle am-hide-sm-only">英雄鸡</td>
-                            <td v-if="item.HeroJi == 1" class="am-text-middle am-hide-sm-only">责任鸡</td>
-                            <td v-if="item.HeroJi == 2" class="am-text-middle am-hide-sm-only">责任鸡碰家</td>
+                            <td v-if="item.HeroJi == 1" class="am-text-middle am-hide-sm-only">英雄鸡</td>
+                            <td v-if="item.HeroJi == 2" class="am-text-middle am-hide-sm-only">责任鸡</td>
+                            <td v-if="item.HeroJi == 3" class="am-text-middle am-hide-sm-only">责任鸡碰家</td>
 
                             <td class="am-text-middle am-hide-sm-only">{{ item.Hutype }}</td>
                             <td v-if="item.Tingvalue>0"><span class="label label-success">叫嘴</span></td>
@@ -605,6 +605,51 @@
 
                         kong[k] = "../assets/i/" + ( kong[k] & 0xFF) + ".png"
                     }
+                }
+
+                var hu = items[i].Huvalue
+                items[i].Huvalue = ""
+                if( (hu & TIAN_HU)  > 0){
+                    items[i].Huvalue = "天胡"
+                }else if ((hu & DI_HU)  > 0){
+                    items[i].Huvalue = "地听胡"
+                }else if ((hu & TT_HU)  > 0){
+                    items[i].Huvalue = "天听胡"
+                }
+
+                if( (hu & HU_KONG_FLOWER)  > 0){
+                    items[i].Huvalue += "杠上开花"
+                }else if ((hu & RE_PAO)  > 0){
+                    items[i].Huvalue += "热炮"
+                }else if ((hu & QIANG_GANG)  > 0){
+                    items[i].Huvalue += "抢杠"
+                }else if ((hu & SHA_BAO)  > 0){
+                    items[i].Huvalue += "杀报"
+                }else if ((hu & SHAN_XIANG)  > 0){
+                    items[i].Huvalue += "一炮三响"
+                }else if ((hu & ZIMO)  > 0){
+                    items[i].Huvalue += "自摸"
+                }else if (hu > 0){
+                }
+
+
+                if( (hu & HU_ONE_SUIT_LONG_SEVEN_PAIR)  > 0){
+                    items[i].Huvalue += "清龙对"
+                }else if ((hu & HU_LONG_SEVEN_PAIR)  > 0){
+                    items[i].Huvalue += "龙七对"
+                }else if ((hu & HU_ONE_SUIT_SEVEN_PAIR)  > 0){
+                    items[i].Huvalue += "清七对"
+                }else if ((hu & HU_ONE_SUIT_BIG_PAIR)  > 0){
+                    items[i].Huvalue += "清大对"
+                }else if ((hu & HU_ALL_OF_ONE)  > 0){
+                    items[i].Huvalue += "清一色"
+                }else if ((hu & HU_SEVEN_PAIR)  > 0){
+                    items[i].Huvalue += "七小对"
+                }else if ((hu & HU_BIG_PAIR)  > 0){
+                    items[i].Huvalue += "大对子"
+                }else if ((hu & PING_HU)  > 0){
+                    items[i].Huvalue += "平胡"
+                }else if (hu > 0){
                 }
 
             }

@@ -8,7 +8,6 @@
 package to
 
 import (
-	"basic/utils"
 	"fmt"
 	"reflect"
 	"regexp"
@@ -385,7 +384,7 @@ func String(val interface{}) string {
 		var str = fmt.Sprintf("%v", val)
 		return str
 	}
-	return utils.String(buf)
+	return string(buf)
 }
 
 /*

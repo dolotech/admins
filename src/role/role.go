@@ -187,12 +187,14 @@ func Search(c *gin.Context) {
 //List 玩家列表, 根据条件检索玩家
 func List(c *gin.Context) {
 	page, _ := strconv.Atoi(c.PostForm("Page")) // string
-	if page == 0 {
+	if page < 1 {
 		page = 1
 	}
 	pageMax, _ := strconv.Atoi(c.PostForm("PageMax")) // string
-	if pageMax == 0 {
+	if pageMax < 30 {
 		pageMax = 30
+	} else if pageMax > 200 {
+		pageMax = 200
 	}
 
 	var ids []string

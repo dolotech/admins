@@ -441,7 +441,7 @@ func (this *Client) Hkeys(setName, keyStart, keyEnd string, limit int64) ([]Valu
 		return nil, goerr.NewError(err, "Hkeys %s %s %s %v error", setName, keyStart, keyEnd, limit)
 	}
 
-	if len(resp) > 0 && resp[0][0] == ok[0] && resp[0][1] == ok[1] {
+	if len(resp) > 0 && string(resp[0]) == "ok" {
 		return resp[1:], nil
 	}
 	return nil, makeError(resp, keyStart, keyEnd, limit)
