@@ -66,6 +66,16 @@
 <body>
 <div class="am-cf admin-main">
 
+
+    <div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">正在载入...</div>
+            <div class="am-modal-bd">
+                <span class="am-icon-spinner am-icon-spin"></span>
+            </div>
+        </div>
+    </div>
+
     <!-- sidebar start -->
     <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
         <div class="am-offcanvas-bar admin-offcanvas-bar">
@@ -654,12 +664,14 @@
                     Page:pageBar.$data.cur,
                     PageMax:pages.$data.selected
                 }
+                $('#my-modal-loading').modal()
                 $.ajax({
                     type: "POST",
                     url: "/roles/search",
                     data: data,
                     dataType: "json",
                     success: function (data) {
+                        $('#my-modal-loading').modal("close")
                         if (data["status"] == "ok") {
                             console.info(data["data"])
                             userdatalist.$data["items"] = data["data"]["list"]
@@ -681,12 +693,14 @@ function getUserList() {
         Page:pageBar.$data.cur,
         PageMax:pages.$data.selected
     }
+    $('#my-modal-loading').modal()
     $.ajax({
         type: "POST",
         url: "/roles/list",
         data: data,
         dataType: "json",
         success: function (data) {
+            $('#my-modal-loading').modal("close")
             if (data["status"] == "ok") {
                 console.info(data["data"])
                 userdatalist.$data["items"] = data["data"]["list"]

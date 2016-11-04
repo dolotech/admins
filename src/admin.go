@@ -19,19 +19,32 @@ import (
 )
 
 func main() {
+	var config string
+	flag.StringVar(&config, "conf", "./conf.json", "config path")
+	flag.Parse()
+	data.LoadConf(config)
+
 	router := gin.New()
+	glog.Infoln(data.Conf.Port)
 	s := &http.Server{
-		Addr:           ":80",
+		Addr:           data.Conf.Port,
 		Handler:        router,
 		ReadTimeout:    3600 * time.Second,
 		WriteTimeout:   3600 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
+	if data.Conf.Mode == 0 {
+		gin.SetMode(gin.ReleaseMode)
+	} else {
+		gin.SetMode(gin.DebugMode)
+	}
 	conndb()
+
 	store := sessions.NewCookieStore([]byte("secret"))
 	router.Use(sessions.Sessions("mysession", store))
 	router.Use(authorityMiddleware())
 	Router(router)
+	glog.Infoln("running success!")
 	s.ListenAndServe()
 }
 
@@ -135,10 +148,6 @@ func Router(r *gin.Engine) {
 
 // 链接数据库
 func conndb() {
-	var config string
-	flag.StringVar(&config, "conf", "./conf.json", "config path")
-	flag.Parse()
-	data.LoadConf(config)
 	glog.Infoln("Config: ", data.Conf)
 	gossdb.Connect(data.Conf.Db.Ip, data.Conf.Db.Port, data.Conf.Db.Thread)
 	defer glog.Flush()

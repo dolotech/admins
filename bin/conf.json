@@ -9,15 +9,16 @@
 		"thread":15
 		},
 
-	"discards_timeout":15,
+	"discards_timeout":2,
 	"imagedir":"./image",
 	"imageport":6001,
-	"port":8000,
 	"pprof":9001,
 	"ipay":7001,
 	"serverid":1,
 	"version":"1.1.91",
 	
 	"robotip":"127.0.0.1",
-	"robotport":7788
+	"robotport":7788,
+	"mode":0,
+	"port":":80"
 }

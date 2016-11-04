@@ -109,6 +109,20 @@
 
     <!-- content start -->
     <div class="admin-content" id="list_pane">
+
+
+
+
+        <div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">正在载入...</div>
+                <div class="am-modal-bd">
+                    <span class="am-icon-spinner am-icon-spin"></span>
+                </div>
+            </div>
+        </div>
+
+
         <div class="admin-content-body">
             <div class="am-cf am-padding am-padding-bottom-0">
                 <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">玩家数据</strong> /
@@ -647,7 +661,7 @@
                 }
                //  $.Alert(JSON.stringify(data))
                // console.info(getcookie("mysession"))
-
+                $('#my-modal-loading').modal()
                 //return
                 var data={SelectedIDSearch: searchSelect.$data.selected,
                     SearchUserid: searchSelect.$data.SearchValue,
@@ -660,6 +674,7 @@
                     data: data,
                     dataType: "json",
                     success: function (data) {
+                        $('#my-modal-loading').modal("close")
                         if (data["status"] == "ok") {
                             console.info(data["data"])
                             userdatalist.$data["items"] = data["data"]["list"]
@@ -681,12 +696,14 @@ function getUserList() {
         Page:pageBar.$data.cur,
         PageMax:pages.$data.selected
     }
+    $('#my-modal-loading').modal()
     $.ajax({
         type: "POST",
         url: "/roles/listonline",
         data: data,
         dataType: "json",
         success: function (data) {
+            $('#my-modal-loading').modal("close")
             if (data["status"] == "ok") {
                 console.info(data["data"])
                 userdatalist.$data["items"] = data["data"]["list"]

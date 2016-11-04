@@ -31,20 +31,39 @@ func Sidebar(c *gin.Context) {
 	items := []SidebarList{
 		{
 			"玩家管理",
-			[]SidebarItem{{"/roles/list.html", "玩家列表"},
-				{"/roles/listonline.html", "在线玩家"}},
+			[]SidebarItem{
+				{"/roles/list.html", "玩家列表"},
+				{"/roles/listonline.html", "在线玩家"},
+				{"/roles/gainrank.html", "每日盈利排名"},
+				{"/roles/winrank.html", "胜局排名"},
+				{"/roles/coinrank.html", "等级排名"},
+				{"/roles/levelrank.html", "等级排名"}},
 		},
 		{
-			"运营管理",
-			[]SidebarItem{{"/operation/provide.html", "道具/钻石发放"},
+			"发放记录",
+			[]SidebarItem{
+				{"/operation/provide.html", "道具/钻石发放"},
 				{"/operation/providerecord.html", "发放记录"},
+
+				{"/operation/email.html", "发送邮件"},
+				{"/operation/emaillist.html", "邮件记录"},
+			}},
+
+		{
+			"日志管理",
+			[]SidebarItem{
+
 				{"/operation/privaterecord.html", "私人局记录"},
 				{"/operation/matchrecord.html", "比赛场记录"},
-				{"/operation/normalrecord.html", "金币场记录"}},
+				{"/operation/normalrecord.html", "金币场记录"},
+				{"/operation/exchangerecord.html", "兑换记录"},
+				{"/operation/privatecreate.html", "私人房创建日志"},
+				{"/operation/loginrecord.html", "登录日志"}},
 		},
 		{
 			"订单管理",
-			[]SidebarItem{{"/users/list.html", "下单列表"},
+			[]SidebarItem{
+				{"/users/list.html", "下单列表"},
 				{"/users/create.html", "充值列表"}},
 		},
 	}

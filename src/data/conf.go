@@ -11,7 +11,7 @@ var Conf Config
 type Config struct {
 	Db              SSDB   `json:"db"`
 	Log             Scribe `json:"log"`
-	Port            int    `json:"port"`
+	Port            string `json:"port"`
 	ImageDir        string `json:"imagedir"`
 	ImagePort       int    `json:"imageport"`
 	Pprof           int    `json:"pprof"`
@@ -21,6 +21,7 @@ type Config struct {
 	RobotIP         string `json:"robotip"`
 	Version         string `json:"version"`
 	DiscardsTimeout int    `json:"discards_timeout"`
+	Mode            int    `json:"mode"`
 }
 type SSDB struct {
 	Ip     string `json:"ip"`

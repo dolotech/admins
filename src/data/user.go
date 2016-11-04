@@ -130,12 +130,12 @@ type User struct {
 	Qq_uid        string //
 	Wechat_uid    string
 	Microblog_uid string
-	Vip           uint32
-	Win           uint32
-	Lost          uint32
-	Ping          uint32
-	Platform      uint32
-	VipExpire     uint32
+	Vip           uint32 //
+	VipExpire     uint32 // VIP过期时间
+	Win           uint32 // 胜局数
+	Lost          uint32 // 败局数
+	Ping          uint32 // 平局数
+	Platform      uint32 //平台 1:手机登录，2:微信登录
 	ChenmiTime    uint32 // 防沉迷限制
 	Chenmi        int32  // 防沉迷限制
 }

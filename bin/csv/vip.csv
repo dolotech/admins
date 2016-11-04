@@ -1,0 +1,5 @@
+id,viptype,clubmax,deskmax,bankruptmax,bankruptcoin,sign,expire
+1,0,0,0,2,8000,0,0
+2,1,0,0,4,8000,3,7
+3,2,0,0,5,10000,5,30
+4,3,0,0,6,15000,8,90
