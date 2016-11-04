@@ -1,0 +1,3 @@
+#!/bin/bash
+nohup ./admins   -log_dir="log" >/dev/null 2>error.log &
+
