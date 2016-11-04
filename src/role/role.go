@@ -36,8 +36,9 @@ type UserData struct {
 	Coin        uint32 // 金币
 	Diamond     uint32 // 钻石
 	Vip         uint32 // Vip
+	VipExpire   uint32 // Vip 过期时间
 	Create_ip   string // 注册账户时的IP地址
-	Create_time string // 注册时间
+	Create_time uint32 // 注册时间
 	Sex         uint32
 	Ticket      uint32 //入场券
 	Exchange    uint32 //兑换券
@@ -165,8 +166,9 @@ func Search(c *gin.Context) {
 			Coin:        v.Coin,
 			Diamond:     v.Diamond,
 			Vip:         v.Vip,
+			VipExpire:   v.VipExpire,
 			Create_ip:   utils.InetTontoa(v.Create_ip).String(),
-			Create_time: utils.Unix2Str(int64(v.Create_time)),
+			Create_time: v.Create_time,
 			Sex:         v.Sex,
 			Ping:        v.Ping,
 			Win:         v.Win,
@@ -222,8 +224,9 @@ func List(c *gin.Context) {
 			Coin:        v.Coin,
 			Diamond:     v.Diamond,
 			Vip:         v.Vip,
+			VipExpire:   v.VipExpire,
 			Create_ip:   utils.InetTontoa(v.Create_ip).String(),
-			Create_time: utils.Unix2Str(int64(v.Create_time)),
+			Create_time: v.Create_time,
 			Sex:         v.Sex,
 			Ping:        v.Ping,
 			Win:         v.Win,

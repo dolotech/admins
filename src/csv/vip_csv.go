@@ -2,13 +2,17 @@ package csv
 
 import (
 	"basic/csv"
+	"fmt"
 	"io/ioutil"
 	"os"
+
+	"github.com/golang/glog"
 )
 
 var vipMap map[uint32]VipData
 
 type VipData struct {
+	ID           uint32 `csv:"id"`           //
 	Viptype      uint32 `csv:"viptype"`      //
 	Clubmax      uint32 `csv:"clubmax"`      //
 	Deskmax      uint32 `csv:"deskmax"`      //
@@ -19,8 +23,12 @@ type VipData struct {
 }
 
 func GetVip(id uint32) *VipData {
-	vip := vipMap[id]
-	return &vip
+	vip, ok := vipMap[id]
+	glog.Infoln(id, ok, vip)
+	if ok {
+		return &vip
+	}
+	return nil
 }
 func init() {
 	f, err := os.Open("./csv/vip.csv")
@@ -39,7 +47,8 @@ func init() {
 		panic(err)
 	}
 	vipMap = make(map[uint32]VipData)
-	for k, v := range vip {
-		vipMap[v.Viptype] = v
+	for _, v := range vip {
+		fmt.Println(v, v.Viptype)
+		vipMap[v.ID] = v
 	}
 }

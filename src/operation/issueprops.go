@@ -2,7 +2,6 @@ package operation
 
 import (
 	"basic/ssdb/gossdb"
-	"basic/utils"
 	"data"
 	"net/http"
 	"resource"
@@ -74,16 +73,22 @@ func IssuePropsList(c *gin.Context) {
 func IssueProps(c *gin.Context) {
 	userids := c.PostForm("UserIds")                        // string
 	count, _ := strconv.Atoi(c.PostForm("Count"))           // uint32
+	vip, _ := strconv.Atoi(c.PostForm("VIP"))               // uint32
 	widgetType, _ := strconv.Atoi(c.PostForm("WidgetType")) // uint32
-	glog.Infoln(userids, count, widgetType)
+	if vip > 0 {
+		count = 1
+		widgetType = vip
+	}
+
 	userIds := strings.Split(userids, ",")
 	if len(userIds) == 0 {
-		c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "发放玩家ID为空"})
+		glog.Infoln(userIds, count, widgetType)
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "发放玩家ID为空"})
 		return
 	}
 	for _, v := range userIds {
-		if !utils.IsNumString(v) {
-			c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "玩家ID格式不对"})
+		if _, err := strconv.Atoi(v); err != nil {
+			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "玩家ID格式不对"})
 			return
 		}
 	}
@@ -91,6 +96,8 @@ func IssueProps(c *gin.Context) {
 	for _, v := range userIds {
 		issue := &IssuePropsRecord{}
 		err := resource.ChangeRes(v, uint32(widgetType), int32(count))
+
+		glog.Errorln(err)
 		if err != nil {
 			errorList += (v + ",")
 		} else {
@@ -99,7 +106,7 @@ func IssueProps(c *gin.Context) {
 
 	}
 	if len(errorList) > 0 {
-		c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "以下ID出错" + errorList})
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "以下ID出错" + errorList})
 	} else {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	}

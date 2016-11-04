@@ -13,6 +13,8 @@ import (
 	"time"
 	"user"
 
+	_ "csv"
+
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"

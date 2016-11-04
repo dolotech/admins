@@ -11,7 +11,10 @@ package resource
 import (
 	"basic/ssdb/gossdb"
 	"basic/utils"
+	"csv"
 	"data"
+
+	"github.com/golang/glog"
 )
 
 const (
@@ -19,8 +22,13 @@ const (
 	EXCHANGE uint32 = 2
 	TICKET   uint32 = 3
 	DIAMOND  uint32 = 4
-	VIP      uint32 = 14
-	SOUND    uint32 = 15
+
+	VIP0 uint32 = 21
+	VIP1 uint32 = 22
+	VIP2 uint32 = 23
+	VIP3 uint32 = 24
+
+	SOUND uint32 = 15
 
 	EXP  uint32 = 100
 	WIN  uint32 = 101
@@ -44,11 +52,12 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 	if err := userdata.Get(); err != nil {
 		return err
 	}
+	glog.Infoln(res)
 	for id, count := range res {
 		var current int32
 		var err error
-		switch id {
-		case COIN:
+		switch {
+		case id == COIN:
 			current = int32(userdata.Coin) + count
 			if current < 0 {
 				current = 0
@@ -56,7 +65,7 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 			err = gossdb.C().Hset(data.KEY_USER+userid, "Coin", current)
 			if err == nil {
 			}
-		case EXCHANGE:
+		case id == EXCHANGE:
 			current = int32(userdata.Exchange) + count
 			if current < 0 {
 				current = 0
@@ -65,7 +74,7 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 			if err == nil {
 
 			}
-		case TICKET:
+		case id == TICKET:
 			current = int32(userdata.Ticket) + count
 			if current < 0 {
 				current = 0
@@ -75,7 +84,7 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 
 			}
 
-		case DIAMOND:
+		case id == DIAMOND:
 			current = int32(userdata.Diamond) + count
 			if current < 0 {
 				current = 0
@@ -85,7 +94,7 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 
 			}
 
-		case EXP:
+		case id == EXP:
 			current = int32(userdata.Exp) + count
 			if current < 0 {
 				current = 0
@@ -95,7 +104,7 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 
 			}
 
-		case WIN:
+		case id == WIN:
 			current = int32(userdata.Win) + count
 			if current < 0 {
 				current = 0
@@ -104,7 +113,7 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 			if err == nil {
 			}
 
-		case LOST:
+		case id == LOST:
 			current = int32(userdata.Lost) + count
 			if current < 0 {
 				current = 0
@@ -114,7 +123,7 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 
 			}
 
-		case PING:
+		case id == PING:
 			current = int32(userdata.Ping) + count
 			if current < 0 {
 				current = 0
@@ -124,36 +133,33 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 
 			}
 
-		case VIP:
-			var viplev uint32 = 1
-			// if count == 7 {
-			// 	viplev = 1
-			// }
-			if count == 30 {
-				viplev = 2
-			}
-			if count == 90 {
-				viplev = 3
-			}
-			vip := userdata.Vip
-			if viplev < vip {
-				viplev = vip
-			}
-			expire := userdata.VipExpire
-			now := uint32(utils.Timestamp())
-			add := uint32(count * 86400)
-			if expire < now {
-				expire = now + add
-			} else {
-				expire += add
-			}
-			kvs := map[string]interface{}{
-				"Vip":       viplev,
-				"VipExpire": expire,
-			}
-			err = gossdb.C().MultiHset(data.KEY_USER+userid, kvs)
+		case id >= VIP0 && id <= VIP3:
+			vipdata := csv.GetVip(id)
+			glog.Infoln(vipdata, userid, id)
+			if vipdata != nil {
+				viplev := vipdata.Viptype
+				vip := userdata.Vip
+				if viplev < vip {
+					viplev = vip
+				}
+				expire := userdata.VipExpire
+				now := uint32(utils.Timestamp())
+				add := uint32(vipdata.Expire * 86400)
+				if expire < now {
+					expire = now + add
+				} else {
+					expire += add
+				}
+				kvs := map[string]interface{}{
+					"Vip":       viplev,
+					"VipExpire": expire,
+				}
+				err := gossdb.C().MultiHset(data.KEY_USER+userid, kvs)
 
-			if err == nil {
+				if err != nil {
+					glog.Errorln(err)
+				}
+
 			}
 		}
 

@@ -162,7 +162,7 @@
 
                 <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4" id="issue_props">
                     <form class="am-form am-form-horizontal">
-                        <div v-if="content.WidgetType != 14" class="am-form-group">
+                        <div class="am-form-group">
                             <label  class="am-u-sm-3 am-form-label">道具类型</label>
                             <div class="am-u-sm-9">
                                 <select id="doc-select-1"  v-model="content.WidgetType">
@@ -176,7 +176,7 @@
                             </div>
                         </div>
 
-                        <div class="am-form-group">
+                        <div  v-if="content.WidgetType != 14" class="am-form-group">
                             <label  class="am-u-sm-3 am-form-label">发放数量</label>
                             <div class="am-u-sm-9">
                                 <input type="number" id="widget_count" placeholder="输入您要发放的道具数量"  v-model="content.Count">
@@ -188,9 +188,10 @@
                             <label  class="am-u-sm-3 am-form-label">VIP等级</label>
                             <div class="am-u-sm-9">
                                 <select id=""  v-model="content.VIP">
-                                    <option value="1" selected="selected">VIP1 7天</option>
-                                    <option value="2">VIP2 30天</option>
-                                    <option value="3">VIP3 90天</option>
+                                    <option value="22" selected="selected">VIP1 7天</option>
+                                    <option value="23">VIP2 30天</option>
+                                    <option value="24">VIP3 90天</option>
+
                                 </select>
                             </div>
                         </div>
@@ -262,7 +263,7 @@
 
     new Vue({
         el:"#issue_props",
-        data:{content:{WidgetType:"1",Count:1,Desc:"",UserIds:"",VIP:"1"}},
+        data:{content:{WidgetType:"1",Count:1,Desc:"",UserIds:"",VIP:"22"}},
         methods:{
             onSubmit:function () {
 
