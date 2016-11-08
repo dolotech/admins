@@ -32,10 +32,11 @@ const (
 	KEY_ROOM_ID       string = "roomid"
 	KEY_WECHAT_OPNEID string = "wechatid"
 
-	KEY_ROOM string = "room"
-
-	KEY_TASK string = "task:"
-	KEY_USER string = "user:"
+	KEY_ROOM                    string = "room"
+	KEY_ROOM_CREATE_RECORD      string = "room_create_recode"       //  房间创建记录
+	KEY_ROOM_USER_CREATE_RECORD string = "room_user_create_recode:" //   房间针对玩家创建记录
+	KEY_TASK                    string = "task:"
+	KEY_USER                    string = "user:"
 
 	KEY_FEEDBACK string = "feedback:"
 
