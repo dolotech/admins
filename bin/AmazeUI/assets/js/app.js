@@ -23,7 +23,6 @@ function getcookie(objname) {
 }
 function onlogout() {
     $.Confirm("你要退出系统吗？",function (bool) {
-        $.Alert("====")
         if (bool){
             $.post({
 
@@ -32,8 +31,7 @@ function onlogout() {
                 data: {},
                 dataType: "json",
                 success: function (data) {
-                   // $.Alert(data["msg"])
-                //   window.location.href ="/users/login.html"
+                   location.href ="/users/login.html"
                 }
             });
         }
@@ -84,4 +82,24 @@ function numberToIp(number) {
     ip += ip3 + "." + ip2 + "." + ip1 + "." + ip0;
 
     return ip;
-}  
+}
+
+//调用方法 如
+//post('pages/statisticsJsp/excel.action', {html :prnhtml,cm1:'sdsddsd',cm2:'haha'});
+function post(URL, PARAMS) {
+    var temp = document.createElement("form");
+    temp.action = URL;
+    temp.method = "post";
+    temp.style.display = "none";
+    for (var x in PARAMS) {
+        var opt = document.createElement("textarea");
+        opt.name = x;
+        opt.value = PARAMS[x];
+        // alert(opt.name)
+        temp.appendChild(opt);
+    }
+    document.body.appendChild(temp);
+    temp.submit();
+    return temp;
+}
+

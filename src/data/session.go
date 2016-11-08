@@ -25,6 +25,10 @@ func (this *Session) Save() (string, error) {
 	err := gossdb.C().Hset(LOGIN_SESSION, key, this)
 	return key, err
 }
+func (this *Session) Del(key string) error {
+	err := gossdb.C().Hdel(LOGIN_SESSION, key)
+	return err
+}
 func (this *Session) Get(key string) error {
 	value, err := gossdb.C().Hget(LOGIN_SESSION, key)
 	value.As(this)

@@ -107,8 +107,7 @@ func Login(c *gin.Context) {
 	glog.Infoln("username:", username, "password:", password)
 	if len(username) == 0 || len(password) == 0 {
 		glog.Infoln(c.Request.URL.Path)
-		//		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "账号或密码不能为空"})
-
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "账号或密码不能为空"})
 	} else {
 		//		user := &User{Id: username}
 		//		if user.Get() == nil {
@@ -142,13 +141,11 @@ func Login(c *gin.Context) {
 
 func Logout(c *gin.Context) {
 	glog.Infoln(c.Request.URL.Path)
-	//session := sessions.Default(c)
-	//glog.Infoln("退出登录", session.Get("loginsession"))
-	//	session.Set("loginsession", "")
-	//	session.Clear()
-	//	session.Save()
-	//c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "成功退出登录"})
-	c.Redirect(http.StatusOK, "/users/login.html")
+	key, _ := c.Cookie("login")
+	session := &data.Session{}
+	session.Del(key)
+	c.SetCookie("login", "", 0, "", "", false, false)
+	c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "成功退出登录"})
 }
 
 func Create(c *gin.Context) {

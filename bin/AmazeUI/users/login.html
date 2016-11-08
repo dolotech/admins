@@ -49,8 +49,6 @@
     </div>
     <div class="am-g">
         <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
-
-
             <form  action="/users/login" method="post" class="am-form">
                 <label for="username">用户名:</label>
                 <input type="text" name="username" id="username" value="">
@@ -61,7 +59,7 @@
                 <label for="remember-me"> <input id="remember-me" type="checkbox">记住密码</label>
                 <br/>
                 <div class="am-btn am-btn-primary">
-                    <button type="submit" name="" id="send" value="登 录" onclick="javascript:onSubmit();" class="am-btn am-btn-primary am-btn-sm am-fl"> 登 录</button>
+                    <button type="submit" name="" id="send" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl"> 登 录</button>
                     <!--   <input type="" name="" value="忘记密码 ^_^? " class="am-btn am-btn-default am-btn-sm am-fr">-->
                 </div>
             </form>
@@ -93,54 +91,5 @@
 <script src="../assets/js/dialog.js"></script>
 <script src="../assets/js/vue.min.js"></script>
 
-<script>
-
-    function onSubmit() {
-        $.ajax({
-            type: "POST",
-            url: "/users/login",
-            data: {username: $("#username").val(), password: $("#password").val()},
-            dataType: "json",
-            success: function (data) {
-                if (data["status"] == "ok") {
-                    // $.Alert(data["msg"])
-                    console.info("登录成功")
-                    //  window.location.href = "/roles/list.html";
-
-                    self.location="/roles/list.html"
-                  //  setTimeout(function () {
-                      //  window.location.replace("/roles/list.html")
-
-                  //  }, 5000);
-
-                } else {
-                    $.Alert(data["msg"])
-                }
-            }
-        });
-    }
-
-   /* $(function () {
-        $('#send').click(function () {
-
-            $.ajax({
-                type: "POST",
-                url: "/users/login",
-                data: {username: $("#username").val(), password: $("#password").val()},
-                dataType: "json",
-                success: function (data) {
-                    if (data["status"] == "ok") {
-                      // $.Alert(data["msg"])
-                        console.info("登录成功")
-                      //  window.location.href = "/roles/list.html";
-                       // window.location.replace("/roles/list.html")
-                    } else {
-                        $.Alert(data["msg"])
-                    }
-                }
-            });
-        });
-    });*/
-</script>
 </body>
 </html>
