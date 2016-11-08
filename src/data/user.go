@@ -62,6 +62,13 @@ func (this *User) ExistPhone(phone string) bool {
 	return string(value) == phone
 }
 
+func (this *User) GetNickname() error {
+	value, err := gossdb.C().Hget(KEY_USER+this.Userid, "Nickname")
+	if err == nil {
+		this.Nickname = value.String()
+	}
+	return err
+}
 func (this *User) ExistNickname(nickname string) bool {
 	value, err := gossdb.C().Hget(KEY_USER+this.Userid, "Nickname")
 	if err != nil {

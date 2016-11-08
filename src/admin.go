@@ -140,12 +140,14 @@ func Router(r *gin.Engine) {
 	r.POST("/operation/cardrecord", operation.CardRecode)     //  金币场牌打牌记录
 	r.POST("/operation/issueprops", operation.IssueProps)     //
 	r.POST("/operation/issuelist", operation.IssuePropsList)  //
+	r.POST("/operation/loginrecord", operation.LoginRecord)   //
 
 	r.Static("/assets", "AmazeUI/assets")
 
 	r.Static("/users", "AmazeUI/users")
 	r.Static("/operation", "AmazeUI/operation")
 	r.Static("/roles", "AmazeUI/roles")
+	r.Static("/room", "AmazeUI/room")
 }
 
 // 链接数据库

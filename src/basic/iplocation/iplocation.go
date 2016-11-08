@@ -1,3 +1,5 @@
+package iplocation
+
 /**********************************************************
  * Author : Michael
  * Email : dolotech@163.com
