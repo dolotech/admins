@@ -13,11 +13,9 @@ import (
 	"data"
 	"fmt"
 	"net/http"
-	"strconv"
 	"sync"
 	"time"
 
-	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
 )
@@ -114,17 +112,23 @@ func Login(c *gin.Context) {
 	} else {
 		//		user := &User{Id: username}
 		//		if user.Get() == nil {
-		t := time.Now().Unix()
 		//if user.Passwd == utils.Md5(password) {
-		keys := utils.Md5(username + password + strconv.Itoa(int(t)))
-		session := sessions.Default(c)
-		session.Set("loginsession", keys)
-		session.Save()
-
-		//c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "登录成功"})
-		glog.Infoln("========================")
+		session := &data.Session{Username: username, Password: password}
+		//key, err := session.Save()
+		//	if err == nil {
+		//	session := sessions.Default(c)
+		//	session.Set("loginsession", key)
+		key, err := session.Save()
+		if err == nil {
+			c.SetCookie("login", key, 86400, "", "", false, false)
+		}
 
 		c.Redirect(http.StatusMovedPermanently, "/roles/list.html")
+		return
+		//	}
+
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "账户或者密码错误"})
+
 		return
 		//	} else {
 
@@ -138,11 +142,11 @@ func Login(c *gin.Context) {
 
 func Logout(c *gin.Context) {
 	glog.Infoln(c.Request.URL.Path)
-	session := sessions.Default(c)
-	glog.Infoln("退出登录", session.Get("loginsession"))
-	session.Set("loginsession", "")
-	session.Clear()
-	session.Save()
+	//session := sessions.Default(c)
+	//glog.Infoln("退出登录", session.Get("loginsession"))
+	//	session.Set("loginsession", "")
+	//	session.Clear()
+	//	session.Save()
 	//c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "成功退出登录"})
 	c.Redirect(http.StatusOK, "/users/login.html")
 }

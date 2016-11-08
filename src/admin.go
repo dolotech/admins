@@ -15,7 +15,6 @@ import (
 
 	_ "csv"
 
-	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
 )
@@ -42,8 +41,8 @@ func main() {
 	}
 	conndb()
 
-	store := sessions.NewCookieStore([]byte("secret"))
-	router.Use(sessions.Sessions("mysession", store))
+	//	store := sessions.NewCookieStore([]byte("secret"))
+	//	router.Use(sessions.Sessions("mysession", store))
 	router.Use(authorityMiddleware())
 	Router(router)
 	glog.Infoln("running success!")
@@ -68,47 +67,45 @@ func authorityMiddleware() gin.HandlerFunc {
 		c.Writer.Header().Set("Access-Control-Expose-Headers", "Content-Length")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		uri := c.Request.RequestURI
-		session := sessions.Default(c)
-		token := session.Get("loginsession")
-
+		//		session := sessions.Default(c)
+		//		token := session.Get("loginsession")
 		if c.Request.Method == "GET" {
 			c.Next()
 			return
 		}
+
 		if strings.EqualFold(uri, "/users/login") {
-			glog.Infoln(token, uri)
+			//		glog.Infoln(token, uri)
 			c.Next()
 			return
 		}
-		if strings.EqualFold(uri, "/users/login.html") {
+
+		token, err := c.Cookie("login")
+		glog.Infoln(token, uri, err)
+		if err != nil || token == "" {
+			c.Redirect(http.StatusMovedPermanently, "/users/login.html")
 			glog.Infoln(token, uri)
-			c.Next()
-			return
-		}
-		//	glog.Infoln("===============", uri)
-		//	if len(uri) > 8 && uri[:8] == "/assets/" {
-		//		c.Next()
-		//		return
-		//	}
-
-		//	glog.Infoln("===============", uri)
-		//	if strings.EqualFold(uri, "/users/login.html") || strings.EqualFold(uri, "/users/login") {
-		//		//glog.Infoln("token is nil")
-		//		//c.Redirect(http.StatusMovedPermanently, "/users/login.html")
-		//		//c.Abort()
-		//		c.Next()
-		//		return
-		//	}
-
-		glog.Infoln(token, uri)
-		if token == nil || token == "" {
-			//	c.Redirect(http.StatusMovedPermanently, "/users/login.html")
+			//	c.Next()
 			//	c.Abort()
+			return
+		}
 
-			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "你未登陆"})
+		loginses := &data.Session{}
+		err = loginses.Get(token)
+		glog.Infoln(err, token, uri)
+		if err != nil {
+			c.Redirect(http.StatusMovedPermanently, "/users/login.html")
+			return
+		}
+
+		now := uint32(time.Now().Unix())
+		glog.Infoln(loginses.Expire, token, uri, now)
+		if loginses.Expire < now {
+			c.Redirect(http.StatusMovedPermanently, "/users/login.html")
 			return
 		}
 		c.Next()
+
 	}
 
 }

@@ -686,7 +686,10 @@ function getUserList() {
                 userdatalist.$data["items"] = data["data"]["list"]
                 pageBar.$data.allrecords = data["data"]["count"]
                 pageBar.$data.all= Math.ceil(data["data"]["count"] / pages.$data.selected)
+            }else{
+                $.Alert(data["msg"])
             }
+
         }
     });
 }

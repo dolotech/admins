@@ -11,6 +11,7 @@ const (
 	USERS_LIST      string = "admins_users_list"
 	USER_LOG        string = "admins_user_log"
 	PROPS_ISSUE_LOG string = "admins_props_issue_log"
+	LOGIN_SESSION   string = "admins_login_session"
 )
 
 const (

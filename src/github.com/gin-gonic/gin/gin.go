@@ -167,7 +167,6 @@ func (engine *Engine) Use(middleware ...HandlerFunc) IRoutes {
 	engine.rebuild404Handlers()
 	engine.rebuild405Handlers()
 	return engine
-
 }
 
 func (engine *Engine) rebuild404Handlers() {

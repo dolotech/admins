@@ -64,12 +64,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="privatecreate.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="privatecreate.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AmazeUI/operation/privatecreate.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1200">
-              <caret line="652" column="53" selection-start-line="652" selection-start-column="27" selection-end-line="652" selection-end-column="53" />
+            <state relative-caret-position="406">
+              <caret line="689" column="33" selection-start-line="689" selection-start-column="33" selection-end-line="689" selection-end-column="33" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="login.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AmazeUI/users/login.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="457">
+              <caret line="113" column="20" selection-start-line="113" selection-start-column="20" selection-end-line="113" selection-end-column="20" />
+              <folding>
+                <marker date="1478585473074" expanded="true" signature="869:992" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -127,7 +139,6 @@
         <option value="$PROJECT_DIR$/AmazeUI/users/group_create.html" />
         <option value="$PROJECT_DIR$/AmazeUI/users/group_list.html" />
         <option value="$PROJECT_DIR$/AmazeUI/users/list.html" />
-        <option value="$PROJECT_DIR$/AmazeUI/users/login.html" />
         <option value="$PROJECT_DIR$/AmazeUI/assets/css/amazeui.css" />
         <option value="$USER_HOME$/Desktop/admin/template/template/assets/css/core.css" />
         <option value="$PROJECT_DIR$/AmazeUI/assets/css/core.css" />
@@ -145,6 +156,7 @@
         <option value="$PROJECT_DIR$/AmazeUI/assets/js/app.js" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/loginrecord.html" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/privatecreate.html" />
+        <option value="$PROJECT_DIR$/AmazeUI/users/login.html" />
       </list>
     </option>
   </component>
@@ -410,7 +422,7 @@
       <workItem from="1478161896187" duration="2664000" />
       <workItem from="1478228100998" duration="6520000" />
       <workItem from="1478259340737" duration="54000" />
-      <workItem from="1478482497007" duration="8878000" />
+      <workItem from="1478482497007" duration="10110000" />
     </task>
     <task id="LOCAL-00001" summary="更新登录模板">
       <created>1475138471139</created>
@@ -423,7 +435,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="272611000" />
+    <option name="totallyTimeSpent" value="273843000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
@@ -469,7 +481,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/www/gm/index.php" />
     <entry file="file://$PROJECT_DIR$/web/www/gm/images/ui-icons_ffffff_256x240.png" />
     <entry file="file://$PROJECT_DIR$/web/www/gm/images/ui-bg_diagonals-thick_20_666666_40x40.png" />
     <entry file="file://$PROJECT_DIR$/web/www/gm/images/ui-bg_diagonals-thick_18_b81900_40x40.png" />
@@ -733,9 +744,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/operation/privatecreate.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1200">
-          <caret line="652" column="53" selection-start-line="652" selection-start-column="27" selection-end-line="652" selection-end-column="53" />
+        <state relative-caret-position="406">
+          <caret line="689" column="33" selection-start-line="689" selection-start-column="33" selection-end-line="689" selection-end-column="33" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/users/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="457">
+          <caret line="113" column="20" selection-start-line="113" selection-start-column="20" selection-end-line="113" selection-end-column="20" />
+          <folding>
+            <marker date="1478585473074" expanded="true" signature="869:992" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
