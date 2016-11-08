@@ -1,7 +1,0 @@
-kind,level,playercount,roomtype,consume,cost,plan,starttime,endtime,weekystartweekyend,weekyend,dailystart,dailyend,championnumbers,championAward,runnernumber,runnerAward,thirdnumber,thirdaward,championnumber,championAward,lauranumber,lauraaward,dieout,gametimes,matchtimes,status
-1,1,16,1001,1,5000,1,0,0,0,0,0,0,1,1001,1,28,1,26,0,0,0,0,4,5,0,0
-2,1,64,1002,10,50000,1,12:00,13:00,0,0,0,0,1,1002,2,1003,3,1004,0,0,0,0,12,7,0,0
-3,1,64,1003,14,70000,1,21:00,22:00,0,0,0,0,1,1016,2,1017,3,1018,0,0,0,0,12,8,4,0
-4,2,64,1004,30,150000,2,12:00,13:00,1,1,0,0,1,1005,2,1006,4,1007,10,1008,0,0,12,7,0,0
-5,2,64,1005,34,170000,2,21:00,22:00,1,1,0,0,1,1009,2,1010,4,1011,10,1008,0,0,12,8,4,0
-6,3,128,1006,60,300000,3,20:00,23:00,0,0,31,31,1,1012,2,1013,4,1014,10,1007,20,1015,20,11,4,0
