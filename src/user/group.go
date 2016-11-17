@@ -3,42 +3,125 @@ package user
 import (
 	"basic/ssdb/gossdb"
 	"data"
+	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang/glog"
 )
 
+var GroupList = []Group{{1, "超级管理员", "拥有最高级权限", 1}, {2, "管理员", "拥有管理玩家权限", 2}}
+
+func InitGroup() {
+	for _, v := range GroupList {
+		boolean, _ := gossdb.C().Hexists(data.USER_GROUP, strconv.FormatInt(v.Id, 10))
+		if !boolean {
+			v.Save()
+		} else {
+		}
+	}
+}
+
 type Group struct {
-	Id    string
+	Id    int64
 	Name  string
 	Desc  string
-	Power uint32
+	Power int
 }
 
 func (this *Group) Get() error {
-	return gossdb.C().GetObject(data.USER_GROUP+this.Id, this)
-}
-func (this *Group) MultiHsetSave(kvs map[string]interface{}) error {
-	return gossdb.C().MultiHset(data.USER_GROUP+this.Id, kvs)
-}
-func (this *Group) Save() error {
-	err := gossdb.C().Hset(data.USER_GROUP, this.Id, this.Id)
+	value, err := gossdb.C().Hget(data.USER_GROUP, strconv.FormatInt(this.Id, 10))
 	if err == nil {
-		return gossdb.C().PutObject(data.USER_GROUP+this.Id, this)
+		err = value.As(this)
 	}
 	return err
 }
-func DeleteGroup(c *gin.Context) {
 
+func (this *Group) Save() error {
+	size, _ := gossdb.C().Hsize(data.USER_GROUP)
+	size++
+	this.Id = size
+	err := gossdb.C().Hset(data.USER_GROUP, strconv.FormatInt(this.Id, 10), this)
+	return err
+}
+
+func ListGroup() []*Group {
+	list := make([]*Group, 0)
+	value, err := gossdb.C().Hscan(data.USER_GROUP, "", "", 999)
+	if err == nil {
+		for _, v := range value {
+			data := &Group{}
+			if err := v.As(data); err == nil {
+				list = append(list, data)
+			}
+		}
+	}
+	return list
+}
+func (this *Group) Del() error {
+	err := gossdb.C().Hdel(data.USER_GROUP, strconv.FormatInt(this.Id, 10))
+	return err
+}
+func DeleteGroup(c *gin.Context) {
+	id, _ := strconv.ParseInt(c.PostForm("Id"), 10, 64) // string
+	group := &Group{Id: id}
+	if err := group.Del(); err != nil {
+
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "删除组失败"})
+	} else {
+
+		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	}
 }
 func CreateGroup(c *gin.Context) {
-
+	name := c.PostForm("Name")                    // string
+	desc := c.PostForm("Desc")                    // string
+	power, _ := strconv.Atoi(c.PostForm("Power")) // string
+	group := &Group{
+		Name:  name,
+		Desc:  desc,
+		Power: power,
+	}
+	if err := group.Save(); err != nil {
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "创建组失败"})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	}
 }
 func EditGroup(c *gin.Context) {
+	id, _ := strconv.ParseInt(c.PostForm("Id"), 10, 64) // string
+	name := c.PostForm("Name")                          // string
+	desc := c.PostForm("Desc")                          // string
+
+	power, _ := strconv.Atoi(c.PostForm("Power")) // string
+	group := &Group{Id: id}
+	if err := group.Get(); err != nil {
+		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "没有该组"})
+	} else {
+		if desc != "" {
+			group.Desc = desc
+		}
+		if power > 0 {
+			group.Power = power
+		}
+		if name != "" {
+			group.Name = name
+		}
+
+		if err := group.Save(); err != nil {
+			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "编辑组失败"})
+		} else {
+			c.JSON(http.StatusOK, gin.H{"status": "ok"})
+		}
+	}
 
 }
-func ListGroup(c *gin.Context) {
+func Groups(c *gin.Context) {
+	list := ListGroup()
+	data := make(map[string]interface{})
+	data["list"] = list
+	data["count"] = len(list)
+	glog.Infoln(list)
+	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": data})
 
-}
-func ExistGroupName() bool {
-	return false
 }

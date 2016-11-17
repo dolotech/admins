@@ -109,33 +109,28 @@ func Login(c *gin.Context) {
 		glog.Infoln(c.Request.URL.Path)
 		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "账号或密码不能为空"})
 	} else {
-		//		user := &User{Id: username}
-		//		if user.Get() == nil {
-		//if user.Passwd == utils.Md5(password) {
-		session := &data.Session{Username: username, Password: password}
-		//key, err := session.Save()
-		//	if err == nil {
-		//	session := sessions.Default(c)
-		//	session.Set("loginsession", key)
-		key, err := session.Save()
-		if err == nil {
-			c.SetCookie("login", key, 86400, "", "", false, false)
+		if username == "admin" && password == "123456" {
+			//		user := &User{Id: username}
+			//		if user.Get() == nil {
+			//if user.Passwd == utils.Md5(password) {
+			session := &data.Session{Username: username, Password: password}
+			//key, err := session.Save()
+			//	if err == nil {
+			//	session := sessions.Default(c)
+			//	session.Set("loginsession", key)
+			key, err := session.Save()
+			if err == nil {
+				c.SetCookie("login", key, 86400*30, "", "", false, false)
+			}
+
+			//c.Redirect(http.StatusMovedPermanently, "/roles/list.html")
+			//	}
+
+			c.JSON(http.StatusOK, gin.H{"status": "ok"})
+		} else {
+			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "密码或者账户错误"})
 		}
 
-		c.Redirect(http.StatusMovedPermanently, "/roles/list.html")
-		return
-		//	}
-
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "账户或者密码错误"})
-
-		return
-		//	} else {
-
-		//	}
-		//		} else {
-
-		//		}
-		//		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "密码或者账户错误"})
 	}
 }
 
@@ -312,18 +307,18 @@ func GetLogIndex() (string, error) {
 
 // err = gossdb.C().Hset(USER_GROUP_INDEX, Name, id)
 // value, err := gossdb.C().Hget(USER_GROUP_INDEX, Name)
-func GetGroupIndex(name string) (string, error) {
-	value, err := gossdb.C().Hget(data.USER_GROUP_INDEX, name)
-	return string(value), err
-}
+//func GetGroupIndex(id string) (string, error) {
+//	value, err := gossdb.C().Hscan(data.USER_GROUP, id)
+//	return string(value), err
+//}
+//
+//func SetGroupIndex(name, id string) error {
+//	return gossdb.C().Hset(data.USER_GROUP_INDEX, name, id)
+//}
 
-func SetGroupIndex(name, id string) error {
-	return gossdb.C().Hset(data.USER_GROUP_INDEX, name, id)
-}
-
-func GetGroupIndexSize() (int64, error) {
-	return gossdb.C().Hsize(data.USER_GROUP_INDEX)
-}
+//func GetGroupIndexSize() (int64, error) {
+//	return gossdb.C().Hsize(data.USER_GROUP_INDEX)
+//}
 
 // err = gossdb.C().Hset(USERS_INDEX, Name, id)
 // value, err := gossdb.C().Hget(USERS_INDEX, Name)

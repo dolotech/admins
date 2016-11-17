@@ -4,8 +4,8 @@ const (
 	USERS_INDEX string = "admins_users_index"
 	USERS       string = "admins_users"
 
-	USER_GROUP_INDEX string = "admins_user_group_index"
-	USER_GROUP       string = "admins_user_group"
+	//USER_GROUP_INDEX string = "admins_user_group_index"
+	USER_GROUP string = "admins_user_group"
 
 	USER_LOG_INDEX  string = "admins_user_log_index"
 	USERS_LIST      string = "admins_users_list"

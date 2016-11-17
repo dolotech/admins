@@ -41,7 +41,7 @@ func main() {
 		gin.SetMode(gin.DebugMode)
 	}
 	conndb()
-
+	user.InitGroup()
 	//	router.Use(Recovery())
 	router.Use(authorityMiddleware())
 	Router(router)
@@ -89,7 +89,7 @@ func authorityMiddleware() gin.HandlerFunc {
 		}
 
 		if strings.EqualFold(uri, "/users/login") {
-			//c.Next()
+			c.Next()
 			return
 		}
 
@@ -121,10 +121,15 @@ func authorityMiddleware() gin.HandlerFunc {
 	}
 }
 
+func Root(c *gin.Context) {
+	c.Redirect(http.StatusMovedPermanently, "/roles/list.html")
+}
+
 // 页面路由
 func Router(r *gin.Engine) {
 
 	r.POST("/roles/list", role.List)
+	r.GET("/", Root)
 	r.POST("/roles/search", role.Search)
 	r.POST("/roles/edit", role.Edit)
 
@@ -139,7 +144,7 @@ func Router(r *gin.Engine) {
 
 	r.POST("/group/create", user.CreateGroup)
 	r.POST("/group/edit", user.EditGroup)
-	r.POST("/group/list", user.ListGroup)
+	r.POST("/group/list", user.Groups)
 	r.POST("/group/delete", user.DeleteGroup)
 
 	r.POST("/roles/listonline", role.ListOnline) //  在线玩家列表

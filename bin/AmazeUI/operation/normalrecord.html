@@ -73,23 +73,152 @@
     <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
         <div class="am-offcanvas-bar admin-offcanvas-bar">
             <ul class="am-list admin-sidebar-list" id="admin-sidebar-list">
-                <li><a href="/roles/list"><span class="am-icon-home"></span> 首页</a></li>
+                <li><a href="/"><span class="am-icon-home"></span> 首页</a></li>
 
-                <li v-for="item in items" class="admin-parent">
+                <li class="admin-parent">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">
-                        <span class="am-icon-file"></span> {{ item.name }} <span
+                        <span class="am-icon-file"></span> 玩家数据 <span
                             class="am-icon-angle-right am-fr am-margin-right"></span>
                     </a>
                     <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
-                        <!--  <li >-->
-                        <li v-for="i in item.items">
-                            <a :href="i.path" class="am-cf">
-                                <span class="am-icon-table"></span> {{ i.name}}<span
+                        <li>
+                            <a href="/roles/list.html" class="am-cf">
+                                <span class="am-icon-table"></span> 玩家列表<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/roles/listonline.html" class="am-cf">
+                                <span class="am-icon-table"></span> 在线玩家<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/roles/gainrank.html" class="am-cf">
+                                <span class="am-icon-table"></span> 每日盈利榜<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/roles/wainrank.html" class="am-cf">
+                                <span class="am-icon-table"></span> 胜局榜<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/roles/coinrank.html" class="am-cf">
+                                <span class="am-icon-table"></span> 财富榜<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/roles/levelrank.html" class="am-cf">
+                                <span class="am-icon-table"></span> 等级榜<span
                                     class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
                             </a>
                         </li>
                     </ul>
                 </li>
+
+                <li class="admin-parent">
+                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav1'}">
+                        <span class="am-icon-file"></span> 发放记录 <span
+                            class="am-icon-angle-right am-fr am-margin-right"></span>
+                    </a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav1">
+                        <li>
+                            <a href="/operation/provide.html" class="am-cf">
+                                <span class="am-icon-table"></span> 道具/钻石发放<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/operation/providerecord.html" class="am-cf">
+                                <span class="am-icon-table"></span> 发放记录<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/operation/email.html" class="am-cf">
+                                <span class="am-icon-table"></span> 发送邮件<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/operation/emailrecord.html" class="am-cf">
+                                <span class="am-icon-table"></span> 邮件记录<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="admin-parent">
+                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav2'}">
+                        <span class="am-icon-file"></span> 日志管理 <span
+                            class="am-icon-angle-right am-fr am-margin-right"></span>
+                    </a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav2">
+                        <li>
+                            <a href="/operation/privaterecord.html" class="am-cf">
+                                <span class="am-icon-table"></span> 私人局记录<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/operation/matchrecord.html" class="am-cf">
+                                <span class="am-icon-table"></span> 比赛场记录<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/operation/normalrecord.html" class="am-cf">
+                                <span class="am-icon-table"></span> 金币场记录<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/operation/exchangerecord.html" class="am-cf">
+                                <span class="am-icon-table"></span> 虚拟兑换记录<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/operation/entityrecord.html" class="am-cf">
+                                <span class="am-icon-table"></span> 实物兑换记录<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/operation/privatecreate.html" class="am-cf">
+                                <span class="am-icon-table"></span> 私人房场景记录<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/operation/loginrecord.html" class="am-cf">
+                                <span class="am-icon-table"></span> 登录记录<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="admin-parent">
+                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav3'}">
+                        <span class="am-icon-file"></span> 订单管理 <span
+                            class="am-icon-angle-right am-fr am-margin-right"></span>
+                    </a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav3">
+                        <li>
+                            <a href="/order/chargerecord.html" class="am-cf">
+                                <span class="am-icon-table"></span> 充值记录<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
 
 
@@ -106,9 +235,11 @@
                     <p>Welcome to the majiang wiki!</p>
                 </div>
             </div>
-
         </div>
     </div>
+
+
+
 
     <!-- content start -->
     <div class="admin-content" id="list_pane">
@@ -309,12 +440,15 @@
     <script src="../assets/js/vue.min.js"></script>
     <script src="../assets/js/app.js"></script>
     <script src="../assets/js/amazeui.min.js"></script>
+
 </div>
 
 </body>
 </html>
 
 <script type="text/javascript">
+
+
     var DRAW = 0
     var DISCARD = 1
     var PENG = 2 << 0 // 碰
@@ -686,20 +820,6 @@
         });
     }
 
-    $.ajax({
-        type: "POST",
-        url: "/sidebar",
-        data: {},
-        dataType: "json",
-        success: function (data) {
-            if (data["status"] == "ok") {
-                new Vue({
-                    el: '#admin-sidebar-list',
-                    data: {items: data["data"]}
-                })
-            }
-        }
-    });
 
 
     $(function () {

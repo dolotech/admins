@@ -11,26 +11,20 @@ import (
 )
 
 type DataRoom struct {
-	Id       uint32 //房间ID
-	Rtype    uint32 //房间类型
-	Rname    string //房间名字
-	Cid      uint32 //圈子id
-	Expire   uint32 //牌局设定的过期时间
-	Updownji uint32 //是否有上下鸡
-	//	Pub           uint32 //是否同圈公开
+	Id            uint32 //房间ID
+	Rtype         uint32 //房间类型
+	Rname         string //房间名字
+	Cid           uint32 //圈子id
+	Expire        uint32 //牌局设定的过期时间
+	Updownji      uint32 //是否有上下鸡
 	Invitecode    string //房间邀请码
 	Create_userid string //房间创建人
 	Status        uint32 //
-	//	Round         uint32 //剩余牌局数
-
-	RoundTotal uint32 // 总牌局数
-	Started    bool   //牌局是否已经开始
-	Ante       uint32 //私人房底分
-	Payment    uint32 //付费方式1=AA or 0=房主支付
-	//	Destroyer  string            //发请投票者
-	//	Destroy    map[string]uint32 //投票解散0同意,1不同意
-	CTime uint32 //创建时间
-	//Score      map[string]int32  //私人局用户战绩积分
+	RoundTotal    uint32 // 总牌局数
+	Started       bool   //牌局是否已经开始
+	Ante          uint32 //私人房底分
+	Payment       uint32 //付费方式1=AA or 0=房主支付
+	CTime         uint32 //创建时间
 }
 
 func getRoomCreateRecord(userid string, offset, limit int) ([]*DataRoom, int64, error) {

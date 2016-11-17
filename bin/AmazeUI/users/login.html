@@ -56,10 +56,10 @@
                 <label for="password">密码:</label>
                 <input type="password" name="password" id="password" value="">
                 <br>
-                <label for="remember-me"> <input id="remember-me" type="checkbox">记住密码</label>
+             <!--   <label for="remember-me"> <input id="remember-me" type="checkbox">记住密码</label>-->
                 <br/>
                 <div class="am-btn am-btn-primary">
-                    <button type="submit" name="" id="send" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl"> 登 录</button>
+                    <button type="button" name="" id="send" value="登 录" onclick="javascript:onLogin()" class="am-btn am-btn-primary am-btn-sm am-fl"> 登 录</button>
                     <!--   <input type="" name="" value="忘记密码 ^_^? " class="am-btn am-btn-default am-btn-sm am-fr">-->
                 </div>
             </form>
@@ -93,3 +93,33 @@
 
 </body>
 </html>
+
+<script>
+    function onLogin() {
+       var data= {username:$("#username").val(),password:$("#password").val()}
+
+        if (data.username == "") {
+            $.Alert("账户名为空")
+            return
+        }
+
+        if (data.password == "") {
+            $.Alert("密码为空")
+            return
+        }
+       $.ajax({
+            type: "POST",
+            url: "/users/login",
+            data: data,
+            dataType: "json",
+            success: function (data) {
+                if (data["status"] == "ok") {
+                    location.href = "/roles/list.html"
+                }else{
+                    $.Alert(data["msg"])
+                }
+            }
+        });
+    }
+    
+</script>

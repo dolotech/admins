@@ -97,7 +97,6 @@ func IssueProps(c *gin.Context) {
 		issue := &IssuePropsRecord{}
 		err := resource.ChangeRes(v, uint32(widgetType), int32(count))
 
-		glog.Errorln(err)
 		if err != nil {
 			errorList += (v + ",")
 		} else {
@@ -107,6 +106,7 @@ func IssueProps(c *gin.Context) {
 	}
 	if len(errorList) > 0 {
 		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "以下ID出错" + errorList})
+
 	} else {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	}
