@@ -9,6 +9,7 @@ package sys
  * *******************************************************/
 
 import (
+	"data"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -68,5 +69,5 @@ func Sidebar(c *gin.Context) {
 				{"/users/create.html", "充值列表"}},
 		},
 	}
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": items})
+	c.JSON(http.StatusOK, data.H{"status": "ok", "data": items})
 }

@@ -9,6 +9,7 @@ package sys
  * *******************************************************/
 import (
 	"basic/utils"
+	"data"
 	"fmt"
 	"io"
 	"net/http"
@@ -44,7 +45,7 @@ func init() {
 
 // IndexDown
 func (f *files) IndexDown(c *gin.Context) {
-	c.HTML(http.StatusOK, "index-down.html", gin.H{
+	c.HTML(http.StatusOK, "index-down.html", data.H{
 		"file":  "/file",
 		"files": "/assets/files/",
 	})
@@ -52,7 +53,7 @@ func (f *files) IndexDown(c *gin.Context) {
 
 // IndexUp
 func (f *files) IndexUp(c *gin.Context) {
-	c.HTML(http.StatusOK, "index-up.html", gin.H{
+	c.HTML(http.StatusOK, "index-up.html", data.H{
 		"file":  "/file",
 		"files": "/assets/files/",
 	})

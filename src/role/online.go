@@ -7,17 +7,17 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
+	"github.com/labstack/echo"
 )
 
 //List 获取在线玩家列表
-func ListOnline(c *gin.Context) {
-	page, _ := strconv.Atoi(c.PostForm("Page")) // string
+func ListOnline(c echo.Context) error {
+	page, _ := strconv.Atoi(c.FormValue("Page")) // string
 	if page < 1 {
 		page = 1
 	}
-	pageMax, _ := strconv.Atoi(c.PostForm("PageMax")) // string
+	pageMax, _ := strconv.Atoi(c.FormValue("PageMax")) // string
 	if pageMax < 30 {
 		pageMax = 30
 	} else if pageMax > 200 {
@@ -60,8 +60,5 @@ func ListOnline(c *gin.Context) {
 		users = append(users, u)
 	}
 
-	data := make(map[string]interface{})
-	data["list"] = users
-	data["count"] = count
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": data})
+	return c.JSON(http.StatusOK, data.H{"status": "ok", "data": data.H{"list": users, "count": count}})
 }

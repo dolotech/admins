@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
+	"github.com/labstack/echo"
 )
 
 type IssuePropsRecord struct {
@@ -48,33 +48,29 @@ func (this *IssuePropsRecord) Save() error {
 	return nil
 }
 
-func IssuePropsList(c *gin.Context) {
-	page, _ := strconv.Atoi(c.PostForm("Page")) // string
+func IssuePropsList(c echo.Context) error {
+	page, _ := strconv.Atoi(c.FormValue("Page")) // string
 	if page == 0 {
 		page = 1
 	}
-	pageMax, _ := strconv.Atoi(c.PostForm("PageMax")) // string
+	pageMax, _ := strconv.Atoi(c.FormValue("PageMax")) // string
 	if pageMax == 0 {
 		pageMax = 30
 	}
 
 	list, size, err := GetIssuePropsList(((page - 1) * pageMax), pageMax)
 	if err != nil || size == 0 {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "列表为空"})
-		return
+		c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "列表为空"})
+		return nil
 	}
 
-	data := make(map[string]interface{})
-	data["list"] = list
-	data["count"] = size
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": data})
-
+	return c.JSON(http.StatusOK, data.H{"status": "ok", "data": data.H{"list": list, "count": size}})
 }
-func IssueProps(c *gin.Context) {
-	userids := c.PostForm("UserIds")                        // string
-	count, _ := strconv.Atoi(c.PostForm("Count"))           // uint32
-	vip, _ := strconv.Atoi(c.PostForm("VIP"))               // uint32
-	widgetType, _ := strconv.Atoi(c.PostForm("WidgetType")) // uint32
+func IssueProps(c echo.Context) error {
+	userids := c.FormValue("UserIds")                        // string
+	count, _ := strconv.Atoi(c.FormValue("Count"))           // uint32
+	vip, _ := strconv.Atoi(c.FormValue("VIP"))               // uint32
+	widgetType, _ := strconv.Atoi(c.FormValue("WidgetType")) // uint32
 	if vip > 0 {
 		count = 1
 		widgetType = vip
@@ -83,13 +79,12 @@ func IssueProps(c *gin.Context) {
 	userIds := strings.Split(userids, ",")
 	if len(userIds) == 0 {
 		glog.Infoln(userIds, count, widgetType)
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "发放玩家ID为空"})
-		return
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "发放玩家ID为空"})
 	}
 	for _, v := range userIds {
 		if _, err := strconv.Atoi(v); err != nil {
-			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "玩家ID格式不对"})
-			return
+			c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "玩家ID格式不对"})
+			return nil
 		}
 	}
 	errorList := ""
@@ -105,9 +100,10 @@ func IssueProps(c *gin.Context) {
 
 	}
 	if len(errorList) > 0 {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "以下ID出错" + errorList})
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "以下ID出错" + errorList})
 
 	} else {
-		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+		return c.JSON(http.StatusOK, data.H{"status": "ok"})
 	}
+	return nil
 }

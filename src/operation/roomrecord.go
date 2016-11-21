@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
+	"github.com/labstack/echo"
 )
 
 type DataRoom struct {
@@ -46,25 +46,21 @@ func getRoomCreateRecord(userid string, offset, limit int) ([]*DataRoom, int64, 
 	return list, size, nil
 
 }
-func RoomCreateRecord(c *gin.Context) {
-	page, _ := strconv.Atoi(c.PostForm("Page")) // string
+func RoomCreateRecord(c echo.Context) error {
+	page, _ := strconv.Atoi(c.FormValue("Page")) // string
 	if page < 1 {
 		page = 1
 	}
-	pageMax, _ := strconv.Atoi(c.PostForm("PageMax")) // string
+	pageMax, _ := strconv.Atoi(c.FormValue("PageMax")) // string
 	if pageMax < 30 {
 		pageMax = 30
 	} else if pageMax > 200 {
 		pageMax = 200
 	}
-	userid := c.PostForm("Userid")
+	userid := c.FormValue("Userid")
 	list, size, err := getRoomCreateRecord(userid, ((page - 1) * pageMax), pageMax)
 	if err != nil || size == 0 {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "列表为空"})
-		return
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "列表为空"})
 	}
-	data := make(map[string]interface{})
-	data["list"] = list
-	data["count"] = size
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": data})
+	return c.JSON(http.StatusOK, data.H{"status": "ok", "data": data.H{"list": list, "count": size}})
 }

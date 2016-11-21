@@ -20,7 +20,7 @@ type Session struct {
 }
 
 func (this *Session) Save() (string, error) {
-	this.Expire = uint32(time.Now().Unix() + 86400*30)
+	this.Expire = uint32(time.Now().Unix() + 86400)
 	key := utils.Md5(this.Username + ":" + this.Password + ":" + strconv.Itoa(int(this.Expire)))
 	err := gossdb.C().Hset(LOGIN_SESSION, key, this)
 	return key, err

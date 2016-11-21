@@ -14,8 +14,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
+	"github.com/labstack/echo"
 )
 
 const (
@@ -50,23 +50,23 @@ type UserData struct {
 }
 
 // 玩家信息编辑
-func Edit(c *gin.Context) {
-	userid := c.PostForm("Userid")
-	nickname := c.PostForm("Nickname")
-	sex := c.PostForm("Sex")
-	phone := c.PostForm("Phone")
-	vip := c.PostForm("Vip")
-	coin := c.PostForm("Coin")
-	diamond := c.PostForm("Diamond")
-	exp := c.PostForm("Exp")
-	ticket := c.PostForm("Ticket")
-	exchange := c.PostForm("Exchange")
-	win := c.PostForm("Win")
-	lost := c.PostForm("Lost")
-	ping := c.PostForm("Ping")
-	pwd := c.PostForm("Password")
-	pwd1 := c.PostForm("Password1")
-	photo := c.PostForm("Photo")
+func Edit(c echo.Context) error {
+	userid := c.FormValue("Userid")
+	nickname := c.FormValue("Nickname")
+	sex := c.FormValue("Sex")
+	phone := c.FormValue("Phone")
+	vip := c.FormValue("Vip")
+	coin := c.FormValue("Coin")
+	diamond := c.FormValue("Diamond")
+	exp := c.FormValue("Exp")
+	ticket := c.FormValue("Ticket")
+	exchange := c.FormValue("Exchange")
+	win := c.FormValue("Win")
+	lost := c.FormValue("Lost")
+	ping := c.FormValue("Ping")
+	pwd := c.FormValue("Password")
+	pwd1 := c.FormValue("Password1")
+	photo := c.FormValue("Photo")
 	user := &data.User{Userid: userid}
 	m := make(map[string]interface{})
 	if nickname != "" {
@@ -117,18 +117,18 @@ func Edit(c *gin.Context) {
 	}
 	glog.Infoln(m, pwd, pwd1)
 	user.MultiHsetSave(m)
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "玩家数据修改成功"})
+	return c.JSON(http.StatusOK, data.H{"status": "ok", "msg": "玩家数据修改成功"})
 }
 
 // 玩家列表, 根据条件检索玩家
-func Search(c *gin.Context) {
-	searchType := c.PostForm("SelectedIDSearch")
-	searchValue := c.PostForm("SearchUserid")
-	page, _ := strconv.Atoi(c.PostForm("Page")) // string
+func Search(c echo.Context) error {
+	searchType := c.FormValue("SelectedIDSearch")
+	searchValue := c.FormValue("SearchUserid")
+	page, _ := strconv.Atoi(c.FormValue("Page")) // string
 	if page == 0 {
 		page = 1
 	}
-	pageMax, _ := strconv.Atoi(c.PostForm("PageMax")) // string
+	pageMax, _ := strconv.Atoi(c.FormValue("PageMax")) // string
 	if pageMax == 0 {
 		pageMax = 30
 	}
@@ -151,8 +151,7 @@ func Search(c *gin.Context) {
 		}
 		count = uint64(len(ids))
 	} else {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "请输入搜索的内容"})
-		return
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "请输入搜索的内容"})
 	}
 
 	lists := data.GetMultiUser(ids)
@@ -180,19 +179,18 @@ func Search(c *gin.Context) {
 		users = append(users, u)
 	}
 
-	data := make(map[string]interface{})
-	data["list"] = users
-	data["count"] = count
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": data})
+	return c.JSON(http.StatusOK, data.H{"status": "ok", "data": data.H{"list": users, "count": count}})
 }
 
 //List 玩家列表, 根据条件检索玩家
-func List(c *gin.Context) {
-	page, _ := strconv.Atoi(c.PostForm("Page")) // string
+func List(c echo.Context) error {
+	page, _ := strconv.Atoi(c.FormValue("Page")) // string
+	glog.Infoln(page)
 	if page < 1 {
 		page = 1
 	}
-	pageMax, _ := strconv.Atoi(c.PostForm("PageMax")) // string
+	pageMax, _ := strconv.Atoi(c.FormValue("PageMax")) // string
+	glog.Infoln(pageMax)
 	if pageMax < 30 {
 		pageMax = 30
 	} else if pageMax > 200 {
@@ -238,8 +236,5 @@ func List(c *gin.Context) {
 		users = append(users, u)
 	}
 
-	data := make(map[string]interface{})
-	data["list"] = users
-	data["count"] = count
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": data})
+	return c.JSON(http.StatusOK, data.H{"status": "ok", "data": data.H{"list": users, "count": count}})
 }

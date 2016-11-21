@@ -671,20 +671,6 @@
             }
     )
 
-    var userdatalist = new Vue({
-        el: '#userdatalist',
-        data: {items: []},
-        methods: {
-            button_onedit: function (index) {
-                $("#list_pane").hide();
-                $("#edit_pane").show();
-                if (userdatalist.$data["items"].length > 0) {
-                    var data = userdatalist.$data["items"][index]
-                    edit.$data["items"] = data
-                }
-            }
-        }
-    })
 
     var pages = new Vue({
         el: '#SearchPages',
@@ -816,6 +802,25 @@
         }
     })
 
+    var userdatalist = new Vue({
+        el: '#userdatalist',
+        data: {items: []},
+
+        created: function() {
+            getUserList()
+        },
+        methods: {
+            button_onedit: function (index) {
+                $("#list_pane").hide();
+                $("#edit_pane").show();
+                if (userdatalist.$data["items"].length > 0) {
+                    var data = userdatalist.$data["items"][index]
+                    edit.$data["items"] = data
+                }
+            }
+        }
+    })
+
     function getUserList() {
 
         var data = {
@@ -864,7 +869,7 @@
      */
 
 
-    getUserList()
+ //   getUserList()
 
     $(function () {
         var startDate = new Date(2000, 1, 1);

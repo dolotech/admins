@@ -16,8 +16,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
+	"github.com/labstack/echo"
 )
 
 // 后台管理日志 admin_log
@@ -76,21 +76,20 @@ func (u *User) Save() error {
 	return err
 }
 
-func Delete(c *gin.Context) {
-
+func Delete(c echo.Context) error {
 	u := &User{}
-	u.Id = c.PostForm("Id")
+	u.Id = c.FormValue("Id")
 	glog.Infoln("id:", u.Id)
 	if u.Id != "" {
 		if u.Del() == nil {
-			c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "删除成功"})
+			return c.JSON(http.StatusOK, data.H{"status": "ok", "msg": "删除成功"})
 		} else {
-			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "删除失败"})
+			return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "删除失败"})
 		}
 	} else {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "账号不能为空"})
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "账号不能为空"})
 	}
-
+	return nil
 }
 func (u *User) Del() error {
 	err := gossdb.C().Hdel(data.USERS_INDEX, u.Id)
@@ -100,14 +99,14 @@ func (u *User) Del() error {
 
 	return err
 }
-func Login(c *gin.Context) {
-	username := c.PostForm("username")
-	password := c.PostForm("password")
+
+func Login(c echo.Context) error {
+	username := c.FormValue("username")
+	password := c.FormValue("password")
 
 	glog.Infoln("username:", username, "password:", password)
 	if len(username) == 0 || len(password) == 0 {
-		glog.Infoln(c.Request.URL.Path)
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "账号或密码不能为空"})
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "账号或密码不能为空"})
 	} else {
 		if username == "admin" && password == "123456" {
 			//		user := &User{Id: username}
@@ -120,173 +119,127 @@ func Login(c *gin.Context) {
 			//	session.Set("loginsession", key)
 			key, err := session.Save()
 			if err == nil {
-				c.SetCookie("login", key, 86400*30, "", "", false, false)
+				cookie := &http.Cookie{Path: "/", Name: "login", Value: key}
+				//c.SetCookie("login", key, 86400*30, "", "", false, false)
+				//	SetCookie(c, "login", key, 86400*30, "", "", false, false)
+				c.SetCookie(cookie)
 			}
 
 			//c.Redirect(http.StatusMovedPermanently, "/roles/list.html")
 			//	}
 
-			c.JSON(http.StatusOK, gin.H{"status": "ok"})
+			return c.JSON(http.StatusOK, data.H{"status": "ok"})
 		} else {
-			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "密码或者账户错误"})
+			return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "密码或者账户错误"})
 		}
 
 	}
+	return nil
 }
 
-func Logout(c *gin.Context) {
-	glog.Infoln(c.Request.URL.Path)
+func Logout(c echo.Context) error {
 	key, _ := c.Cookie("login")
+	glog.Infoln(key)
 	session := &data.Session{}
-	session.Del(key)
-	c.SetCookie("login", "", 0, "", "", false, false)
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "成功退出登录"})
+	if key != nil {
+		session.Del(key.Value)
+	}
+	//	c.SetCookie("login", "", 0, "", "", false, false)
+	cookie := &http.Cookie{Path: "/", Name: "login", Value: ""}
+	c.SetCookie(cookie)
+
+	return c.JSON(http.StatusOK, data.H{"status": "ok", "msg": "成功退出登录"})
 }
 
-func Create(c *gin.Context) {
-	if c.PostForm("Id") == "" {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户名不能为空"})
-		return
+func Create(c echo.Context) error {
+	if c.FormValue("Id") == "" {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "用户名不能为空"})
 	}
-	if c.PostForm("Name") == "" {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "真实名字不能为空"})
-		return
+	if c.FormValue("Name") == "" {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "真实名字不能为空"})
 	}
-	if c.PostForm("Passwd") == "" {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "密码不能为空"})
-		return
+	if c.FormValue("Passwd") == "" {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "密码不能为空"})
 	}
-	if c.PostForm("Passwd") != c.PostForm("Passwd1") {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "两次密码不一致"})
-		return
+	if c.FormValue("Passwd") != c.FormValue("Passwd1") {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "两次密码不一致"})
 	}
 
-	password := c.PostForm("Passwd")
-	password1 := c.PostForm("Passwd1")
+	password := c.FormValue("Passwd")
+	password1 := c.FormValue("Passwd1")
 	u := &User{}
-	u.Id = c.PostForm("Id")
-	u.Name = c.PostForm("Name")
+	u.Id = c.FormValue("Id")
+	u.Name = c.FormValue("Name")
 	u.Passwd = utils.Md5(password)
-	u.Ip_limit = c.PostForm("Ip_limit")
-	u.Group_id = c.PostForm("Group_id")
-	u.Description = c.PostForm("Description")
+	u.Ip_limit = c.FormValue("Ip_limit")
+	u.Group_id = c.FormValue("Group_id")
+	u.Description = c.FormValue("Description")
 
 	glog.Infoln("password:", password, " password1:", password1, "group_id:", u.Group_id, "ip_limit:", u.Ip_limit, "username:", u.Id, "name:", u.Name)
 
 	val, err := GetUsersIndex(u.Id)
 	glog.Infoln(val, err, len(val))
 	if len(val) != 0 {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户名已经存在"})
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "用户名已经存在"})
 	} else {
 		u.Create_time = uint32(time.Now().Unix())
 		err = u.Save()
 		if err != nil {
-			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户创建失败"})
+			return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "用户创建失败"})
 		} else {
 
-			c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "用户创建成功"})
+			return c.JSON(http.StatusOK, data.H{"status": "ok", "msg": "用户创建成功"})
 		}
 
 	}
+	return nil
 }
-func List(c *gin.Context) {
+func List(c echo.Context) error {
 	lists := GetMultiUser()
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": lists})
+	return c.JSON(http.StatusOK, data.H{"status": "ok", "data": lists})
 }
-func Edit(c *gin.Context) {
-	if c.PostForm("Id") == "" {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户名不能为空"})
-		return
+func Edit(c echo.Context) error {
+	if c.FormValue("Id") == "" {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "用户名不能为空"})
 	}
-	if c.PostForm("Name") == "" {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "真实名字不能为空"})
-		return
+	if c.FormValue("Name") == "" {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "真实名字不能为空"})
 	}
 
-	if c.PostForm("Passwd") != "" {
-		if c.PostForm("Passwd") != c.PostForm("Passwd1") {
-			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "两次密码不一致"})
-			return
+	if c.FormValue("Passwd") != "" {
+		if c.FormValue("Passwd") != c.FormValue("Passwd1") {
+			return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "两次密码不一致"})
 		}
 	}
 
 	m := make(map[string]interface{})
-	m["ID"] = c.PostForm("Id")
+	m["ID"] = c.FormValue("Id")
 
 	u := &User{}
-	u.Id = c.PostForm("Id")
+	u.Id = c.FormValue("Id")
 
-	if c.PostForm("name") != "" {
-		m["Name"] = c.PostForm("name")
+	if c.FormValue("name") != "" {
+		m["Name"] = c.FormValue("name")
 	}
-	m["Passwd "] = utils.Md5(c.PostForm("Passwd"))
-	if c.PostForm("ip_limit") != "" {
-		m["Ip_limit "] = c.PostForm("ip_limit")
+	m["Passwd "] = utils.Md5(c.FormValue("Passwd"))
+	if c.FormValue("ip_limit") != "" {
+		m["Ip_limit "] = c.FormValue("ip_limit")
 	}
-	if c.PostForm("group_id") != "" {
+	if c.FormValue("group_id") != "" {
 
-		m["Group_id "] = c.PostForm("group_id")
+		m["Group_id "] = c.FormValue("group_id")
 	}
-	if c.PostForm("description") != "" {
-		m["Description "] = c.PostForm("description")
+	if c.FormValue("description") != "" {
+		m["Description "] = c.FormValue("description")
 	}
 	err := u.MultiHsetSave(m)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "用户数据修改失败"})
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "用户数据修改失败"})
 	} else {
 
-		c.JSON(http.StatusOK, gin.H{"status": "ok", "msg": "用户更改成功"})
+		return c.JSON(http.StatusOK, data.H{"status": "ok", "msg": "用户更改成功"})
 	}
-}
-
-func (u *User) Setpwd(c *gin.Context) {
-	// username := c.PostForm("username")
-	// realname := c.PostForm("name")
-	// passwd := c.PostForm("passwd")
-	// passwd1 := c.PostForm("passwd1")
-	c.HTML(http.StatusOK, "set_password.html", gin.H{
-		"data": u,
-	})
-}
-
-func (u *User) Setpasswd(c *gin.Context) {
-	c.HTML(http.StatusOK, "set_password.html", gin.H{
-		"data": u,
-	})
-}
-
-func (u *User) GroupList(c *gin.Context) {
-	email := c.PostForm("email")
-	password := c.PostForm("password")
-	fmt.Println("email:", email, "password:", password)
-	c.HTML(http.StatusOK, "group_list.html", gin.H{
-		"csrfToken": "",
-	})
-}
-
-func (u *User) GroupEdit(c *gin.Context) {
-	email := c.PostForm("email")
-	password := c.PostForm("password")
-	fmt.Println("email:", email, "password:", password)
-	c.HTML(http.StatusOK, "group_edit.html", gin.H{
-		"csrfToken": "",
-	})
-}
-
-func (u *User) LoginDemo(c *gin.Context) {
-	email := c.PostForm("email")
-	password := c.PostForm("password")
-	fmt.Println("email:", email, "password:", password)
-	c.HTML(http.StatusOK, "user_form.html", gin.H{
-		"csrfToken": "",
-	})
-}
-
-func (u *User) RegisterDemo(c *gin.Context) {
-	c.HTML(http.StatusOK, "user_form.html", gin.H{
-		"new":       true,
-		"csrfToken": "",
-	})
+	return nil
 }
 
 var tex sync.Mutex

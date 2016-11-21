@@ -24,7 +24,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="group_list.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="group_list.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AmazeUI/users/group_list.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="393">
@@ -32,6 +32,26 @@
               <folding>
                 <marker date="1479198774340" expanded="true" signature="876:999" placeholder="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="list.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AmazeUI/roles/list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="54">
+              <caret line="808" column="29" selection-start-line="808" selection-start-column="29" selection-end-line="808" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="normalrecord.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AmazeUI/operation/normalrecord.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="428">
+              <caret line="798" column="0" selection-start-line="798" selection-start-column="0" selection-end-line="798" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -70,7 +90,6 @@
         <option value="$PROJECT_DIR$/AmazeUI/templates/admin-form.html" />
         <option value="$PROJECT_DIR$/AmazeUI/room/list.html" />
         <option value="$PROJECT_DIR$/AmazeUI/assets/js/app.js" />
-        <option value="$PROJECT_DIR$/AmazeUI/roles/list.html" />
         <option value="$PROJECT_DIR$/AmazeUI/roles/listonline.html" />
         <option value="$PROJECT_DIR$/AmazeUI/users/list.html" />
         <option value="$PROJECT_DIR$/AmazeUI/users/group_create.html" />
@@ -82,9 +101,10 @@
         <option value="$PROJECT_DIR$/AmazeUI/operation/provide.html" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/providerecord.html" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/loginrecord.html" />
-        <option value="$PROJECT_DIR$/AmazeUI/operation/normalrecord.html" />
         <option value="$PROJECT_DIR$/AmazeUI/users/login.html" />
         <option value="$PROJECT_DIR$/AmazeUI/users/group_list.html" />
+        <option value="$PROJECT_DIR$/AmazeUI/operation/normalrecord.html" />
+        <option value="$PROJECT_DIR$/AmazeUI/roles/list.html" />
       </list>
     </option>
   </component>
@@ -247,28 +267,6 @@
               <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AmazeUI" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
@@ -371,6 +369,7 @@
       <workItem from="1478482497007" duration="18316000" />
       <workItem from="1478656529992" duration="4683000" />
       <workItem from="1479177011538" duration="4391000" />
+      <workItem from="1479611038253" duration="4091000" />
     </task>
     <task id="LOCAL-00001" summary="更新登录模板">
       <created>1475138471139</created>
@@ -383,11 +382,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="291123000" />
+    <option name="totallyTimeSpent" value="295214000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="54" y="-8" width="1874" height="1096" extended-state="7" />
-    <editor active="false" />
+    <frame x="54" y="-8" width="1874" height="1096" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26372445" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -429,7 +428,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/www/gm/images/ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <entry file="file://$PROJECT_DIR$/AmazeUI/assets/css/core.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
@@ -582,9 +580,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-594">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -592,18 +587,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="356">
           <caret line="113" column="78" selection-start-line="113" selection-start-column="78" selection-end-line="113" selection-end-column="78" />
-          <folding>
-            <marker date="1478657559145" expanded="true" signature="4192:4332" placeholder="..." />
-            <marker date="1478657559145" expanded="true" signature="4404:4538" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/roles/list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1848">
-          <caret line="80" column="3" selection-start-line="80" selection-start-column="3" selection-end-line="246" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -698,16 +681,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="479">
           <caret line="63" column="22" selection-start-line="63" selection-start-column="22" selection-end-line="63" selection-end-column="22" />
-          <folding>
-            <marker date="1479180863932" expanded="true" signature="869:992" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/normalrecord.html">
+    <entry file="file://$USER_HOME$/Desktop/vue-chat-master/dist/build.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="516">
-          <caret line="441" column="55" selection-start-line="441" selection-start-column="55" selection-end-line="441" selection-end-column="55" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -719,6 +699,22 @@
           <folding>
             <marker date="1479198774340" expanded="true" signature="876:999" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/normalrecord.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="428">
+          <caret line="798" column="0" selection-start-line="798" selection-start-column="0" selection-end-line="798" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/roles/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="808" column="29" selection-start-line="808" selection-start-column="29" selection-end-line="808" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>

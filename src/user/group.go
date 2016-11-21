@@ -6,8 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
-	"github.com/golang/glog"
+	"github.com/labstack/echo"
 )
 
 var GroupList = []Group{{1, "超级管理员", "拥有最高级权限", 1}, {2, "管理员", "拥有管理玩家权限", 2}}
@@ -62,41 +61,41 @@ func (this *Group) Del() error {
 	err := gossdb.C().Hdel(data.USER_GROUP, strconv.FormatInt(this.Id, 10))
 	return err
 }
-func DeleteGroup(c *gin.Context) {
-	id, _ := strconv.ParseInt(c.PostForm("Id"), 10, 64) // string
+func DeleteGroup(c echo.Context) error {
+	id, _ := strconv.ParseInt(c.FormValue("Id"), 10, 64) // string
 	group := &Group{Id: id}
 	if err := group.Del(); err != nil {
 
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "删除组失败"})
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "删除组失败"})
 	} else {
 
-		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+		return c.JSON(http.StatusOK, data.H{"status": "ok"})
 	}
 }
-func CreateGroup(c *gin.Context) {
-	name := c.PostForm("Name")                    // string
-	desc := c.PostForm("Desc")                    // string
-	power, _ := strconv.Atoi(c.PostForm("Power")) // string
+func CreateGroup(c echo.Context) error {
+	name := c.FormValue("Name")                    // string
+	desc := c.FormValue("Desc")                    // string
+	power, _ := strconv.Atoi(c.FormValue("Power")) // string
 	group := &Group{
 		Name:  name,
 		Desc:  desc,
 		Power: power,
 	}
 	if err := group.Save(); err != nil {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "创建组失败"})
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "创建组失败"})
 	} else {
-		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+		return c.JSON(http.StatusOK, data.H{"status": "ok"})
 	}
 }
-func EditGroup(c *gin.Context) {
-	id, _ := strconv.ParseInt(c.PostForm("Id"), 10, 64) // string
-	name := c.PostForm("Name")                          // string
-	desc := c.PostForm("Desc")                          // string
+func EditGroup(c echo.Context) error {
+	id, _ := strconv.ParseInt(c.FormValue("Id"), 10, 64) // string
+	name := c.FormValue("Name")                          // string
+	desc := c.FormValue("Desc")                          // string
 
-	power, _ := strconv.Atoi(c.PostForm("Power")) // string
+	power, _ := strconv.Atoi(c.FormValue("Power")) // string
 	group := &Group{Id: id}
 	if err := group.Get(); err != nil {
-		c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "没有该组"})
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "没有该组"})
 	} else {
 		if desc != "" {
 			group.Desc = desc
@@ -109,19 +108,13 @@ func EditGroup(c *gin.Context) {
 		}
 
 		if err := group.Save(); err != nil {
-			c.JSON(http.StatusOK, gin.H{"status": "fail", "msg": "编辑组失败"})
+			return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "编辑组失败"})
 		} else {
-			c.JSON(http.StatusOK, gin.H{"status": "ok"})
+			return c.JSON(http.StatusOK, data.H{"status": "ok"})
 		}
 	}
-
 }
-func Groups(c *gin.Context) {
+func Groups(c echo.Context) error {
 	list := ListGroup()
-	data := make(map[string]interface{})
-	data["list"] = list
-	data["count"] = len(list)
-	glog.Infoln(list)
-	c.JSON(http.StatusOK, gin.H{"status": "ok", "data": data})
-
+	return c.JSON(http.StatusOK, data.H{"status": "ok", "data": data.H{"list": list, "count": len(list)}})
 }
