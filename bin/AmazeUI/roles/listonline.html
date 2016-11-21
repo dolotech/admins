@@ -67,7 +67,7 @@
 <div class="am-cf admin-main">
 
     <!-- sidebar start -->
-  <!--  <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+   <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
         <div class="am-offcanvas-bar admin-offcanvas-bar">
             <ul class="am-list admin-sidebar-list" id="admin-sidebar-list">
                 <li><a href="/roles/list"><span class="am-icon-home"></span> 首页</a></li>
@@ -78,7 +78,6 @@
                             class="am-icon-angle-right am-fr am-margin-right"></span>
                     </a>
                     <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
-                        &lt;!&ndash;  <li >&ndash;&gt;
                         <li v-for="i in item.items">
                             <a :href="i.path" class="am-cf">
                                 <span class="am-icon-table"></span> {{ i.name}}<span
@@ -88,7 +87,6 @@
                     </ul>
                 </li>
             </ul>
-
 
             <div class="am-panel am-panel-default admin-sidebar-panel">
                 <div class="am-panel-bd">
@@ -105,8 +103,8 @@
             </div>
 
         </div>
-    </div>-->
-    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+    </div>
+   <!-- <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
         <div class="am-offcanvas-bar admin-offcanvas-bar">
             <ul class="am-list admin-sidebar-list" id="admin-sidebar-list">
                 <li><a href="/"><span class="am-icon-home"></span> 首页</a></li>
@@ -272,7 +270,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <!-- content start -->
     <div class="admin-content" id="list_pane">
@@ -880,6 +878,13 @@ function getUserList() {
         }
     });
 }
+
+
+    new Vue({
+        el: '#admin-sidebar-list',
+        data: {items: getSideBar() }
+    })
+
 
 /*
     $.ajax({

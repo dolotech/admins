@@ -16,7 +16,6 @@ func InitGroup() {
 		boolean, _ := gossdb.C().Hexists(data.USER_GROUP, strconv.FormatInt(v.Id, 10))
 		if !boolean {
 			v.Save()
-		} else {
 		}
 	}
 }

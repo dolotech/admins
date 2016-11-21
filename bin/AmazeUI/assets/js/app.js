@@ -104,6 +104,47 @@ function post(URL, PARAMS) {
 }
 
 
+function getSideBar() {
+    return [
+        {
+            name:"玩家管理",
+            items: [
+            {path:"/roles/list.html",  name:"玩家列表"},
+            {path:"/roles/listonline.html",name: "在线玩家"},
+            {path:"/roles/gainrank.html", name:"每日盈利排名"},
+            {path:"/roles/winrank.html", name:"胜局排名"},
+            {path:"/roles/coinrank.html", name:"等级排名"},
+            {path:"/roles/levelrank.html",name: "等级排名"}]
+        },
+        {
+            name:  "发放记录",
+            items:    [
+            {path:"/operation/provide.html", name:"道具/钻石发放"},
+            {path:"/operation/providerecord.html", name:"发放记录"},
+
+            {path:"/operation/email.html", name:"发送邮件"},
+            {path:"/operation/emaillist.html", name:"邮件记录"}]
+        },
+        {
+            name: "日志管理",
+            items:      [
+            {path:"/operation/privaterecord.html", name:"私人局记录"},
+            {path:"/operation/matchrecord.html",name: "比赛场记录"},
+            {path:"/operation/normalrecord.html", name:"金币场记录"},
+            {path:"/operation/exchangerecord.html", name:"虚拟兑换记录"},
+            {path:"/operation/exchangerecord.html", name:"实物兑换记录"},
+            {path:"/operation/privatecreate.html", name:"私人房创建日志"},
+            {path:"/operation/loginrecord.html",name: "登录日志"}]
+        },
+        {
+            name: "订单管理",
+            items:     [
+            {path:"/users/list.html", name:"下单列表"},
+            {path:"/users/create.html", name:"充值列表"}]
+        }
+    ]
+}
+
 var MyComponent = Vue.extend({
     template : '<div class="admin-sidebar am-offcanvas" id="admin-offcanvas">'+
     '  <div class="am-offcanvas-bar admin-offcanvas-bar">'+

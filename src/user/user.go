@@ -144,7 +144,6 @@ func Logout(c echo.Context) error {
 	if key != nil {
 		session.Del(key.Value)
 	}
-	//	c.SetCookie("login", "", 0, "", "", false, false)
 	cookie := &http.Cookie{Path: "/", Name: "login", Value: ""}
 	c.SetCookie(cookie)
 
