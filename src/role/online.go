@@ -23,21 +23,29 @@ func ListOnline(c echo.Context) error {
 	} else if pageMax > 200 {
 		pageMax = 200
 	}
+	var count int64
+	users := make([]*UserData, 0, pageMax)
 
-	count, _ := gossdb.C().Hsize(data.KEY_ONLINE)
-	list, _ := gossdb.C().Hkeys(data.KEY_ONLINE, "", "", int64(5000))
-
+	count, err := gossdb.C().Hsize(data.KEY_ONLINE)
+	if err != nil {
+		glog.Errorln(err)
+		return c.JSON(http.StatusOK, data.H{"status": "ok", "data": data.H{"list": users, "count": count}})
+	}
+	list, err := gossdb.C().Hkeys(data.KEY_ONLINE, "", "", int64(5000))
+	if err != nil {
+		glog.Errorln(err)
+		return c.JSON(http.StatusOK, data.H{"status": "ok", "data": data.H{"list": users, "count": count}})
+	}
 	ids := make([]string, 0, pageMax)
 	for i := 0; i < pageMax; i++ {
 		index := (page-1)*pageMax + i
-		if index < int(count) {
+		if index < len(list) {
 			ids = append(ids, list[index].String())
 		}
 	}
 
 	lists := data.GetMultiUser(ids)
-	users := make([]*UserData, 0, len(lists))
-	glog.Infoln(len(lists), lists)
+	glog.Infoln(len(lists))
 	for _, v := range lists {
 		u := &UserData{
 			Userid:      v.Userid,

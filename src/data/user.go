@@ -38,7 +38,7 @@ func GetMultiUser(userids []string) []*User {
 		if err := user.Get(); err == nil {
 			users = append(users, user)
 		} else {
-			glog.Errorln(userids[i])
+			glog.Errorln(err, userids[i])
 		}
 	}
 	return users

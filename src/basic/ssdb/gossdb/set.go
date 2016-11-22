@@ -1,6 +1,10 @@
 package gossdb
 
-import "basic/ssdb/goerr"
+import (
+	"basic/ssdb/goerr"
+
+	"github.com/golang/glog"
+)
 
 //设置指定 key 的值内容
 //
@@ -52,6 +56,7 @@ func (this *Client) Get(key string) (Value, error) {
 	if err != nil {
 		return Value{}, goerr.NewError(err, "Get %s error", key)
 	}
+	glog.Infoln(key, resp)
 	if len(resp) == 2 && resp[0][0] == ok[0] && resp[0][1] == ok[1] {
 		return Value(resp[1]), nil
 	}

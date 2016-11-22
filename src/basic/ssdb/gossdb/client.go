@@ -135,9 +135,7 @@ func (this *Client) Do(args ...interface{}) ([]Value, error) {
 				<-time.After(time.Millisecond * 20)
 			}
 		}
-		if err == nil {
-			resp, err = this.Client.Do(args...)
-		}
+		resp, err = this.Client.Do(args...)
 	}
 	if this.Pool != nil {
 		this.Pool <- this

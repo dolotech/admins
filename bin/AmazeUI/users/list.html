@@ -363,6 +363,21 @@
     var users = new Vue({
         el: '#list_pane',
         data: {items: []},
+        created: function() {
+            $.ajax({
+                type: "POST",
+                url: "/users/list",
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    if (data["status"] == "ok") {
+                        console.info(data["data"])
+                        users.$data.items = data.data
+                    }
+                }
+            })
+
+        },
         methods: {
             onEdit: function (id) {
                 // $.Alert(id)
@@ -380,7 +395,7 @@
                         $.ajax({
                             type: "POST",
                             url: "/users/delete",
-                            data: {Id: this.$data["items"][id].Id},
+                            data: {Id: users.$data["items"][id].Id},
                             dataType: "json",
                             success: function (data) {
                                 if (data["status"] == "ok") {
@@ -395,23 +410,6 @@
             }
         }
     })
-
-    $.ajax({
-        type: "POST",
-        url: "/users/list",
-        data: {},
-        dataType: "json",
-        success: function (data) {
-            if (data["status"] == "ok") {
-                console.info(data["data"])
-                users.$data.items = data.data
-
-            }
-        }
-    })
-
-
-
 
 
     $(function () {

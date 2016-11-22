@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"operation"
 	"role"
-	"time"
 	"user"
 
 	_ "csv"
@@ -18,30 +17,38 @@ import (
 	"github.com/labstack/echo/middleware"
 )
 
+func loginMiddlewareStatic(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		cookie, err := c.Cookie("login")
+		if err != nil || cookie == nil || len(cookie.Value) <= 0 {
+			c.Request().Header.Add("Cache-Control", "no-cache")
+			err := c.Redirect(http.StatusTemporaryRedirect, "/login/login.html")
+			return err
+		}
+		if data.Sessions.Get(cookie.Value) == nil {
+			c.Request().Header.Add("Cache-Control", "no-cache")
+			err := c.Redirect(http.StatusTemporaryRedirect, "/login/login.html")
+			return err
+		}
+
+		return next(c)
+	}
+}
 func loginMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		cookie, err := c.Cookie("login")
-		if cookie == nil || err != nil || len(cookie.Value) <= 0 {
-			c.JSON(http.StatusOK, data.H{"status": "fail", "errorcode": 100, "msg": "未登陆"})
-			return errors.New("未登陆")
-
-		}
-		loginses := &data.Session{}
-		err = loginses.Get(cookie.Value)
-		if err != nil {
+		if err != nil || cookie == nil || len(cookie.Value) <= 0 {
 			c.JSON(http.StatusOK, data.H{"status": "fail", "errorcode": 100, "msg": "未登陆"})
 			return errors.New("未登陆")
 		}
-
-		now := uint32(time.Now().Unix())
-		if loginses.Expire < now {
-			glog.Infoln("session过期")
-			c.JSON(http.StatusOK, data.H{"status": "fail", "errorcode": 100, "msg": "session过期"})
-			return errors.New("session过期")
+		if data.Sessions.Get(cookie.Value) == nil {
+			c.JSON(http.StatusOK, data.H{"status": "fail", "errorcode": 100, "msg": "未登陆"})
+			return errors.New("未登陆")
 		}
 		return next(c)
 	}
 }
+
 func main() {
 	var config string
 	flag.StringVar(&config, "conf", "./conf.json", "config path")
@@ -52,10 +59,13 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.Static("/assets", "AmazeUI/assets")
-	e.Static("/users", "AmazeUI/users")
-	e.Static("/operation", "AmazeUI/operation")
-	e.Static("/roles", "AmazeUI/roles")
-	e.Static("/room", "AmazeUI/room")
+
+	e.Static("/users", "AmazeUI/users", loginMiddlewareStatic)
+	e.Static("/operation", "AmazeUI/operation", loginMiddlewareStatic)
+	e.Static("/roles", "AmazeUI/roles", loginMiddlewareStatic)
+	e.Static("/room", "AmazeUI/room", loginMiddlewareStatic)
+
+	e.Static("/login", "AmazeUI/login")
 
 	e.POST("/users/login", user.Login)
 	e.POST("/users/logout", user.Logout)
@@ -89,11 +99,20 @@ func main() {
 
 	conndb()
 
-	user.InitGroup()
-	e.Start(":80")
+	//for i := 0; i < 1000; i++ {
+	//	go func() {
+	//		lastID, err := gossdb.C().Get(data.KEY_LAST_USER_ID)
+	//		glog.Errorln(err, lastID, data.KEY_LAST_USER_ID)
+	//		if err != nil {
+	//			glog.Errorln(err, lastID, data.KEY_LAST_USER_ID)
+	//		}
+	//	}()
+	//}
+
+	user.InitAdmin()
+	e.Start(data.Conf.Port)
 }
 
-//
 // 链接数据库
 func conndb() {
 	glog.Infoln("Config: ", data.Conf)

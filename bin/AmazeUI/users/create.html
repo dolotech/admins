@@ -210,6 +210,7 @@
 <script src="../assets/js/vue.min.js"></script>
 <script src="../assets/js/app.js"></script>
 <script src="../assets/js/amazeui.min.js"></script>
+<script type="text/javascript" src="../assets/js/jquery.md5.js"></script>
 </body>
 </html>
 
@@ -229,6 +230,10 @@
         methods:{
             onSubmit:function () {
               //  return
+
+                adduser.$data["user"]["Passwd"] = $.md5( adduser.$data["user"]["Passwd"])
+                adduser.$data["user"]["Passwd1"] = $.md5( adduser.$data["user"]["Passwd1"])
+
                 $.ajax({
                     type: "POST",
                     url: "/users/create",

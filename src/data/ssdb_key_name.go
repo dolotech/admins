@@ -2,7 +2,7 @@ package data
 
 const (
 	USERS_INDEX string = "admins_users_index"
-	USERS       string = "admins_users"
+	USERS       string = "admins_users:"
 
 	//USER_GROUP_INDEX string = "admins_user_group_index"
 	USER_GROUP string = "admins_user_group"

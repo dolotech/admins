@@ -185,25 +185,37 @@ func Search(c echo.Context) error {
 //List 玩家列表, 根据条件检索玩家
 func List(c echo.Context) error {
 	page, _ := strconv.Atoi(c.FormValue("Page")) // string
-	glog.Infoln(page)
 	if page < 1 {
 		page = 1
 	}
 	pageMax, _ := strconv.Atoi(c.FormValue("PageMax")) // string
-	glog.Infoln(pageMax)
 	if pageMax < 30 {
 		pageMax = 30
 	} else if pageMax > 200 {
 		pageMax = 200
 	}
 
-	var ids []string
+	users := make([]*UserData, 0, pageMax)
 	var count uint64
-	lastID, _ := gossdb.C().Get(data.KEY_LAST_USER_ID)
-	idnum, err := strconv.ParseUint(lastID.String(), 10, 64)
-	if err == nil && idnum > 60000 {
-		count = idnum - 60000
+
+	var ids []string
+	lastID, err := gossdb.C().Get(data.KEY_LAST_USER_ID)
+	if err != nil {
+		glog.Errorln(err)
+		return c.JSON(http.StatusOK, data.H{"status": "ok", "data": data.H{"list": users, "count": count}})
 	}
+
+	idnum, _ := strconv.ParseUint(lastID.String(), 10, 64)
+	if idnum > 0 {
+		idnum--
+	}
+	if idnum > 60000 {
+		count = idnum - 60000
+	} else {
+		glog.Errorln(idnum)
+		return c.JSON(http.StatusOK, data.H{"status": "ok", "data": data.H{"list": users, "count": count}})
+	}
+
 	end := idnum - uint64(pageMax*(page-1))
 	start := idnum - uint64(pageMax*page)
 	var i uint64
@@ -212,8 +224,7 @@ func List(c echo.Context) error {
 	}
 
 	lists := data.GetMultiUser(ids)
-	users := make([]*UserData, 0, len(lists))
-	glog.Infoln(len(lists), lists)
+	glog.Infoln(len(lists))
 	for _, v := range lists {
 		u := &UserData{
 			Userid:      v.Userid,

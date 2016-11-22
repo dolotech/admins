@@ -653,7 +653,7 @@
                     Page: pageBar.$data.cur,
                     PageMax: pages.$data.selected
                 }
-                $('#my-modal-loading').modal()
+
                 $.ajax({
                     type: "POST",
                     url: "/roles/search",
@@ -666,6 +666,10 @@
                             userdatalist.$data["items"] = data["data"]["list"]
                             pageBar.$data.allrecords = data["data"]["count"]
                             pageBar.$data.all = Math.ceil(data["data"]["count"] / pages.$data.selected)
+                            if (data["data"]["list"].length == 0){
+                                $.Alert("没找到匹配数据！")
+                            }
+
                         } else if (data["status"] == "fail") {
                             $.Alert(data["msg"])
                         }
@@ -716,9 +720,9 @@
                     pageBar.$data.allrecords = data["data"]["count"]
                     pageBar.$data.all = Math.ceil(data["data"]["count"] / pages.$data.selected)
                 } else {
-                    if (data["errorcode"] == 100) {
+                  /*  if (data["errorcode"] == 100) {
                         location.href = "/users/login.html";
-                    }
+                    }*/
                 }
             }
         });

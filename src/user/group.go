@@ -9,17 +9,6 @@ import (
 	"github.com/labstack/echo"
 )
 
-var GroupList = []Group{{1, "超级管理员", "拥有最高级权限", 1}, {2, "管理员", "拥有管理玩家权限", 2}}
-
-func InitGroup() {
-	for _, v := range GroupList {
-		boolean, _ := gossdb.C().Hexists(data.USER_GROUP, strconv.FormatInt(v.Id, 10))
-		if !boolean {
-			v.Save()
-		}
-	}
-}
-
 type Group struct {
 	Id    int64
 	Name  string

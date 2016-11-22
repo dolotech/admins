@@ -141,6 +141,13 @@ function getSideBar() {
             items:     [
             {path:"/users/list.html", name:"下单列表"},
             {path:"/users/create.html", name:"充值列表"}]
+        },
+        {
+            name: "数据统计",
+            items:     [
+                {path:"/users/list.html", name:"留存"}
+                ]
+
         }
     ]
 }

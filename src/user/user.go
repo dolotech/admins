@@ -11,14 +11,31 @@ import (
 	"basic/ssdb/gossdb"
 	"basic/utils"
 	"data"
-	"fmt"
 	"net/http"
-	"sync"
+	"strconv"
 	"time"
 
 	"github.com/golang/glog"
 	"github.com/labstack/echo"
 )
+
+var admin = &User{Id: "admin", Passwd: utils.Md5("123456"), Name: "超级管理员", Group_id: 1}
+
+var groupList = []Group{{1, "超级管理员", "拥有最高级权限", 1}, {2, "管理员", "拥有管理玩家权限", 2}}
+
+//
+func InitAdmin() {
+	for _, v := range groupList {
+		boolean, _ := gossdb.C().Hexists(data.USER_GROUP, strconv.FormatInt(v.Id, 10))
+		if !boolean {
+			v.Save()
+		}
+	}
+	//[]	if !admin.Exist() {
+	admin.Save()
+	//	}
+
+}
 
 // 后台管理日志 admin_log
 type user_log struct {
@@ -39,7 +56,7 @@ type user_group struct {
 
 // 后台管理员帐号base_admin_user
 type User struct {
-	Id          string
+	Id          string //登录账号
 	Status      uint32 // '激活状态',
 	Passwd      string // '密码(md5)',
 	Name        string // '真实姓名',
@@ -47,7 +64,7 @@ type User struct {
 	Last_visit  uint32 // '最后登录时间',
 	Last_ip     uint32 // '最后登录点IP',
 	Login_times uint32 // '登录次数',
-	Group_id    string // '所属用户组ID',
+	Group_id    int64  // '所属用户组ID',
 	Ip_limit    string // 限制登录的IP
 	Error_ip    string // '出错的ip',
 	Error_time  int64  // '出错时间',
@@ -63,23 +80,45 @@ var GROUPIDS = map[string]string{
 }
 
 func (u *User) Get() error {
-	return gossdb.C().GetObject(data.USERS+u.Id, u)
+	value, err := gossdb.C().Hget(data.USERS, u.Id)
+	if err != nil {
+		return err
+	}
+	return value.As(u)
 }
-func (u *User) MultiHsetSave(kvs map[string]interface{}) error {
-	return gossdb.C().MultiHset(data.USERS+u.Id, kvs)
+
+// 检测管理员是否存在
+func (u *User) Exist() bool {
+	boolean, _ := gossdb.C().Hexists(data.USERS, u.Id)
+	return boolean
 }
 func (u *User) Save() error {
-	err := gossdb.C().Hset(data.USERS_INDEX, u.Id, u.Id)
-	if err == nil {
-		return gossdb.C().PutObject(data.USERS+u.Id, u)
+	u.Create_time = uint32(time.Now().Unix())
+	return gossdb.C().Hset(data.USERS, u.Id, u)
+}
+func (u *User) Del() error {
+	return gossdb.C().Hdel(data.USERS, u.Id)
+}
+func UserList() ([]*User, error) {
+	list := make([]*User, 0)
+	value, err := gossdb.C().MultiHgetAll(data.USERS)
+	if err != nil {
+		return list, err
 	}
-	return err
+	for _, v := range value {
+		data := &User{}
+		if err := v.As(data); err == nil {
+			list = append(list, data)
+		} else {
+			glog.Errorln(err)
+		}
+	}
+	return list, nil
 }
 
 func Delete(c echo.Context) error {
 	u := &User{}
 	u.Id = c.FormValue("Id")
-	glog.Infoln("id:", u.Id)
 	if u.Id != "" {
 		if u.Del() == nil {
 			return c.JSON(http.StatusOK, data.H{"status": "ok", "msg": "删除成功"})
@@ -91,14 +130,6 @@ func Delete(c echo.Context) error {
 	}
 	return nil
 }
-func (u *User) Del() error {
-	err := gossdb.C().Hdel(data.USERS_INDEX, u.Id)
-	if err == nil {
-		return gossdb.C().Hclear(data.USERS + u.Id)
-	}
-
-	return err
-}
 
 func Login(c echo.Context) error {
 	username := c.FormValue("username")
@@ -107,42 +138,29 @@ func Login(c echo.Context) error {
 	glog.Infoln("username:", username, "password:", password)
 	if len(username) == 0 || len(password) == 0 {
 		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "账号或密码不能为空"})
-	} else {
-		if username == "admin" && password == "123456" {
-			//		user := &User{Id: username}
-			//		if user.Get() == nil {
-			//if user.Passwd == utils.Md5(password) {
-			session := &data.Session{Username: username, Password: password}
-			//key, err := session.Save()
-			//	if err == nil {
-			//	session := sessions.Default(c)
-			//	session.Set("loginsession", key)
-			key, err := session.Save()
-			if err == nil {
-				cookie := &http.Cookie{Path: "/", Name: "login", Value: key}
-				//c.SetCookie("login", key, 86400*30, "", "", false, false)
-				//	SetCookie(c, "login", key, 86400*30, "", "", false, false)
-				c.SetCookie(cookie)
-			}
-
-			//c.Redirect(http.StatusMovedPermanently, "/roles/list.html")
-			//	}
-
-			return c.JSON(http.StatusOK, data.H{"status": "ok"})
-		} else {
-			return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "密码或者账户错误"})
-		}
-
 	}
-	return nil
+	user := &User{Id: username}
+	if err := user.Get(); err != nil {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "密码或者账户错误"})
+	}
+	if password != user.Passwd {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "密码或者账户错误"})
+	}
+
+	session := &data.Session{Username: username, Password: password}
+	key := data.Sessions.Add(session)
+	cookie := &http.Cookie{Path: "/", Name: "login", Value: key}
+	c.SetCookie(cookie)
+	return c.JSON(http.StatusOK, data.H{"status": "ok"})
 }
 
 func Logout(c echo.Context) error {
 	key, _ := c.Cookie("login")
 	glog.Infoln(key)
-	session := &data.Session{}
+	//	session := &data.Session{}
 	if key != nil {
-		session.Del(key.Value)
+		//		session.Del(key.Value)
+		data.Sessions.Del(key.Value)
 	}
 	cookie := &http.Cookie{Path: "/", Name: "login", Value: ""}
 	c.SetCookie(cookie)
@@ -169,20 +187,17 @@ func Create(c echo.Context) error {
 	u := &User{}
 	u.Id = c.FormValue("Id")
 	u.Name = c.FormValue("Name")
-	u.Passwd = utils.Md5(password)
+	u.Passwd = password
 	u.Ip_limit = c.FormValue("Ip_limit")
-	u.Group_id = c.FormValue("Group_id")
+	u.Group_id, _ = strconv.ParseInt(c.FormValue("Group_id"), 10, 64)
 	u.Description = c.FormValue("Description")
 
 	glog.Infoln("password:", password, " password1:", password1, "group_id:", u.Group_id, "ip_limit:", u.Ip_limit, "username:", u.Id, "name:", u.Name)
 
-	val, err := GetUsersIndex(u.Id)
-	glog.Infoln(val, err, len(val))
-	if len(val) != 0 {
+	if u.Exist() {
 		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "用户名已经存在"})
 	} else {
-		u.Create_time = uint32(time.Now().Unix())
-		err = u.Save()
+		err := u.Save()
 		if err != nil {
 			return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "用户创建失败"})
 		} else {
@@ -194,7 +209,8 @@ func Create(c echo.Context) error {
 	return nil
 }
 func List(c echo.Context) error {
-	lists := GetMultiUser()
+	lists, _ := UserList()
+	glog.Infoln(len(lists))
 	return c.JSON(http.StatusOK, data.H{"status": "ok", "data": lists})
 }
 func Edit(c echo.Context) error {
@@ -211,87 +227,32 @@ func Edit(c echo.Context) error {
 		}
 	}
 
-	m := make(map[string]interface{})
-	m["ID"] = c.FormValue("Id")
-
 	u := &User{}
 	u.Id = c.FormValue("Id")
 
-	if c.FormValue("name") != "" {
-		m["Name"] = c.FormValue("name")
+	err := u.Get()
+	if err != nil {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "用户不存在"})
 	}
-	m["Passwd "] = utils.Md5(c.FormValue("Passwd"))
+
+	if c.FormValue("name") != "" {
+		u.Name = c.FormValue("name")
+	}
+	if c.FormValue("Passwd") != "" {
+		u.Passwd = c.FormValue("Passwd")
+	}
 	if c.FormValue("ip_limit") != "" {
-		m["Ip_limit "] = c.FormValue("ip_limit")
+		u.Ip_limit = c.FormValue("ip_limit")
 	}
 	if c.FormValue("group_id") != "" {
-
-		m["Group_id "] = c.FormValue("group_id")
+		u.Group_id, _ = strconv.ParseInt(c.FormValue("Group_id"), 10, 64)
 	}
 	if c.FormValue("description") != "" {
-		m["Description "] = c.FormValue("description")
+		u.Description = c.FormValue("description")
 	}
-	err := u.MultiHsetSave(m)
-	if err != nil {
+
+	if err := u.Save(); err != nil {
 		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "用户数据修改失败"})
-	} else {
-
-		return c.JSON(http.StatusOK, data.H{"status": "ok", "msg": "用户更改成功"})
 	}
-	return nil
-}
-
-var tex sync.Mutex
-
-// err = gossdb.C().Set(USER_LOG_INDEX, id)
-// value, err := gossdb.C().Get(USER_LOG_INDEX)
-func GetLogIndex() (string, error) {
-	tex.Lock()
-	value, err := gossdb.C().Get(data.USER_LOG_INDEX)
-	index := string(value)
-	if index == "" {
-		index = "1"
-	}
-	err = gossdb.C().Set(data.USER_LOG_INDEX, utils.StringAdd(index))
-	tex.Unlock()
-	return index, err
-}
-
-// err = gossdb.C().Hset(USER_GROUP_INDEX, Name, id)
-// value, err := gossdb.C().Hget(USER_GROUP_INDEX, Name)
-//func GetGroupIndex(id string) (string, error) {
-//	value, err := gossdb.C().Hscan(data.USER_GROUP, id)
-//	return string(value), err
-//}
-//
-//func SetGroupIndex(name, id string) error {
-//	return gossdb.C().Hset(data.USER_GROUP_INDEX, name, id)
-//}
-
-//func GetGroupIndexSize() (int64, error) {
-//	return gossdb.C().Hsize(data.USER_GROUP_INDEX)
-//}
-
-// err = gossdb.C().Hset(USERS_INDEX, Name, id)
-// value, err := gossdb.C().Hget(USERS_INDEX, Name)
-func GetUsersIndex(name string) (string, error) {
-	value, err := gossdb.C().Hget(data.USERS_INDEX, name)
-	return string(value), err
-}
-
-func GetUsersIndexSize() (int64, error) {
-	return gossdb.C().Hsize(data.USERS_INDEX)
-}
-
-func GetMultiUser() []*User {
-	userids, _ := gossdb.C().MultiHgetAll(data.USERS_INDEX)
-	usersL := make([]*User, 0, len(userids))
-	for k, _ := range userids {
-		user := &User{Id: k}
-		if err := user.Get(); err != nil {
-			fmt.Println(err)
-		}
-		usersL = append(usersL, user)
-	}
-	return usersL
+	return c.JSON(http.StatusOK, data.H{"status": "ok", "msg": "用户更改成功"})
 }
