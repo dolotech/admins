@@ -28,9 +28,9 @@
         <entry file="file://$PROJECT_DIR$/AmazeUI/users/list.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="394">
-              <caret line="397" column="22" selection-start-line="397" selection-start-column="22" selection-end-line="397" selection-end-column="68" />
+              <caret line="424" column="20" selection-start-line="424" selection-start-column="16" selection-end-line="424" selection-end-column="20" />
               <folding>
-                <marker date="1479800262005" expanded="true" signature="876:999" placeholder="..." />
+                <marker date="1479805992357" expanded="true" signature="876:999" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -61,8 +61,8 @@
       <file leaf-file-name="create.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AmazeUI/users/create.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="234" column="91" selection-start-line="233" selection-start-column="15" selection-end-line="234" selection-end-column="91" />
+            <state relative-caret-position="625">
+              <caret line="286" column="0" selection-start-line="286" selection-start-column="0" selection-end-line="286" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -71,22 +71,9 @@
       <file leaf-file-name="edit.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AmazeUI/users/edit.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="219" column="15" selection-start-line="219" selection-start-column="8" selection-end-line="219" selection-end-column="15" />
+            <state relative-caret-position="413">
+              <caret line="257" column="78" selection-start-line="254" selection-start-column="0" selection-end-line="257" selection-end-column="78" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AmazeUI/assets/js/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="33" column="52" selection-start-line="33" selection-start-column="52" selection-end-line="33" selection-end-column="52" />
-              <folding>
-                <marker date="1479725855337" expanded="true" signature="5816:5956" placeholder="..." />
-                <marker date="1479725855337" expanded="true" signature="6028:6162" placeholder="..." />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -138,8 +125,8 @@
         <option value="$PROJECT_DIR$/AmazeUI/roles/listonline.html" />
         <option value="$PROJECT_DIR$/AmazeUI/roles/list.html" />
         <option value="$PROJECT_DIR$/AmazeUI/login/login.html" />
-        <option value="$PROJECT_DIR$/AmazeUI/users/create.html" />
         <option value="$PROJECT_DIR$/AmazeUI/users/edit.html" />
+        <option value="$PROJECT_DIR$/AmazeUI/users/create.html" />
         <option value="$PROJECT_DIR$/AmazeUI/users/list.html" />
       </list>
     </option>
@@ -427,7 +414,7 @@
       <workItem from="1478482497007" duration="18316000" />
       <workItem from="1478656529992" duration="4683000" />
       <workItem from="1479177011538" duration="4391000" />
-      <workItem from="1479611038253" duration="20607000" />
+      <workItem from="1479611038253" duration="25501000" />
     </task>
     <task id="LOCAL-00001" summary="更新登录模板">
       <created>1475138471139</created>
@@ -440,7 +427,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="311730000" />
+    <option name="totallyTimeSpent" value="316624000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
@@ -755,6 +742,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/users/edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="413">
+          <caret line="257" column="78" selection-start-line="254" selection-start-column="0" selection-end-line="257" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/login/login.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="344">
@@ -767,16 +762,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/users/create.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="234" column="91" selection-start-line="233" selection-start-column="15" selection-end-line="234" selection-end-column="91" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/users/edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="219" column="15" selection-start-line="219" selection-start-column="8" selection-end-line="219" selection-end-column="15" />
+        <state relative-caret-position="625">
+          <caret line="286" column="0" selection-start-line="286" selection-start-column="0" selection-end-line="286" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -784,9 +771,9 @@
     <entry file="file://$PROJECT_DIR$/AmazeUI/users/list.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="394">
-          <caret line="397" column="22" selection-start-line="397" selection-start-column="22" selection-end-line="397" selection-end-column="68" />
+          <caret line="424" column="20" selection-start-line="424" selection-start-column="16" selection-end-line="424" selection-end-column="20" />
           <folding>
-            <marker date="1479800262005" expanded="true" signature="876:999" placeholder="..." />
+            <marker date="1479805992357" expanded="true" signature="876:999" placeholder="..." />
           </folding>
         </state>
       </provider>

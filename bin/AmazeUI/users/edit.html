@@ -151,12 +151,9 @@
 
               <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">用户组</label>
-                      <div class="am-u-sm-10">
-                          <select id="SelectType" name="SelectType" data-am-selected="{btnSize: 'sm'}" v-model="user.Group_id">
-                              <option selected="selected" value="1">超级管理员</option>
-                              <option value="2">普通管理员</option>
-                          </select>
-                   </div>
+                  <div class="am-u-sm-10" id="SelectGroup">
+                      <select v-model="selected"> <option v-for="option in options" v-bind:value="option.value"> {{ option.text }} </option> </select>
+                  </div>
               </div>
 
               <div class="am-form-group am-margin-vertical-sm">
@@ -220,9 +217,37 @@
     var adduser=new Vue({
         el:"#adduser",
         data:{
+            selected:1,
+            options:[],
             user:{
 
             }
+        },
+        created: function() {
+            $.ajax({
+                type: "POST",
+                url: "/group/list",
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    console.info(data)
+                    if (data["status"] == "ok") {
+                        if (data.data.list != undefined) {
+                            var options = []
+                            console.info(data.data.list.length)
+                            for (var i = 0; i < data.data.list.length; i++) {
+                                options[i] = {text: data.data.list[i].Name, value: data.data.list[i].Id}
+                            }
+
+                            adduser.$data.options = options
+                            adduser.$data.selected = data.data.list[0].Id
+
+                        }
+                    } else {
+                        $.Alert(data["msg"])
+                    }
+                }
+            });
         },
         methods:{
             onSubmit:function () {
@@ -230,6 +255,8 @@
 
                 adduser.$data["user"]["Passwd"] = $.md5( adduser.$data["user"]["Passwd"])
                 adduser.$data["user"]["Passwd1"] = $.md5( adduser.$data["user"]["Passwd1"])
+                adduser.$data["user"]["Group_id"] =  adduser.$data["selected"]
+                console.info(adduser.$data["user"]["Group_id"])
                 $.ajax({
                     type: "POST",
                     url: "/users/create",

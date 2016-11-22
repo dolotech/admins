@@ -34,7 +34,7 @@ func (this *Group) Save() error {
 
 func ListGroup() []*Group {
 	list := make([]*Group, 0)
-	value, err := gossdb.C().Hscan(data.USER_GROUP, "", "", 999)
+	value, err := gossdb.C().Hscan(data.USER_GROUP, "", "", 50)
 	if err == nil {
 		for _, v := range value {
 			data := &Group{}

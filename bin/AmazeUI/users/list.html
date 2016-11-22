@@ -265,11 +265,8 @@
             </div>
             <div class="am-form-group am-margin-vertical-sm">
                 <label class="am-u-sm-2 am-form-label">用户组</label>
-                <div class="am-u-sm-10">
-                    <select id="SelectType" name="SelectType" data-am-selected="{btnSize: 'sm'}" >
-                        <option selected="selected" value="1">超级管理员</option>
-                        <option value="2">普通管理员</option>
-                    </select>
+                <div class="am-u-sm-10" id="SelectGroup">
+                    <select v-model="selected"> <option v-for="option in options" v-bind:value="option.value"> {{ option.text }} </option> </select>
                 </div>
             </div>
 
@@ -320,6 +317,7 @@
 <script src="../assets/js/vue.js"></script>
 <script src="../assets/js/app.js"></script>
 <script src="../assets/js/amazeui.min.js"></script>
+    <script type="text/javascript" src="../assets/js/jquery.md5.js"></script>
 </div>
 </body>
 </html>
@@ -333,8 +331,36 @@
 
     var edit = new Vue({
         el: '#editPane',
-        data: {user:{}},
+        data: {
+            user:{},
+            selected:1,
+            options:[]},
+        created: function() {
+            $.ajax({
+                type: "POST",
+                url: "/group/list",
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    console.info(data)
+                    if (data["status"] == "ok") {
+                        if (data.data.list != undefined) {
+                            var options = []
+                            console.info(data.data.list.length)
+                            for (var i = 0; i < data.data.list.length; i++) {
+                                options[i] = {text: data.data.list[i].Name, value: data.data.list[i].Id}
+                            }
 
+                            edit.$data.options = options
+
+
+                        }
+                    } else {
+                        $.Alert(data["msg"])
+                    }
+                }
+            });
+        },
         methods: {
             button_onback: function () {
                  $("#userListPane").show()
@@ -342,6 +368,17 @@
 
             },
             onSave: function () {
+
+               if (edit.$data["user"]["Passwd"]){
+                   edit.$data["user"]["Passwd"] = $.md5( edit.$data["user"]["Passwd"])
+               }
+                if ( edit.$data["user"]["Passwd1"]){
+                    edit.$data["user"]["Passwd1"] = $.md5( edit.$data["user"]["Passwd1"])
+                }
+
+                edit.$data["user"]["Group_id"] =  edit.$data["selected"]
+
+                console.info( edit.$data["user"]["Group_id"] )
                 $.ajax({
                     type: "POST",
                     url: "/users/edit",
@@ -380,12 +417,12 @@
         },
         methods: {
             onEdit: function (id) {
-                // $.Alert(id)
-                console.info(id)
+
                 $("#userListPane").hide()
                 $("#editPane").show()
                 this.$data.items[id].Passwd = ""
                 edit.$data.user= this.$data.items[id]
+                edit.$data.selected =this.$data.items[id].Group_id
                 //   return
             },
             onDelete: function (id) {

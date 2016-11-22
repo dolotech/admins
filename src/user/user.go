@@ -31,9 +31,9 @@ func InitAdmin() {
 			v.Save()
 		}
 	}
-	//[]	if !admin.Exist() {
-	admin.Save()
-	//	}
+	if !admin.Exist() {
+		admin.Save()
+	}
 
 }
 
@@ -235,20 +235,20 @@ func Edit(c echo.Context) error {
 		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "用户不存在"})
 	}
 
-	if c.FormValue("name") != "" {
-		u.Name = c.FormValue("name")
+	if c.FormValue("Name") != "" {
+		u.Name = c.FormValue("Name")
 	}
 	if c.FormValue("Passwd") != "" {
 		u.Passwd = c.FormValue("Passwd")
 	}
-	if c.FormValue("ip_limit") != "" {
-		u.Ip_limit = c.FormValue("ip_limit")
+	if c.FormValue("Ip_limit") != "" {
+		u.Ip_limit = c.FormValue("Ip_limit")
 	}
-	if c.FormValue("group_id") != "" {
+	if c.FormValue("Group_id") != "" {
 		u.Group_id, _ = strconv.ParseInt(c.FormValue("Group_id"), 10, 64)
 	}
-	if c.FormValue("description") != "" {
-		u.Description = c.FormValue("description")
+	if c.FormValue("Description") != "" {
+		u.Description = c.FormValue("Description")
 	}
 
 	if err := u.Save(); err != nil {
