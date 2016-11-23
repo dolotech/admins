@@ -29,40 +29,24 @@
             data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
             class="am-icon-bars"></span></button>
 
+    <!-- headbar start -->
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-
-        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
-            <!--
-              <li><a href="javascript:;"><span class="am-icon-envelope-o"></span> 收件箱 <span class="am-badge am-badge-warning">5</span></a></li>
-              -->
-
-            <li class="am-dropdown" data-am-dropdown>
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list" id="admin-head-list">
+            <li v-for="item in items" class="am-dropdown" data-am-dropdown>
                 <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                    <span class="am-icon-bars"></span> 系统设置 <span class="am-icon-caret-down"></span>
+                    <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
                 </a>
                 <ul class="am-dropdown-content">
-                    <li><a href="/users/group_list.html"><span class="am-icon-edit"></span> 用户组管理</a></li>
-                    <li><a href="/users/list.html"><span class="am-icon-edit"></span> 后台用户账号管理</a></li>
-                    <li><a href="#"><span class="am-icon-edit"></span> 后台操作日志</a></li>
-                    <li><a href="/users/edit.html"><span class="am-icon-edit"></span> 修改我的密码</a></li>
+                    <li v-for="i in item.items">
+                        <a :href="i.path" type="button" :onclick="i.action">
+                            <span :class="i.icon"></span> </span> {{ i.name}}
+                        </a>
+                    </li>
                 </ul>
             </li>
-
-            <li class="am-dropdown" data-am-dropdown>
-                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                    <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
-                </a>
-                <ul class="am-dropdown-content">
-                    <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
-                    <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
-                    <li><a href="#" type="button" onclick="javascript:onlogout()"><span
-                            class="am-icon-power-off"></span> 退出</a></li>
-                </ul>
-            </li>
-            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span
-                    class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
         </ul>
     </div>
+    <!-- headbar end -->
 </header>
 <body>
 <div class="am-cf admin-main">
@@ -453,6 +437,11 @@
         el: '#admin-sidebar-list',
         data: {items: getSideBar() }
     })
+    new Vue({
+        el:"#admin-head-list",
+        data:{items: getHeadBar() }
+    })
+
     var edit = new Vue({
                 el: '#edit_user',
                 data: {items: {}},
@@ -660,7 +649,7 @@
                     data: data,
                     dataType: "json",
                     success: function (data) {
-                        $('#my-modal-loading').modal("close")
+
                         if (data["status"] == "ok") {
                             console.info(data["data"])
                             userdatalist.$data["items"] = data["data"]["list"]
@@ -706,14 +695,14 @@
             Page: pageBar.$data.cur,
             PageMax: pages.$data.selected
         }
-        $('#my-modal-loading').modal()
+
         $.ajax({
             type: "POST",
             url: "/roles/list",
             data: data,
             dataType: "json",
             success: function (data) {
-                $('#my-modal-loading').modal("close")
+
                 if (data["status"] == "ok") {
                     console.info(data["data"])
                     userdatalist.$data["items"] = data["data"]["list"]

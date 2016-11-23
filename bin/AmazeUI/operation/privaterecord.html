@@ -437,6 +437,11 @@
         el: '#admin-sidebar-list',
         data: {items: getSideBar() }
     })
+    new Vue({
+        el:"#admin-head-list",
+        data:{items: getHeadBar() }
+    })
+
 
     var edit = new Vue({
                 el: '#edit_user',
