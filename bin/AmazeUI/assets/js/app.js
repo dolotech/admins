@@ -109,9 +109,9 @@ function getHeadBar() {
             name:  "管理员",
             icon: "am-icon-users",
             items:    [
-                {icon:"am-icon-edit",path:"/users/group_list.html", name:"用户组管理"},
-                {icon:"am-icon-edit",path:"/users/list.html", name:"后台用户账号管理"},
-                {icon:"am-icon-edit",path:"#", name:"后台操作日志"},
+                {icon:"am-icon-group",path:"/users/group_list.html", name:"用户组管理"},
+                {icon:"am-icon-user",path:"/users/list.html", name:"后台用户账号管理"},
+                {icon:"am-icon-eye",path:"#", name:"后台操作日志"},
                 {icon:"am-icon-edit",path:"/users/edit.html", name:"修改我的密码"}]
         },
         {
@@ -120,7 +120,7 @@ function getHeadBar() {
             items:    [
                 {icon:"am-icon-user",path:"#", name:"资料"},
                 {icon:"am-icon-cog",path:"#", name:"设置"},
-                {icon:"am-icon-power-off",path:"#",action:"javascript:onlogout()", name:"退出"}]
+                {icon:"am-icon-sign-out",path:"#",action:"javascript:onlogout()", name:"退出"}]
         }
     ]
 }
@@ -130,44 +130,49 @@ function getSideBar() {
     return [
         {
             name:"玩家管理",
+            icon:"am-icon-user",
             items: [
-            {path:"/roles/list.html",  name:"玩家列表"},
-            {path:"/roles/listonline.html",name: "在线玩家"},
-            {path:"/roles/gainrank.html", name:"每日盈利排名"},
-            {path:"/roles/winrank.html", name:"胜局排名"},
-            {path:"/roles/coinrank.html", name:"等级排名"},
-            {path:"/roles/levelrank.html",name: "等级排名"}]
+            { icon:"am-icon-table",path:"/roles/list.html",  name:"玩家列表"},
+            {icon:"am-icon-table",path:"/roles/listonline.html",name: "在线玩家"},
+            {icon:"am-icon-table",path:"/roles/gainrank.html", name:"每日盈利排名"},
+            {icon:"am-icon-table",path:"/roles/winrank.html", name:"胜局排名"},
+            {icon:"am-icon-table",path:"/roles/coinrank.html", name:"等级排名"},
+            {icon:"am-icon-table",path:"/roles/levelrank.html",name: "等级排名"}]
         },
         {
             name:  "发放记录",
+            icon:"am-icon-drupal",
             items:    [
-            {path:"/operation/provide.html", name:"道具/钻石发放"},
-            {path:"/operation/providerecord.html", name:"发放记录"},
+            {icon:"am-icon-table",path:"/operation/provide.html", name:"道具/钻石发放"},
+            {icon:"am-icon-table",path:"/operation/providerecord.html", name:"发放记录"},
 
-            {path:"/operation/email.html", name:"发送邮件"},
-            {path:"/operation/emaillist.html", name:"邮件记录"}]
+            {icon:"am-icon-table",path:"/operation/email.html", name:"发送邮件"},
+            {icon:"am-icon-table",path:"/operation/emaillist.html", name:"邮件记录"}]
         },
         {
             name: "日志管理",
+            icon:"am-icon-eye",
             items:      [
-            {path:"/operation/privaterecord.html", name:"私人局记录"},
-            {path:"/operation/matchrecord.html",name: "比赛场记录"},
-            {path:"/operation/normalrecord.html", name:"金币场记录"},
-            {path:"/operation/exchangerecord.html", name:"虚拟兑换记录"},
-            {path:"/operation/exchangerecord.html", name:"实物兑换记录"},
-            {path:"/operation/privatecreate.html", name:"私人房创建日志"},
-            {path:"/operation/loginrecord.html",name: "登录日志"}]
+            {icon:"am-icon-table",path:"/operation/privaterecord.html", name:"私人局记录"},
+            {icon:"am-icon-table",path:"/operation/matchrecord.html",name: "比赛场记录"},
+            {icon:"am-icon-table",path:"/operation/normalrecord.html", name:"金币场记录"},
+            {icon:"am-icon-table",path:"/operation/exchangerecord.html", name:"虚拟兑换记录"},
+            {icon:"am-icon-table",path:"/operation/exchangerecord.html", name:"实物兑换记录"},
+            {icon:"am-icon-table",path:"/operation/privatecreate.html", name:"私人房创建日志"},
+            {icon:"am-icon-table",path:"/operation/loginrecord.html",name: "登录日志"}]
         },
         {
             name: "订单管理",
+            icon:"am-icon-shield",
             items:     [
-            {path:"/users/list.html", name:"下单列表"},
-            {path:"/users/create.html", name:"充值列表"}]
+            {icon:"am-icon-table",path:"/users/list.html", name:"下单列表"},
+            {icon:"am-icon-table",path:"/users/create.html", name:"充值列表"}]
         },
         {
             name: "数据统计",
+            icon:"am-icon-file",
             items:     [
-                {path:"/users/list.html", name:"留存"}
+                {icon:"am-icon-table",path:"/users/list.html", name:"留存"}
                 ]
 
         }

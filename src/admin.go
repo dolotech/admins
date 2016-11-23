@@ -90,6 +90,8 @@ func main() {
 
 	e.POST("/roles/listonline", role.ListOnline, loginMiddleware) //  在线玩家列表
 
+	e.POST("/operation/privaterecord", operation.PrivateRecord, loginMiddleware)       // 私人局牌局记录
+	e.POST("/operation/matchrecord", operation.MatchRecord, loginMiddleware)           // 比赛场牌局记录
 	e.POST("/operation/normalrecord", operation.NormalRecord, loginMiddleware)         //  金币场牌局记录
 	e.POST("/operation/cardrecord", operation.CardRecode, loginMiddleware)             //  金币场牌打牌记录
 	e.POST("/operation/issueprops", operation.IssueProps, loginMiddleware)             //

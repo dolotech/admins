@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html class="no-js">
 <head>
     <meta charset="utf-8">
@@ -14,6 +14,8 @@
     <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
     <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/core.css">
     <style type="text/css">
     </style>
 </head>
@@ -29,39 +31,24 @@
             data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
             class="am-icon-bars"></span></button>
 
+    <!-- headbar start -->
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-
-        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
-            <!--
-              <li><a href="javascript:;"><span class="am-icon-envelope-o"></span> 收件箱 <span class="am-badge am-badge-warning">5</span></a></li>
-              -->
-
-            <li class="am-dropdown" data-am-dropdown>
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list" id="admin-head-list">
+            <li v-for="item in items" class="am-dropdown" data-am-dropdown>
                 <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                    <span class="am-icon-bars"></span> 系统设置 <span class="am-icon-caret-down"></span>
+                    <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
                 </a>
                 <ul class="am-dropdown-content">
-                    <li><a href="/users/group_list.html"><span class="am-icon-edit"></span> 用户组管理</a></li>
-                    <li><a href="/users/list.html"><span class="am-icon-edit"></span> 后台用户账号管理</a></li>
-                    <li><a href="#"><span class="am-icon-edit"></span> 后台操作日志</a></li>
-                    <li><a href="/users/edit.html"><span class="am-icon-edit"></span> 修改我的密码</a></li>
+                    <li v-for="i in item.items">
+                        <a :href="i.path" type="button" :onclick="i.action">
+                            <span :class="i.icon"></span> </span> {{ i.name}}
+                        </a>
+                    </li>
                 </ul>
             </li>
-
-            <li class="am-dropdown" data-am-dropdown>
-                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                    <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
-                </a>
-                <ul class="am-dropdown-content">
-                    <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
-                    <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
-                    <li><a href="#" type="button" onclick="javascript:onlogout()"><span class="am-icon-power-off"></span> 退出</a></li>
-                </ul>
-            </li>
-            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span
-                    class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
         </ul>
     </div>
+    <!-- headbar end -->
 </header>
 <body>
 <div class="am-cf admin-main">
@@ -70,60 +57,65 @@
     <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
         <div class="am-offcanvas-bar admin-offcanvas-bar">
             <ul class="am-list admin-sidebar-list" id="admin-sidebar-list">
-                <li><a href="/roles/list"><span class="am-icon-home"></span> 首页</a></li>
-
+                <li><a href="/"><span class="am-icon-home"></span> 首页</a></li>
                 <li v-for="item in items" class="admin-parent">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">
-                        <span class="am-icon-file"></span> {{ item.name }} <span
+                        <span :class="item.icon"></span> {{ item.name }} <span
                             class="am-icon-angle-right am-fr am-margin-right"></span>
                     </a>
                     <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
                         <li v-for="i in item.items">
                             <a :href="i.path" class="am-cf">
-                                <span class="am-icon-table"></span> {{ i.name}}<span
+                                <span :class="i.icon"></span> {{ i.name}}<span
                                     class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
                             </a>
                         </li>
                     </ul>
                 </li>
             </ul>
-
-            <div class="am-panel am-panel-default admin-sidebar-panel">
-                <div class="am-panel-bd">
-                    <p><span class="am-icon-bookmark"></span> 公告</p>
-                    <p> 完善中... </p>
-                </div>
-            </div>
-
-            <div class="am-panel am-panel-default admin-sidebar-panel">
-                <div class="am-panel-bd">
-                    <p><span class="am-icon-tag"></span> wiki</p>
-                    <p>Welcome to the majiang wiki!</p>
-                </div>
-            </div>
-
         </div>
     </div>
+    <!-- sidebar end -->
+
+
+
 
     <!-- content start -->
     <div class="admin-content" id="list_pane">
         <div class="admin-content-body">
+
+
             <div class="am-cf am-padding am-padding-bottom-0">
-                <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">玩家数据</strong> /
-                    <small>玩家列表</small>
+                <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">运营管理</strong> /
+                    <small>金币场牌局记录</small>
                 </div>
             </div>
 
             <hr>
 
+
+            <div class="am-popup" id="my-popup">
+                <div class="am-popup-inner">
+                    <div class="am-popup-hd">
+                        <h4 class="am-popup-title">打牌记录</h4>
+                    <span data-am-modal-close
+                          class="am-close">&times;</span>
+                    </div>
+                    <div class="am-popup-bd" id="cardrecordcontent">
+                        <!--  <p>为你封了国境<br>为你赦了罪<br>为你撤了历史记载<br>为你涂了装扮<br>为你喝了醉<br>为你建了城池围墙<br>一颗热的心穿着冰冷外衣<br>一张白的脸漆上多少褪色的情节<br>在我的空虚身体里面<br>爱上哪个肤浅的王位<br>在你的空虚宝座里面<br>爱过什麽女爵的滋味<br>为你封了国境</p><p>为你赦了罪<br>为你撤了历史记载<br>一颗热的心<br>穿着冰冷外衣<br>一张白的脸<br>漆上多少褪色的情节<br>在我的空虚身体里面<br>爱上哪个肤浅的王位<br>在你的空虚宝座里面<br>爱过什麽女爵的滋味<br>在我的空虚身体里面<br>爱上哪个肤浅的王位<br>在你的空虚宝座里面<br>爱过什麽女爵的滋味</p>-->
+                    </div>
+                </div>
+            </div>
+
             <form class="am-form" data-am-validator id="Search">
                 <div class="am-g">
 
-                    <div class="am-u-sm-12 am-u-md-3" >
+                    <div class="am-u-sm-12 am-u-md-3">
                         <div class="am-form-group" id="SearchPages">
 
                             <select name="" v-model="selected" data-am-selected="{btnSize: 'sm'}">
-                                <option v-for="page in pages" v-bind:value="page.value" v-if="page.value == selected" selected >
+                                <option v-for="page in pages" v-bind:value="page.value" v-if="page.value == selected"
+                                        selected>
                                     {{page.text}}
                                 </option>
                                 <option v-for="page in pages" v-bind:value="page.value" v-if="page.value !=  selected">
@@ -131,24 +123,14 @@
                                 </option>
 
                             </select>
-                            <span>Selected: {{ selected }}</span>
 
                         </div>
                     </div>
 
-                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
-                        <div class="am-form-group">
-                            <select v-model="selected" data-am-selected="{btnSize: 'sm'}">
-                                <option v-for="option in options" v-bind:value="option.value">
-                                    {{ option.text }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
 
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
                         <input type="text" id="SearchUserid" name="SearchUserid" value=""
-                               class="am-form-field am-input-sm" placeholder="" v-model="SearchValue"/>
+                               class="am-form-field am-input-sm" placeholder="输入您要查询的玩家ID" v-model="SearchValue"/>
                     </div>
                     <div class="am-u-sm-12 am-u-md-2 am-u-end">
                         <!--  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>-->
@@ -159,9 +141,11 @@
                 </div>
             </form>
 
-					
+
             <div class="am-g">
                 <div class="am-u-sm-12">
+
+
                     <!--     <form class="am-form">-->
 
                     <!--      {{ $len := len .users }}
@@ -173,47 +157,89 @@
                         <thead>
                         <tr>
                             <th class="am-text-nowrap am-hide-sm-only table-id">玩家ID</th>
-                            <th class="am-text-nowrap table-title">昵称</th>
-                            <th class="am-text-nowrap table-title">性别</th>
-                            <th class="am-text-nowrap table-title">电话</th>
-                            <th class="am-text-nowrap table-type">金币</th>
-                            <th class="am-text-nowrap table-type">钻石</th>
-                            <th class="am-text-nowrap table-type">VIP</th>
-                            <th class="am-text-nowrap table-type">胜局</th>
-                            <th class="am-text-nowrap table-type">败局</th>
-                            <th class="am-text-nowrap table-type">平局</th>
-                            <th class="am-text-nowrap table-type">经验</th>
-                            <th class="am-text-nowrap table-type">入场券</th>
-                            <th class="am-text-nowrap table-type">兑换券</th>
-                            <th class="am-text-nowrap table-date am-hide-sm-only">操作</th>
+                            <th class="am-text-nowrap">时间</th>
+                            <th class="am-text-nowrap table-title">手牌</th>
+                            <th class="am-text-nowrap table-title">碰牌</th>
+                            <th class="am-text-nowrap table-title">杠牌</th>
+
+                            <th class="am-text-nowrap table-title">胡牌</th>
+                            <th class="am-text-nowrap table-title">鸡牌</th>
+                            <th class="am-text-nowrap table-title">低注</th>
+                            <th class="am-text-nowrap table-title">盈亏</th>
+                            <th class="am-text-nowrap table-type">座位</th>
+                            <th class="am-text-nowrap table-type">庄</th>
+                            <th class="am-text-nowrap table-type">责任鸡英雄鸡</th>
+                            <!--         <th class="am-text-nowrap table-type">盈亏番值</th>-->
+                            <th class="am-text-nowrap table-type">胡牌方式</th>
+                            <th class="am-text-nowrap table-type">叫嘴</th>
+                            <th class="am-text-nowrap table-type">叫胡牌型</th>
+                            <th class="am-text-nowrap table-type">本局同桌</th>
+                            <th class="am-text-nowrap table-type">打牌记录</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        <tr v-for="(item,index) in items " >
+                        <tr v-for="(item,index) in items ">
                             <td class="am-text-middle am-hide-sm-only"> {{ item.Userid }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{item.Nickname }}</td>
-                            <td v-if="item.Sex!=1 && item.Sex!=2" class="am-text-middle am-hide-sm-only">其他</td>
-                            <td v-if="item.Sex==1" class="am-text-middle am-hide-sm-only">男</td>
-                            <td v-if="item.Sex==2" class="am-text-middle am-hide-sm-only">女</td>
+                            <td class="am-text-middle am-hide-sm-only">{{item.Time }}</td>
+                            <td class="am-text-middle am-hide-sm-only">
+                                <ul class="pic_list">
+                                    <li v-for="card in item.Handcard"><img v-bind:src="card"/></li>
+                                </ul>
+                            </td>
 
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Phone }}</td>
+                            <td class="am-text-middle am-hide-sm-only">
+                                <ul class="pic_list">
+                                    <li v-for="card in item.Peng"><img v-bind:src="card"/></li>
+                                </ul>
+                            </td>
+
+                            <td class="am-text-middle am-hide-sm-only">
+                                <ul class="pic_list">
+                                    <li v-for="card in item.Kong"><img v-bind:src="card"/></li>
+                                </ul>
+                            </td>
+
+                            <td v-if="item.HuCard != ''" class="am-text-middle am-hide-sm-only"><img
+                                    v-bind:src="item.HuCard"/></td>
+                            <td v-if="item.HuCard == ''" class="am-text-middle am-hide-sm-only"></td>
+                            <td v-if="item.Ji != ''" class="am-text-middle am-hide-sm-only"><img v-bind:src="item.Ji"/>
+                            </td>
+                            <td v-if="item.Ji == ''" class="am-text-middle am-hide-sm-only"></td>
+
+                            <td class="am-text-middle am-hide-sm-only">{{ item.Ante }}</td>
                             <td class="am-text-middle am-hide-sm-only">{{ item.Coin }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Diamond }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Vip }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ item.Seat }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ item.Zhuang}}</td>
+                           <!-- <td class="am-text-middle am-hide-sm-only">{{ item.HeroJi}}</td>-->
+                            <td v-if="item.HeroJi == 0" class="am-text-middle am-hide-sm-only">无</td>
+                            <td v-if="item.HeroJi == 1" class="am-text-middle am-hide-sm-only">英雄鸡</td>
+                            <td v-if="item.HeroJi == 2" class="am-text-middle am-hide-sm-only">责任鸡</td>
+                            <td v-if="item.HeroJi == 3" class="am-text-middle am-hide-sm-only">责任鸡碰家</td>
 
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Win }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Lost }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Ping }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Exp }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Ticket }}</td>
-                            <td class="am-text-middle am-hide-sm-only">{{ item.Exchange }}</td>
+                            <td v-if="item.Hutype == 2" class="am-text-middle am-hide-sm-only">炮胡</td>
+                            <td v-if="item.Hutype == 1" class="am-text-middle am-hide-sm-only">自摸</td>
+                            <td v-if="item.Hutype == 3" class="am-text-middle am-hide-sm-only">黄庄</td>
 
+                            <td v-if="item.Tingvalue>0"><span class="label label-success">叫嘴</span></td>
+                            <td v-if="item.Tingvalue==0"><span class="label label-warning">未叫嘴</span></td>
+
+                            <td class="am-text-middle am-hide-sm-only">{{ item.Huvalue}}</td>
+                            <!--  <td class="am-text-middle am-hide-sm-only">{{ item.Otherids}}</td>-->
                             <td>
                                 <div class="am-btn-toolbar">
                                     <div class="am-btn-group am-btn-group-xs">
                                         <button class="am-btn am-btn-default am-input-sm"
-                                                v-on:click="button_onedit(index)">编辑
+                                                v-on:click="button_onedit(index)">查看
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="am-btn-toolbar">
+                                    <div class="am-btn-group am-btn-group-xs">
+                                        <button class="am-btn am-btn-default am-input-sm"
+                                                v-on:click="onRecord(index)"> 查看
                                         </button>
                                     </div>
                                 </div>
@@ -229,13 +255,13 @@
                 <div class="am-fr">
                     <ul class="am-pagination">
                         <li class="am-enabled" v-if="showFirst"><a href="javascript:void(0)" type="button"
-                                                                   v-on:click="cur--">«</a></li>
+                                                                   v-on:click="cur--">?</a></li>
                         <li v-for="index in indexs" v-bind:class="{ 'am-active': cur == index}">
                             <a href="javascript:void(0)" type="button" v-on:click="btnClick(index)">{{ index
                                 }}</a>
                         </li>
                         <li class="am-enabled" v-if="showLast"><a href="javascript:void(0)" type="button"
-                                                                  v-on:click="cur++">»</a></li>
+                                                                  v-on:click="cur++">?</a></li>
                     </ul>
                 </div>
             </div>
@@ -244,189 +270,17 @@
     </div>
 
 
-    <div class="admin-content" id="edit_pane">
-        <!--<div class="admin-content-body">-->
-        <div class="am-cf am-padding am-padding-bottom-0">
-            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">编辑玩家数据</strong> /
-                <small>Table</small>
-            </div>
-        </div>
-        <hr>
-
-        <div class="am-g">
-            <div class="am-u-md-6">
-                <form class="am-form am-form-horizontal" id="edit_user">
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Userid" class="am-u-sm-2 am-form-label">帐号ID</label>
-                        <div class="am-u-sm-10">
-                            <input id="Userid" type="text" readonly="readonly" name="Userid" v-model="items.Userid"/>
-                        </div>
-                    </div>
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label class="am-u-sm-2 am-form-label">手机号</label>
-                        <div class="am-u-sm-10">
-                            <input id="Phone" type="text" name="Phone" readonly="readonly" value=""
-                                   v-model="items.Phone"/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label class="am-u-sm-2 am-form-label">玩家昵称</label>
-                        <div class="am-u-sm-10">
-                            <input id="Nickname" type="text" v-model="items.Nickname"/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group">
-                        <label class="am-u-sm-2 am-form-label">性别</label>
-                        <label class="am-radio-inline">
-                            <input type="radio" value="1" name="Sex" id="Sex1" checked required v-model="items.Sex"> 男
-                        </label>
-                        <label class="am-radio-inline">
-                            <input type="radio" name="Sex" value="2" id="Sex2" v-model="items.Sex">女
-                        </label>
-                        <label class="am-radio-inline">
-                            <input type="radio" name="Sex" value="0" id="Sex3" v-model="items.Sex">其他
-
-                        </label>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label class="am-u-sm-2 am-form-label">金币</label>
-                        <div class="am-u-sm-10">
-                            <input id="Coin" type="text" name="Coin" value="" v-model="Coin"/>
-                        </div>
-                    </div>
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Diamond" class="am-u-sm-2 am-form-label">钻石</label>
-                        <div class="am-u-sm-10">
-                            <input id="Diamond" type="text" name="Diamond" value="" v-model="Diamond"/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="vip" class="am-u-sm-2 am-form-label">VIP</label>
-                        <div class="am-u-sm-10">
-                            <input id="Vip" type="text" name="Vip" value="" v-model="Vip"/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Exp" class="am-u-sm-2 am-form-label">经验</label>
-                        <div class="am-u-sm-10">
-                            <input id="Exp" type="text" name="Exp" value="" v-model="Exp"/>
-                        </div>
-                    </div>
-
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Ticket" class="am-u-sm-2 am-form-label">入场券</label>
-                        <div class="am-u-sm-10">
-                            <input id="Ticket" type="text" name="Ticket" value="" v-model="Ticket"/>
-                        </div>
-                    </div>
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Exchange" class="am-u-sm-2 am-form-label">兑换券</label>
-                        <div class="am-u-sm-10">
-                            <input id="Exchange" type="text" name="Exchange" value="" v-model="Exchange"/>
-                        </div>
-                    </div>
-
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Win" class="am-u-sm-2 am-form-label">胜局</label>
-                        <div class="am-u-sm-10">
-                            <input id="Win" type="text" name="Win" readonly="readonly" value="" v-model="items.Win"/>
-                        </div>
-                    </div>
-
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Lost" class="am-u-sm-2 am-form-label">败局</label>
-                        <div class="am-u-sm-10">
-                            <input id="Lost" type="text" name="Lost" readonly="readonly" value="" v-model="items.Lost"/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Ping" class="am-u-sm-2 am-form-label">平局</label>
-                        <div class="am-u-sm-10">
-                            <input id="Ping" type="text" name="Ping" readonly="readonly" value="" v-model="items.Ping"/>
-                        </div>
-                    </div>
-
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="Photo" class="am-u-sm-2 am-form-label">头像</label>
-                        <div class="am-u-sm-10">
-                            <input id="Photo" type="text" name="Photo" readonly="readonly" value=""
-                                   v-model="items.Photo"/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="password" class="am-u-sm-2 am-form-label">密码</label>
-                        <div class="am-u-sm-10">
-                            <input id="Password" type="text" name="Password" value="" placeholder="此项留空表示不修改密码！"
-                                   v-mode="items.Password"/>
-                            <!-- <small>此项留空表示不修改密码！</small>-->
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
-                        <div class="am-u-sm-10">
-                            <input id="Password1" type="text" name="Password1" value="" v-model="items.Password1"/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label class="am-u-sm-2 am-form-label">注册时间</label>
-                        <div class="am-u-sm-10">
-                            <input id="Create_time" type="text" name="" v-model="items.Create_time" value="" disabled/>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group am-margin-vertical-sm">
-                        <label class="am-u-sm-2 am-form-label">注册IP地址</label>
-                        <div class="am-u-sm-10">
-                            <input id="Create_ip" type="text" name="" v-model="items.Create_ip" value="" disabled/>
-                        </div>
-                    </div>
-
-                    <div class="am-g am-margin-vertical-sm">
-                        <div class="am-form-group">
-                            <label class="am-u-sm-2 am-form-label"></label>
-                            <div class="am-u-sm-10">
-                                <button type="button" class="am-btn am-btn-primary" value=""
-                                        v-on:click="onSubmit">提交
-                                </button>
-
-                                <input type="button" class="am-btn" value="返回" v-on:click="button_onback"/>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr/>
-                </form>
-            </div>
-
-        </div>
-    </div>
-
-
     <footer>
         <hr>
-        <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+        <p class="am-padding-left">? 2014 AllMobilize, Inc. Licensed under MIT license.</p>
     </footer>
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/js/dialog.js"></script>
     <script src="../assets/js/vue.min.js"></script>
     <script src="../assets/js/app.js"></script>
     <script src="../assets/js/amazeui.min.js"></script>
+    <script src="../assets/js/jquery.base64.min.js"></script>
+
 </div>
 
 </body>
@@ -437,108 +291,123 @@
         el: '#admin-sidebar-list',
         data: {items: getSideBar() }
     })
+    new Vue({
+        el:"#admin-head-list",
+        data:{items: getHeadBar() }
+    })
 
-    var edit = new Vue({
-                el: '#edit_user',
-                data: {items: {}},
-                computed: {
-                    Coin: {
-                        get: function () {
-                            return this.items.Coin;
+    var DRAW = 0
+    var DISCARD = 1
+    var PENG = 2 << 0 // 碰
+    var MING_KONG = 2 << 1 // 明杠
+    var AN_KONG = 2 << 2 // 暗杠
+    var BU_KONG = 2 << 3 // 补杠
+    var KONG = 2 << 4 // 杠(代表广义的杠)
+    var HU = 2 << 6 // 胡(代表广义的胡)
 
-                        },
-                        set: function (newValue) {
-                            this.items.Coin = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
+    var PING_HU = 2 << 8  // 平湖
+    var HU_BIG_PAIR = 2 << 9  // 大对子
+    var HU_SEVEN_PAIR = 2 << 10 // 七小对
+    var HU_ALL_OF_ONE = 2 << 11 // 清一色
+    var HU_ONE_SUIT_BIG_PAIR = 2 << 12 // 清大对
+    var HU_ONE_SUIT_SEVEN_PAIR = 2 << 13 // 清七对
+    var HU_LONG_SEVEN_PAIR = 2 << 14 // 龙七对
+    var HU_ONE_SUIT_LONG_SEVEN_PAIR = 2 << 15 // 清龙对
+    var LONG = 2 << 16 // 龙
 
-                    Diamond: {
-                        get: function () {
-                            return this.items.Diamond;
+    var SHA_BAO = 2 << 17 // 杀报,你报听其他家胡你打的牌
+    var QIANG_GANG = 2 << 18 // 抢杠, 其他家胡你补杠那张牌
+    var RE_PAO = 2 << 19 // 热炮,热炮就是当有人放杠之后，杠牌者在摸牌尾后任意打一张牌出来，正好是别人要胡的牌，就是热炮
+    var SHAN_XIANG = 2 << 20 // 一炮三响，输赢扭转，胡牌的3家分别按照自己胡牌的牌型给予放炮者番数
+    var ZIMO = 2 << 21 //自摸
+    var PAOHU = 2 << 22 // 炮胡
+    var HU_KONG_FLOWER = 2 << 24 // 杠上开花,杠完牌抓到的第一张牌自摸了
 
-                        },
-                        set: function (newValue) {
-                            this.items.Diamond = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
-                    Exp: {
-                        get: function () {
-                            return this.items.Exp;
+    var TIAN_HU = 2 << 25 // 天胡
+    var DI_HU = 2 << 26 // 地听胡
+    var TT_HU = 2 << 27 // 天听胡
 
-                        },
-                        set: function (newValue) {
-                            this.items.Exp = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
-
-                    Ticket: {
-                        get: function () {
-                            return this.items.Ticket;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Ticket = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
-                    Vip: {
-                        get: function () {
-                            return this.items.Vip;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Vip = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
-                    Exchange: {
-                        get: function () {
-                            return this.items.Exchange;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Exchange = newValue.replace(/[^\d]/g, '');
-                        }
-                    }
-                },
-                methods: {
-                    button_onback: function () {
-                        $("#edit_pane").hide();
-                        $("#list_pane").show();
-                    },
-                    onSubmit: function () {
-                        console.info(this.$data.items)
-
-                        $.ajax({
-                            type: "POST",
-                            url: "/roles/edit",
-                            data: this.$data.items,
-
-                            dataType: "json",
-                            success: function (data) {
-                                if (data["status"] == "ok") {
-                                    $.Alert("恭喜，修改成功！")
-                                } else {
-                                    $.Alert(data["msg"])
-                                }
-                                $("#edit_pane").hide();
-                                $("#list_pane").show();
-                            }
-                        });
-
-                    }
-                }
-            }
-    )
+    var DTING = 2 << 28 // 地听
+    var TTING = 2 << 29 // 天听
 
     var userdatalist = new Vue({
         el: '#userdatalist',
         data: {items: []},
         methods: {
+            onRecord: function (index) {
+                if (userdatalist.$data["items"].length > 0) {
+                    var data = this.$data["items"][index]
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/operation/cardrecord",
+                        data: {index: data.CardRecord},
+                        dataType: "json",
+                        success: function (data) {
+
+                            $('#my-popup').modal()
+                            var str = ""
+                            if (data.data != undefined && data.data.length > 0) {
+
+
+                                for (var i = 0; i < data.data.length; i++) {
+                                    var value = data.data[i]
+
+                                    /*str +=("玩家" + value.Seat +  "牌值：" +"<img src='../assets/i/"+ value.Card +".png'/> <br>")*/
+                                    if (value.Value == DRAW) {
+                                        str += ("座位" + value.Seat + "摸起" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                    } else if (value.Value == DISCARD) {
+                                        str += ("座位" + value.Seat + "打出" + "<img src='../assets/i/" + value.Card + ".png'/>")
+                                    } else if (value.Value == PENG) {
+                                        str += ("座位" + value.Seat + "碰" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                    }else if (value.Value == MING_KONG) {
+                                        str += ("座位" + value.Seat + "明杠" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                    }else if (value.Value == BU_KONG) {
+                                        str += ("座位" + value.Seat + "补杠" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                    }else if (value.Value == AN_KONG) {
+                                        str += ("座位" + value.Seat + "暗杠" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                    }else if (value.Value & HU >0) {
+
+                                    }else{
+                                        str += ("座位" + value.Seat + "胡" + "<img src='../assets/i/" + value.Card + ".png'/> ")
+                                    }
+                                    str += " --> "
+                                    if (i%4 == 0){
+                                        str += "<br>"
+                                    }
+                                }
+                            }
+
+                            $("#cardrecordcontent").html(str);
+                        },
+                    });
+                }
+            },
             button_onedit: function (index) {
-                $("#list_pane").hide();
-                $("#edit_pane").show();
+                //  $("#list_pane").hide();
+                //$("#edit_pane").show();
                 if (userdatalist.$data["items"].length > 0) {
                     var data = userdatalist.$data["items"][index]
-                    edit.$data["items"] = data
+                    // edit.$data["items"] = data
+
+                    var data = {
+                        SelectedIDSearch: searchSelect.$data.selected,
+                        Userid: data.Userid,
+                        Create_time: data.Create_time,
+                        Page: pageBar.$data.cur,
+                        PageMax: pages.$data.selected,
+                    }
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/operation/matchrecord",
+                        data: data,
+                        dataType: "json",
+                        success: dataloaded,
+                    });
+
                 }
             }
         }
@@ -549,14 +418,13 @@
         data: {
             selected: "50",
             pages: [
-                {text: '30', value:"30"},
+                {text: '30', value: "30"},
                 {text: '50', value: "50"},
                 {text: '100', value: "100"},
                 {text: '200', value: "200"}
             ]
         }
     })
-
 
 
     var pageBar = new Vue({
@@ -568,7 +436,7 @@
         },
         watch: {
             cur: function (oldValue, newValue) {
-               // console.log(arguments)
+
                 getUserList()
             }
         },
@@ -620,15 +488,22 @@
         }
     })
 
+
+    function sequence(a, b) {
+        if (a > b) {
+            return 1;
+        } else if (a < b) {
+            return -1
+        } else {
+            return 0;
+        }
+    }
+
     var searchSelect = new Vue({
         el: '#Search',
         data: {
-            selected: '1',
-            options: [
-                {text: '根据玩家ID搜索', value: '1'},
-                {text: '根据玩家手机号搜索', value: '2'}
-            ],
             SearchValue: "",
+            selected:1
         },
 
         methods: {
@@ -636,71 +511,169 @@
                 this.$data.selected = "1"
                 this.$data.SearchValue = ""
                 Page:pageBar.$data.cur = 1,
-                getUserList()
+                        getUserList()
             }
             ,
             onSearch: function (event) {
-                var data={SelectedIDSearch: this.$data.selected,
+                var data = {
+                    SelectedIDSearch: this.$data.selected,
                     SearchUserid: this.$data.SearchValue,
-                    Page:pageBar.$data.cur,
-                    PageMax:pages.$data.selected
+                    Page: pageBar.$data.cur,
+                    PageMax: pages.$data.selected
 
                 }
-               //  $.Alert(JSON.stringify(data))
-               // console.info(getcookie("mysession"))
+
 
                 //return
-                var data={SelectedIDSearch: searchSelect.$data.selected,
-                    SearchUserid: searchSelect.$data.SearchValue,
-                    Page:pageBar.$data.cur,
-                    PageMax:pages.$data.selected
+                var data = {
+                    SelectedIDSearch: searchSelect.$data.selected,
+                    Userid: searchSelect.$data.SearchValue,
+                    Page: pageBar.$data.cur,
+                    PageMax: pages.$data.selected,
                 }
                 $.ajax({
                     type: "POST",
-                    url: "/roles/search",
+                    url: "/operation/matchrecord",
                     data: data,
                     dataType: "json",
-                    success: function (data) {
-                        if (data["status"] == "ok") {
-                            console.info(data["data"])
-                            userdatalist.$data["items"] = data["data"]["list"]
-                            pageBar.$data.allrecords = data["data"]["count"]
-                            pageBar.$data.all= Math.ceil(data["data"]["count"] / pages.$data.selected)
-                        }else if (data["status"] == "fail"){
-                            $.Alert(data["msg"])
-                        }
-                    }
+                    success: dataloaded,
                 });
             }
         }
     })
 
-function getUserList() {
 
-    var data={SelectedIDSearch: searchSelect.$data.selected,
-        SearchUserid: searchSelect.$data.SearchValue,
-        Page:pageBar.$data.cur,
-        PageMax:pages.$data.selected
-    }
-    $.ajax({
-        type: "POST",
-        url: "/roles/list",
-        data: data,
-        dataType: "json",
-        success: function (data) {
-            if (data["status"] == "ok") {
-                console.info(data["data"])
-                userdatalist.$data["items"] = data["data"]["list"]
-                pageBar.$data.allrecords = data["data"]["count"]
-                pageBar.$data.all= Math.ceil(data["data"]["count"] / pages.$data.selected)
+    function dataloaded(data) {
+        if (data["status"] == "ok") {
+            var items = data["data"]["list"]
+
+            for (var i = 0; i < items.length; i++) {
+                var card = items[i].HuCard
+                if (card > 0) {
+                    items[i].HuCard = "../assets/i/" + items[i].HuCard + ".png"
+                } else {
+                    items[i].HuCard = ""
+                }
+                var ji = items[i].Ji
+                if (ji > 0) {
+                    items[i].Ji = "../assets/i/" + items[i].Ji + ".png"
+                } else {
+                    items[i].Ji = ""
+                }
+
+                var t = items[i].Create_time
+                items[i].Time = format(t * 1000);
+
+                var str = ""
+                if (items[i].Handcard){
+                    str = $.base64.decode(items[i].Handcard)
+                }
+                var list = []
+                for (var k = 0; k < str.length; k++) {
+                    list[k] = "../assets/i/" +   str.charCodeAt(k) + ".png"
+                }
+                items[i].Handcard = list
+
+                var peng = items[i].Peng
+                if (peng != null) {
+                    for (var k = 0; k < peng.length; k++) {
+                        peng[k] = "../assets/i/" + (peng[k] & 0xFF) + ".png"
+                    }
+                }
+
+
+                var kong = items[i].Kong
+                if (kong != null) {
+                    for (var k = 0; k < kong.length; k++) {
+
+                        kong[k] = "../assets/i/" + ( kong[k] & 0xFF) + ".png"
+                    }
+                }
+
+                var hu = items[i].Huvalue
+                items[i].Huvalue = ""
+                if( (hu & TIAN_HU)  > 0){
+                    items[i].Huvalue = "天胡"
+                }else if ((hu & DI_HU)  > 0){
+                    items[i].Huvalue = "地听胡"
+                }else if ((hu & TT_HU)  > 0){
+                    items[i].Huvalue = "天听胡"
+                }
+
+                if( (hu & HU_KONG_FLOWER)  > 0){
+                    items[i].Huvalue += "杠上开花"
+                }else if ((hu & RE_PAO)  > 0){
+                    items[i].Huvalue += "热炮"
+                }else if ((hu & QIANG_GANG)  > 0){
+                    items[i].Huvalue += "抢杠"
+                }else if ((hu & SHA_BAO)  > 0){
+                    items[i].Huvalue += "杀报"
+                }else if ((hu & SHAN_XIANG)  > 0){
+                    items[i].Huvalue += "一炮三响"
+                }else if ((hu & ZIMO)  > 0){
+                    items[i].Huvalue += "自摸"
+                }else if (hu > 0){
+                }
+
+
+                if( (hu & HU_ONE_SUIT_LONG_SEVEN_PAIR)  > 0){
+                    items[i].Huvalue += "清龙对"
+                }else if ((hu & HU_LONG_SEVEN_PAIR)  > 0){
+                    items[i].Huvalue += "龙七对"
+                }else if ((hu & HU_ONE_SUIT_SEVEN_PAIR)  > 0){
+                    items[i].Huvalue += "清七对"
+                }else if ((hu & HU_ONE_SUIT_BIG_PAIR)  > 0){
+                    items[i].Huvalue += "清大对"
+                }else if ((hu & HU_ALL_OF_ONE)  > 0){
+                    items[i].Huvalue += "清一色"
+                }else if ((hu & HU_SEVEN_PAIR)  > 0){
+                    items[i].Huvalue += "七小对"
+                }else if ((hu & HU_BIG_PAIR)  > 0){
+                    items[i].Huvalue += "大对子"
+                }else if ((hu & PING_HU)  > 0){
+                    items[i].Huvalue += "平胡"
+                }else if (hu > 0){
+                }
+
             }
+
+            userdatalist.$data["items"] = items
+            pageBar.$data.allrecords = data["data"]["count"]
+            pageBar.$data.all = Math.ceil(data["data"]["count"] / pages.$data.selected)
+        } else if (data["status"] == "fail") {
+            $.Alert(data["msg"])
         }
-    });
-}
+    }
+
+    function getUserList() {
+
+        var data = {
+            SelectedIDSearch: searchSelect.$data.selected,
+            SearchUserid: searchSelect.$data.SearchValue,
+            Page: pageBar.$data.cur,
+            PageMax: pages.$data.selected
+        }
+        $.ajax({
+            type: "POST",
+            url: "/operation/matchrecord",
+            data: data,
+            dataType: "json",
+            timeout : 10000,
+            error : function(xhr,textStatus){
+                $.Alert("网络超时,请刷新网页!")
+            },
+            success: function (data) {
+                if (data["status"] == "ok") {
+
+                    userdatalist.$data["items"] = data["data"]["list"]
+                    pageBar.$data.allrecords = data["data"]["count"]
+                    pageBar.$data.all = Math.ceil(data["data"]["count"] / pages.$data.selected)
+                }
+            }
+        });
+    }
 
 
-
-    getUserList( )
 
     $(function () {
         var startDate = new Date(2000, 1, 1);

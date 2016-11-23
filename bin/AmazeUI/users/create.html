@@ -55,38 +55,23 @@
         <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
             <div class="am-offcanvas-bar admin-offcanvas-bar">
                 <ul class="am-list admin-sidebar-list" id="admin-sidebar-list">
-                    <li><a href="/roles/list"><span class="am-icon-home"></span> 首页</a></li>
-
+                    <li><a href="/"><span class="am-icon-home"></span> 首页</a></li>
                     <li v-for="item in items" class="admin-parent">
-                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">
-                            <span class="am-icon-file"></span> {{ item.name }} <span
+                        <!--  <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">-->
+                        <a class="am-cf">
+                            <span :class="item.icon"></span> {{ item.name }} <span
                                 class="am-icon-angle-right am-fr am-margin-right"></span>
                         </a>
                         <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
                             <li v-for="i in item.items">
                                 <a :href="i.path" class="am-cf">
-                                    <span class="am-icon-table"></span> {{ i.name}}<span
+                                    <span :class="i.icon"></span> {{ i.name}}<span
                                         class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
                                 </a>
                             </li>
                         </ul>
                     </li>
                 </ul>
-
-                <div class="am-panel am-panel-default admin-sidebar-panel">
-                    <div class="am-panel-bd">
-                        <p><span class="am-icon-bookmark"></span> 公告</p>
-                        <p> 完善中... </p>
-                    </div>
-                </div>
-
-                <div class="am-panel am-panel-default admin-sidebar-panel">
-                    <div class="am-panel-bd">
-                        <p><span class="am-icon-tag"></span> wiki</p>
-                        <p>Welcome to the majiang wiki!</p>
-                    </div>
-                </div>
-
             </div>
         </div>
         <!-- sidebar end -->

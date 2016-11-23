@@ -57,40 +57,25 @@
     <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
         <div class="am-offcanvas-bar admin-offcanvas-bar">
             <ul class="am-list admin-sidebar-list" id="admin-sidebar-list">
-                <li><a href="/roles/list"><span class="am-icon-home"></span> 首页</a></li>
-
+                <li><a href="/"><span class="am-icon-home"></span> 首页</a></li>
                 <li v-for="item in items" class="admin-parent">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">
-                        <span class="am-icon-file"></span> {{ item.name }} <span
+                        <span :class="item.icon"></span> {{ item.name }} <span
                             class="am-icon-angle-right am-fr am-margin-right"></span>
                     </a>
                     <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
                         <li v-for="i in item.items">
                             <a :href="i.path" class="am-cf">
-                                <span class="am-icon-table"></span> {{ i.name}}<span
+                                <span :class="i.icon"></span> {{ i.name}}<span
                                     class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
                             </a>
                         </li>
                     </ul>
                 </li>
             </ul>
-
-            <div class="am-panel am-panel-default admin-sidebar-panel">
-                <div class="am-panel-bd">
-                    <p><span class="am-icon-bookmark"></span> 公告</p>
-                    <p> 完善中... </p>
-                </div>
-            </div>
-
-            <div class="am-panel am-panel-default admin-sidebar-panel">
-                <div class="am-panel-bd">
-                    <p><span class="am-icon-tag"></span> wiki</p>
-                    <p>Welcome to the majiang wiki!</p>
-                </div>
-            </div>
-
         </div>
     </div>
+    <!-- sidebar end -->
 
 
 
@@ -294,6 +279,7 @@
     <script src="../assets/js/vue.min.js"></script>
     <script src="../assets/js/app.js"></script>
     <script src="../assets/js/amazeui.min.js"></script>
+    <script src="../assets/js/jquery.base64.min.js"></script>
 
 </div>
 
@@ -351,7 +337,7 @@
             onRecord: function (index) {
                 if (userdatalist.$data["items"].length > 0) {
                     var data = this.$data["items"][index]
-                    console.info(data)
+
 
                     $.ajax({
                         type: "POST",
@@ -364,10 +350,10 @@
                             var str = ""
                             if (data.data != undefined && data.data.length > 0) {
 
-                                console.info(data.data.length)
+
                                 for (var i = 0; i < data.data.length; i++) {
                                     var value = data.data[i]
-                                    console.info(value.Value,value.Card)
+
                                     /*str +=("玩家" + value.Seat +  "牌值：" +"<img src='../assets/i/"+ value.Card +".png'/> <br>")*/
                                     if (value.Value == DRAW) {
                                         str += ("座位" + value.Seat + "摸起" + "<img src='../assets/i/" + value.Card + ".png'/> ")
@@ -413,7 +399,7 @@
                         PageMax: pages.$data.selected,
                     }
 
-                    console.info(data)
+
                     $.ajax({
                         type: "POST",
                         url: "/operation/normalrecord",
@@ -450,7 +436,7 @@
         },
         watch: {
             cur: function (oldValue, newValue) {
-                // console.log(arguments)
+
                 getUserList()
             }
         },
@@ -536,8 +522,7 @@
                     PageMax: pages.$data.selected
 
                 }
-                //  $.Alert(JSON.stringify(data))
-                // console.info(getcookie("mysession"))
+
 
                 //return
                 var data = {
@@ -579,13 +564,15 @@
                 var t = items[i].Create_time
                 items[i].Time = format(t * 1000);
 
-
-                var handcard = items[i].Handcard
-                handcard.sort(sequence)
-                for (var k = 0; k < handcard.length; k++) {
-                    handcard[k] = "../assets/i/" + handcard[k] + ".png"
+                var str = ""
+                if (items[i].Handcard){
+                    str = $.base64.decode(items[i].Handcard)
                 }
-
+                var list = []
+                for (var k = 0; k < str.length; k++) {
+                    list[k] = "../assets/i/" +   str.charCodeAt(k) + ".png"
+                }
+                items[i].Handcard = list
 
                 var peng = items[i].Peng
                 if (peng != null) {
@@ -671,9 +658,13 @@
             url: "/operation/normalrecord",
             data: data,
             dataType: "json",
+            timeout : 10000,
+            error : function(xhr,textStatus){
+                $.Alert("网络超时,请刷新网页!")
+            },
             success: function (data) {
                 if (data["status"] == "ok") {
-                    console.info(data["data"])
+
                     userdatalist.$data["items"] = data["data"]["list"]
                     pageBar.$data.allrecords = data["data"]["count"]
                     pageBar.$data.all = Math.ceil(data["data"]["count"] / pages.$data.selected)
