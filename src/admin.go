@@ -2,11 +2,13 @@ package main
 
 import (
 	"basic/ssdb/gossdb"
+	"basic/utils"
 	"data"
 	"flag"
 	"net/http"
 	"operation"
 	"role"
+	"statistics"
 	"user"
 
 	_ "csv"
@@ -99,8 +101,11 @@ func main() {
 	e.POST("/operation/loginrecord", operation.LoginRecord, loginMiddleware)           //
 	e.POST("/operation/roomcreaterecord", operation.RoomCreateRecord, loginMiddleware) // 私人房创建记录
 
-	conndb()
+	e.POST("/statistics/online", statistics.Online, loginMiddleware)
+	e.POST("/statistics/newuser", statistics.NewUser, loginMiddleware)
 
+	conndb()
+	glog.Infoln(utils.TimestampToday())
 	//for i := 0; i < 1000; i++ {
 	//	go func() {
 	//		lastID, err := gossdb.C().Get(data.KEY_LAST_USER_ID)

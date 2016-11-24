@@ -168,14 +168,14 @@ function getSideBar() {
             name: "订单管理",
             icon:"am-icon-shield",
             items:     [
-            {icon:"am-icon-table",path:"/users/list.html", name:"下单列表"},
-            {icon:"am-icon-table",path:"/users/create.html", name:"充值列表"}]
+            {icon:"am-icon-table",path:"/operation/change.html", name:"充值记录"}]
         },
         {
             name: "数据统计",
             icon:"am-icon-file",
             items:     [
                 {icon:"am-icon-table",path:"/statistics/online.html",name: "在线统计"},
+                {icon:"am-icon-table",path:"/statistics/newuser.html",name: "新增统计"},
                 {icon:"am-icon-table",path:"/statistics/remainder.html",name: "留存统计"}
                 ]
 

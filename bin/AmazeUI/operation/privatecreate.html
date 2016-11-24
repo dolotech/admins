@@ -29,83 +29,52 @@
             data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
             class="am-icon-bars"></span></button>
 
+    <!-- headbar start -->
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-
-        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
-            <!--
-              <li><a href="javascript:;"><span class="am-icon-envelope-o"></span> 收件箱 <span class="am-badge am-badge-warning">5</span></a></li>
-              -->
-
-            <li class="am-dropdown" data-am-dropdown>
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list" id="admin-head-list">
+            <li v-for="item in items" class="am-dropdown" data-am-dropdown>
                 <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                    <span class="am-icon-bars"></span> 系统设置 <span class="am-icon-caret-down"></span>
+                    <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
                 </a>
                 <ul class="am-dropdown-content">
-                    <li><a href="/users/group_list.html"><span class="am-icon-edit"></span> 用户组管理</a></li>
-                    <li><a href="/users/list.html"><span class="am-icon-edit"></span> 后台用户账号管理</a></li>
-                    <li><a href="#"><span class="am-icon-edit"></span> 后台操作日志</a></li>
-                    <li><a href="/users/edit.html"><span class="am-icon-edit"></span> 修改我的密码</a></li>
+                    <li v-for="i in item.items">
+                        <a :href="i.path" type="button" :onclick="i.action">
+                            <span :class="i.icon"></span> </span> {{ i.name}}
+                        </a>
+                    </li>
                 </ul>
             </li>
-
-            <li class="am-dropdown" data-am-dropdown>
-                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                    <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
-                </a>
-                <ul class="am-dropdown-content">
-                    <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
-                    <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
-                    <li><a href="#" type="button" onclick="javascript:onlogout()"><span class="am-icon-power-off"></span> 退出</a></li>
-                </ul>
-            </li>
-            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span
-                    class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
         </ul>
     </div>
+    <!-- headbar end -->
 </header>
 <body>
 <div class="am-cf admin-main">
-
 
     <!-- sidebar start -->
     <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
         <div class="am-offcanvas-bar admin-offcanvas-bar">
             <ul class="am-list admin-sidebar-list" id="admin-sidebar-list">
-                <li><a href="/roles/list"><span class="am-icon-home"></span> 首页</a></li>
-
+                <li><a href="/"><span class="am-icon-home"></span> 首页</a></li>
                 <li v-for="item in items" class="admin-parent">
-                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">
-                        <span class="am-icon-file"></span> {{ item.name }} <span
+                  <!--  <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">-->
+                    <a class="am-cf" >
+                        <span :class="item.icon"></span> {{ item.name }} <span
                             class="am-icon-angle-right am-fr am-margin-right"></span>
                     </a>
                     <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
                         <li v-for="i in item.items">
                             <a :href="i.path" class="am-cf">
-                                <span class="am-icon-table"></span> {{ i.name}}<span
+                                <span :class="i.icon"></span> {{ i.name}}<span
                                     class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
                             </a>
                         </li>
                     </ul>
                 </li>
             </ul>
-
-            <div class="am-panel am-panel-default admin-sidebar-panel">
-                <div class="am-panel-bd">
-                    <p><span class="am-icon-bookmark"></span> 公告</p>
-                    <p> 完善中... </p>
-                </div>
-            </div>
-
-            <div class="am-panel am-panel-default admin-sidebar-panel">
-                <div class="am-panel-bd">
-                    <p><span class="am-icon-tag"></span> wiki</p>
-                    <p>Welcome to the majiang wiki!</p>
-                </div>
-            </div>
-
         </div>
     </div>
-
+    <!-- sidebar end -->
 
     <!-- content start -->
     <div class="admin-content" id="list_pane">
@@ -133,24 +102,15 @@
                                 </option>
 
                             </select>
-                            <span>Selected: {{ selected }}</span>
+
 
                         </div>
                     </div>
 
-                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
-                        <div class="am-form-group">
-                            <select v-model="selected" data-am-selected="{btnSize: 'sm'}">
-                                <option v-for="option in options" v-bind:value="option.value">
-                                    {{ option.text }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
 
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
                         <input type="text" id="SearchUserid" name="SearchUserid" value=""
-                               class="am-form-field am-input-sm" placeholder="" v-model="SearchValue"/>
+                               class="am-form-field am-input-sm" placeholder="输入你要搜索的玩家ID" v-model="SearchValue"/>
                     </div>
                     <div class="am-u-sm-12 am-u-md-2 am-u-end">
                         <!--  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>-->
@@ -432,6 +392,10 @@
     new Vue({
         el: '#admin-sidebar-list',
         data: {items: getSideBar() }
+    })
+    new Vue({
+        el:"#admin-head-list",
+        data:{items: getHeadBar() }
     })
 
     var edit = new Vue({
