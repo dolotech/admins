@@ -132,22 +132,25 @@ function getSideBar() {
             name:"玩家管理",
             icon:"am-icon-user",
             items: [
-            { icon:"am-icon-table",path:"/roles/list.html",  name:"玩家列表"},
-            {icon:"am-icon-table",path:"/roles/listonline.html",name: "在线玩家"},
+            { icon:"am-icon-table",path:"/roles/list.html",  name:"玩家列表"}
+
+          /*  {icon:"am-icon-table",path:"/roles/listonline.html",name: "在线玩家"},
             {icon:"am-icon-table",path:"/roles/gainrank.html", name:"每日盈利排名"},
             {icon:"am-icon-table",path:"/roles/winrank.html", name:"胜局排名"},
             {icon:"am-icon-table",path:"/roles/coinrank.html", name:"等级排名"},
-            {icon:"am-icon-table",path:"/roles/levelrank.html",name: "等级排名"}]
+            {icon:"am-icon-table",path:"/roles/levelrank.html",name: "等级排名"}*/
+            ]
         },
         {
             name:  "发放记录",
             icon:"am-icon-drupal",
             items:    [
             {icon:"am-icon-table",path:"/operation/provide.html", name:"道具/钻石发放"},
-            {icon:"am-icon-table",path:"/operation/providerecord.html", name:"发放记录"},
-
+            {icon:"am-icon-table",path:"/operation/providerecord.html", name:"发放记录"}
+/*
             {icon:"am-icon-table",path:"/operation/email.html", name:"发送邮件"},
-            {icon:"am-icon-table",path:"/operation/emaillist.html", name:"邮件记录"}]
+            {icon:"am-icon-table",path:"/operation/emaillist.html", name:"邮件记录"}*/
+            ]
         },
         {
             name: "日志管理",
@@ -156,8 +159,8 @@ function getSideBar() {
             {icon:"am-icon-table",path:"/operation/privaterecord.html", name:"私人局记录"},
             {icon:"am-icon-table",path:"/operation/matchrecord.html",name: "比赛场记录"},
             {icon:"am-icon-table",path:"/operation/normalrecord.html", name:"金币场记录"},
-            {icon:"am-icon-table",path:"/operation/exchangerecord.html", name:"虚拟兑换记录"},
-            {icon:"am-icon-table",path:"/operation/exchangerecord.html", name:"实物兑换记录"},
+       /*     {icon:"am-icon-table",path:"/operation/exchangerecord.html", name:"虚拟兑换记录"},
+            {icon:"am-icon-table",path:"/operation/exchangerecord.html", name:"实物兑换记录"},*/
             {icon:"am-icon-table",path:"/operation/privatecreate.html", name:"私人房创建日志"},
             {icon:"am-icon-table",path:"/operation/loginrecord.html",name: "登录日志"}]
         },
@@ -172,7 +175,8 @@ function getSideBar() {
             name: "数据统计",
             icon:"am-icon-file",
             items:     [
-                {icon:"am-icon-table",path:"/users/list.html", name:"留存"}
+                {icon:"am-icon-table",path:"/statistics/online.html",name: "在线统计"},
+                {icon:"am-icon-table",path:"/statistics/remainder.html",name: "留存统计"}
                 ]
 
         }

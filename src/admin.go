@@ -3,7 +3,6 @@ package main
 import (
 	"basic/ssdb/gossdb"
 	"data"
-	"errors"
 	"flag"
 	"net/http"
 	"operation"
@@ -19,32 +18,32 @@ import (
 
 func loginMiddlewareStatic(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		cookie, err := c.Cookie("login")
-		if err != nil || cookie == nil || len(cookie.Value) <= 0 {
-			c.Request().Header.Add("Cache-Control", "no-cache")
-			err := c.Redirect(http.StatusTemporaryRedirect, "/login/login.html")
-			return err
-		}
-		if data.Sessions.Get(cookie.Value) == nil {
-			c.Request().Header.Add("Cache-Control", "no-cache")
-			err := c.Redirect(http.StatusTemporaryRedirect, "/login/login.html")
-			return err
-		}
+		//	cookie, err := c.Cookie("login")
+		//	if err != nil || cookie == nil || len(cookie.Value) <= 0 {
+		//		c.Request().Header.Add("Cache-Control", "no-cache")
+		//		err := c.Redirect(http.StatusTemporaryRedirect, "/login/login.html")
+		//		return err
+		//	}
+		//	if data.Sessions.Get(cookie.Value) == nil {
+		//		c.Request().Header.Add("Cache-Control", "no-cache")
+		//		err := c.Redirect(http.StatusTemporaryRedirect, "/login/login.html")
+		//		return err
+		//	}
 
 		return next(c)
 	}
 }
 func loginMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		cookie, err := c.Cookie("login")
-		if err != nil || cookie == nil || len(cookie.Value) <= 0 {
-			c.JSON(http.StatusOK, data.H{"status": "fail", "errorcode": 100, "msg": "未登陆"})
-			return errors.New("未登陆")
-		}
-		if data.Sessions.Get(cookie.Value) == nil {
-			c.JSON(http.StatusOK, data.H{"status": "fail", "errorcode": 100, "msg": "未登陆"})
-			return errors.New("未登陆")
-		}
+		//	cookie, err := c.Cookie("login")
+		//	if err != nil || cookie == nil || len(cookie.Value) <= 0 {
+		//		c.JSON(http.StatusOK, data.H{"status": "fail", "errorcode": 100, "msg": "未登陆"})
+		//		return errors.New("未登陆")
+		//	}
+		//	if data.Sessions.Get(cookie.Value) == nil {
+		//		c.JSON(http.StatusOK, data.H{"status": "fail", "errorcode": 100, "msg": "未登陆"})
+		//		return errors.New("未登陆")
+		//	}
 		return next(c)
 	}
 }
@@ -64,6 +63,7 @@ func main() {
 	e.Static("/operation", "AmazeUI/operation", loginMiddlewareStatic)
 	e.Static("/roles", "AmazeUI/roles", loginMiddlewareStatic)
 	e.Static("/room", "AmazeUI/room", loginMiddlewareStatic)
+	e.Static("/statistics", "AmazeUI/statistics", loginMiddlewareStatic)
 
 	e.Static("/login", "AmazeUI/login")
 
@@ -71,7 +71,7 @@ func main() {
 	e.POST("/users/logout", user.Logout)
 
 	e.GET("/", func(c echo.Context) error {
-		return c.Redirect(http.StatusMovedPermanently, "/roles/list.html")
+		return c.Redirect(http.StatusTemporaryRedirect, "/statistics/online.html")
 	})
 
 	e.POST("/roles/list", role.List, loginMiddleware)

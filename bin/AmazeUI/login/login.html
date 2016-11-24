@@ -124,7 +124,7 @@
             success: function (data) {
                 if (data["status"] == "ok") {
                     console.info(data)
-                    location.href = "/roles/list.html"
+                    location.href = "/"
                 }else{
                     $.Alert(data["msg"])
                 }

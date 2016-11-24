@@ -145,8 +145,10 @@ func GetDestopRecord(userid string, createTime string) ([]*GameRecord, error) {
 			continue
 		}
 		data := &GameRecord{}
-		value.As(data)
-		list = append(list, data)
+		err = value.As(data)
+		if err == nil {
+			list = append(list, data)
+		}
 	}
 	return list, nil
 } //  获取金币场牌局记录
@@ -168,11 +170,10 @@ func GetNormalRecord(userid string, offset, limit int) ([]*GameRecord, int64, er
 		}
 
 		data := &GameRecord{}
-		value.As(data)
-		//	for i := 0; i < len(data.Handcard); i++ {
-		//		data.Handcard = append(u.Handcard, uint32(v.Handcard[i]))
-		//	}
-		list = append(list, data)
+		err = value.As(data)
+		if err == nil {
+			list = append(list, data)
+		}
 	}
 	return list, size, nil
 }
@@ -194,8 +195,10 @@ func GetPrivateDestopRecord(userid string, createTime string) ([]*GameRecordPriv
 			continue
 		}
 		data := &GameRecordPrivate{}
-		value.As(data)
-		list = append(list, data)
+		err = value.As(data)
+		if err == nil {
+			list = append(list, data)
+		}
 	}
 	glog.Infoln(list)
 	return list, nil
@@ -218,21 +221,10 @@ func GetPrivateRecord(userid string, offset, limit int) ([]*GameRecordPrivate, i
 		}
 
 		data := &GameRecordPrivate{}
-		value.As(data)
-		//	data.HandcardInt = make([]int, len(data.Handcard))
-		//	for k, v := range data.Handcard {
-		//		data.HandcardInt[k] = int(v)
-		//	}
-		//	data.StartHandCardInt = make([]int, len(data.StartHandCard))
-		//	for k, v := range data.StartHandCard {
-		//		data.StartHandCardInt[k] = int(v)
-		//	}
-		//	data.OutCardsInt = make([]int, len(data.OutCards))
-		//	for k, v := range data.OutCards {
-		//		data.OutCardsInt[k] = int(v)
-		//	}
-		list = append(list, data)
-		glog.Infoln(data)
+		err = value.As(data)
+		if err == nil {
+			list = append(list, data)
+		}
 	}
 	return list, size, nil
 }
@@ -254,8 +246,10 @@ func GetMatchDestopRecord(userid string, createTime string) ([]*GameRecordMatch,
 			continue
 		}
 		data := &GameRecordMatch{}
-		value.As(data)
-		list = append(list, data)
+		err = value.As(data)
+		if err == nil {
+			list = append(list, data)
+		}
 	}
 	glog.Infoln(list)
 	return list, nil
@@ -278,8 +272,10 @@ func GetMatchRecord(userid string, offset, limit int) ([]*GameRecordMatch, int64
 		}
 
 		data := &GameRecordMatch{}
-		value.As(data)
-		list = append(list, data)
+		err = value.As(data)
+		if err == nil {
+			list = append(list, data)
+		}
 	}
 	glog.Infoln(list, size)
 	return list, size, nil
