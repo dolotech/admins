@@ -18,34 +18,19 @@ import (
 	"github.com/labstack/echo/middleware"
 )
 
-func loginMiddlewareStatic(next echo.HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		//	cookie, err := c.Cookie("login")
-		//	if err != nil || cookie == nil || len(cookie.Value) <= 0 {
-		//		c.Request().Header.Add("Cache-Control", "no-cache")
-		//		err := c.Redirect(http.StatusTemporaryRedirect, "/login/login.html")
-		//		return err
-		//	}
-		//	if data.Sessions.Get(cookie.Value) == nil {
-		//		c.Request().Header.Add("Cache-Control", "no-cache")
-		//		err := c.Redirect(http.StatusTemporaryRedirect, "/login/login.html")
-		//		return err
-		//	}
-
-		return next(c)
-	}
-}
 func loginMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		//	cookie, err := c.Cookie("login")
-		//	if err != nil || cookie == nil || len(cookie.Value) <= 0 {
+		//cookie, err := c.Cookie("login")
+		//if err != nil || cookie == nil || len(cookie.Value) <= 0 || data.Sessions.Get(cookie.Value) == nil {
+		//	if c.Request().Method == "GET" {
+		//		c.Request().Header.Add("Cache-Control", "no-cache")
+		//		return c.Redirect(http.StatusTemporaryRedirect, "/login/login.html")
+		//	} else if c.Request().Method == "POST" {
 		//		c.JSON(http.StatusOK, data.H{"status": "fail", "errorcode": 100, "msg": "未登陆"})
 		//		return errors.New("未登陆")
 		//	}
-		//	if data.Sessions.Get(cookie.Value) == nil {
-		//		c.JSON(http.StatusOK, data.H{"status": "fail", "errorcode": 100, "msg": "未登陆"})
-		//		return errors.New("未登陆")
-		//	}
+		//	return err
+		//}
 		return next(c)
 	}
 }
@@ -58,14 +43,18 @@ func main() {
 
 	e := echo.New()
 	e.Use(middleware.Recover())
+	e.Use(middleware.Gzip())
+	//	e.Use(middleware.CSRF())
+	e.Use(middleware.Secure())
+	e.Use(middleware.BodyLimit("1M"))
 
 	e.Static("/assets", "AmazeUI/assets")
 
-	e.Static("/users", "AmazeUI/users", loginMiddlewareStatic)
-	e.Static("/operation", "AmazeUI/operation", loginMiddlewareStatic)
-	e.Static("/roles", "AmazeUI/roles", loginMiddlewareStatic)
-	e.Static("/room", "AmazeUI/room", loginMiddlewareStatic)
-	e.Static("/statistics", "AmazeUI/statistics", loginMiddlewareStatic)
+	e.Static("/users", "AmazeUI/users", loginMiddleware)
+	e.Static("/operation", "AmazeUI/operation", loginMiddleware)
+	e.Static("/roles", "AmazeUI/roles", loginMiddleware)
+	e.Static("/room", "AmazeUI/room", loginMiddleware)
+	e.Static("/statistics", "AmazeUI/statistics", loginMiddleware)
 
 	e.Static("/login", "AmazeUI/login")
 
@@ -100,6 +89,9 @@ func main() {
 	e.POST("/operation/issuelist", operation.IssuePropsList, loginMiddleware)          //
 	e.POST("/operation/loginrecord", operation.LoginRecord, loginMiddleware)           //
 	e.POST("/operation/roomcreaterecord", operation.RoomCreateRecord, loginMiddleware) // 私人房创建记录
+
+	e.POST("/operation/charge", operation.GetChargeOrder, loginMiddleware)    // 下单记录
+	e.POST("/operation/transition", operation.GetTransition, loginMiddleware) // 交易记录
 
 	e.POST("/statistics/online", statistics.Online, loginMiddleware)
 	e.POST("/statistics/newuser", statistics.NewUser, loginMiddleware)

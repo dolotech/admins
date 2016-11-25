@@ -48,7 +48,6 @@ func GetNewUserStatitics(timestamp string) ([]*NewUserCountStatistics, error) {
 		data := &NewUserCountStatistics{Unix: i}
 		list = append(list, data)
 		hash[count] = data
-		glog.Infoln(count)
 		count++
 	}
 	if value != nil && len(value) > 0 {

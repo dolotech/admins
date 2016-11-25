@@ -137,7 +137,7 @@
                 <div class="am-u-sm-12">
                         <!-- 折线图堆叠 -->
 
-                        <div  id="remainder_char_line" style="width: 100%;height: 250px;"></div>
+                        <div  id="remainder_char_line" style="width: 100%;height: 500px;"></div>
 
 
                 </div>
@@ -162,6 +162,15 @@
 </html>
 
 <script type="text/javascript">
+	new Vue({
+		el: '#admin-sidebar-list',
+		data: {items: getSideBar() }
+	})
+	new Vue({
+		el:"#admin-head-list",
+		data:{items: getHeadBar() }
+	})
+
 	function refrash(time ,count,date) {
 		var myChart = echarts.init(document.getElementById("remainder_char_line"))
 		option = {
@@ -189,9 +198,17 @@
 			xAxis : [
 				{
 					type : 'category',
-					boundaryGap : false,
-					data : time
-				}
+					boundaryGap : true,
+					data : time,
+					interval:0,
+					axisLabel:{
+						interval:10,
+						rotate:45,
+						margin:2,
+
+
+					},
+				},
 			],
 			yAxis : [
 				{
@@ -201,6 +218,29 @@
 					}
 				}
 			],
+			xAxis : [
+				{
+					type : 'category',
+					boundaryGap : true,
+					data : time,
+					interval:0,
+					axisLabel:{
+						interval:10,
+						rotate:45,
+						margin:2,
+
+
+					},
+				},
+			],
+
+			/*dataZoom : {
+			orient:"horizontal", //水平显示
+
+			show:true, //显示滚动条
+			start:0, //起始值为0%
+			end:100  //结束值为100%
+		},*/
 			series : [
 				{
 					name:'最高在线',
@@ -226,14 +266,7 @@
 	}
 
     $(document).ready(function(){
-		new Vue({
-			el: '#admin-sidebar-list',
-			data: {items: getSideBar() }
-		})
-		new Vue({
-			el:"#admin-head-list",
-			data:{items: getHeadBar() }
-		})
+
 
 		getOnline(new Date())
     });

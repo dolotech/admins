@@ -162,15 +162,18 @@
 </html>
 
 <script type="text/javascript">
+
+    new Vue({
+        el: '#admin-sidebar-list',
+        data: {items: getSideBar() }
+    })
+    new Vue({
+        el:"#admin-head-list",
+        data:{items: getHeadBar() }
+    })
+    
     $(document).ready(function(){
-		new Vue({
-			el: '#admin-sidebar-list',
-			data: {items: getSideBar() }
-		})
-		new Vue({
-			el:"#admin-head-list",
-			data:{items: getHeadBar() }
-		})
+
 
         var myChart = echarts.init(document.getElementById("remainder_char_line"))
         option = {

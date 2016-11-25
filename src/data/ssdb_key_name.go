@@ -87,10 +87,11 @@ const (
 
 	KEY_OFFLINE_REWARDS string = "offline_rewards:"
 
-	KEY_CPORDERID      string = "cporderid"
-	KEY_CHARGEORDER    string = "chargeorder:"
-	KEY_TRADINGRESULTS string = "tradingresults:"
-	KEY_TRADINGOFFLINE string = "tradingoffline:"
+	KEY_USER_CHARGEORDER string = "user_chargeorder:"
+	KEY_CPORDERID        string = "cporderid"
+	KEY_CHARGEORDER      string = "chargeorder:"
+	KEY_TRADINGRESULTS   string = "tradingresults:"
+	KEY_TRADINGOFFLINE   string = "tradingoffline:"
 
 	KEY_PRIVATE_RECORD  string = "private_record:"         // 私人局牌局记录roomid
 	KEY_PRIVATE_RECORDS string = "private_records:"        // 私人局牌局记录

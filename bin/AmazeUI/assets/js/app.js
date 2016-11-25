@@ -168,7 +168,9 @@ function getSideBar() {
             name: "订单管理",
             icon:"am-icon-shield",
             items:     [
-            {icon:"am-icon-table",path:"/operation/change.html", name:"充值记录"}]
+            {icon:"am-icon-table",path:"/operation/chargeorder.html", name:"下单记录"},
+            {icon:"am-icon-table",path:"/operation/transition.html", name:"交易记录"}
+            ]
         },
         {
             name: "数据统计",
