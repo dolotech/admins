@@ -91,7 +91,7 @@
         <div class="admin-content-body">
             <div class="am-cf am-padding am-padding-bottom-0">
                 <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">统计数据</strong> /
-                    <small>即时在线</small>
+                    <small>基础统计</small>
                 </div>
             </div>
 
@@ -100,33 +100,67 @@
             <form class="am-form" data-am-validator id="Search">
                 <div class="am-g">
 
-					<!-- panel start -->
-					<div class="am-panel am-panel-default">
-						<div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索<span
-								class="am-icon-chevron-down am-fr"></span></div>
-						<div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
-
-							<div class="am-g am-margin-vertical-sm">
-								<div class="am-form-icon am-u-sm-12 am-u-md-3">
-									<div class="am-form-icon">
-										<i id="date-start-icon" class="am-icon-calendar"></i>
-										<input id="date-start" type="text" name="last_visit_begin" value=""
-											   class="am-form-field am-input-sm" placeholder="选择查询的日期"/>
-
-
-									</div>
+					<div class="row">
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat blue">
+								<div class="visual">
+									<i class="am-icon-comments-o"></i>
 								</div>
-							</div>
-							<div class="am-g am-margin-vertical-sm">
-								<div class="am-u-sm-12 am-u-md-3 am-u-end">
-									<button class="am-btn am-btn-default am-input-sm" onclick="Search()" type="button">查询</button>
-									<input type="button" class="am-btn" value="当前在线" onclick="onReset()"/>
+								<div class="details">
+									<div class="number"> 1349 </div>
+									<div class="desc"> 新消息 </div>
 								</div>
+								<a class="more" href="#"> 查看更多
+									<i class="m-icon-swapright m-icon-white"></i>
+								</a>
 							</div>
-
 						</div>
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat red">
+								<div class="visual">
+									<i class="am-icon-bar-chart-o"></i>
+								</div>
+								<div class="details">
+									<div class="number"> 62% </div>
+									<div class="desc"> 收视率 </div>
+								</div>
+								<a class="more" href="#"> 查看更多
+									<i class="m-icon-swapright m-icon-white"></i>
+								</a>
+							</div>
+						</div>
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat green">
+								<div class="visual">
+									<i class="am-icon-apple"></i>
+								</div>
+								<div class="details">
+									<div class="number"> 653 </div>
+									<div class="desc"> 苹果设备 </div>
+								</div>
+								<a class="more" href="#"> 查看更多
+									<i class="m-icon-swapright m-icon-white"></i>
+								</a>
+							</div>
+						</div>
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat purple">
+								<div class="visual">
+									<i class="am-icon-android"></i>
+								</div>
+								<div class="details">
+									<div class="number"> 786 </div>
+									<div class="desc"> 安卓设备 </div>
+								</div>
+								<a class="more" href="#"> 查看更多
+									<i class="m-icon-swapright m-icon-white"></i>
+								</a>
+							</div>
+						</div>
+
+
+
 					</div>
-					<!-- panel end -->
                 </div>
             </form>
 
@@ -168,7 +202,7 @@
 		data:{items: getHeadBar() }
 	})
 
-	function refrash(time ,count,date) {
+	function refrash(time ,count,date,max) {
 		var myChart = echarts.init(document.getElementById("remainder_char_line"))
 		option = {
 			title : {
@@ -209,10 +243,17 @@
 			],
 			yAxis : [
 				{
-					type : 'value',
-					axisLabel : {
-						formatter: '{value} 人'
-					}
+					type: 'value',
+					axisLabel: {
+						formatter: '{value} 人',
+						scale: true,
+						precision: 2,
+						splitNumber: 9,
+						boundaryGap: [1, 1],
+						splitArea: {show: true},
+
+					},
+					max:max
 				}
 			],
 			xAxis : [
@@ -229,7 +270,8 @@
 
 					},
 				},
-			],
+
+	],
 
 			/*dataZoom : {
 			orient:"horizontal", //水平显示
@@ -305,12 +347,18 @@
 				if (list) {
 					var time = []
 					var count = []
+					var max  = 0
 					for (var i=0;i<list.length;i++){
+						if (list[i].Count >max){
+							max = list[i].Count
+						}
 						time[i] = format(list[i].Unix * 1000).split(" ")[1]
 						count[i] = list[i].Count
 					}
-
-					refrash(time,count,unix)
+					if (max < 10 ){
+						max = 10
+					}
+					refrash(time,count,unix,max)
 				}
 
 				} else {

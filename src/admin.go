@@ -62,7 +62,7 @@ func main() {
 	e.POST("/users/logout", user.Logout)
 
 	e.GET("/", func(c echo.Context) error {
-		return c.Redirect(http.StatusTemporaryRedirect, "/statistics/online.html")
+		return c.Redirect(http.StatusTemporaryRedirect, "/statistics/index.html")
 	})
 
 	e.POST("/roles/list", role.List, loginMiddleware)
@@ -95,6 +95,7 @@ func main() {
 
 	e.POST("/statistics/online", statistics.Online, loginMiddleware)
 	e.POST("/statistics/newuser", statistics.NewUser, loginMiddleware)
+	e.POST("/statistics/index", statistics.Index, loginMiddleware)
 
 	conndb()
 	glog.Infoln(utils.TimestampToday())

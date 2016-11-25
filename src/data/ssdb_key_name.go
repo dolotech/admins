@@ -100,4 +100,5 @@ const (
 
 	KEY_ONLINE_STATISTICS  string = "online_statistics"  // 在线统计
 	KEY_NEWUSER_STATISTICS string = "newuser_statistics" // 新增统计
+	KEY_ACTIVE_STATISTICS  string = "active_statistics"  // 活跃统计
 )

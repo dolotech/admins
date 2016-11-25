@@ -666,6 +666,7 @@
                 $("#edit_pane").show();
                 if (userdatalist.$data["items"].length > 0) {
                     var data = userdatalist.$data["items"][index]
+                    data.Create_time = format(data.Create_time*1000)
                     edit.$data["items"] = data
                 }
             }

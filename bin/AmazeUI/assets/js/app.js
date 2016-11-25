@@ -179,9 +179,9 @@ function getSideBar() {
             icon:"am-icon-file",
             items:     [
                 {icon:"am-icon-table",path:"/statistics/online.html",name: "在线"},
-                {icon:"am-icon-table",path:"/statistics/newuser.html",name: "新增"},
-                {icon:"am-icon-table",path:"/statistics/active.html",name: "活跃"},
-                {icon:"am-icon-table",path:"/statistics/remainder.html",name: "留存"}
+                {icon:"am-icon-table",path:"/statistics/newuser.html",name: "新增"}
+       /*         {icon:"am-icon-table",path:"/statistics/active.html",name: "活跃"},*/
+              /*  {icon:"am-icon-table",path:"/statistics/remainder.html",name: "留存"}*/
                 ]
 
         }

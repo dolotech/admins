@@ -106,7 +106,17 @@
 
                         </div>
                     </div>
+                    <div class="am-g am-margin-vertical-sm">
+                        <div class="am-form-icon am-u-sm-12 am-u-md-3">
+                            <div class="am-form-icon">
+                                <i id="date-start-icon" class="am-icon-calendar"></i>
+                                <input id="date-start" type="text" name="last_visit_begin" value=""
+                                       class="am-form-field am-input-sm" placeholder="选择查询的日期"/>
 
+
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
                         <input type="text" id="SearchUserid" name="SearchUserid" value=""
@@ -245,7 +255,7 @@
         watch: {
             cur: function (oldValue, newValue) {
                // console.log(arguments)
-                getChargeList(new Date())
+                getChargeList()
             }
         },
         methods: {
@@ -308,18 +318,44 @@
                 this.$data.selected = "1"
                 this.$data.SearchValue = ""
                 Page:pageBar.$data.cur = 1,
-                        getChargeList(new Date())
+                        getChargeList()
             }
             ,
             onSearch: function (event) {
-                getChargeList(new Date())
+                getChargeList()
             }
         }
     })
 
-    getChargeList(new Date())
 
-function getChargeList(day) {
+    $('#date-start-icon').datepicker().on('changeDate.datepicker.amui', function (event) {
+        var startDate = new Date(event.date);
+        $('#date-start').val($('#date-start-icon').data('date'));
+        $(this).datepicker('close');
+    });
+    function onReset() {
+        $('#date-start').val("")
+        getChargeList()
+    }
+    function Search() {
+        if (!$('#date-start').val()){
+            $.Alert("请选择日期")
+            return
+        }
+
+        getChargeList()
+    }
+
+    getChargeList()
+
+function getChargeList() {
+    var day
+    if ($('#date-start').val()){
+      day  = new Date($('#date-start').val())
+    }else{
+        day = new Date()
+    }
+
     var unix = Date.parse(new Date(day.getFullYear(),day.getMonth(),day.getDate(),0,0,0))/1000;
     var data={SelectedIDSearch: searchSelect.$data.selected,
         Userid: searchSelect.$data.SearchValue,
