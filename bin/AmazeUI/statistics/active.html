@@ -91,7 +91,7 @@
         <div class="admin-content-body">
             <div class="am-cf am-padding am-padding-bottom-0">
                 <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">统计数据</strong> /
-                    <small>留存</small>
+                    <small>即时在线</small>
                 </div>
             </div>
 
@@ -113,7 +113,7 @@
 									<div class="am-form-icon">
 										<i id="date-start-icon" class="am-icon-calendar"></i>
 										<input id="date-start" type="text" name="last_visit_begin" value=""
-											   class="am-form-field am-input-sm" placeholder="在线日期"/>
+											   class="am-form-field am-input-sm" placeholder="选择查询的日期"/>
 
 
 									</div>
@@ -137,7 +137,7 @@
                 <div class="am-u-sm-12">
                         <!-- 折线图堆叠 -->
 
-                        <div  id="remainder_char_line" style="width: 100%;height: 250px;"></div>
+                        <div  id="remainder_char_line" style="width: 100%;height: 500px;"></div>
 
 
                 </div>
@@ -162,79 +162,113 @@
 </html>
 
 <script type="text/javascript">
+	new Vue({
+		el: '#admin-sidebar-list',
+		data: {items: getSideBar() }
+	})
+	new Vue({
+		el:"#admin-head-list",
+		data:{items: getHeadBar() }
+	})
 
-    new Vue({
-        el: '#admin-sidebar-list',
-        data: {items: getSideBar() }
-    })
-    new Vue({
-        el:"#admin-head-list",
-        data:{items: getHeadBar() }
-    })
+	function refrash(time ,count,date) {
+		var myChart = echarts.init(document.getElementById("remainder_char_line"))
+		option = {
+			title : {
+				text: '在线玩家',
+				subtext: format(date* 1000).split(" ")[0] + "日的在线统计"
+			},
+			tooltip : {
+				trigger: 'axis'
+			},
+			legend: {
+				data:[]
+			},
+			toolbox: {
+				show : true,
+				feature : {
+					mark : {show: true},
+					dataView : {show: true, readOnly: false},
+					magicType : {show: true, type: ['line', 'bar']},
+					restore : {show: true},
+					saveAsImage : {show: true}
+				}
+			},
+			calculable : true,
+			xAxis : [
+				{
+					type : 'category',
+					boundaryGap : true,
+					data : time,
+					interval:0,
+					axisLabel:{
+						interval:10,
+						rotate:45,
+						margin:2,
+
+
+					},
+				},
+			],
+			yAxis : [
+				{
+					type : 'value',
+					axisLabel : {
+						formatter: '{value} 人'
+					}
+				}
+			],
+			xAxis : [
+				{
+					type : 'category',
+					boundaryGap : true,
+					data : time,
+					interval:0,
+					axisLabel:{
+						interval:10,
+						rotate:45,
+						margin:2,
+
+
+					},
+				},
+			],
+
+			/*dataZoom : {
+			orient:"horizontal", //水平显示
+
+			show:true, //显示滚动条
+			start:0, //起始值为0%
+			end:100  //结束值为100%
+		},*/
+			series : [
+				{
+					name:'最高在线',
+					type:'line',
+					data:count,
+					markPoint : {
+						data : [
+							{type : 'max', name: '最大值'},
+							{type : 'min', name: '最小值'}
+						]
+					},
+					markLine : {
+						data : [
+							{type : 'average', name: '平均值'}
+						]
+					}
+				}
+			]
+		};
+
+		myChart.setOption(option)
+		window.onresize = myChart.resize
+	}
 
     $(document).ready(function(){
 
 
-        var myChart = echarts.init(document.getElementById("remainder_char_line"))
-        option = {
-            title : {
-                text: '在线玩家',
-                subtext: '5分钟统计一次'
-            },
-            tooltip : {
-                trigger: 'axis'
-            },
-            legend: {
-                data:[]
-            },
-            toolbox: {
-                show : true,
-                feature : {
-                    mark : {show: true},
-                    dataView : {show: true, readOnly: false},
-                    magicType : {show: true, type: ['line', 'bar']},
-                    restore : {show: true},
-                    saveAsImage : {show: true}
-                }
-            },
-            calculable : true,
-            xAxis : [
-                {
-                    type : 'category',
-                    boundaryGap : false,
-                    data : ['00:00','01:00','02:00','04:00','05:00','06:00','07:00','08:00','08:00','10:00','11:00','12:00',
-						'13:00','14:00','15:00','16:00','17:00','18:00','17:00','20:00','21:00','22:00','23:00']
-                }
-            ],
-            yAxis : [
-                {
-                    type : 'value',
-                    axisLabel : {
-                        formatter: '{value} 人'
-                    }
-                }
-            ],
-            series : [
-                {
-                    name:'最高在线',
-                    type:'line',
-                    data:[ 11, 0, 13, 12, 5, 10,11, 11, 15, 13, 102, 13, 10,11, 11, 15, 13, 12, 100, 10,11, 101, 15, 13],
-                    markPoint : {
-                        data : [
-                            {type : 'max', name: '最大值'},
-                            {type : 'min', name: '最小值'}
-                        ]
-                    },
-                    markLine : {
-                        data : [
-                            {type : 'average', name: '平均值'}
-                        ]
-                    }
-                }
-            ]
-        };
-
-       myChart.setOption(option)
+		getOnline(new Date())
     });
 
 	$('#date-start-icon').datepicker().on('changeDate.datepicker.amui', function (event) {
@@ -243,13 +277,49 @@
 		$(this).datepicker('close');
 	});
 	function onReset() {
-		$.Alert("重置")
-
+		var day = new Date()
+		getOnline(day)
 	}
 	function Search() {
 		if (!$('#date-start').val()){
 			$.Alert("请选择日期")
+			return
 		}
 
+		var day = new Date($('#date-start').val())
+		getOnline(day)
+	}
+
+	function getOnline(day) {
+		var unix = Date.parse(new Date(day.getFullYear(),day.getMonth(),day.getDate(),0,0,0))/1000;
+		console.info(unix)
+		$.ajax({
+			type: "POST",
+			url: "/statistics/online",
+			data: {Unix:unix},
+			dataType: "json",
+			timeout : 10000,
+			error : function(xhr,textStatus){
+				$.Alert("网络超时,请刷新网页!")
+			},
+			success: function (data) {
+				if (data["status"] == "ok") {
+					var list = data["data"]
+				if (list) {
+					var time = []
+					var count = []
+					for (var i=0;i<list.length;i++){
+						time[i] = format(list[i].Unix * 1000).split(" ")[1]
+						count[i] = list[i].Count
+					}
+
+					refrash(time,count,unix)
+				}
+
+				} else {
+					$.Alert(data["msg"])
+				}
+			}
+		});
 	}
 </script>

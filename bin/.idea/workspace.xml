@@ -27,8 +27,8 @@
       <file leaf-file-name="online.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AmazeUI/statistics/online.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="707">
-              <caret line="172" column="0" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
+            <state relative-caret-position="223">
+              <caret line="288" column="27" selection-start-line="288" selection-start-column="18" selection-end-line="288" selection-end-column="27" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -36,11 +36,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="remainder.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="remainder.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AmazeUI/statistics/remainder.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="515">
-              <caret line="173" column="4" selection-start-line="173" selection-start-column="4" selection-end-line="173" selection-end-column="4" />
+            <state relative-caret-position="229">
+              <caret line="220" column="121" selection-start-line="220" selection-start-column="19" selection-end-line="220" selection-end-column="121" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -48,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="chargeorder.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="chargeorder.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AmazeUI/operation/chargeorder.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="335" column="10" selection-start-line="332" selection-start-column="6" selection-end-line="335" selection-end-column="10" />
+            <state relative-caret-position="249">
+              <caret line="314" column="29" selection-start-line="314" selection-start-column="16" selection-end-line="314" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -73,8 +73,8 @@
       <file leaf-file-name="transition.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AmazeUI/operation/transition.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-417">
-              <caret line="154" column="80" selection-start-line="154" selection-start-column="80" selection-end-line="154" selection-end-column="80" />
+            <state relative-caret-position="249">
+              <caret line="249" column="29" selection-start-line="249" selection-start-column="16" selection-end-line="249" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -83,8 +83,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AmazeUI/assets/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="458">
-              <caret line="170" column="62" selection-start-line="170" selection-start-column="62" selection-end-line="170" selection-end-column="62" />
+            <state relative-caret-position="-466">
+              <caret line="137" column="74" selection-start-line="137" selection-start-column="74" selection-end-line="137" selection-end-column="74" />
               <folding />
             </state>
           </provider>
@@ -141,12 +141,12 @@
         <option value="$PROJECT_DIR$/AmazeUI/roles/list.html" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/change.html" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/charge.html" />
-        <option value="$PROJECT_DIR$/AmazeUI/assets/js/app.js" />
-        <option value="$PROJECT_DIR$/AmazeUI/operation/chargeorder.html" />
-        <option value="$PROJECT_DIR$/AmazeUI/operation/transition.html" />
         <option value="$PROJECT_DIR$/AmazeUI/statistics/newuser.html" />
         <option value="$PROJECT_DIR$/AmazeUI/statistics/online.html" />
         <option value="$PROJECT_DIR$/AmazeUI/statistics/remainder.html" />
+        <option value="$PROJECT_DIR$/AmazeUI/assets/js/app.js" />
+        <option value="$PROJECT_DIR$/AmazeUI/operation/transition.html" />
+        <option value="$PROJECT_DIR$/AmazeUI/operation/chargeorder.html" />
       </list>
     </option>
   </component>
@@ -436,7 +436,7 @@
       <workItem from="1479611038253" duration="27059000" />
       <workItem from="1479864516346" duration="20460000" />
       <workItem from="1479951222183" duration="20995000" />
-      <workItem from="1480036803264" duration="6816000" />
+      <workItem from="1480036803264" duration="8198000" />
     </task>
     <task id="LOCAL-00001" summary="更新登录模板">
       <created>1475138471139</created>
@@ -449,7 +449,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="366453000" />
+    <option name="totallyTimeSpent" value="367835000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
@@ -776,30 +776,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/assets/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="170" column="62" selection-start-line="170" selection-start-column="62" selection-end-line="170" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/chargeorder.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="335" column="10" selection-start-line="332" selection-start-column="6" selection-end-line="335" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/transition.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-417">
-          <caret line="154" column="80" selection-start-line="154" selection-start-column="80" selection-end-line="154" selection-end-column="80" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/statistics/newuser.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="462">
@@ -810,23 +786,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/statistics/online.html">
+    <entry file="file://$PROJECT_DIR$/AmazeUI/statistics/remainder.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="707">
-          <caret line="172" column="0" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
+        <state relative-caret-position="229">
+          <caret line="220" column="121" selection-start-line="220" selection-start-column="19" selection-end-line="220" selection-end-column="121" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/statistics/remainder.html">
+    <entry file="file://$PROJECT_DIR$/AmazeUI/assets/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="515">
-          <caret line="173" column="4" selection-start-line="173" selection-start-column="4" selection-end-line="173" selection-end-column="4" />
+        <state relative-caret-position="-466">
+          <caret line="137" column="74" selection-start-line="137" selection-start-column="74" selection-end-line="137" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/statistics/online.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="288" column="27" selection-start-line="288" selection-start-column="18" selection-end-line="288" selection-end-column="27" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/transition.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="249" column="29" selection-start-line="249" selection-start-column="16" selection-end-line="249" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/chargeorder.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="314" column="29" selection-start-line="314" selection-start-column="16" selection-end-line="314" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>

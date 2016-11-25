@@ -1,6 +1,7 @@
 package operation
 
 import (
+	"basic/utils"
 	"data"
 	"net/http"
 	"strconv"
@@ -20,19 +21,25 @@ func GetTransition(c echo.Context) error {
 	} else if pageMax > 200 {
 		pageMax = 200
 	}
-	userid := c.FormValue("Userid")
-	var size int64 = 800
-	var list []*data.TradingResults
-	if userid != "" {
-	} else {
-		for i := 0; i < 50; i++ {
-			trans := &data.TradingResults{Transtype: i}
-			list = append(list, trans)
-		}
+	unix, _ := strconv.ParseInt(c.FormValue("Unix"), 10, 64) // string
+	today := utils.TimestampToday()
 
+	if unix <= 0 {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "日期超出"})
+	} else if unix > today {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "日期超出"})
+	}
+	userid := c.FormValue("Userid")
+	var size int64 = 0
+	var list []*data.TradingResults
+	var err error
+	if userid != "" {
+		list, size, err = data.GetTransitionByUserid(c.FormValue("Unix"), userid, page, pageMax)
+	} else {
+		list, size, err = data.GetTransition(c.FormValue("Unix"), page, pageMax)
 	}
 
-	if len(list) == 0 {
+	if err != nil {
 		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "列表为空"})
 	}
 	return c.JSON(http.StatusOK, data.H{"status": "ok", "data": data.H{"list": list, "count": size}})
@@ -51,19 +58,26 @@ func GetChargeOrder(c echo.Context) error {
 	} else if pageMax > 200 {
 		pageMax = 200
 	}
-	userid := c.FormValue("Userid")
-	var size int64 = 800
-	var list []*data.ChargeOrder
-	if userid != "" {
-	} else {
-		for i := 0; i < 50; i++ {
-			trans := &data.ChargeOrder{Orderid: "99"}
-			list = append(list, trans)
-		}
 
+	unix, _ := strconv.ParseInt(c.FormValue("Unix"), 10, 64) // string
+	today := utils.TimestampToday()
+
+	if unix <= 0 {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "日期超出"})
+	} else if unix > today {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "日期超出"})
 	}
 
-	if len(list) == 0 {
+	userid := c.FormValue("Userid")
+	var size int64 = 0
+	var list []*data.ChargeOrder
+	var err error
+	if userid != "" {
+		list, size, err = data.GetChargeOrderByUserid(c.FormValue("Unix"), userid, page, pageMax)
+	} else {
+		list, size, err = data.GetChargeOrder(c.FormValue("Unix"), page, pageMax)
+	}
+	if err != nil {
 		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "列表为空"})
 	}
 	return c.JSON(http.StatusOK, data.H{"status": "ok", "data": data.H{"list": list, "count": size}})

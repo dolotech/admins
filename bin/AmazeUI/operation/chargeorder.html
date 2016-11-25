@@ -245,7 +245,7 @@
         watch: {
             cur: function (oldValue, newValue) {
                // console.log(arguments)
-                getChargeList()
+                getChargeList(new Date())
             }
         },
         methods: {
@@ -308,22 +308,24 @@
                 this.$data.selected = "1"
                 this.$data.SearchValue = ""
                 Page:pageBar.$data.cur = 1,
-                        getChargeList()
+                        getChargeList(new Date())
             }
             ,
             onSearch: function (event) {
-                getChargeList()
+                getChargeList(new Date())
             }
         }
     })
 
-    getChargeList()
+    getChargeList(new Date())
 
-function getChargeList() {
+function getChargeList(day) {
+    var unix = Date.parse(new Date(day.getFullYear(),day.getMonth(),day.getDate(),0,0,0))/1000;
     var data={SelectedIDSearch: searchSelect.$data.selected,
         Userid: searchSelect.$data.SearchValue,
         Page:pageBar.$data.cur,
-        PageMax:pages.$data.selected
+        PageMax:pages.$data.selected,
+        Unix:unix
     }
     $.ajax({
         type: "POST",

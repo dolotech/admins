@@ -134,7 +134,9 @@ function getSideBar() {
             items: [
             { icon:"am-icon-table",path:"/roles/list.html",  name:"玩家列表"}
 
-          /*  {icon:"am-icon-table",path:"/roles/listonline.html",name: "在线玩家"},
+          /*
+           { icon:"am-icon-table",path:"/roles/feedback.html",  name:"反馈"}
+          {icon:"am-icon-table",path:"/roles/listonline.html",name: "在线玩家"},
             {icon:"am-icon-table",path:"/roles/gainrank.html", name:"每日盈利排名"},
             {icon:"am-icon-table",path:"/roles/winrank.html", name:"胜局排名"},
             {icon:"am-icon-table",path:"/roles/coinrank.html", name:"等级排名"},
@@ -176,9 +178,10 @@ function getSideBar() {
             name: "数据统计",
             icon:"am-icon-file",
             items:     [
-                {icon:"am-icon-table",path:"/statistics/online.html",name: "在线统计"},
-                {icon:"am-icon-table",path:"/statistics/newuser.html",name: "新增统计"},
-                {icon:"am-icon-table",path:"/statistics/remainder.html",name: "留存统计"}
+                {icon:"am-icon-table",path:"/statistics/online.html",name: "在线"},
+                {icon:"am-icon-table",path:"/statistics/newuser.html",name: "新增"},
+                {icon:"am-icon-table",path:"/statistics/active.html",name: "活跃"},
+                {icon:"am-icon-table",path:"/statistics/remainder.html",name: "留存"}
                 ]
 
         }
