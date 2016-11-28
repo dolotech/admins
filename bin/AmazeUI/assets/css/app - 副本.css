@@ -1,0 +1,12 @@
+/* Write your styles */
+
+.pic_list
+{
+    display:inline;
+    white-space: nowrap;
+}
+.pic_list li
+{
+    float:left;
+    display:block;
+}

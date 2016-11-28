@@ -1,297 +1,246 @@
 <!doctype html>
-<html class="no-js">
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>贵州麻将后台管理系统</title>
-    <meta name="description" content="这是一个 user 页面">
-    <meta name="keywords" content="user">
+    <title>贵阳麻将后台管理系统</title>
+    <meta name="description" content="贵阳麻将后台管理系统">
+    <meta name="keywords" content="贵阳麻将后台管理系统">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="icon" type="image/png" href="../assets/i/favicon.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
-    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
-    <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+    <meta name="apple-mobile-web-app-title" content="贵阳麻将后台管理系统" />
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css" />
     <link rel="stylesheet" href="../assets/css/admin.css">
-
-
-    <style type="text/css">
-    </style>
+    <link rel="stylesheet" href="../assets/css/app.css">
 </head>
-<body>
-<!--[if lte IE 9]>
-<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
-    以获得更好的体验！</p>
-<![endif]-->
 
-<header class="am-topbar am-topbar-inverse admin-header">
-    <div class="am-topbar-brand">
-        <strong>贵州麻将</strong>
-        <small>后台管理系统</small>
-    </div>
 
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
-            data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
-            class="am-icon-bars"></span></button>
-    <!-- headbar start -->
-    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list" id="admin-head-list">
-            <li v-for="item in items" class="am-dropdown" data-am-dropdown>
-                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                    <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
-                </a>
-                <ul class="am-dropdown-content">
-                    <li v-for="i in item.items">
-                        <a :href="i.path" type="button" :onclick="i.action">
-                            <span :class="i.icon"></span> </span> {{ i.name}}
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <!-- headbar end -->
-</header>
 
-<div class="am-cf admin-main">
-    <!-- sidebar start -->
-    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
-        <div class="am-offcanvas-bar admin-offcanvas-bar">
-            <ul class="am-list admin-sidebar-list" id="admin-sidebar-list">
-                <li><a href="/"><span class="am-icon-home"></span> 首页</a></li>
-                <li v-for="item in items" class="admin-parent">
-                   <!-- <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">-->
-                    <a class="am-cf">
-                        <span :class="item.icon"></span> {{ item.name }} <span
-                            class="am-icon-angle-right am-fr am-margin-right"></span>
+<body data-type="index">
+    <header class="am-topbar am-topbar-inverse admin-header">
+        <div class="am-topbar-brand">
+            <strong>贵州麻将</strong>
+            <small>后台管理系统</small>
+        </div>
+        <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right"> </div>
+
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+        <!-- headbar start -->
+        <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+            <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list" id="admin-head-list">
+                <li v-for="item in items" class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                    <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+                        <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
                     </a>
-                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
-                        <li v-for="i in item.items">
-                            <a :href="i.path" class="am-cf">
-                                <span :class="i.icon"></span> {{ i.name}}<span
-                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
-                            </a>
-                        </li>
+                    <ul class="am-dropdown-content tpl-dropdown-content">
+                        <li v-for="i in item.items" >
+                           <a :href="i.path" type="button" :onclick="i.action"><span :class="i.icon"></span> </span> {{ i.name}}</a></li>
+
                     </ul>
                 </li>
             </ul>
         </div>
-    </div>
-    <!-- sidebar end -->
-    <!-- content start -->
-    <div class="admin-content" id="userListPane">
-        <div class="admin-content-body">
-            <div class="am-cf am-padding am-padding-bottom-0">
-                <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">账号列表</strong> /
-                    <small>Table</small>
-                </div>
+        <!-- headbar end -->
+    </header>
+
+    <div class="tpl-page-container tpl-page-header-fixed">
+        <!-- sidebar start -->
+       <div class="tpl-left-nav tpl-left-nav-hover">
+            <div class="tpl-left-nav-list">
+                <ul class="tpl-left-nav-menu" id="admin-sidebar-list">
+                    <li class="tpl-left-nav-item">
+                        <a href="/" class="nav-link active">
+                            <i class="am-icon-home"></i>
+                            <span>首页</span>
+                        </a>
+                    </li>
+                    <!-- table start -->
+
+                    <li v-for="item in items" class="tpl-left-nav-item">
+                        <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                            <i :class="item.icon"></i>
+                            <span>{{ item.name }} </span>
+                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                        </a>
+                        <ul class="tpl-left-nav-sub-menu" style="display: block;">
+                            <li v-for="i in item.items">
+                                <a :href="i.path">
+                                    <i :class="i.icon"></i>
+                                    <span>{{ i.name}}</span>
+                                    <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <!-- sidebar end -->
+
+
+
+        <div class="tpl-content-wrapper"  id="userListPane" >
+            <ol class="am-breadcrumb">
+                <li><a href="#" class="am-icon-home">首页</a></li>
+                <li><a href="#">分类</a></li>
+                <li class="am-active">内容</li>
                 <div class="am-fr am-cf">
                     <a href="/users/create.html" class="am-btn am-btn-default am-input-sm" type="button">
                         添加管理员
                     </a>
                 </div>
-            </div>
+            </ol>
+            <div class="tpl-portlet-components">
+            <div class="tpl-block">
 
-            <hr>
-            <form id="mainForm" method="POST" class="am-form">
-                <!-- panel start -->
-                <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-search'}">搜索<span
-                            class="am-icon-chevron-down am-fr"></span></div>
-                    <div class="am-panel-bd am-collapse am-in" id="collapse-panel-search">
+                <div class="am-u-sm-12">
+                    <!--     <form class="am-form">-->
 
-                        <div class="am-g am-margin-vertical-sm">
+                    <!--      {{ $len := len .users }}
+                          {{if eq $len 0 }}
+                          <p align="center"> 没有找到你要的数据!</p>
+                          {{ else }}-->
+                    <table class="am-table am-table-striped am-table-hover table-main" id="list_pane">
+                        <thead>
+                        <tr>
+                            <td class="am-text-nowrap">登录名</td>
+                            <td class="am-text-nowrap">状态</td>
+                            <td class="am-text-nowrap">真实姓名</td>
+                            <td class="am-text-nowrap">用户组</td>
+                            <td class="am-text-nowrap">下属成员</td>
+                            <td class="am-text-nowrap">登录IP限制</td>
+                            <td class="am-text-nowrap">登录次数</td>
+                            <td class="am-text-nowrap">最后登录IP</td>
+                            <td class="am-text-nowrap">最后登录地点</td>
+                            <td class="am-text-nowrap">最后登录时间</td>
+                            <td class="am-text-nowrap table-set">操作</td>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                            <div class="am-u-sm-12 am-u-md-3">
-                                <input type="text" name="username" value="" class="am-form-field am-input-sm"
-                                       placeholder="登陆名"/>
-                            </div>
+                        <tr v-for="(v,index) in items ">
+                            <td>{{ v.Id }}</td>
+                            <td>{{ v.Status }}</td>
+                            <td>{{ v.Name }}</td>
+                            <td>{{ v.Group_id }}</td>
+                            <td>{{ v.Members }}</td>
+                            <td>{{ v.Ip_limit }}</td>
+                            <td>{{ v.Login_times }}</td>
+                            <td>{{ v.Last_ip }}</td>
+                            <td>{{ v.Last_addr }}</td>
+                            <td>{{ v.Last_visit }}</td>
+                            <td><a href="#" type="button" v-on:click="onEdit(index )">详细</a> <a href="#" type="button"
+                                                                                                v-on:click="onDelete(index )">删除</a>
+                            </td>
+                        </tr>
 
-                            <div class="am-u-sm-12 am-u-md-3">
-                                <input type="text" name="name" value="" class="am-form-field am-input-sm"
-                                       placeholder="真实姓名"/>
-                            </div>
+                        </tbody>
+                    </table>
 
-                            <div class="am-form-icon am-u-sm-12 am-u-md-3">
-                                <div class="am-form-icon">
-                                    <i id="date-start-icon" class="am-icon-calendar"></i>
-                                    <input id="date-start" type="text" name="last_visit_begin" value=""
-                                           class="am-form-field am-input-sm" placeholder="最后登录时间-从"/>
-                                </div>
-                            </div>
-
-                            <div class="am-form-icon am-u-sm-12 am-u-md-3">
-                                <div class="am-form-icon">
-                                    <i id="date-end-icon" class="am-icon-calendar"></i>
-                                    <input id="date-end" type="text" name="last_visit_end" value=""
-                                           class="am-form-field am-input-sm" placeholder="最后登录时间-到"/>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="am-g am-margin-vertical-sm">
-
-                            <div class="am-u-sm-12 am-u-md-3">
-                                <!-- {{template "select.html" .}}-->
-                            </div>
-                            <div class="am-u-sm-12 am-u-md-3 am-u-end">
-                                <button class="am-btn am-btn-default am-input-sm" type="button">搜索</button>
-                            </div>
-
-                        </div>
-
-                    </div>
                 </div>
-                <!-- panel end -->
-
-                <table class="am-table am-table-striped am-text-sm am-table-hover" id="list_pane">
-                    <thead>
-                    <tr>
-                        <td class="am-text-nowrap">登录名</td>
-                        <td class="am-text-nowrap">状态</td>
-                        <td class="am-text-nowrap">真实姓名</td>
-                        <td class="am-text-nowrap">用户组</td>
-                        <td class="am-text-nowrap">下属成员</td>
-                        <td class="am-text-nowrap">登录IP限制</td>
-                        <td class="am-text-nowrap">登录次数</td>
-                        <td class="am-text-nowrap">最后登录IP</td>
-                        <td class="am-text-nowrap">最后登录地点</td>
-                        <td class="am-text-nowrap">最后登录时间</td>
-                        <td class="am-text-nowrap table-set">操作</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr v-for="(v,index) in items ">
-                        <td>{{ v.Id }}</td>
-                        <td>{{ v.Status }}</td>
-                        <td>{{ v.Name }}</td>
-                        <td>{{ v.Group_id }}</td>
-                        <td>{{ v.Members }}</td>
-                        <td>{{ v.Ip_limit }}</td>
-                        <td>{{ v.Login_times }}</td>
-                        <td>{{ v.Last_ip }}</td>
-                        <td>{{ v.Last_addr }}</td>
-                        <td>{{ v.Last_visit }}</td>
-                        <td><a href="#" type="button" v-on:click="onEdit(index )">详细</a> <a href="#" type="button"
-                                                                                            v-on:click="onDelete(index )">删除</a>
-                        </td>
-                    </tr>
-
-                    </tbody>
-                </table>
-
-                <!--{{template "pager.html" .}}-->
-
-                <hr/>
-            </form>
-        </div>
-    </div>
-
-
-<!-- content start -->
-<div class="admin-content" id="editPane">
-    <div class="admin-content-body">
-        <div class="am-cf am-padding am-padding-bottom-0">
-            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">玩家管理</strong> /
-                <small>编辑账号</small>
             </div>
+            </div>
+            <div class="tpl-alert"></div>
         </div>
 
-        <hr>
-        <form class="am-form am-form-horizontal" id="adduser">
+        <div  style="display:none;" id="editPane">
+            <div class="tpl-content-wrapper" >
+                <ol class="am-breadcrumb">
+                    <li><a href="#" class="am-icon-home">首页</a></li>
+                    <li><a href="#">分类</a></li>
+                    <li class="am-active">内容</li>
+                </ol>
+                <div class="tpl-portlet-components">
+                    <div class="am-g tpl-amazeui-form">
+                        <div class="am-u-sm-12 am-u-md-9">
+                            <form class="am-form am-form-horizontal" id="edit_user">
+                                <div class="am-form-group am-margin-vertical-sm">
+                                    <label class="am-u-sm-2 am-form-label">帐号名称</label>
+                                    <div class="am-u-sm-10">
+                                        <input id="username" type="text" name="username" value="" v-model="user.Id"/>
 
-            <div class="am-form-group am-margin-vertical-sm">
-                <label class="am-u-sm-2 am-form-label">帐号名称</label>
-                <div class="am-u-sm-10">
-                    <input id="username" type="text" name="username" value="" v-model="user.Id"/>
+                                    </div>
+                                </div>
 
-                </div>
-            </div>
+                                <div class="am-form-group am-margin-vertical-sm">
+                                    <label for="realname" class="am-u-sm-2 am-form-label">真实姓名</label>
+                                    <div class="am-u-sm-10">
+                                        <input id="realname" type="text" name="realname" value="" v-model="user.Name"/>
 
-            <div class="am-form-group am-margin-vertical-sm">
-                <label for="realname" class="am-u-sm-2 am-form-label">真实姓名</label>
-                <div class="am-u-sm-10">
-                    <input id="realname" type="text" name="realname" value="" v-model="user.Name"/>
+                                    </div>
+                                </div>
 
-                </div>
-            </div>
+                                <div class="am-form-group am-margin-vertical-sm">
+                                    <label for="password" class="am-u-sm-2 am-form-label">密码</label>
+                                    <div class="am-u-sm-10">
+                                        <input id="password" type="password" name="password" value="" v-model="user.Passwd"/>
 
-            <div class="am-form-group am-margin-vertical-sm">
-                <label for="password" class="am-u-sm-2 am-form-label">密码</label>
-                <div class="am-u-sm-10">
-                    <input id="password" type="password" name="password" value="" v-model="user.Passwd"/>
+                                    </div>
+                                </div>
 
-                </div>
-            </div>
+                                <div class="am-form-group am-margin-vertical-sm">
+                                    <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
+                                    <div class="am-u-sm-10">
+                                        <input id="password1" type="password" name="password1" value="" v-model="user.Passwd1"/>
 
-            <div class="am-form-group am-margin-vertical-sm">
-                <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
-                <div class="am-u-sm-10">
-                    <input id="password1" type="password" name="password1" value="" v-model="user.Passwd1"/>
-
-                </div>
-            </div>
-            <div class="am-form-group am-margin-vertical-sm">
-                <label class="am-u-sm-2 am-form-label">用户组</label>
-                <div class="am-u-sm-10" id="SelectGroup">
-                    <select v-model="selected"> <option v-for="option in options" v-bind:value="option.value"> {{ option.text }} </option> </select>
-                </div>
-            </div>
+                                    </div>
+                                </div>
+                                <div class="am-form-group am-margin-vertical-sm">
+                                    <label class="am-u-sm-2 am-form-label">用户组</label>
+                                    <div class="am-u-sm-10" id="SelectGroup">
+                                        <select v-model="selected"> <option v-for="option in options" v-bind:value="option.value"> {{ option.text }} </option> </select>
+                                    </div>
+                                </div>
 
 
-            <div class="am-form-group am-margin-vertical-sm">
-                <label class="am-u-sm-2 am-form-label">限制登录IP</label>
-                <div class="am-u-sm-10">
-                    <input type="text" id="ip_limit" name="ip_limit" value="" v-model="user.Ip_limit"/>
-                    <small>多个IP用英文,号分开</small>
-                </div>
-            </div>
+                                <div class="am-form-group am-margin-vertical-sm">
+                                    <label class="am-u-sm-2 am-form-label">限制登录IP</label>
+                                    <div class="am-u-sm-10">
+                                        <input type="text" id="ip_limit" name="ip_limit" value="" v-model="user.Ip_limit"/>
+                                        <small>多个IP用英文,号分开</small>
+                                    </div>
+                                </div>
 
-            <div class="am-form-group am-margin-vertical-sm">
-                <label class="am-u-sm-2 am-form-label">描述</label>
-                <div class="am-u-sm-10">
+                                <div class="am-form-group am-margin-vertical-sm">
+                                    <label class="am-u-sm-2 am-form-label">描述</label>
+                                    <div class="am-u-sm-10">
                     <textarea id="description" name="description" style="width:500px; height:160px;"
                               v-model="user.Description"></textarea>
-                </div>
-            </div>
+                                    </div>
+                                </div>
 
-            <div class="am-g am-margin-vertical-sm">
-                <div class="am-form-group">
-                    <label class="am-u-sm-2 am-form-label"></label>
-                    <div class="am-u-sm-10">
-                        <input type="button" name="send" id="send" class="am-btn am-btn-primary" v-on:click="onSave"
-                               value="提交"/>
-                        <input type="button" class="am-btn" value="返回" v-on:click="button_onback"/>
+                                <div class="am-g am-margin-vertical-sm">
+                                    <div class="am-form-group">
+                                        <label class="am-u-sm-2 am-form-label"></label>
+                                        <div class="am-u-sm-10">
+                                            <input type="button" name="send" id="send" class="am-btn am-btn-primary" v-on:click="onSave"
+                                                   value="提交"/>
+                                            <input type="button" class="am-btn" value="返回" v-on:click="button_onback"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
+
                 </div>
             </div>
-            <hr/>
-        </form>
+        </div>
+
     </div>
-</div>
 
-<!-- content end -->
-
-
-<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu"
-   data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
-
-<footer>
-    <hr>
-    <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
-</footer>
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../assets/js/dialog.js"></script>
-<script src="../assets/js/vue.js"></script>
-<script src="../assets/js/app.js"></script>
-<script src="../assets/js/amazeui.min.js"></script>
-    <script type="text/javascript" src="../assets/js/jquery.md5.js"></script>
-</div>
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/dialog.js"></script>
+    <script src="../assets/js/vue.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/myapp.js"></script>
+    <script src="../assets/js/amazeui.min.js"></script>
 </body>
 </html>
-
 
 <script>
     new Vue({
@@ -338,15 +287,15 @@
         },
         methods: {
             button_onback: function () {
-                 $("#userListPane").show()
+                $("#userListPane").show()
                 $("#editPane").hide()
 
             },
             onSave: function () {
 
-               if (edit.$data["user"]["Passwd"]){
-                   edit.$data["user"]["Passwd"] = $.md5( edit.$data["user"]["Passwd"])
-               }
+                if (edit.$data["user"]["Passwd"]){
+                    edit.$data["user"]["Passwd"] = $.md5( edit.$data["user"]["Passwd"])
+                }
                 if ( edit.$data["user"]["Passwd1"]){
                     edit.$data["user"]["Passwd1"] = $.md5( edit.$data["user"]["Passwd1"])
                 }
@@ -392,7 +341,6 @@
         },
         methods: {
             onEdit: function (id) {
-
                 $("#userListPane").hide()
                 $("#editPane").show()
                 this.$data.items[id].Passwd = ""
@@ -424,32 +372,5 @@
     })
 
 
-    $(function () {
-        var startDate = new Date(2000, 1, 1);
-        var endDate = new Date(2099, 11, 25);
-        var $alert = $('#my-alert');
 
-        $('#date-start-icon').datepicker().on('changeDate.datepicker.amui', function (event) {
-            if (event.date.valueOf() > endDate.valueOf()) {
-                $alert.find('p').text('开始日期应小于结束日期！').end().show();
-            } else {
-                $alert.hide();
-                startDate = new Date(event.date);
-                $('#date-start').val($('#date-start-icon').data('date') + ' 00:00:00');
-            }
-            $(this).datepicker('close');
-        });
-
-        $('#date-end-icon').datepicker().on('changeDate.datepicker.amui', function (event) {
-            if (event.date.valueOf() < startDate.valueOf()) {
-                $alert.find('p').text('结束日期应大于开始日期！').end().show();
-            } else {
-                $alert.hide();
-                endDate = new Date(event.date);
-                $('#date-end').val($('#date-end-icon').data('date') + ' 23:59:59');
-            }
-            $(this).datepicker('close');
-        });
-    });
 </script>
-

@@ -51,8 +51,8 @@ func ping() {
 func loopPing() {
 	for {
 		select {
-		//	case <-time.After(time.Second * 9):
-		case <-time.After(time.Minute * 5):
+		case <-time.After(time.Second * 9):
+			//	case <-time.After(time.Minute * 5):
 			ping()
 		}
 	}

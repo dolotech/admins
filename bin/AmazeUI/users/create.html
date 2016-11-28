@@ -1,186 +1,179 @@
-<html class="no-js">
+<!doctype html>
+<html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>贵州麻将后台管理系统</title>
-  <meta name="description" content="这是一个 user 页面">
-  <meta name="keywords" content="user">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="Cache-Control" content="no-siteapp" />
-  <link rel="icon" type="image/png" href="../assets/i/favicon.png">
-  <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
-  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
-  <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
-  <link rel="stylesheet" href="../assets/css/admin.css">
-
-  
-  <style type="text/css">
-  </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>贵阳麻将后台管理系统</title>
+    <meta name="description" content="贵阳麻将后台管理系统">
+    <meta name="keywords" content="贵阳麻将后台管理系统">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="../assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="贵阳麻将后台管理系统" />
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/app.css">
 </head>
-<body>
 
-<header class="am-topbar am-topbar-inverse admin-header">
-  <div class="am-topbar-brand">
-    <strong>贵州麻将</strong> <small>后台管理系统</small>
-  </div>
+<body data-type="index">
+    <header class="am-topbar am-topbar-inverse admin-header">
+        <div class="am-topbar-brand">
+            <strong>贵州麻将</strong>
+            <small>后台管理系统</small>
+        </div>
+        <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right"> </div>
 
-  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+        <!-- headbar start -->
+        <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+            <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list" id="admin-head-list">
+                <li v-for="item in items" class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                    <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+                        <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
+                    </a>
+                    <ul class="am-dropdown-content tpl-dropdown-content">
+                        <li v-for="i in item.items" >
+                           <a :href="i.path" type="button" :onclick="i.action"><span :class="i.icon"></span> </span> {{ i.name}}</a></li>
 
-    <!-- headbar start -->
-    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list" id="admin-head-list">
-            <li v-for="item in items" class="am-dropdown" data-am-dropdown>
-                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                    <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
-                </a>
-                <ul class="am-dropdown-content">
-                    <li v-for="i in item.items">
-                        <a :href="i.path" type="button" :onclick="i.action">
-                            <span :class="i.icon"></span> </span> {{ i.name}}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- headbar end -->
+    </header>
+
+    <div class="tpl-page-container tpl-page-header-fixed">
+        <!-- sidebar start -->
+       <div class="tpl-left-nav tpl-left-nav-hover">
+            <div class="tpl-left-nav-list">
+                <ul class="tpl-left-nav-menu" id="admin-sidebar-list">
+                    <li class="tpl-left-nav-item">
+                        <a href="/" class="nav-link active">
+                            <i class="am-icon-home"></i>
+                            <span>首页</span>
                         </a>
                     </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <!-- headbar end -->
-</header>
+                    <!-- table start -->
 
-
-
-    <div class="am-cf admin-main">
-
-        <!-- sidebar start -->
-        <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
-            <div class="am-offcanvas-bar admin-offcanvas-bar">
-                <ul class="am-list admin-sidebar-list" id="admin-sidebar-list">
-                    <li><a href="/"><span class="am-icon-home"></span> 首页</a></li>
-                    <li v-for="item in items" class="admin-parent">
-                        <!--  <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">-->
-                        <a class="am-cf">
-                            <span :class="item.icon"></span> {{ item.name }} <span
-                                class="am-icon-angle-right am-fr am-margin-right"></span>
+                    <li v-for="item in items" class="tpl-left-nav-item">
+                        <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                            <i :class="item.icon"></i>
+                            <span>{{ item.name }} </span>
+                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                         </a>
-                        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+                        <ul class="tpl-left-nav-sub-menu" style="display: block;">
                             <li v-for="i in item.items">
-                                <a :href="i.path" class="am-cf">
-                                    <span :class="i.icon"></span> {{ i.name}}<span
-                                        class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                                <a :href="i.path">
+                                    <i :class="i.icon"></i>
+                                    <span>{{ i.name}}</span>
+                                    <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
                                 </a>
                             </li>
                         </ul>
                     </li>
+
                 </ul>
             </div>
         </div>
         <!-- sidebar end -->
 
+        <div class="tpl-content-wrapper">
+            <ol class="am-breadcrumb">
+                <li><a href="#" class="am-icon-home">首页</a></li>
+                <li><a href="#">分类</a></li>
+                <li class="am-active">内容</li>
+            </ol>
+            <div class="tpl-portlet-components">
+                <div class="am-g tpl-amazeui-form">
+                    <div class="am-u-sm-12 am-u-md-9">
+                        <form class="am-form am-form-horizontal" id="adduser">
+                             <div class="am-form-group am-margin-vertical-sm">
+                            <label class="am-u-sm-2 am-form-label">帐号名称</label>
+                            <div class="am-u-sm-10">
+                                <input id="username" type="email" name="username" value="" v-model="user.Id" />
+
+                            </div>
+                        </div>
+
+                            <div class="am-form-group am-margin-vertical-sm">
+                                <label for="realname" class="am-u-sm-2 am-form-label">真实姓名</label>
+                                <div class="am-u-sm-10">
+                                    <input id="realname" type="text" name="realname" value="" v-model="user.Name"/>
+
+                                </div>
+                            </div>
+
+                            <div class="am-form-group am-margin-vertical-sm">
+                                <label for="password" class="am-u-sm-2 am-form-label">密码</label>
+                                <div class="am-u-sm-10">
+                                    <input id="password" type="password" name="password" value="" v-model="user.Passwd"/>
+
+                                </div>
+                            </div>
+
+                            <div class="am-form-group am-margin-vertical-sm">
+                                <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
+                                <div class="am-u-sm-10">
+                                    <input id="password1" type="password" name="password1" value="" v-model="user.Passwd1" />
+
+                                </div>
+                            </div>
 
 
-    <!-- content start -->
-  <div class="admin-content">
-    <div class="admin-content-body">
-      <div class="am-cf am-padding am-padding-bottom-0">
-        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">添加账号</strong> / <small>Table</small></div>
-      </div>
+                            <div class="am-form-group am-margin-vertical-sm">
+                                <label class="am-u-sm-2 am-form-label">用户组</label>
+                                <div class="am-u-sm-10" id="SelectGroup">
+                                    <select v-model="selected"> <option v-for="option in options" v-bind:value="option.value"> {{ option.text }} </option> </select>
+                                </div>
+                            </div>
 
-      <hr>
-<form class="am-form am-form-horizontal" id ="adduser" >
+                            <div class="am-form-group am-margin-vertical-sm">
+                                <label class="am-u-sm-2 am-form-label">限制登录IP</label>
+                                <div class="am-u-sm-10">
+                                    <input type="text" id="ip_limit" name="ip_limit" value="" v-model="user.Ip_limit"/>
+                                    <small>多个IP用英文,号分开</small>
+                                </div>
+                            </div>
 
-              <div class="am-form-group am-margin-vertical-sm">
-                <label class="am-u-sm-2 am-form-label">帐号名称</label>
-                <div class="am-u-sm-10">
-                  <input id="username" type="text" name="username" value="" v-model="user.Id" />
+                            <div class="am-form-group am-margin-vertical-sm">
+                                <label class="am-u-sm-2 am-form-label">描述</label>
+                                <div class="am-u-sm-10">
+                                    <textarea id = "description" name="description" style="width:500px; height:160px;" v-model="user.Description"></textarea>
+                                </div>
+                            </div>
 
+                            <div class="am-g am-margin-vertical-sm">
+                                <div class="am-form-group">
+                                    <label class="am-u-sm-2 am-form-label"></label>
+                                    <div class="am-u-sm-10">
+                                        <input type="button" name="send" id="send" class="am-btn am-btn-primary" v-on:click="onSubmit" value="提交" />
+                                        <a href="/users/list.html" class="am-btn am-btn-default am-input-sm" type="button">
+                                            返回
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-              </div>
 
-              <div class="am-form-group am-margin-vertical-sm">
-                <label for="realname" class="am-u-sm-2 am-form-label">真实姓名</label>
-                <div class="am-u-sm-10">
-                  <input id="realname" type="text" name="realname" value="" v-model="user.Name"/>
-
-                </div>
-              </div>
-
-              <div class="am-form-group am-margin-vertical-sm">
-                <label for="password" class="am-u-sm-2 am-form-label">密码</label>
-                <div class="am-u-sm-10">
-                  <input id="password" type="password" name="password" value="" v-model="user.Passwd"/>
-
-                </div>
-              </div>
-
-              <div class="am-form-group am-margin-vertical-sm">
-                <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
-                <div class="am-u-sm-10">
-                  <input id="password1" type="password" name="password1" value="" v-model="user.Passwd1" />
-
-                </div>
-              </div>
-
-
-              <div class="am-form-group am-margin-vertical-sm">
-                <label class="am-u-sm-2 am-form-label">用户组</label>
-                      <div class="am-u-sm-10" id="SelectGroup">
-                          <select v-model="selected"> <option v-for="option in options" v-bind:value="option.value"> {{ option.text }} </option> </select>
-                   </div>
-              </div>
-
-              <div class="am-form-group am-margin-vertical-sm">
-                <label class="am-u-sm-2 am-form-label">限制登录IP</label>
-                <div class="am-u-sm-10">
-                    <input type="text" id="ip_limit" name="ip_limit" value="" v-model="user.Ip_limit"/>
-                    <small>多个IP用英文,号分开</small>
-                </div>
-              </div>
-
-              <div class="am-form-group am-margin-vertical-sm">
-                <label class="am-u-sm-2 am-form-label">描述</label>
-                <div class="am-u-sm-10">
-                    <textarea id = "description" name="description" style="width:500px; height:160px;" v-model="user.Description"></textarea>
-                </div>
-              </div>
-
-          <div class="am-g am-margin-vertical-sm">
-              <div class="am-form-group">
-                <label class="am-u-sm-2 am-form-label"></label>
-                <div class="am-u-sm-10">
-                    <input type="button" name="send" id="send" class="am-btn am-btn-primary" v-on:click="onSubmit" value="提交" />
-                    <a href="/users/list.html" class="am-btn am-btn-default am-input-sm" type="button">
-                        返回
-                    </a>
-                </div>
-              </div>
-          </div>
-          <hr />
-          </form>
+            </div>
         </div>
 
-      </div>
     </div>
 
-  </div>
-  <!-- content end -->
-
-
-</div>
-
-<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
-
-<footer>
-  <hr>
-  <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
-</footer>
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../assets/js/dialog.js"></script>
-<script src="../assets/js/vue.min.js"></script>
-<script src="../assets/js/app.js"></script>
-<script src="../assets/js/amazeui.min.js"></script>
-<script type="text/javascript" src="../assets/js/jquery.md5.js"></script>
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/dialog.js"></script>
+    <script src="../assets/js/vue.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/myapp.js"></script>
+    <script src="../assets/js/amazeui.min.js"></script>
+    <script src="../assets/js/jquery.md5.js"></script>
 </body>
 </html>
+
 
 <script>
 
@@ -233,7 +226,32 @@
         },
         methods:{
             onSubmit:function () {
-              //  return
+
+                if (!adduser.$data["user"]["Id"]) {
+                    $.Alert("账号不能为空")
+                    return
+                }
+
+                var reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+                if(!reg.test(adduser.$data["user"]["Id"])) {
+                    $.Alert("账号必须是有效的邮箱地址")
+                    return
+                }
+
+                if (!adduser.$data["user"]["Name"]) {
+                    $.Alert("真实名字不能为空")
+                    return
+                }
+
+                if (!adduser.$data["user"]["Passwd"])
+                {
+                    $.Alert("密码不能为空")
+                    return
+                } else if (adduser.$data["user"]["Passwd"] != adduser.$data["user"]["Passwd1"])
+                {
+                    $.Alert("两次输入的密码不一致")
+                    return
+                }
 
                 adduser.$data["user"]["Passwd"] = $.md5( adduser.$data["user"]["Passwd"])
                 adduser.$data["user"]["Passwd1"] = $.md5( adduser.$data["user"]["Passwd1"])
@@ -257,7 +275,4 @@
             },
         }
     })
-
-
-
 </script>

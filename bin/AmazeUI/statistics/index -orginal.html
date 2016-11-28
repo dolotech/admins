@@ -1,0 +1,495 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>贵州麻将后台管理系统</title>
+    <meta name="description" content="这是一个 user 页面">
+    <meta name="keywords" content="user">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="icon" type="image/png" href="../assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <style type="text/css">
+    </style>
+</head>
+
+
+<header class="am-topbar am-topbar-inverse admin-header">
+    <div class="am-topbar-brand">
+        <strong>贵州麻将</strong>
+        <small>后台管理系统</small>
+    </div>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
+
+    <!-- headbar start -->
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list" id="admin-head-list">
+            <li v-for="item in items" class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li v-for="i in item.items">
+                        <a :href="i.path" type="button" :onclick="i.action">
+                            <span :class="i.icon"></span> </span> {{ i.name}}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- headbar end -->
+</header>
+<body>
+<div class="am-cf admin-main">
+
+
+    <div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">正在载入...</div>
+            <div class="am-modal-bd">
+                <span class="am-icon-spinner am-icon-spin"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- sidebar start -->
+    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+        <div class="am-offcanvas-bar admin-offcanvas-bar">
+            <ul class="am-list admin-sidebar-list" id="admin-sidebar-list">
+                <li><a href="/"><span class="am-icon-home"></span> 首页</a></li>
+                <li v-for="item in items" class="admin-parent">
+                  <!-- <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">-->
+					   <a class="am-cf">
+                        <span :class="item.icon"></span> {{ item.name }} <span
+                            class="am-icon-angle-right am-fr am-margin-right"></span>
+                    </a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+                        <li v-for="i in item.items">
+                            <a :href="i.path" class="am-cf">
+                                <span :class="i.icon"></span> {{ i.name}}<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- sidebar end -->
+
+    <!-- content start -->
+    <div class="admin-content" id="list_pane">
+        <div class="admin-content-body">
+            <div class="am-cf am-padding am-padding-bottom-0">
+                <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">统计数据</strong> /
+                    <small>基础统计</small>
+                </div>
+            </div>
+
+            <hr>
+
+            <form class="am-form" data-am-validator id="BasicStatitics">
+                <div class="am-g">
+
+					<div class="row">
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat blue">
+								<div class="details">
+									<div class="desc"> 付费用户数(人): </div>
+									<div class="number" > {{items.ExpenseCount}}  </div>
+								</div>
+							</div>
+						</div>
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat red">
+
+								<div class="details">
+
+									<div class="desc"> 新增付费用户数(人): </div>
+									<div class="number"> {{items.ExpenseNewCount}} </div>
+								</div>
+
+							</div>
+						</div>
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat green">
+								<div class="details">
+									<div class="desc"> 累计付费金额(元): </div>
+									<div class="number"> {{items.ExpenseAll}} </div>
+								</div>
+
+							</div>
+						</div>
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat purple">
+
+								<div class="details">
+
+									<div class="desc"> 付费率: </div>
+									<div class="number"> {{items.ExpenseRate}} </div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat purple">
+
+								<div class="details">
+
+									<div class="desc"> 付费用户ARPU值: </div>
+									<div class="number"> {{items.ARPU}} </div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat purple">
+
+								<div class="details">
+
+									<div class="desc"> 活跃ARPU值: </div>
+									<div class="number"> {{items.ActiveARPU}} </div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat purple">
+
+								<div class="details">
+
+									<div class="desc"> 新增用户数(人): </div>
+									<div class="number">  {{items.NewCount}}  </div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat purple">
+
+								<div class="details">
+
+									<div class="desc"> 活跃用户数(人): </div>
+									<div class="number"> {{items.Active}} </div>
+								</div>
+
+							</div>
+						</div>
+
+
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat purple">
+
+								<div class="details">
+
+									<div class="desc"> 次日留存率: </div>
+									<div class="number"> {{items.Keep1}} </div>
+								</div>
+
+							</div>
+						</div>
+
+
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat purple">
+
+								<div class="details">
+
+									<div class="desc"> 第3日留存率: </div>
+									<div class="number">  {{items.Keep3}} </div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat purple">
+
+								<div class="details">
+
+									<div class="desc"> 第7日留存率: </div>
+									<div class="number"> {{items.Keep7}} </div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+							<div class="dashboard-stat purple">
+
+								<div class="details">
+
+									<div class="desc"> 第30日留存率: </div>
+									<div class="number">  {{items.Keep30}} </div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+                </div>
+            </form>
+
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                        <!-- 折线图堆叠 -->
+
+                        <div  id="remainder_char_line" style="width: 100%;height: 500px;"></div>
+
+
+                </div>
+            </div>
+            <hr/>
+        </div>
+    </div>
+
+    <footer>
+        <hr>
+        <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+    </footer>
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/dialog.js"></script>
+    <script src="../assets/js/vue.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/amazeui.min.js"></script>
+    <script src="../assets/js/charts/echarts.min.js" ></script>
+</div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+	new Vue({
+		el: '#admin-sidebar-list',
+		data: {items: getSideBar() }
+	})
+	new Vue({
+		el:"#admin-head-list",
+		data:{items: getHeadBar() }
+	})
+
+	var basicStatitics = new Vue({
+		el:"#BasicStatitics",
+		data:{items:{
+			Keep1:"0%",
+			Keep3:"0%",
+			Keep7:"0%",
+			Keep30:"0%",
+			Active:0,
+			NewCount:0,
+			ActiveARPU:"0%",
+			ARPU:"0%",
+			ExpenseRate:"0%",
+			ExpenseAll:0,
+			ExpenseCount:0,
+			ExpenseNewCount:0
+		}},
+		created:function () {
+			$.ajax({
+				type: "POST",
+				url: "/statistics/index",
+				data: {},
+				dataType: "json",
+				timeout : 10000,
+				error : function(xhr,textStatus){
+					$.Alert("网络超时,请刷新网页!")
+				},
+				success: function (data) {
+					if (data["status"] == "ok") {
+						var base = data["data"]
+						base.Keep1 = base.Keep1/100 + "%"
+						base.Keep3 = base.Keep3/100 + "%"
+						base.Keep7 =base.Keep7/100  + "%"
+						base.Keep30 = base.Keep30/100  + "%"
+						base.ExpenseRate = base.ExpenseRate/100 + "%"
+						base.ActiveARPU = base.ActiveARPU/100 + "%"
+						base.ARPU = base.ARPU/100 + "%"
+						basicStatitics.$data.items = base
+					} else {
+						$.Alert(data["msg"])
+					}
+				}
+			});
+		}
+	})
+
+	function refrash(time ,count,date,max) {
+		var myChart = echarts.init(document.getElementById("remainder_char_line"))
+		option = {
+			title : {
+				text: '在线玩家',
+				subtext: format(date* 1000).split(" ")[0] + "日的在线统计"
+			},
+			tooltip : {
+				trigger: 'axis'
+			},
+			legend: {
+				data:[]
+			},
+			toolbox: {
+				show : true,
+				feature : {
+					mark : {show: true},
+					dataView : {show: true, readOnly: false},
+					magicType : {show: true, type: ['line', 'bar']},
+					restore : {show: true},
+					saveAsImage : {show: true}
+				}
+			},
+			calculable : true,
+			xAxis : [
+				{
+					type : 'category',
+					boundaryGap : true,
+					data : time,
+					interval:0,
+					axisLabel:{
+						interval:10,
+						rotate:45,
+						margin:2,
+
+
+					},
+				},
+			],
+			yAxis : [
+				{
+					type: 'value',
+					axisLabel: {
+						formatter: '{value} 人',
+						scale: true,
+						precision: 2,
+						splitNumber: 9,
+						boundaryGap: [1, 1],
+						splitArea: {show: true},
+
+					},
+					max:max
+				}
+			],
+			xAxis : [
+				{
+					type : 'category',
+					boundaryGap : true,
+					data : time,
+					interval:0,
+					axisLabel:{
+						interval:10,
+						rotate:45,
+						margin:2,
+
+
+					},
+				},
+
+	],
+
+			/*dataZoom : {
+			orient:"horizontal", //水平显示
+
+			show:true, //显示滚动条
+			start:0, //起始值为0%
+			end:100  //结束值为100%
+		},*/
+			series : [
+				{
+					name:'最高在线',
+					type:'line',
+					data:count,
+					markPoint : {
+						data : [
+							{type : 'max', name: '最大值'},
+							{type : 'min', name: '最小值'}
+						]
+					},
+					markLine : {
+						data : [
+							{type : 'average', name: '平均值'}
+						]
+					}
+				}
+			]
+		};
+
+		myChart.setOption(option)
+		window.onresize = myChart.resize
+	}
+
+    $(document).ready(function(){
+		//getOnline(new Date())
+    });
+
+	$('#date-start-icon').datepicker().on('changeDate.datepicker.amui', function (event) {
+		var startDate = new Date(event.date);
+		$('#date-start').val($('#date-start-icon').data('date'));
+		$(this).datepicker('close');
+	});
+	function onReset() {
+		var day = new Date()
+		getOnline(day)
+	}
+	function Search() {
+		if (!$('#date-start').val()){
+			$.Alert("请选择日期")
+			return
+		}
+
+		var day = new Date($('#date-start').val())
+		getOnline(day)
+	}
+
+
+
+
+	function getOnline(day) {
+		var unix = Date.parse(new Date(day.getFullYear(),day.getMonth(),day.getDate(),0,0,0))/1000;
+		console.info(unix)
+		$.ajax({
+			type: "POST",
+			url: "/statistics/online",
+			data: {Unix:unix},
+			dataType: "json",
+			timeout : 10000,
+			error : function(xhr,textStatus){
+				$.Alert("网络超时,请刷新网页!")
+			},
+			success: function (data) {
+				if (data["status"] == "ok") {
+					var list = data["data"]
+				if (list) {
+					var time = []
+					var count = []
+					var max  = 0
+					for (var i=0;i<list.length;i++){
+						if (list[i].Count >max){
+							max = list[i].Count
+						}
+						time[i] = format(list[i].Unix * 1000).split(" ")[1]
+						count[i] = list[i].Count
+					}
+					if (max < 10 ){
+						max = 10
+					}
+					refrash(time,count,unix,max)
+				}
+
+				} else {
+					$.Alert(data["msg"])
+				}
+			}
+		});
+	}
+</script>

@@ -4,6 +4,7 @@ import (
 	"basic/ssdb/gossdb"
 	"basic/utils"
 	"data"
+	"errors"
 	"flag"
 	"net/http"
 	"operation"
@@ -20,17 +21,17 @@ import (
 
 func loginMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		//cookie, err := c.Cookie("login")
-		//if err != nil || cookie == nil || len(cookie.Value) <= 0 || data.Sessions.Get(cookie.Value) == nil {
-		//	if c.Request().Method == "GET" {
-		//		c.Request().Header.Add("Cache-Control", "no-cache")
-		//		return c.Redirect(http.StatusTemporaryRedirect, "/login/login.html")
-		//	} else if c.Request().Method == "POST" {
-		//		c.JSON(http.StatusOK, data.H{"status": "fail", "errorcode": 100, "msg": "未登陆"})
-		//		return errors.New("未登陆")
-		//	}
-		//	return err
-		//}
+		cookie, err := c.Cookie("login")
+		if err != nil || cookie == nil || len(cookie.Value) <= 0 || data.Sessions.Get(cookie.Value) == nil {
+			if c.Request().Method == "GET" {
+				c.Request().Header.Add("Cache-Control", "no-cache")
+				return c.Redirect(http.StatusTemporaryRedirect, "/login/login.html")
+			} else if c.Request().Method == "POST" {
+				c.JSON(http.StatusOK, data.H{"status": "fail", "errorcode": 100, "msg": "未登陆"})
+				return errors.New("未登陆")
+			}
+			return err
+		}
 		return next(c)
 	}
 }
@@ -73,6 +74,7 @@ func main() {
 	e.POST("/users/edit", user.Edit, loginMiddleware)
 	e.POST("/users/list", user.List, loginMiddleware)
 	e.POST("/users/delete", user.Delete, loginMiddleware)
+	e.POST("/users/getdetail", user.GetSelfDetail, loginMiddleware)
 
 	e.POST("/group/create", user.CreateGroup, loginMiddleware)
 	e.POST("/group/edit", user.EditGroup, loginMiddleware)

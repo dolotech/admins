@@ -56,8 +56,7 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 	for id, count := range res {
 		var current int32
 		var err error
-		switch {
-		case id == COIN:
+		if id == COIN {
 			current = int32(userdata.Coin) + count
 			if current < 0 {
 				current = 0
@@ -65,7 +64,7 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 			err = gossdb.C().Hset(data.KEY_USER+userid, "Coin", current)
 			if err == nil {
 			}
-		case id == EXCHANGE:
+		} else if id == EXCHANGE {
 			current = int32(userdata.Exchange) + count
 			if current < 0 {
 				current = 0
@@ -74,7 +73,7 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 			if err == nil {
 
 			}
-		case id == TICKET:
+		} else if id == TICKET {
 			current = int32(userdata.Ticket) + count
 			if current < 0 {
 				current = 0
@@ -84,7 +83,7 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 
 			}
 
-		case id == DIAMOND:
+		} else if id == DIAMOND {
 			current = int32(userdata.Diamond) + count
 			if current < 0 {
 				current = 0
@@ -94,7 +93,7 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 
 			}
 
-		case id == EXP:
+		} else if id == EXP {
 			current = int32(userdata.Exp) + count
 			if current < 0 {
 				current = 0
@@ -104,36 +103,7 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 
 			}
 
-		case id == WIN:
-			current = int32(userdata.Win) + count
-			if current < 0 {
-				current = 0
-			}
-			err = gossdb.C().Hset(data.KEY_USER+userid, "Win", current)
-			if err == nil {
-			}
-
-		case id == LOST:
-			current = int32(userdata.Lost) + count
-			if current < 0 {
-				current = 0
-			}
-			err = gossdb.C().Hset(data.KEY_USER+userid, "Lost", current)
-			if err == nil {
-
-			}
-
-		case id == PING:
-			current = int32(userdata.Ping) + count
-			if current < 0 {
-				current = 0
-			}
-			err = gossdb.C().Hset(data.KEY_USER+userid, "Ping", current)
-			if err == nil {
-
-			}
-
-		case id >= VIP0 && id <= VIP3:
+		} else if id >= VIP0 && id <= VIP3 {
 			vipdata := csv.GetVip(id)
 			glog.Infoln(vipdata, userid, id)
 			if vipdata != nil {
@@ -163,6 +133,9 @@ func ChangeMulti(userid string, res map[uint32]int32) error {
 			}
 		}
 
+		if err != nil {
+			glog.Errorln(err)
+		}
 	}
 	return nil
 

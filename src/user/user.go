@@ -19,7 +19,8 @@ import (
 	"github.com/labstack/echo"
 )
 
-var admin = &User{Id: "admin", Passwd: utils.Md5("123456"), Name: "超级管理员", Group_id: 1}
+var ADMIN = "yisen@qq.com"
+var admin = &User{Id: ADMIN, Passwd: utils.Md5("yisen2016"), Name: "超级管理员", Group_id: 1}
 
 var groupList = []Group{{1, "超级管理员", "拥有最高级权限", 1}, {2, "管理员", "拥有管理玩家权限", 2}}
 
@@ -107,7 +108,7 @@ func UserList() ([]*User, error) {
 	}
 	for _, v := range value {
 		data := &User{}
-		if err := v.As(data); err == nil {
+		if err := v.As(data); err == nil && data.Id != ADMIN {
 			list = append(list, data)
 		} else {
 			glog.Errorln(err)
@@ -119,7 +120,7 @@ func UserList() ([]*User, error) {
 func Delete(c echo.Context) error {
 	u := &User{}
 	u.Id = c.FormValue("Id")
-	if u.Id != "" {
+	if u.Id != "" && ADMIN != u.Id {
 		if u.Del() == nil {
 			return c.JSON(http.StatusOK, data.H{"status": "ok", "msg": "删除成功"})
 		} else {
@@ -212,6 +213,23 @@ func List(c echo.Context) error {
 	lists, _ := UserList()
 	glog.Infoln(len(lists))
 	return c.JSON(http.StatusOK, data.H{"status": "ok", "data": lists})
+}
+
+// 获取当前管理员的信息
+func GetSelfDetail(c echo.Context) error {
+	cookie, err := c.Cookie("login")
+	if err == nil && cookie != nil && len(cookie.Value) > 0 {
+		detail := data.Sessions.Get(cookie.Value)
+		glog.Infoln(detail.Username)
+		user := &User{Id: detail.Username}
+		user.Passwd = ""
+		if err := user.Get(); err != nil {
+			return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "user not exist"})
+		}
+		return c.JSON(http.StatusOK, data.H{"status": "ok", "data": user})
+	}
+	return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "cookie is nil"})
+
 }
 func Edit(c echo.Context) error {
 	if c.FormValue("Id") == "" {

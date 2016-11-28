@@ -26,8 +26,8 @@ func (c *SSDBClient) Connect() error {
 		return err
 	}
 
-	sock.SetReadDeadline(time.Now().Add(time.Minute * 15))
-	//sock.SetReadDeadline(time.Now().Add(time.Second * 15))
+	//sock.SetReadDeadline(time.Now().Add(time.Minute * 15))
+	sock.SetReadDeadline(time.Now().Add(time.Second * 15))
 	c.sock = sock
 	return nil
 }
@@ -206,8 +206,8 @@ func (c *SSDBClient) parse() []Value {
 
 // Close The SSDBClient Connection
 func (c *SSDBClient) Close() error {
-	if c.sock != nil{
-	 	return c.sock.Close()
+	if c.sock != nil {
+		return c.sock.Close()
 	}
 	return nil
 }

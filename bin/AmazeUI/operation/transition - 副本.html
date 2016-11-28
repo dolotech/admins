@@ -1,0 +1,388 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>贵州麻将后台管理系统</title>
+    <meta name="description" content="这是一个 user 页面">
+    <meta name="keywords" content="user">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="icon" type="image/png" href="../assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <style type="text/css">
+    </style>
+</head>
+
+
+<header class="am-topbar am-topbar-inverse admin-header">
+    <div class="am-topbar-brand">
+        <strong>贵州麻将</strong>
+        <small>后台管理系统</small>
+    </div>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
+
+    <!-- headbar start -->
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list" id="admin-head-list">
+            <li v-for="item in items" class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li v-for="i in item.items">
+                        <a :href="i.path" type="button" :onclick="i.action">
+                            <span :class="i.icon"></span> </span> {{ i.name}}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- headbar end -->
+</header>
+<body>
+<div class="am-cf admin-main">
+
+    <!-- sidebar start -->
+    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+        <div class="am-offcanvas-bar admin-offcanvas-bar">
+            <ul class="am-list admin-sidebar-list" id="admin-sidebar-list">
+                <li><a href="/"><span class="am-icon-home"></span> 首页</a></li>
+                <li v-for="item in items" class="admin-parent">
+                  <!--  <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">-->
+                    <a class="am-cf" >
+                        <span :class="item.icon"></span> {{ item.name }} <span
+                            class="am-icon-angle-right am-fr am-margin-right"></span>
+                    </a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+                        <li v-for="i in item.items">
+                            <a :href="i.path" class="am-cf">
+                                <span :class="i.icon"></span> {{ i.name}}<span
+                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- sidebar end -->
+
+    <!-- content start -->
+    <div class="admin-content" id="list_pane">
+        <div class="admin-content-body">
+            <div class="am-cf am-padding am-padding-bottom-0">
+                <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">订单管理</strong> /
+                    <small>充值记录</small>
+                </div>
+            </div>
+
+            <hr>
+
+            <form class="am-form" data-am-validator id="Search">
+                <div class="am-g">
+
+                    <div class="am-u-sm-12 am-u-md-3" >
+                        <div class="am-form-group" id="SearchPages">
+
+                            <select name="" v-model="selected" data-am-selected="{btnSize: 'sm'}">
+                                <option v-for="page in pages" v-bind:value="page.value" v-if="page.value == selected" selected >
+                                    {{page.text}}
+                                </option>
+                                <option v-for="page in pages" v-bind:value="page.value" v-if="page.value !=  selected">
+                                    {{page.text}}
+                                </option>
+
+                            </select>
+
+
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-vertical-sm">
+                        <div class="am-form-icon am-u-sm-12 am-u-md-3">
+                            <div class="am-form-icon">
+                                <i id="date-start-icon" class="am-icon-calendar"></i>
+                                <input id="date-start" type="text" name="last_visit_begin" value=""
+                                       class="am-form-field am-input-sm" placeholder="选择查询的日期"/>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                        <input type="text" id="SearchUserid" name="SearchUserid" value=""
+                               class="am-form-field am-input-sm" placeholder="输入你要搜索的玩家ID" v-model="SearchValue"/>
+                    </div>
+                    <div class="am-u-sm-12 am-u-md-2 am-u-end">
+                        <!--  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>-->
+                        <input class="am-btn am-btn-primary" value="搜索" type="button"
+                               v-on:click="onSearch"> </input>
+                        <input type="button" class="am-btn" value="重置" v-on:click="onReset"/>
+                    </div>
+                </div>
+            </form>
+
+					
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <!--     <form class="am-form">-->
+
+                    <!--      {{ $len := len .users }}
+                          {{if eq $len 0 }}
+                          <p align="center"> 没有找到你要的数据!</p>
+                          {{ else }}-->
+
+                    <table class="am-table am-table-striped am-table-hover table-main" id="userdatalist">
+                        <thead>
+                        <tr>
+                            <th class="am-text-nowrap am-hide-sm-only table-id">交易类型</th>
+                            <th class="am-text-nowrap table-type">商品订单号</th>
+                            <th class="am-text-nowrap table-title">交易流水号</th>
+                            <th class="am-text-nowrap table-title">商店对应物品</th>
+                            <th class="am-text-nowrap table-type">玩家ID</th>
+                            <th class="am-text-nowrap table-title">商品编码</th>
+                            <th class="am-text-nowrap table-title">计费方式</th>
+                            <th class="am-text-nowrap table-type">交易金额</th>
+                            <th class="am-text-nowrap table-type">货币类型</th>
+                            <th class="am-text-nowrap table-type">交易结果</th>
+                            <th class="am-text-nowrap table-type">交易时间</th>
+                            <th class="am-text-nowrap table-type">商户私有信息</th>
+                            <th class="am-text-nowrap table-type">支付方式</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr v-for="(item,index) in items " >
+                            <td class="am-text-middle am-hide-sm-only"> {{ item.transtype }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{item.cporderid }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ item.transid }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ item.appuserid }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ item.appid }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ item.waresid }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ item.feetype }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ item.money }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ item.currency }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ item.result }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ item.transtime }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ item.cpprivate }}</td>
+                            <td class="am-text-middle am-hide-sm-only">{{ item.paytype }}</td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="am-cf" id="pageflip">
+                共 {{allrecords}} 条记录
+                <div class="am-fr">
+                    <ul class="am-pagination">
+                        <li class="am-enabled" v-if="showFirst"><a href="javascript:void(0)" type="button"
+                                                                   v-on:click="cur--">«</a></li>
+                        <li v-for="index in indexs" v-bind:class="{ 'am-active': cur == index}">
+                            <a href="javascript:void(0)" type="button" v-on:click="btnClick(index)">{{ index
+                                }}</a>
+                        </li>
+                        <li class="am-enabled" v-if="showLast"><a href="javascript:void(0)" type="button"
+                                                                  v-on:click="cur++">»</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr/>
+        </div>
+    </div>
+
+    <footer>
+        <hr>
+        <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+    </footer>
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/dialog.js"></script>
+    <script src="../assets/js/vue.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/amazeui.min.js"></script>
+</div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+    new Vue({
+        el: '#admin-sidebar-list',
+        data: {items: getSideBar() }
+    })
+    new Vue({
+        el:"#admin-head-list",
+        data:{items: getHeadBar() }
+    })
+
+    var changelist = new Vue({
+        el: '#userdatalist',
+        data: {items: []},
+        methods: {
+        }
+    })
+
+    var pages = new Vue({
+        el: '#SearchPages',
+        data: {
+            selected: "50",
+            pages: [
+                {text: '30', value:"30"},
+                {text: '50', value: "50"},
+                {text: '100', value: "100"},
+                {text: '200', value: "200"}
+            ]
+        }
+    })
+
+
+
+    var pageBar = new Vue({
+        el: '#pageflip',
+        data: {
+            all: Math.ceil(1 / pages.$data.selected),
+            allrecords: 0,
+            cur: 1
+        },
+        watch: {
+            cur: function (oldValue, newValue) {
+               // console.log(arguments)
+                getChargeList()
+            }
+        },
+        methods: {
+            btnClick: function (data) {//页码点击事件
+                if (data != this.cur) {
+                    this.cur = data
+
+                }
+            }
+        },
+        computed: {
+            indexs: function () {
+                var left = 1
+                var right = this.all
+                var ar = []
+                if (this.all >= 11) {
+                    if (this.cur > 5 && this.cur < this.all - 4) {
+                        left = this.cur - 5
+                        right = this.cur + 4
+                    } else {
+                        if (this.cur <= 5) {
+                            left = 1
+                            right = 10
+                        } else {
+                            right = this.all
+                            left = this.all - 9
+                        }
+                    }
+                }
+                while (left <= right) {
+                    ar.push(left)
+                    left++
+                }
+                return ar
+            },
+            showLast: function () {
+                if (this.cur == this.all) {
+                    return false
+                }
+                return true
+            },
+            showFirst: function () {
+                if (this.cur == 1) {
+                    return false
+                }
+                return true
+            }
+        }
+    })
+
+    var searchSelect = new Vue({
+        el: '#Search',
+        data: {
+
+            SearchValue: "",
+        },
+
+        methods: {
+            onReset: function () {
+                this.$data.selected = "1"
+                this.$data.SearchValue = ""
+                Page:pageBar.$data.cur = 1,
+                        getChargeList()
+            }
+            ,
+            onSearch: function (event) {
+                getChargeList()
+            }
+        }
+    })
+
+
+    $('#date-start-icon').datepicker().on('changeDate.datepicker.amui', function (event) {
+        var startDate = new Date(event.date);
+        $('#date-start').val($('#date-start-icon').data('date'));
+        $(this).datepicker('close');
+    });
+    function onReset() {
+        $('#date-start').val("")
+        getChargeList()
+    }
+    function Search() {
+        if (!$('#date-start').val()){
+            $.Alert("请选择日期")
+            return
+        }
+        getChargeList()
+    }
+
+    getChargeList()
+
+function getChargeList(){
+        var day
+        if ($('#date-start').val()){
+        day  = new Date($('#date-start').val())
+    }else{
+        day = new Date()
+    }
+    var unix = Date.parse(new Date(day.getFullYear(),day.getMonth(),day.getDate(),0,0,0))/1000;
+    var data={SelectedIDSearch: searchSelect.$data.selected,
+        Userid: searchSelect.$data.SearchValue,
+        Page:pageBar.$data.cur,
+        PageMax:pages.$data.selected,
+        Unix:unix
+    }
+    $.ajax({
+        type: "POST",
+        url: "/operation/transition",
+        data: data,
+        dataType: "json",
+        timeout : 10000,
+        error : function(xhr,textStatus){
+            $.Alert("网络超时,请刷新网页!")
+        },
+        success: function (data) {
+            if (data["status"] == "ok") {
+                console.info(data["data"])
+                changelist.$data["items"] = data["data"]["list"]
+                pageBar.$data.allrecords = data["data"]["count"]
+                pageBar.$data.all= Math.ceil(data["data"]["count"] / pages.$data.selected)
+            }else{
+                $.Alert(data["msg"])
+            }
+
+        }
+    });
+}
+</script>

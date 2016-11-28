@@ -71,7 +71,10 @@ func IssueProps(c echo.Context) error {
 	count, _ := strconv.Atoi(c.FormValue("Count"))           // uint32
 	vip, _ := strconv.Atoi(c.FormValue("VIP"))               // uint32
 	widgetType, _ := strconv.Atoi(c.FormValue("WidgetType")) // uint32
-	if vip > 0 {
+	desc := c.FormValue("Desc")
+	glog.Infoln(userids, count, widgetType, desc)
+
+	if widgetType == 14 {
 		count = 1
 		widgetType = vip
 	}
@@ -88,12 +91,20 @@ func IssueProps(c echo.Context) error {
 		}
 	}
 	errorList := ""
+	cookie, err := c.Cookie("login")
+	var username = ""
+	if err == nil && cookie != nil || len(cookie.Value) > 0 {
+		se := data.Sessions.Get(cookie.Value)
+		if se != nil {
+			username = se.Username
+		}
+	}
 	for _, v := range userIds {
-		issue := &IssuePropsRecord{}
+		issue := &IssuePropsRecord{AdminID: username, WidgetType: uint32(widgetType), UserID: v, Count: uint32(count), Desc: desc}
 		err := resource.ChangeRes(v, uint32(widgetType), int32(count))
-
 		if err != nil {
 			errorList += (v + ",")
+			glog.Errorln(err)
 		} else {
 			issue.Save()
 		}

@@ -1,228 +1,175 @@
 <!doctype html>
-<html class="no-js">
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>贵州麻将后台管理系统</title>
-    <meta name="description" content="这是一个 user 页面">
-    <meta name="keywords" content="user">
+    <title>贵阳麻将后台管理系统</title>
+    <meta name="description" content="贵阳麻将后台管理系统">
+    <meta name="keywords" content="贵阳麻将后台管理系统">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="icon" type="image/png" href="../assets/i/favicon.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
-    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
-    <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+    <meta name="apple-mobile-web-app-title" content="贵阳麻将后台管理系统" />
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css" />
     <link rel="stylesheet" href="../assets/css/admin.css">
-    <style type="text/css">
-    </style>
+    <link rel="stylesheet" href="../assets/css/app.css">
 </head>
 
+<body data-type="index">
+    <header class="am-topbar am-topbar-inverse admin-header">
+        <div class="am-topbar-brand">
+            <strong>贵州麻将</strong>
+            <small>后台管理系统</small>
+        </div>
+        <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right"> </div>
 
-<header class="am-topbar am-topbar-inverse admin-header">
-    <div class="am-topbar-brand">
-        <strong>贵州麻将</strong>
-        <small>后台管理系统</small>
-    </div>
-
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
-            data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
-            class="am-icon-bars"></span></button>
-
-    <!-- headbar start -->
-    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list" id="admin-head-list">
-            <li v-for="item in items" class="am-dropdown" data-am-dropdown>
-                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-                    <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
-                </a>
-                <ul class="am-dropdown-content">
-                    <li v-for="i in item.items">
-                        <a :href="i.path" type="button" :onclick="i.action">
-                            <span :class="i.icon"></span> </span> {{ i.name}}
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <!-- headbar end -->
-</header>
-<body>
-<div class="am-cf admin-main">
-
-    <!-- sidebar start -->
-    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
-        <div class="am-offcanvas-bar admin-offcanvas-bar">
-            <ul class="am-list admin-sidebar-list" id="admin-sidebar-list">
-                <li><a href="/"><span class="am-icon-home"></span> 首页</a></li>
-                <li v-for="item in items" class="admin-parent">
-                    <!-- <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">-->
-                    <a class="am-cf">
-                        <span :class="item.icon"></span> {{ item.name }} <span
-                            class="am-icon-angle-right am-fr am-margin-right"></span>
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+        <!-- headbar start -->
+        <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+            <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list" id="admin-head-list">
+                <li v-for="item in items" class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                    <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+                        <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
                     </a>
-                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
-                        <li v-for="i in item.items">
-                            <a :href="i.path" class="am-cf">
-                                <span :class="i.icon"></span> {{ i.name}}<span
-                                    class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
-                            </a>
-                        </li>
+                    <ul class="am-dropdown-content tpl-dropdown-content">
+                        <li v-for="i in item.items" >
+                           <a :href="i.path" type="button" :onclick="i.action"><span :class="i.icon"></span> </span> {{ i.name}}</a></li>
+
                     </ul>
                 </li>
             </ul>
         </div>
-    </div>
-    <!-- sidebar end -->
-    <!-- content start -->
-    <div class="admin-content">
-        <div class="admin-content-body">
-            <div class="am-cf am-padding am-padding-bottom-0">
-                <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">运营管理</strong> / <small>道具/钻石发放</small></div>
+        <!-- headbar end -->
+    </header>
+
+    <div class="tpl-page-container tpl-page-header-fixed">
+        <!-- sidebar start -->
+       <div class="tpl-left-nav tpl-left-nav-hover">
+            <div class="tpl-left-nav-list">
+                <ul class="tpl-left-nav-menu" id="admin-sidebar-list">
+                    <li class="tpl-left-nav-item">
+                        <a href="/" class="nav-link active">
+                            <i class="am-icon-home"></i>
+                            <span>首页</span>
+                        </a>
+                    </li>
+                    <!-- table start -->
+
+                    <!-- table start -->
+
+                    <li v-for="item in items" class="tpl-left-nav-item">
+                        <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                            <i :class="item.icon"></i>
+                            <span>{{ item.name }} </span>
+                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                        </a>
+                        <ul class="tpl-left-nav-sub-menu" style="display: block;">
+                            <li v-for="i in item.items">
+                                <a :href="i.path">
+                                    <i :class="i.icon"></i>
+                                    <span>{{ i.name}}</span>
+                                    <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
             </div>
+        </div>
+        <!-- sidebar end -->
 
-            <hr/>
-
-            <div class="am-g">
-                <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
-                   <!-- <div class="am-panel am-panel-default">
-                        <div class="am-panel-bd">
-                            <div class="am-g">
-                                <div class="am-u-md-4">
-                                    <img class="am-img-circle am-img-thumbnail" src="http://s.amazeui.org/media/i/demos/bw-2014-06-19.jpg?imageView/1/w/200/h/200/q/80" alt=""/>
-                                </div>
-                                <div class="am-u-md-8">
-                                    <p>你可以使用<a href="#">gravatar.com</a>提供的头像或者使用本地上传头像。 </p>
-                                    <form class="am-form">
-                                        <div class="am-form-group">
-                                            <input type="file" id="user-pic">
-                                            <p class="am-form-help">请选择要上传的文件...</p>
-                                            <button type="button" class="am-btn am-btn-primary am-btn-xs">保存</button>
-                                        </div>
-                                    </form>
+        <div class="tpl-content-wrapper">
+            <ol class="am-breadcrumb">
+                <li><a href="#" class="am-icon-home">首页</a></li>
+                <li><a href="#">分类</a></li>
+                <li class="am-active">内容</li>
+            </ol>
+            <div class="tpl-portlet-components">
+               <div class="am-g tpl-amazeui-form">
+                    <div class="am-u-sm-12 am-u-md-9">
+                        <form class="am-form am-form-horizontal" id="issue_props">
+                            <div class="am-form-group">
+                                <label  class="am-u-sm-3 am-form-label">道具类型</label>
+                                <div class="am-u-sm-9">
+                                    <select id="doc-select-1"  v-model="content.WidgetType">
+                                        <option selected="selected" value="1">金币</option>
+                                        <option value="4">钻石</option>
+                                        <option value="14">VIP等级</option>
+                                        <option value="100">经验值</option>
+                                        <option value="3">入场券</option>
+                                        <option value="2">兑换券</option>
+                                    </select>
                                 </div>
                             </div>
-                        </div>
+
+                            <div  v-if="content.WidgetType != 14" class="am-form-group">
+                                <label  class="am-u-sm-3 am-form-label">发放数量</label>
+                                <div class="am-u-sm-9">
+                                    <input type="number" id="widget_count" placeholder="输入您要发放的道具数量"  v-model="content.Count">
+                                    <small>大于0小于999999的数字</small>
+                                </div>
+                            </div>
+
+                            <div v-if="content.WidgetType == 14" class="am-form-group">
+                                <label  class="am-u-sm-3 am-form-label">VIP等级</label>
+                                <div class="am-u-sm-9">
+                                    <select  v-model="content.VIP">
+                                        <option value="22" selected="selected">VIP1 7天</option>
+                                        <option value="23">VIP2 30天</option>
+                                        <option value="24">VIP3 90天</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--     <div v-if="content.WidgetType == 14" class="am-form-icon am-u-sm-12 am-u-md-3">
+                                     <div class="am-form-icon">
+                                         <i id="date-start-icon" class="am-icon-calendar"></i>
+                                         <input id="date-start" type="text" name="last_visit_begin" value=""
+                                                class="am-form-field am-input-sm" placeholder="最后登录时间-从"/>
+                                     </div>
+                                 </div>
+         -->
+                            <div class="am-form-group">
+                                <label for="" class="am-u-sm-3 am-form-label">玩家ID</label>
+                                <div class="am-u-sm-9">
+
+                                    <textarea class="" rows="5" id="user-intro" placeholder="输入您要发放的玩家ID"  v-model="content.UserIds"></textarea>
+                                    <small>向多个玩家发放请用逗号","隔开</small>
+                                </div>
+                            </div>
+
+
+                            <div class="am-form-group">
+                                <label for="user-intro" class="am-u-sm-3 am-form-label">原因</label>
+                                <div class="am-u-sm-9">
+                                    <textarea class="" rows="5" id="" placeholder="请您输入发放原因" v-model="content.Desc"></textarea>
+                                    <small>250字以内写出您的发放原因</small>
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <div class="am-u-sm-9 am-u-sm-push-3">
+                                    <button type="button" class="am-btn am-btn-primary" v-on:click="onSubmit">提交数据</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-
-                    <div class="am-panel am-panel-default">
-                        <div class="am-panel-bd">
-                            <div class="user-info">
-                                <p>等级信息</p>
-                                <div class="am-progress am-progress-sm">
-                                    <div class="am-progress-bar" style="width: 60%"></div>
-                                </div>
-                                <p class="user-info-order">当前等级：<strong>LV8</strong> 活跃天数：<strong>587</strong> 距离下一级别：<strong>160</strong></p>
-                            </div>
-                            <div class="user-info">
-                                <p>信用信息</p>
-                                <div class="am-progress am-progress-sm">
-                                    <div class="am-progress-bar am-progress-bar-success" style="width: 80%"></div>
-                                </div>
-                                <p class="user-info-order">信用等级：正常当前 信用积分：<strong>80</strong></p>
-                            </div>
-                        </div>
-                    </div>-->
-
-                </div>
-
-                <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4" id="issue_props">
-                    <form class="am-form am-form-horizontal">
-                        <div class="am-form-group">
-                            <label  class="am-u-sm-3 am-form-label">道具类型</label>
-                            <div class="am-u-sm-9">
-                                <select id="doc-select-1"  v-model="content.WidgetType">
-                                    <option selected="selected" value="1">金币</option>
-                                    <option value="4">钻石</option>
-                                    <option value="14">VIP等级</option>
-                                    <option value="100">经验值</option>
-                                    <option value="3">入场券</option>
-                                    <option value="2">兑换券</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div  v-if="content.WidgetType != 14" class="am-form-group">
-                            <label  class="am-u-sm-3 am-form-label">发放数量</label>
-                            <div class="am-u-sm-9">
-                                <input type="number" id="widget_count" placeholder="输入您要发放的道具数量"  v-model="content.Count">
-                               <small>大于0小于999999的数字</small>
-                            </div>
-                        </div>
-
-                        <div v-if="content.WidgetType == 14" class="am-form-group">
-                            <label  class="am-u-sm-3 am-form-label">VIP等级</label>
-                            <div class="am-u-sm-9">
-                                <select id=""  v-model="content.VIP">
-                                    <option value="22" selected="selected">VIP1 7天</option>
-                                    <option value="23">VIP2 30天</option>
-                                    <option value="24">VIP3 90天</option>
-
-                                </select>
-                            </div>
-                        </div>
-
-                   <!--     <div v-if="content.WidgetType == 14" class="am-form-icon am-u-sm-12 am-u-md-3">
-                            <div class="am-form-icon">
-                                <i id="date-start-icon" class="am-icon-calendar"></i>
-                                <input id="date-start" type="text" name="last_visit_begin" value=""
-                                       class="am-form-field am-input-sm" placeholder="最后登录时间-从"/>
-                            </div>
-                        </div>
--->
-                        <div class="am-form-group">
-                            <label for="" class="am-u-sm-3 am-form-label">玩家ID</label>
-                            <div class="am-u-sm-9">
-
-                                <textarea class="" rows="5" id="user-intro" placeholder="输入您要发放的玩家ID"  v-model="content.UserIds"></textarea>
-                                <small>向多个玩家发放请用逗号","隔开</small>
-                            </div>
-                        </div>
-
-
-                        <div class="am-form-group">
-                            <label for="user-intro" class="am-u-sm-3 am-form-label">原因</label>
-                            <div class="am-u-sm-9">
-                                <textarea class="" rows="5" id="" placeholder="请您输入发放原因" v-model="content.Desc"></textarea>
-                                <small>250字以内写出您的发放原因</small>
-                            </div>
-                        </div>
-
-                        <div class="am-form-group">
-                            <div class="am-u-sm-9 am-u-sm-push-3">
-                                <button type="button" class="am-btn am-btn-primary" v-on:click="onSubmit">提交数据</button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
 
             </div>
         </div>
 
-        <footer class="admin-content-footer">
-            <hr>
-            <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
-        </footer>
-
     </div>
-    <!-- content end -->
 
-</div>
-
-
-
-    <footer>
-        <hr>
-        <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
-    </footer>
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/js/dialog.js"></script>
     <script src="../assets/js/vue.min.js"></script>
     <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/myapp.js"></script>
     <script src="../assets/js/amazeui.min.js"></script>
-</div>
-
 </body>
 </html>
 
@@ -269,7 +216,4 @@
             }
         }
     })
-
-
-
 </script>
