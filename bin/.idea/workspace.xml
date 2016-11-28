@@ -24,14 +24,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="privaterecord.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/AmazeUI/operation/privaterecord.html">
+      <file leaf-file-name="list.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AmazeUI/roles/list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-9107">
-              <caret line="334" column="6" selection-start-line="334" selection-start-column="6" selection-end-line="334" selection-end-column="6" />
+            <state relative-caret-position="425">
+              <caret line="647" column="19" selection-start-line="647" selection-start-column="19" selection-end-line="647" selection-end-column="19" />
               <folding>
-                <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#header#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#2;n#header#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#style#0;n#ul#0;n#li#1;n#ul#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -64,8 +69,6 @@
         <option value="$PROJECT_DIR$/AmazeUI/users/login.html" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/loginrecord.html" />
         <option value="$PROJECT_DIR$/AmazeUI/roles/listonline.html" />
-        <option value="$PROJECT_DIR$/AmazeUI/operation/normalrecord.html" />
-        <option value="$PROJECT_DIR$/AmazeUI/operation/matchrecord.html" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/privatecreate.html" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/change.html" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/charge.html" />
@@ -93,9 +96,11 @@
         <option value="$PROJECT_DIR$/AmazeUI/users/list.html" />
         <option value="$PROJECT_DIR$/AmazeUI/users/group_list.html" />
         <option value="$PROJECT_DIR$/AmazeUI/statistics/index -orginal.html" />
+        <option value="$PROJECT_DIR$/AmazeUI/operation/privaterecord.html" />
+        <option value="$PROJECT_DIR$/AmazeUI/operation/matchrecord.html" />
+        <option value="$PROJECT_DIR$/AmazeUI/operation/normalrecord.html" />
         <option value="$PROJECT_DIR$/AmazeUI/statistics/index.html" />
         <option value="$PROJECT_DIR$/AmazeUI/roles/list.html" />
-        <option value="$PROJECT_DIR$/AmazeUI/operation/privaterecord.html" />
       </list>
     </option>
   </component>
@@ -237,24 +242,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="operation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AmazeUI" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -364,7 +351,7 @@
       <workItem from="1479864516346" duration="20460000" />
       <workItem from="1479951222183" duration="20995000" />
       <workItem from="1480036803264" duration="14371000" />
-      <workItem from="1480213081719" duration="41356000" />
+      <workItem from="1480213081719" duration="50047000" />
     </task>
     <task id="LOCAL-00001" summary="更新登录模板">
       <created>1475138471139</created>
@@ -377,7 +364,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="415364000" />
+    <option name="totallyTimeSpent" value="424055000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
@@ -423,13 +410,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/AmazeUI/users/sync_password.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/users/login.html" />
     <entry file="file://$PROJECT_DIR$/AmazeUI/operation/loginrecord.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -439,26 +419,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/normalrecord.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12650">
-          <caret line="575" column="0" selection-start-line="575" selection-start-column="0" selection-end-line="575" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Desktop/template/html/chart_line.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="567">
           <caret line="170" column="8" selection-start-line="170" selection-start-column="8" selection-end-line="170" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/matchrecord.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="533" column="24" selection-start-line="535" selection-start-column="27" selection-end-line="535" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -694,17 +658,9 @@
           <caret line="203" column="0" selection-start-line="203" selection-start-column="0" selection-end-line="203" selection-end-column="0" />
           <folding>
             <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/roles/listonline.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="36" column="20" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -729,16 +685,6 @@
         <state relative-caret-position="242">
           <caret line="278" column="30" selection-start-line="276" selection-start-column="23" selection-end-line="278" selection-end-column="30" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/statistics/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="125" column="50" selection-start-line="125" selection-start-column="50" selection-end-line="125" selection-end-column="50" />
-          <folding>
-            <element signature="n#style#0;n#ul#0;n#li#1;n#ul#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -779,23 +725,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/roles/list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="670" column="38" selection-start-line="670" selection-start-column="38" selection-end-line="670" selection-end-column="38" />
-          <folding>
-            <element signature="n#header#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#2;n#header#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#ul#0;n#li#1;n#ul#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#table#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/operation/privaterecord - 副本.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6324">
@@ -812,13 +741,73 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/normalrecord.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="417" column="40" selection-start-line="417" selection-start-column="31" selection-end-line="417" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/matchrecord.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="417" column="40" selection-start-line="417" selection-start-column="31" selection-end-line="417" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/matchrecord - 副本.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="657" column="40" selection-start-line="657" selection-start-column="29" selection-end-line="657" selection-end-column="40" />
+          <folding>
+            <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/operation/privaterecord.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-9107">
-          <caret line="334" column="6" selection-start-line="334" selection-start-column="6" selection-end-line="334" selection-end-column="6" />
+        <state relative-caret-position="-153">
+          <caret line="507" column="29" selection-start-line="507" selection-start-column="29" selection-end-line="507" selection-end-column="29" />
           <folding>
             <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/statistics/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-615">
+          <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#ul#0;n#li#1;n#ul#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/roles/listonline.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8233">
+          <caret line="133" column="65" selection-start-line="133" selection-start-column="60" selection-end-line="133" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/roles/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="647" column="19" selection-start-line="647" selection-start-column="19" selection-end-line="647" selection-end-column="19" />
+          <folding>
+            <element signature="n#header#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#header#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#ul#0;n#li#1;n#ul#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>

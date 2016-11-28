@@ -8,309 +8,329 @@
     <meta name="keywords" content="贵阳麻将后台管理系统">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <link rel="icon" type="image/png" href="../assets/i/favicon.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
-    <meta name="apple-mobile-web-app-title" content="贵阳麻将后台管理系统" />
-    <link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+    <meta name="apple-mobile-web-app-title" content="贵阳麻将后台管理系统"/>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../assets/css/admin.css">
     <link rel="stylesheet" href="../assets/css/app.css">
 </head>
 
 <body data-type="index">
-    <header class="am-topbar am-topbar-inverse admin-header">
-        <div class="am-topbar-brand">
-            <strong>贵州麻将</strong>
-            <small>后台管理系统</small>
-        </div>
-        <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right"> </div>
+<header class="am-topbar am-topbar-inverse admin-header">
+    <div class="am-topbar-brand">
+        <strong>贵州麻将</strong>
+        <small>后台管理系统</small>
+    </div>
+    <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right"></div>
 
-        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
-        <!-- headbar start -->
-        <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-            <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list" id="admin-head-list">
-                <li v-for="item in items" class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
-                    <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
-                        <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
-                    </a>
-                    <ul class="am-dropdown-content tpl-dropdown-content">
-                        <li v-for="i in item.items" >
-                           <a :href="i.path" type="button" :onclick="i.action"><span :class="i.icon"></span> </span> {{ i.name}}</a></li>
-
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <!-- headbar end -->
-    </header>
-
-    <div class="tpl-page-container tpl-page-header-fixed">
-        <!-- sidebar start -->
-       <div class="tpl-left-nav tpl-left-nav-hover">
-            <div class="tpl-left-nav-list">
-                <ul class="tpl-left-nav-menu" id="admin-sidebar-list">
-                    <li class="tpl-left-nav-item">
-                        <a href="/" class="nav-link active">
-                            <i class="am-icon-home"></i>
-                            <span>首页</span>
-                        </a>
-                    </li>
-
-                    <li v-for="item in items" class="tpl-left-nav-item">
-                        <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
-                            <i :class="item.icon"></i>
-                            <span>{{ item.name }} </span>
-                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
-                        </a>
-                        <ul class="tpl-left-nav-sub-menu" style="display: block;">
-                            <li v-for="i in item.items">
-                                <a :href="i.path">
-                                    <i :class="i.icon"></i>
-                                    <span>{{ i.name}}</span>
-                                    <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
+    <!-- headbar start -->
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list"
+            id="admin-head-list">
+            <li v-for="item in items" class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+                    <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content tpl-dropdown-content">
+                    <li v-for="i in item.items">
+                        <a :href="i.path" type="button" :onclick="i.action"><span :class="i.icon"></span> </span> {{
+                            i.name}}</a></li>
 
                 </ul>
-            </div>
-        </div>
-        <!-- sidebar end -->
-        <div class="tpl-content-wrapper">
-            <ol class="am-breadcrumb">
-                <li><a href="#" class="am-icon-home">首页</a></li>
-                <li><a href="#">分类</a></li>
-                <li class="am-active">内容</li>
-            </ol>
+            </li>
+        </ul>
+    </div>
+    <!-- headbar end -->
+</header>
 
-            <div class="row" id="BasicStatitics">
+<div class="tpl-page-container tpl-page-header-fixed">
+    <!-- sidebar start -->
+    <div class="tpl-left-nav tpl-left-nav-hover">
+        <div class="tpl-left-nav-list">
+            <ul class="tpl-left-nav-menu" id="admin-sidebar-list">
+                <li class="tpl-left-nav-item">
+                    <a href="/" class="nav-link active">
+                        <i class="am-icon-home"></i>
+                        <span>首页</span>
+                    </a>
+                </li>
 
-                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                    <div class="dashboard-stat red">
-                        <div class="visual">
-                            <i class="am-icon-comments-o"></i>
-                        </div>
-                        <div class="details">
-                            <div class="desc"> 付费用户数(人): </div>
-                            <div class="number" > {{items.ExpenseCount}}  </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                    <div class="dashboard-stat red">
-                        <div class="visual">
-                            <i class="am-icon-comments-o"></i>
-                        </div>
-                        <div class="details">
+                <li v-for="item in items" class="tpl-left-nav-item">
+                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                        <i :class="item.icon"></i>
+                        <span>{{ item.name }} </span>
+                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                    </a>
+                    <ul class="tpl-left-nav-sub-menu" style="display: block;">
+                        <li v-for="i in item.items">
+                            <a :href="i.path">
+                                <i :class="i.icon"></i>
+                                <span>{{ i.name}}</span>
+                                <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
-                            <div class="desc"> 新增付费用户数(人): </div>
-                            <div class="number"> {{items.ExpenseNewCount}} </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                    <div class="dashboard-stat red">
-                        <div class="visual">
-                            <i class="am-icon-comments-o"></i>
-                        </div>
-                        <div class="details">
-                            <div class="desc"> 累计付费金额(元): </div>
-                            <div class="number"> {{items.ExpenseAll}} </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                    <div class="dashboard-stat red">
-                        <div class="visual">
-                            <i class="am-icon-comments-o"></i>
-                        </div>
-                        <div class="details">
-
-                            <div class="desc"> 付费率: </div>
-                            <div class="number"> {{items.ExpenseRate}} </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                    <div class="dashboard-stat blue">
-                        <div class="visual">
-                            <i class="am-icon-comments-o"></i>
-                        </div>
-                        <div class="details">
-
-                            <div class="desc"> 付费用户ARPU值: </div>
-                            <div class="number"> {{items.ARPU}} </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                    <div class="dashboard-stat blue">
-                        <div class="visual">
-                            <i class="am-icon-comments-o"></i>
-                        </div>
-                        <div class="details">
-
-                            <div class="desc"> 活跃ARPU值: </div>
-                            <div class="number"> {{items.ActiveARPU}} </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                    <div class="dashboard-stat green">
-                        <div class="visual">
-                            <i class="am-icon-comments-o"></i>
-                        </div>
-                        <div class="details">
-
-                            <div class="desc"> 新增用户数(人): </div>
-                            <div class="number">  {{items.NewCount}}  </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                    <div class="dashboard-stat green">
-                        <div class="visual">
-                            <i class="am-icon-comments-o"></i>
-                        </div>
-                        <div class="details">
-
-                            <div class="desc"> 活跃用户数(人): </div>
-                            <div class="number"> {{items.Active}} </div>
-                        </div>
-
-                    </div>
-                </div>
-
-
-                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                    <div class="dashboard-stat purple">
-                        <div class="visual">
-                            <i class="am-icon-comments-o"></i>
-                        </div>
-                        <div class="details">
-
-                            <div class="desc"> 次日留存率: </div>
-                            <div class="number"> {{items.Keep1}} </div>
-                        </div>
-
-                    </div>
-                </div>
-
-
-                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                    <div class="dashboard-stat purple">
-                        <div class="visual">
-                            <i class="am-icon-comments-o"></i>
-                        </div>
-                        <div class="details">
-
-                            <div class="desc"> 第3日留存率: </div>
-                            <div class="number">  {{items.Keep3}} </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                    <div class="dashboard-stat purple">
-                        <div class="visual">
-                            <i class="am-icon-comments-o"></i>
-                        </div>
-                        <div class="details">
-
-                            <div class="desc"> 第7日留存率: </div>
-                            <div class="number"> {{items.Keep7}} </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                    <div class="dashboard-stat purple">
-                        <div class="visual">
-                            <i class="am-icon-comments-o"></i>
-                        </div>
-                        <div class="details">
-
-                            <div class="desc"> 第30日留存率: </div>
-                            <div class="number">  {{items.Keep30}} </div>
-                        </div>
-
-                    </div>
-                </div>
-
-
-            </div>
+            </ul>
         </div>
     </div>
+    <!-- sidebar end -->
+    <div class="tpl-content-wrapper" id="BasicStatitics">
+        <ol class="am-breadcrumb">
+            <li><a href="#" class="am-icon-home">首页</a></li>
+            <li><a href="#">分类</a></li>
+            <li class="am-active">内容</li>
+        </ol>
 
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/js/dialog.js"></script>
-    <script src="../assets/js/vue.min.js"></script>
-    <script src="../assets/js/app.js"></script>
-    <script src="../assets/js/myapp.js"></script>
-    <script src="../assets/js/amazeui.min.js"></script>
+        <div class="row">
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="am-icon-comments-o"></i>
+                    </div>
+                    <div class="details">
+                        <div class="desc"> 付费用户数(人):</div>
+                        <div class="number"> {{items.ExpenseCount}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="am-icon-comments-o"></i>
+                    </div>
+                    <div class="details">
+
+                        <div class="desc"> 新增付费用户数(人):</div>
+                        <div class="number"> {{items.ExpenseNewCount}}</div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="am-icon-comments-o"></i>
+                    </div>
+                    <div class="details">
+                        <div class="desc"> 累计付费金额(元):</div>
+                        <div class="number"> {{items.ExpenseAll}}</div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="am-icon-comments-o"></i>
+                    </div>
+                    <div class="details">
+
+                        <div class="desc"> 付费率:</div>
+                        <div class="number"> {{items.ExpenseRate}}</div>
+                    </div>
+
+                </div>
+            </div>
+       
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="am-icon-comments-o"></i>
+                    </div>
+                    <div class="details">
+
+                        <div class="desc"> 付费用户ARPU值:</div>
+                        <div class="number"> {{items.ARPU}}</div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="am-icon-comments-o"></i>
+                    </div>
+                    <div class="details">
+
+                        <div class="desc"> 活跃ARPU值:</div>
+                        <div class="number"> {{items.ActiveARPU}}</div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="am-icon-comments-o"></i>
+                    </div>
+                    <div class="details">
+
+                        <div class="desc"> 当前在线用户数(人):</div>
+                        <div class="number"> {{items.OnlineCount}}</div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="am-icon-comments-o"></i>
+                    </div>
+                    <div class="details">
+
+                        <div class="desc"> 新增用户数(人):</div>
+                        <div class="number"> {{items.NewCount}}</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="am-icon-comments-o"></i>
+                    </div>
+                    <div class="details">
+
+                        <div class="desc"> 活跃用户数(人):</div>
+                        <div class="number"> {{items.Active}}</div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat purple">
+                    <div class="visual">
+                        <i class="am-icon-comments-o"></i>
+                    </div>
+                    <div class="details">
+
+                        <div class="desc"> 次日留存率:</div>
+                        <div class="number"> {{items.Keep1}}</div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat purple">
+                    <div class="visual">
+                        <i class="am-icon-comments-o"></i>
+                    </div>
+                    <div class="details">
+
+                        <div class="desc"> 第3日留存率:</div>
+                        <div class="number"> {{items.Keep3}}</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat purple">
+                    <div class="visual">
+                        <i class="am-icon-comments-o"></i>
+                    </div>
+                    <div class="details">
+
+                        <div class="desc"> 第7日留存率:</div>
+                        <div class="number"> {{items.Keep7}}</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                <div class="dashboard-stat purple">
+                    <div class="visual">
+                        <i class="am-icon-comments-o"></i>
+                    </div>
+                    <div class="details">
+
+                        <div class="desc"> 第30日留存率:</div>
+                        <div class="number"> {{items.Keep30}}</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/dialog.js"></script>
+<script src="../assets/js/vue.min.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/myapp.js"></script>
+<script src="../assets/js/amazeui.min.js"></script>
 </body>
 </html>
 <script type="text/javascript">
     new Vue({
         el: '#admin-sidebar-list',
-        data: {items: getSideBar() }
+        data: {items: getSideBar()}
     })
     new Vue({
-        el:"#admin-head-list",
-        data:{items: getHeadBar() }
+        el: "#admin-head-list",
+        data: {items: getHeadBar()}
     })
 
     var basicStatitics = new Vue({
-        el:"#BasicStatitics",
-        data:{items:{
-            Keep1:"0%",
-            Keep3:"0%",
-            Keep7:"0%",
-            Keep30:"0%",
+        el: "#BasicStatitics",
+        data: {
+            items: {
+                Keep1: "0%",
+                Keep3: "0%",
+                Keep7: "0%",
+                Keep30: "0%",
 
-            Active:0,
-            NewCount:0,
-            ActiveARPU:"0%",
-            ARPU:"0%",
-            ExpenseRate:"0%",
-            ExpenseAll:0,
-            ExpenseCount:0,
-            ExpenseNewCount:0,
+                Active: 0,
+                NewCount: 0,
+                ActiveARPU: "0%",
+                ARPU: "0%",
+                ExpenseRate: "0%",
+                ExpenseAll: 0,
+                ExpenseCount: 0,
+                ExpenseNewCount: 0,
 
-        }},
-        created:function () {
+            }
+        },
+        created: function () {
             $.ajax({
                 type: "POST",
                 url: "/statistics/index",
                 data: {},
                 dataType: "json",
-                timeout : 10000,
-                error : function(xhr,textStatus){
+                timeout: 10000,
+                error: function (xhr, textStatus) {
                     $.Alert("网络超时,请刷新网页!")
                 },
                 success: function (data) {
                     if (data["status"] == "ok") {
                         var base = data["data"]
-                        base.Keep1 = base.Keep1/100 + "%"
-                        base.Keep3 = base.Keep3/100 + "%"
-                        base.Keep7 =base.Keep7/100  + "%"
-                        base.Keep30 = base.Keep30/100  + "%"
-                        base.ExpenseRate = base.ExpenseRate/100 + "%"
-                        base.ActiveARPU = base.ActiveARPU/100 + "%"
-                        base.ARPU = base.ARPU/100 + "%"
+                        base.Keep1 = base.Keep1 / 100 + "%"
+                        base.Keep3 = base.Keep3 / 100 + "%"
+                        base.Keep7 = base.Keep7 / 100 + "%"
+                        base.Keep30 = base.Keep30 / 100 + "%"
+                        base.ExpenseRate = base.ExpenseRate / 100 + "%"
+                        base.ActiveARPU = base.ActiveARPU / 100 + "%"
+                        base.ARPU = base.ARPU / 100 + "%"
                         basicStatitics.$data.items = base
                     } else {
                         $.Alert(data["msg"])
@@ -319,7 +339,6 @@
             });
         }
     })
-
 
 
     $('#date-start-icon').datepicker().on('changeDate.datepicker.amui', function (event) {
@@ -332,7 +351,7 @@
         getOnline(day)
     }
     function Search() {
-        if (!$('#date-start').val()){
+        if (!$('#date-start').val()) {
             $.Alert("请选择日期")
             return
         }

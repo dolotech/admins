@@ -8,134 +8,130 @@
     <meta name="keywords" content="贵阳麻将后台管理系统">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <link rel="icon" type="image/png" href="../assets/i/favicon.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
-    <meta name="apple-mobile-web-app-title" content="贵阳麻将后台管理系统" />
-    <link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+    <meta name="apple-mobile-web-app-title" content="贵阳麻将后台管理系统"/>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../assets/css/admin.css">
     <link rel="stylesheet" href="../assets/css/app.css">
 </head>
 
 <body data-type="index">
-    <header class="am-topbar am-topbar-inverse admin-header">
-        <div class="am-topbar-brand">
-            <strong>贵州麻将</strong>
-            <small>后台管理系统</small>
-        </div>
-        <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right"> </div>
+<header class="am-topbar am-topbar-inverse admin-header">
+    <div class="am-topbar-brand">
+        <strong>贵州麻将</strong>
+        <small>后台管理系统</small>
+    </div>
+    <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right"></div>
 
-        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
-        <!-- headbar start -->
-        <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-            <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list" id="admin-head-list">
-                <li v-for="item in items" class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
-                    <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
-                        <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
-                    </a>
-                    <ul class="am-dropdown-content tpl-dropdown-content">
-                        <li v-for="i in item.items" >
-                           <a :href="i.path" type="button" :onclick="i.action"><span :class="i.icon"></span> </span> {{ i.name}}</a></li>
-
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <!-- headbar end -->
-    </header>
-
-    <div class="tpl-page-container tpl-page-header-fixed">
-        <!-- sidebar start -->
-       <div class="tpl-left-nav tpl-left-nav-hover">
-            <div class="tpl-left-nav-list">
-                <ul class="tpl-left-nav-menu" id="admin-sidebar-list">
-                    <li class="tpl-left-nav-item">
-                        <a href="/" class="nav-link active">
-                            <i class="am-icon-home"></i>
-                            <span>首页</span>
-                        </a>
-                    </li>
-                    <!-- table start -->
-
-                    <!-- table start -->
-
-                    <li v-for="item in items" class="tpl-left-nav-item">
-                        <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
-                            <i :class="item.icon"></i>
-                            <span>{{ item.name }} </span>
-                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
-                        </a>
-                        <ul class="tpl-left-nav-sub-menu" style="display: block;">
-                            <li v-for="i in item.items">
-                                <a :href="i.path">
-                                    <i :class="i.icon"></i>
-                                    <span>{{ i.name}}</span>
-                                    <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
+    <!-- headbar start -->
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list"
+            id="admin-head-list">
+            <li v-for="item in items" class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+                    <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content tpl-dropdown-content">
+                    <li v-for="i in item.items">
+                        <a :href="i.path" type="button" :onclick="i.action"><span :class="i.icon"></span> </span> {{
+                            i.name}}</a></li>
 
                 </ul>
-            </div>
+            </li>
+        </ul>
+    </div>
+    <!-- headbar end -->
+</header>
+
+<div class="tpl-page-container tpl-page-header-fixed">
+    <!-- sidebar start -->
+    <div class="tpl-left-nav tpl-left-nav-hover">
+        <div class="tpl-left-nav-list">
+            <ul class="tpl-left-nav-menu" id="admin-sidebar-list">
+                <li class="tpl-left-nav-item">
+                    <a href="/" class="nav-link active">
+                        <i class="am-icon-home"></i>
+                        <span>首页</span>
+                    </a>
+                </li>
+                <!-- table start -->
+
+                <!-- table start -->
+
+                <li v-for="item in items" class="tpl-left-nav-item">
+                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                        <i :class="item.icon"></i>
+                        <span>{{ item.name }} </span>
+                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                    </a>
+                    <ul class="tpl-left-nav-sub-menu" style="display: block;">
+                        <li v-for="i in item.items">
+                            <a :href="i.path">
+                                <i :class="i.icon"></i>
+                                <span>{{ i.name}}</span>
+                                <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
         </div>
-        <!-- sidebar end -->
+    </div>
+    <!-- sidebar end -->
 
 
-
-        <div class="tpl-content-wrapper" id="list_pane">
-            <ol class="am-breadcrumb">
-                <li><a href="#" class="am-icon-home">首页</a></li>
-                <li><a href="#">分类</a></li>
-                <li class="am-active">内容</li>
-            </ol>
-            <div class="tpl-portlet-components">
+    <div class="tpl-content-wrapper" id="list_pane">
+        <ol class="am-breadcrumb">
+            <li><a href="#" class="am-icon-home">首页</a></li>
+            <li><a href="#">分类</a></li>
+            <li class="am-active">内容</li>
+        </ol>
+        <div class="tpl-portlet-components">
             <div class="tpl-block">
 
-                <div id="Search">
+                <div>
                     <div class="am-g">
 
                         <div class="am-u-sm-12 am-u-md-3">
                             <div class="am-form-group" id="SearchPages">
 
-                                <select name="" v-model="selected" data-am-selected="{btnSize: 'sm'}">
-                                    <option v-for="page in pages" v-bind:value="page.value" v-if="page.value == selected"
-                                            selected>
-                                        {{page.text}}
-                                    </option>
-                                    <option v-for="page in pages" v-bind:value="page.value" v-if="page.value !=  selected">
-                                        {{page.text}}
-                                    </option>
+                                <select name="" v-model="selected">
+                                        <option v-for="page in pages" v-bind:value="page.value">
+                                            {{ page.text }}
+                                        </option>
 
                                 </select>
-
 
                             </div>
                         </div>
 
-                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
-                            <div class="am-form-group">
-                                <!-- <select v-model="selected" data-am-selected="{btnSize: 'sm'}">
-                                     <option v-for="option in options" v-bind:value="option.value">
-                                         {{ option.text }}
-                                     </option>
-                                 </select>-->
-                                <select data-am-selected="{btnSize: 'sm'}" id="doc-select-1" v-model="selected">
-                                    <option selected="selected" value="1">搜玩家ID</option>
-                                    <option value="2">搜手机号</option>
-                                </select>
+                        <div id="TypeSelector">
+                            <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                                <div class="am-form-group">
+                                    <select v-model="selected" >
+                                       <option v-for="option in options" v-bind:value="option.value">
+                                            {{ option.text }}
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
-                            <input type="text" id="SearchUserid" name="SearchUserid" value=""
-                                   class="am-form-field am-input-sm" placeholder="" v-model="SearchValue"/>
-                        </div>
-                        <div class="am-u-sm-12 am-u-md-2 am-u-end">
-                            <!--  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>-->
-                            <input class="am-btn am-btn-primary" value="搜索" type="button"
-                                   v-on:click="onSearch"> </input>
-                            <input type="button" class="am-btn" value="重置" v-on:click="onReset"/>
+                            <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                                <input type="text"  name="SearchUserid" value=""
+                                       class="am-form-field am-input-sm" placeholder="" v-model="SearchValue"/>
+                            </div>
+                            <div class="am-u-sm-12 am-u-md-2 am-u-end">
+                                <!--  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>-->
+                                <input class="am-btn am-btn-primary" value="搜索" type="button"
+                                       v-on:click="onSearch"> </input>
+                                <input type="button" class="am-btn" value="重置" v-on:click="onReset"/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -146,7 +142,7 @@
                           {{if eq $len 0 }}
                           <p align="center"> 没有找到你要的数据!</p>
                           {{ else }}-->
-                    <table class="am-table am-table-striped am-table-hover table-main" id="userdatalist">
+                    <table class="am-table am-table-striped am-table-hover table-main" id="user_list">
                         <thead>
                         <tr>
                             <th class="am-text-nowrap am-hide-sm-only table-id">玩家ID</th>
@@ -184,8 +180,9 @@
                             <td>
                                 <div class="am-btn-toolbar">
                                     <div class="am-btn-group am-btn-group-xs">
-                                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary" v-on:click="button_onedit(index)">
-                                                更多
+                                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary"
+                                                v-on:click="button_onedit(index)">
+                                            更多
                                         </button>
                                     </div>
                                 </div>
@@ -212,25 +209,26 @@
                     <!-- pagination end -->
                 </div>
             </div>
-            </div>
-            <div class="tpl-alert"></div>
         </div>
+        <div class="tpl-alert"></div>
+    </div>
 
-        <div  style="display:none;" id="edit_pane">
-            <div class="tpl-content-wrapper" >
+    <div style="display:none;" id="edit_pane">
+        <div class="tpl-content-wrapper">
             <ol class="am-breadcrumb">
                 <li><a href="#" class="am-icon-home">首页</a></li>
                 <li><a href="#">分类</a></li>
                 <li class="am-active">内容</li>
             </ol>
             <div class="tpl-portlet-components">
-               <div class="am-g tpl-amazeui-form">
+                <div class="am-g tpl-amazeui-form">
                     <div class="am-u-sm-12 am-u-md-9">
                         <form class="am-form am-form-horizontal" id="edit_user">
                             <div class="am-form-group am-margin-vertical-sm">
                                 <label for="Userid" class="am-u-sm-2 am-form-label">帐号ID</label>
                                 <div class="am-u-sm-10">
-                                    <input id="Userid" type="text" readonly="readonly" name="Userid" v-model="items.Userid"/>
+                                    <input id="Userid" type="text" readonly="readonly" name="Userid"
+                                           v-model="items.Userid"/>
                                 </div>
                             </div>
                             <div class="am-form-group am-margin-vertical-sm">
@@ -251,7 +249,8 @@
                             <div class="am-form-group">
                                 <label class="am-u-sm-2 am-form-label">性别</label>
                                 <label class="am-radio-inline">
-                                    <input type="radio" value="1" name="Sex" id="Sex1" checked required v-model="items.Sex"> 男
+                                    <input type="radio" value="1" name="Sex" id="Sex1" checked required
+                                           v-model="items.Sex"> 男
                                 </label>
                                 <label class="am-radio-inline">
                                     <input type="radio" name="Sex" value="2" id="Sex2" v-model="items.Sex">女
@@ -265,13 +264,15 @@
                             <div class="am-form-group am-margin-vertical-sm">
                                 <label class="am-u-sm-2 am-form-label">金币</label>
                                 <div class="am-u-sm-10">
-                                    <input id="Coin" type="text" name="Coin" readonly="readonly" value="" v-model="Coin"/>
+                                    <input id="Coin" type="text" name="Coin" readonly="readonly" value=""
+                                           v-model="Coin"/>
                                 </div>
                             </div>
                             <div class="am-form-group am-margin-vertical-sm">
                                 <label for="Diamond" class="am-u-sm-2 am-form-label">钻石</label>
                                 <div class="am-u-sm-10">
-                                    <input id="Diamond" type="text" name="Diamond" readonly="readonly" value="" v-model="Diamond"/>
+                                    <input id="Diamond" type="text" name="Diamond" readonly="readonly" value=""
+                                           v-model="Diamond"/>
                                 </div>
                             </div>
 
@@ -285,7 +286,7 @@
                             <div class="am-form-group am-margin-vertical-sm">
                                 <label for="Exp" class="am-u-sm-2 am-form-label">经验</label>
                                 <div class="am-u-sm-10">
-                                    <input id="Exp" type="text" name="Exp" readonly="readonly"  value="" v-model="Exp"/>
+                                    <input id="Exp" type="text" name="Exp" readonly="readonly" value="" v-model="Exp"/>
                                 </div>
                             </div>
 
@@ -293,13 +294,15 @@
                             <div class="am-form-group am-margin-vertical-sm">
                                 <label for="Ticket" class="am-u-sm-2 am-form-label">入场券</label>
                                 <div class="am-u-sm-10">
-                                    <input id="Ticket" type="text" name="Ticket" readonly="readonly" value="" v-model="Ticket"/>
+                                    <input id="Ticket" type="text" name="Ticket" readonly="readonly" value=""
+                                           v-model="Ticket"/>
                                 </div>
                             </div>
                             <div class="am-form-group am-margin-vertical-sm">
                                 <label for="Exchange" class="am-u-sm-2 am-form-label">兑换券</label>
                                 <div class="am-u-sm-10">
-                                    <input id="Exchange" type="text" name="Exchange" readonly="readonly"  value="" v-model="Exchange"/>
+                                    <input id="Exchange" type="text" name="Exchange" readonly="readonly" value=""
+                                           v-model="Exchange"/>
                                 </div>
                             </div>
 
@@ -307,7 +310,8 @@
                             <div class="am-form-group am-margin-vertical-sm">
                                 <label for="Win" class="am-u-sm-2 am-form-label">胜局</label>
                                 <div class="am-u-sm-10">
-                                    <input id="Win" type="text" name="Win" readonly="readonly" value="" v-model="items.Win"/>
+                                    <input id="Win" type="text" name="Win" readonly="readonly" value=""
+                                           v-model="items.Win"/>
                                 </div>
                             </div>
 
@@ -315,14 +319,16 @@
                             <div class="am-form-group am-margin-vertical-sm">
                                 <label for="Lost" class="am-u-sm-2 am-form-label">败局</label>
                                 <div class="am-u-sm-10">
-                                    <input id="Lost" type="text" name="Lost" readonly="readonly" value="" v-model="items.Lost"/>
+                                    <input id="Lost" type="text" name="Lost" readonly="readonly" value=""
+                                           v-model="items.Lost"/>
                                 </div>
                             </div>
 
                             <div class="am-form-group am-margin-vertical-sm">
                                 <label for="Ping" class="am-u-sm-2 am-form-label">平局</label>
                                 <div class="am-u-sm-10">
-                                    <input id="Ping" type="text" name="Ping" readonly="readonly" value="" v-model="items.Ping"/>
+                                    <input id="Ping" type="text" name="Ping" readonly="readonly" value=""
+                                           v-model="items.Ping"/>
                                 </div>
                             </div>
 
@@ -347,21 +353,24 @@
                             <div class="am-form-group am-margin-vertical-sm">
                                 <label for="password1" class="am-u-sm-2 am-form-label">确认密码</label>
                                 <div class="am-u-sm-10">
-                                    <input id="Password1" type="text" name="Password1" value="" v-model="items.Password1"/>
+                                    <input id="Password1" type="text" name="Password1" value=""
+                                           v-model="items.Password1"/>
                                 </div>
                             </div>
 
                             <div class="am-form-group am-margin-vertical-sm">
                                 <label class="am-u-sm-2 am-form-label">注册时间</label>
                                 <div class="am-u-sm-10">
-                                    <input id="Create_time" type="text" name="" v-model="items.Create_time" value="" disabled/>
+                                    <input id="Create_time" type="text" name="" v-model="items.Create_time" value=""
+                                           disabled/>
                                 </div>
                             </div>
 
                             <div class="am-form-group am-margin-vertical-sm">
                                 <label class="am-u-sm-2 am-form-label">注册IP地址</label>
                                 <div class="am-u-sm-10">
-                                    <input id="Create_ip" type="text" name="" v-model="items.Create_ip" value="" disabled/>
+                                    <input id="Create_ip" type="text" name="" v-model="items.Create_ip" value=""
+                                           disabled/>
                                 </div>
                             </div>
 
@@ -385,25 +394,25 @@
 
             </div>
         </div>
-        </div>
     </div>
+</div>
 
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/js/dialog.js"></script>
-    <script src="../assets/js/vue.min.js"></script>
-    <script src="../assets/js/app.js"></script>
-    <script src="../assets/js/myapp.js"></script>
-    <script src="../assets/js/amazeui.min.js"></script>
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/dialog.js"></script>
+<script src="../assets/js/vue.min.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/myapp.js"></script>
+<script src="../assets/js/amazeui.min.js"></script>
 </body>
 </html>
 <script type="text/javascript">
     new Vue({
         el: '#admin-sidebar-list',
-        data: {items: getSideBar() }
+        data: {items: getSideBar()}
     })
     new Vue({
-        el:"#admin-head-list",
-        data:{items: getHeadBar() }
+        el: "#admin-head-list",
+        data: {items: getHeadBar()}
     })
 
     var edit = new Vue({
@@ -502,6 +511,7 @@
         el: '#SearchPages',
         data: {
             selected: "30",
+
             pages: [
                 {text: '30', value: "30"},
                 {text: '50', value: "50"},
@@ -573,70 +583,38 @@
         }
     })
 
-    var searchSelect = new Vue({
-        el: '#Search',
+    var typeSelector = new Vue({
+        el: '#TypeSelector',
         data: {
-            selected: '1',
+            selected: "1",
+            options: [
+                {text: '根据玩家ID搜索', value: "1"},
+                {text: '根据玩家手机号搜索', value: "2"}
+            ],
             SearchValue: "",
         },
-
         methods: {
             onReset: function () {
-                this.$data.selected = "1"
-                this.$data.SearchValue = ""
+                typeSelector.$data.selected = "1"
+                typeSelector.$data.SearchValue = ""
                 Page:pageBar.$data.cur = 1,
+                pages.$data.selected = "30"
                         getUserList()
-            }
-            ,
+            },
             onSearch: function (event) {
-                var data = {
-                    SelectedIDSearch: this.$data.selected,
-                    SearchUserid: this.$data.SearchValue,
-                    Page: pageBar.$data.cur,
-                    PageMax: pages.$data.selected
-
-                }
-                //  $.Alert(JSON.stringify(data))
-                console.info(data)
-
-
-                var data = {
-                    SelectedIDSearch: searchSelect.$data.selected,
-                    SearchUserid: searchSelect.$data.SearchValue,
-                    Page: pageBar.$data.cur,
-                    PageMax: pages.$data.selected
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: "/roles/search",
-                    data: data,
-                    dataType: "json",
-                    success: function (data) {
-
-                        if (data["status"] == "ok") {
-                            console.info(data["data"])
-                            userdatalist.$data["items"] = data["data"]["list"]
-                            pageBar.$data.allrecords = data["data"]["count"]
-                            pageBar.$data.all = Math.ceil(data["data"]["count"] / pages.$data.selected)
-                            if (data["data"]["list"].length == 0){
-                                $.Alert("没找到匹配数据！")
-                            }
-
-                        } else if (data["status"] == "fail") {
-                            $.Alert(data["msg"])
-                        }
-                    }
-                });
+                getUserList()
             }
         }
     })
 
-    var userdatalist = new Vue({
-        el: '#userdatalist',
-        data: {items: []},
 
-        created: function() {
+    var userdatalist = new Vue({
+        el: '#user_list',
+        data: {
+            items: []
+        },
+
+        created: function () {
             getUserList()
         },
         methods: {
@@ -645,7 +623,7 @@
                 $("#edit_pane").show();
                 if (userdatalist.$data["items"].length > 0) {
                     var data = userdatalist.$data["items"][index]
-                    data.Create_time = format(data.Create_time*1000)
+                    data.Create_time = format(data.Create_time * 1000)
                     edit.$data["items"] = data
                 }
             }
@@ -653,27 +631,30 @@
     })
 
     function getUserList() {
-
         var data = {
-            SelectedIDSearch: searchSelect.$data.selected,
-            SearchUserid: searchSelect.$data.SearchValue,
+            SelectedIDSearch: typeSelector.$data.selected,
+            SearchUserid: typeSelector.$data.SearchValue,
             Page: pageBar.$data.cur,
             PageMax: pages.$data.selected
         }
+        var url = "/roles/list"
+        if (typeSelector.$data.SearchValue){
+            url =" /roles/search"
+        }
 
-       var ajx= $.ajax({
+
+        $.ajax({
             type: "POST",
-            url: "/roles/list",
+            url:url,
             data: data,
             dataType: "json",
-            timeout : 10000,
-            error : function(xhr,textStatus){
-                $.Alert("网络超时,请刷新网页!")
+            timeout: 10000,
+            error: function (xhr, textStatus) {
+               // $.Alert("网络超时,请刷新网页!")
             },
             success: function (data) {
-
                 if (data["status"] == "ok") {
-                    console.info(data["data"])
+
                     userdatalist.$data["items"] = data["data"]["list"]
                     pageBar.$data.allrecords = data["data"]["count"]
                     pageBar.$data.all = Math.ceil(data["data"]["count"] / pages.$data.selected)
