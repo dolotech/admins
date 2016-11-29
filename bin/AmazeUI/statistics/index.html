@@ -81,195 +81,126 @@
         </div>
     </div>
     <!-- sidebar end -->
-    <div class="tpl-content-wrapper" id="BasicStatitics">
+    <div class="tpl-content-wrapper" >
         <ol class="am-breadcrumb">
             <li><a href="#" class="am-icon-home">首页</a></li>
             <li><a href="#">分类</a></li>
-            <li class="am-active">内容</li>
+            <li class="am-active">基础统计</li>
         </ol>
+        <div class="tpl-portlet-components">
+            <div class="tpl-block">
 
-        <div class="row">
-            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                <div class="dashboard-stat blue">
-                    <div class="visual">
-                        <i class="am-icon-comments-o"></i>
-                    </div>
-                    <div class="details">
-                        <div class="desc"> 付费用户数(人):</div>
-                        <div class="number"> {{items.ExpenseCount}}</div>
+                <div id="Search">
+                    <div class="am-g">
+
+                        <div class="am-u-sm-12 am-u-md-3">
+                            <div class="am-form-group" id="SearchPages">
+
+                                <select name="" v-model="selected">
+                                    <option  v-for="page in pages" v-bind:value="page.value">
+                                        {{ page.text }}
+                                    </option>
+
+                                </select>
+
+
+                            </div>
+                        </div>
+
+                        <div class="am-form-icon am-u-sm-12 am-u-md-3">
+                            <div class="am-form-icon">
+                                <i id="date-start-icon" class="am-icon-calendar"></i>
+                                <input id="date-start" type="text" name="last_visit_begin" value=""
+                                       class="am-form-field am-input-sm" placeholder="选择查询的日期"/>
+                            </div>
+                        </div>
+
+                        <div class="am-form-icon am-u-sm-12 am-u-md-3">
+                            <div class="am-form-icon">
+                                <i id="date-end-icon" class="am-icon-calendar"></i>
+                                <input id="date-end" type="text" name="last_visit_begin" value=""
+                                       class="am-form-field am-input-sm" placeholder="选择查询的日期"/>
+                            </div>
+                        </div>
+
+
+                        <div class="am-form-icon am-u-sm-12 am-u-md-3">
+
+                            <div class="am-u-sm-12 am-u-md-3 am-u-end">
+                                <button class="am-btn am-btn-default am-input-sm" onclick="Search()" type="button"> 查询</button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                <div class="dashboard-stat blue">
-                    <div class="visual">
-                        <i class="am-icon-comments-o"></i>
-                    </div>
-                    <div class="details">
+                <!--   <div class="am-u-sm-12">-->
+                <!--     <form class="am-form">-->
 
-                        <div class="desc"> 新增付费用户数(人):</div>
-                        <div class="number"> {{items.ExpenseNewCount}}</div>
-                    </div>
+                <!--      {{ $len := len .users }}
+                      {{if eq $len 0 }}
+                      <p align="center"> 没有找到你要的数据!</p>
+                      {{ else }}-->
+                <table class="am-table am-table-striped am-table-hover table-main" id="datalist">
+                    <thead>
+                    <tr>
+                        <th class="am-text-nowrap am-hide-sm-only table-id">日期</th>
+                        <th class="am-text-nowrap table-type">新增(人)</th>
+                        <th class="am-text-nowrap table-title">活跃(人)</th>
+                        <th class="am-text-nowrap table-title">活跃ARPU</th>
+                        <th class="am-text-nowrap table-title">ARPU</th>
+                        <th class="am-text-nowrap table-type">付费率</th>
+                        <th class="am-text-nowrap table-title">付费人数(人)</th>
+                        <th class="am-text-nowrap table-title">总付费金额(元)</th>
+                        <th class="am-text-nowrap table-type">新增付费(人)</th>
 
+                        <th class="am-text-nowrap table-type">次日留存</th>
+                        <th class="am-text-nowrap table-type">3日留存</th>
+                        <th class="am-text-nowrap table-type">周留存</th>
+                        <th class="am-text-nowrap table-type">月留存</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr v-for="(item,index) in items " >
+                        <td class="am-text-middle am-hide-sm-only"> {{ item.Timestamp }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{item.NewCount }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ item.Active }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ item.ActiveARPU }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ item.ARPU }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ item.ExpenseRate }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ item.ExpenseCount }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ item.ExpenseAll }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ item.ExpenseNewCount }}</td>
+
+                        <td class="am-text-middle am-hide-sm-only">{{ item.Keep1 }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ item.Keep3 }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ item.Keep7 }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ item.Keep30 }}</td>
+
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- pagination start -->
+                <div class="am-cf" id="pageflip">
+                    共 {{allrecords}} 条记录
+                    <div class="am-fr">
+                        <ul class="am-pagination tpl-pagination">
+                            <li class="am-enabled" v-if="showFirst"><a href="javascript:void(0)" type="button"
+                                                                       v-on:click="cur--">«</a></li>
+                            <li v-for="index in indexs" v-bind:class="{ 'am-active': cur == index}">
+                                <a href="javascript:void(0)" type="button" v-on:click="btnClick(index)">{{ index
+                                    }}</a>
+                            </li>
+                            <li class="am-enabled" v-if="showLast"><a href="javascript:void(0)" type="button"
+                                                                      v-on:click="cur++">»</a></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                <div class="dashboard-stat blue">
-                    <div class="visual">
-                        <i class="am-icon-comments-o"></i>
-                    </div>
-                    <div class="details">
-                        <div class="desc"> 累计付费金额(元):</div>
-                        <div class="number"> {{items.ExpenseAll}}</div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                <div class="dashboard-stat blue">
-                    <div class="visual">
-                        <i class="am-icon-comments-o"></i>
-                    </div>
-                    <div class="details">
-
-                        <div class="desc"> 付费率:</div>
-                        <div class="number"> {{items.ExpenseRate}}</div>
-                    </div>
-
-                </div>
-            </div>
-       
-            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                <div class="dashboard-stat blue">
-                    <div class="visual">
-                        <i class="am-icon-comments-o"></i>
-                    </div>
-                    <div class="details">
-
-                        <div class="desc"> 付费用户ARPU值:</div>
-                        <div class="number"> {{items.ARPU}}</div>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                <div class="dashboard-stat blue">
-                    <div class="visual">
-                        <i class="am-icon-comments-o"></i>
-                    </div>
-                    <div class="details">
-
-                        <div class="desc"> 活跃ARPU值:</div>
-                        <div class="number"> {{items.ActiveARPU}}</div>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                <div class="dashboard-stat blue">
-                    <div class="visual">
-                        <i class="am-icon-comments-o"></i>
-                    </div>
-                    <div class="details">
-
-                        <div class="desc"> 当前在线用户数(人):</div>
-                        <div class="number"> {{items.OnlineCount}}</div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                <div class="dashboard-stat blue">
-                    <div class="visual">
-                        <i class="am-icon-comments-o"></i>
-                    </div>
-                    <div class="details">
-
-                        <div class="desc"> 新增用户数(人):</div>
-                        <div class="number"> {{items.NewCount}}</div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                <div class="dashboard-stat blue">
-                    <div class="visual">
-                        <i class="am-icon-comments-o"></i>
-                    </div>
-                    <div class="details">
-
-                        <div class="desc"> 活跃用户数(人):</div>
-                        <div class="number"> {{items.Active}}</div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                <div class="dashboard-stat purple">
-                    <div class="visual">
-                        <i class="am-icon-comments-o"></i>
-                    </div>
-                    <div class="details">
-
-                        <div class="desc"> 次日留存率:</div>
-                        <div class="number"> {{items.Keep1}}</div>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                <div class="dashboard-stat purple">
-                    <div class="visual">
-                        <i class="am-icon-comments-o"></i>
-                    </div>
-                    <div class="details">
-
-                        <div class="desc"> 第3日留存率:</div>
-                        <div class="number"> {{items.Keep3}}</div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                <div class="dashboard-stat purple">
-                    <div class="visual">
-                        <i class="am-icon-comments-o"></i>
-                    </div>
-                    <div class="details">
-
-                        <div class="desc"> 第7日留存率:</div>
-                        <div class="number"> {{items.Keep7}}</div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-                <div class="dashboard-stat purple">
-                    <div class="visual">
-                        <i class="am-icon-comments-o"></i>
-                    </div>
-                    <div class="details">
-
-                        <div class="desc"> 第30日留存率:</div>
-                        <div class="number"> {{items.Keep30}}</div>
-                    </div>
-
-                </div>
+                <!-- pagination end -->
+                <!--     </div>-->
             </div>
         </div>
-
+        <div class="tpl-alert"></div>
     </div>
 </div>
 
@@ -289,6 +220,24 @@
     new Vue({
         el: "#admin-head-list",
         data: {items: getHeadBar()}
+    })
+
+    var pages = new Vue({
+        el: '#SearchPages',
+        data: {
+            selected: "30",
+
+            pages: [
+                {text: '30', value: "30"},
+                {text: '50', value: "50"},
+                {text: '100', value: "100"},
+                {text: '200', value: "200"}
+            ]
+        }
+    })
+    var datalist= new Vue({
+        el: "#datalist",
+        data: {items: {}}
     })
 
     var basicStatitics = new Vue({
@@ -312,18 +261,157 @@
             }
         },
         created: function () {
-            $.ajax({
-                type: "POST",
-                url: "/statistics/index",
-                data: {},
-                dataType: "json",
-                timeout: 10000,
-                error: function (xhr, textStatus) {
-                    $.Alert("网络超时,请刷新网页!")
-                },
-                success: function (data) {
-                    if (data["status"] == "ok") {
-                        var base = data["data"]
+            getdata()
+        }
+    })
+
+
+    $(function () {
+        var startDate = new Date(2016, 1, 1);
+        var endDate = new Date();
+
+        var today  = new Date();
+        $('#date-start-icon').datepicker().on('changeDate.datepicker.amui', function (event) {
+            if (event.date.valueOf() > endDate.valueOf()) {
+                $.Alert("开始日期应小于结束日期")
+                return
+            }
+            if (event.date.valueOf() > today.valueOf()) {
+                $.Alert("开始日期应小于今天日期")
+                return
+            }
+
+                startDate = new Date(event.date);
+                $('#date-start').val($('#date-start-icon').data('date'));
+
+            $(this).datepicker('close');
+        });
+
+        $('#date-end-icon').datepicker().on('changeDate.datepicker.amui', function (event) {
+            if (event.date.valueOf() < startDate.valueOf()) {
+              $.Alert("结束日期应大于开始日期")
+                return
+            }
+            if (event.date.valueOf() > today.valueOf()) {
+                $.Alert("结束日期应小于今天日期")
+                return
+            }
+                endDate = new Date(event.date);
+                $('#date-end').val($('#date-end-icon').data('date'));
+
+            $(this).datepicker('close');
+        });
+    });
+
+
+    var pageBar = new Vue({
+        el: '#pageflip',
+        data: {
+            all: Math.ceil(0 / pages.$data.selected),
+            allrecords: 0,
+            cur: 1
+        },
+        watch: {
+            cur: function (oldValue, newValue) {
+                // console.log(arguments)
+                getUserList()
+            }
+        },
+        methods: {
+            btnClick: function (data) {//页码点击事件
+                if (data != this.cur) {
+                    this.cur = data
+
+                }
+            }
+        },
+        computed: {
+            indexs: function () {
+                var left = 1
+                var right = this.all
+                var ar = []
+                if (this.all >= 11) {
+                    if (this.cur > 5 && this.cur < this.all - 4) {
+                        left = this.cur - 5
+                        right = this.cur + 4
+                    } else {
+                        if (this.cur <= 5) {
+                            left = 1
+                            right = 10
+                        } else {
+                            right = this.all
+                            left = this.all - 9
+                        }
+                    }
+                }
+                while (left <= right) {
+                    ar.push(left)
+                    left++
+                }
+                return ar
+            },
+            showLast: function () {
+                if (this.cur == this.all) {
+                    return false
+                }
+                return true
+            },
+            showFirst: function () {
+                if (this.cur == 1) {
+                    return false
+                }
+                return true
+            }
+        }
+    })
+
+
+
+    function Search() {
+        if (!$('#date-start').val()) {
+            $.Alert("请选择开始日期")
+            return
+        }
+        if (!$('#date-start').val()) {
+            $.Alert("请选择结算日期")
+            return
+        }
+
+        getdata()
+    }
+
+
+    function getdata() {
+        var start = new Date($('#date-start').val())
+        var unixstart
+
+        if (start){
+            unixstart = Date.parse(new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0)) / 1000;
+        }
+
+        var unixend
+        var end = new Date($('#date-end').val())
+        if (start){
+            unixend = Date.parse(new Date(end.getFullYear(), end.getMonth(), end.getDate(), 0, 0, 0)) / 1000;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/statistics/index",
+            data: {
+                UnixStart:unixstart,
+                UnixEnd:unixend
+            },
+            dataType: "json",
+            timeout: 10000,
+            error: function (xhr, textStatus) {
+                $.Alert("网络超时,请刷新网页!")
+            },
+            success: function (data) {
+                if (data["status"] == "ok") {
+                    var data = data["data"]
+                    for(var i = 0;i<data.length;i++){
+                        var base = data[i]
                         base.Keep1 = base.Keep1 / 100 + "%"
                         base.Keep3 = base.Keep3 / 100 + "%"
                         base.Keep7 = base.Keep7 / 100 + "%"
@@ -331,34 +419,19 @@
                         base.ExpenseRate = base.ExpenseRate / 100 + "%"
                         base.ActiveARPU = base.ActiveARPU / 100 + "%"
                         base.ARPU = base.ARPU / 100 + "%"
-                        basicStatitics.$data.items = base
-                    } else {
-                        $.Alert(data["msg"])
+                        base.Timestamp = formatData(  base.Timestamp*1000)
                     }
+                    datalist.$data.items = data
+
+                    pageBar.$data.allrecords = data.length
+                    pageBar.$data.all = Math.ceil(data.length/ pages.$data.selected)
+                } else {
+                    $.Alert(data["msg"])
                 }
-            });
-        }
-    })
-
-
-    $('#date-start-icon').datepicker().on('changeDate.datepicker.amui', function (event) {
-        var startDate = new Date(event.date);
-        $('#date-start').val($('#date-start-icon').data('date'));
-        $(this).datepicker('close');
-    });
-    function onReset() {
-        var day = new Date()
-        getOnline(day)
+            }
+        });
     }
-    function Search() {
-        if (!$('#date-start').val()) {
-            $.Alert("请选择日期")
-            return
-        }
 
-        var day = new Date($('#date-start').val())
-        getOnline(day)
-    }
 
 
 </script>

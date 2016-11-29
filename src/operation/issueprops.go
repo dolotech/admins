@@ -91,25 +91,29 @@ func IssueProps(c echo.Context) error {
 		}
 	}
 	errorList := ""
-	cookie, err := c.Cookie("login")
-	var username = ""
-	if err == nil && cookie != nil || len(cookie.Value) > 0 {
-		se := data.Sessions.Get(cookie.Value)
-		if se != nil {
-			username = se.Username
-		}
-	}
-	for _, v := range userIds {
-		issue := &IssuePropsRecord{AdminID: username, WidgetType: uint32(widgetType), UserID: v, Count: uint32(count), Desc: desc}
-		err := resource.ChangeRes(v, uint32(widgetType), int32(count))
-		if err != nil {
-			errorList += (v + ",")
-			glog.Errorln(err)
-		} else {
-			issue.Save()
-		}
+	var username = data.GetCurrentUserID(c)
+	if username != "" {
+		for _, v := range userIds {
+			issue := &IssuePropsRecord{AdminID: username, WidgetType: uint32(widgetType), UserID: v, Count: uint32(count), Desc: desc}
+			err := resource.ChangeRes(v, uint32(widgetType), int32(count))
+			adrd := &data.AdminRecord{
+				AdminID:   username,
+				Kind:      data.OPERATE_KIND_WIDGET_MODIFY,
+				Count:     (count),
+				WindgetID: uint32(widgetType),
+				Target:    v,
+			}
+			adrd.Save()
+			if err != nil {
+				errorList += (v + ",")
+				glog.Errorln(err)
+			} else {
+				issue.Save()
+			}
 
+		}
 	}
+
 	if len(errorList) > 0 {
 		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "以下ID出错" + errorList})
 

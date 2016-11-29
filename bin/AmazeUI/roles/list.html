@@ -94,7 +94,6 @@
         </ol>
         <div class="tpl-portlet-components">
             <div class="tpl-block">
-
                 <div>
                     <div class="am-g">
 
@@ -102,10 +101,9 @@
                             <div class="am-form-group" id="SearchPages">
 
                                 <select name="" v-model="selected">
-                                        <option v-for="page in pages" v-bind:value="page.value">
+                                        <option  v-for="page in pages" v-bind:value="page.value">
                                             {{ page.text }}
                                         </option>
-
                                 </select>
 
                             </div>
@@ -113,9 +111,9 @@
 
                         <div id="TypeSelector">
                             <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
-                                <div class="am-form-group">
-                                    <select v-model="selected" >
-                                       <option v-for="option in options" v-bind:value="option.value">
+                                <div class="am-form-group" >
+                                    <select  v-model="selected" >
+                                       <option  v-for="option in options" v-bind:value="option.value">
                                             {{ option.text }}
                                         </option>
                                     </select>
@@ -212,6 +210,7 @@
         </div>
         <div class="tpl-alert"></div>
     </div>
+
 
     <div style="display:none;" id="edit_pane">
         <div class="tpl-content-wrapper">
@@ -403,6 +402,8 @@
 <script src="../assets/js/app.js"></script>
 <script src="../assets/js/myapp.js"></script>
 <script src="../assets/js/amazeui.min.js"></script>
+
+
 </body>
 </html>
 <script type="text/javascript">
@@ -525,8 +526,8 @@
     var pageBar = new Vue({
         el: '#pageflip',
         data: {
-            all: Math.ceil(500 / pages.$data.selected),
-            allrecords: 500,
+            all: Math.ceil(0 / pages.$data.selected),
+            allrecords: 0,
             cur: 1
         },
         watch: {
@@ -665,4 +666,5 @@
         });
 
     }
+
 </script>

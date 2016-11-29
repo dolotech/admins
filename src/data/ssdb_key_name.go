@@ -5,13 +5,16 @@ const (
 	USERS       string = "admins_users:"
 
 	//USER_GROUP_INDEX string = "admins_user_group_index"
-	USER_GROUP string = "admins_user_group"
+	USER_GROUP       string = "admins_user_group"
+	USER_GROUP_INDEX string = "admins_user_group_index"
 
 	USER_LOG_INDEX  string = "admins_user_log_index"
 	USERS_LIST      string = "admins_users_list"
 	USER_LOG        string = "admins_user_log"
 	PROPS_ISSUE_LOG string = "admins_props_issue_log"
 	LOGIN_SESSION   string = "admins_login_session"
+
+	ADMIN_RECORD string = "admins_admin_record:"
 )
 
 const (
@@ -98,7 +101,8 @@ const (
 	KEY_ONLINE          string = "online"                  // 在线玩家id列表
 	KEY_RESOURCE_CHANGE string = "resource_change_record:" // 资源变动记录
 
-	KEY_ONLINE_STATISTICS  string = "online_statistics"  // 在线统计
-	KEY_NEWUSER_STATISTICS string = "newuser_statistics" // 新增统计
-	KEY_ACTIVE_STATISTICS  string = "active_statistics"  // 活跃统计
+	KEY_ONLINE_STATISTICS      string = "online_statistics"        // 在线统计
+	KEY_NEWUSER_STATISTICS     string = "newuser_statistics"       // 新增统计
+	KEY_NEWUSER_STATISTICS_QUE string = "newuser_statistics_queue" // 新增统计
+	KEY_ACTIVE_STATISTICS      string = "active_statistics"        // 活跃统计
 )

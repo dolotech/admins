@@ -433,6 +433,10 @@ func Timestamp() int64 {
 func TimestampToday() int64 {
 	return time.Date(Year(), Month(), Day(), 0, 0, 0, 0, time.Local).Unix()
 }
+func TimestampTodayStr() string {
+	t := time.Date(Year(), Month(), Day(), 0, 0, 0, 0, time.Local).Unix()
+	return strconv.FormatInt(t, 10)
+}
 
 // 获取本地昨天零点时间截
 func TimestampYesterday() int64 {

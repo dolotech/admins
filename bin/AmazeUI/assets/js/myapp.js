@@ -11,7 +11,16 @@
         });
     });
 })(jQuery);
+//去掉字符串前后所有空格
+function Trim(str)
+{
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+}
 
+
+function geturl(url) {
+    return url+"?v="+getcookie("version")
+}
 
 //获取指定名称的cookie的值
 function getcookie(objname) {
@@ -51,6 +60,16 @@ function format(shijianchuo)
     return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
 }
 
+function formatData(shijianchuo)
+{
+//shijianchuo是整数，否则要parseInt转换
+    var time = new Date(shijianchuo);
+    var y = time.getFullYear();
+    var m = time.getMonth()+1;
+    var d = time.getDate();
+
+    return y+'-'+add0(m)+'-'+add0(d);
+}
 
 function ipToNumber(ip) {
     var num = 0;
@@ -109,10 +128,10 @@ function getHeadBar() {
             name:  "管理员",
             icon: "am-icon-users",
             items:    [
-                {icon:"am-icon-group",path:"/users/group_list.html", name:"用户组管理"},
-                {icon:"am-icon-user",path:"/users/list.html", name:"后台用户账号管理"},
-           /*     {icon:"am-icon-eye",path:"#", name:"后台操作日志"},*/
-                {icon:"am-icon-edit",path:"/users/edit.html", name:"修改我的密码"}]
+                {icon:"am-icon-group",path:geturl("/users/group_list.html"), name:"用户组管理"},
+                {icon:"am-icon-user",path:geturl("/users/list.html"), name:"后台用户账号管理"},
+                {icon:"am-icon-eye",path:geturl("/users/record.html"), name:"后台操作日志"},
+                {icon:"am-icon-edit",path:geturl("/users/edit.html"), name:"修改我的密码"}]
         },
         {
             name:  "系统设置",
@@ -132,58 +151,57 @@ function getSideBar() {
             name:"玩家管理",
             icon:"am-icon-user",
             items: [
-            { icon:"am-icon-table",path:"/roles/list.html",  name:"玩家列表"}
+            { icon:"am-icon-table",path:geturl("/roles/list.html"),  name:"玩家列表"}
 
           /*
-           { icon:"am-icon-table",path:"/roles/feedback.html",  name:"反馈"}
-          {icon:"am-icon-table",path:"/roles/listonline.html",name: "在线玩家"},
-            {icon:"am-icon-table",path:"/roles/gainrank.html", name:"每日盈利排名"},
-            {icon:"am-icon-table",path:"/roles/winrank.html", name:"胜局排名"},
-            {icon:"am-icon-table",path:"/roles/coinrank.html", name:"等级排名"},
-            {icon:"am-icon-table",path:"/roles/levelrank.html",name: "等级排名"}*/
+           { icon:"am-icon-table",path:geturl("/roles/feedback.html"),  name:"反馈"}
+          {icon:"am-icon-table",path:geturl("/roles/listonline.html"),name: "在线玩家"},
+            {icon:"am-icon-table",path:geturl("/roles/gainrank.html"), name:"每日盈利排名"},
+            {icon:"am-icon-table",path:geturl("/roles/winrank.html"), name:"胜局排名"},
+            {icon:"am-icon-table",path:geturl("/roles/coinrank.html"), name:"等级排名"},
+            {icon:"am-icon-table",path:geturl("/roles/levelrank.html"),name: "等级排名"}*/
             ]
         },
         {
             name:  "发放记录",
             icon:"am-icon-drupal",
             items:    [
-            {icon:"am-icon-table",path:"/operation/provide.html", name:"道具/钻石发放"},
-            {icon:"am-icon-table",path:"/operation/providerecord.html", name:"发放记录"}
+            {icon:"am-icon-table",path:geturl("/operation/provide.html"), name:"道具/钻石发放"},
+            {icon:"am-icon-table",path:geturl("/operation/providerecord.html"), name:"发放记录"}
 /*
-            {icon:"am-icon-table",path:"/operation/email.html", name:"发送邮件"},
-            {icon:"am-icon-table",path:"/operation/emaillist.html", name:"邮件记录"}*/
+            {icon:"am-icon-table",path:geturl("/operation/email.html", name:"发送邮件"},
+            {icon:"am-icon-table",path:geturl("/operation/emaillist.html", name:"邮件记录"}*/
             ]
         },
         {
             name: "日志管理",
             icon:"am-icon-eye",
             items:      [
-            {icon:"am-icon-table",path:"/operation/privaterecord.html", name:"私人局记录"},
-            {icon:"am-icon-table",path:"/operation/matchrecord.html",name: "比赛场记录"},
-            {icon:"am-icon-table",path:"/operation/normalrecord.html", name:"金币场记录"}
-       /*     {icon:"am-icon-table",path:"/operation/exchangerecord.html", name:"虚拟兑换记录"},
-            {icon:"am-icon-table",path:"/operation/exchangerecord.html", name:"实物兑换记录"},
-            {icon:"am-icon-table",path:"/operation/privatecreate.html", name:"私人房创建日志"}
-            {icon:"am-icon-table",path:"/operation/loginrecord.html",name: "登录日志"},*/]
+            {icon:"am-icon-table",path:geturl("/operation/privaterecord.html"), name:"私人局记录"},
+            {icon:"am-icon-table",path:geturl("/operation/matchrecord.html"),name: "比赛场记录"},
+            {icon:"am-icon-table",path:geturl("/operation/normalrecord.html"), name:"金币场记录"}
+       /*     {icon:"am-icon-table",path:geturl("/operation/exchangerecord.html"), name:"虚拟兑换记录"},
+            {icon:"am-icon-table",path:geturl("/operation/exchangerecord.html"), name:"实物兑换记录"},
+            {icon:"am-icon-table",path:geturl("/operation/privatecreate.html"), name:"私人房创建日志"}
+            {icon:"am-icon-table",path:geturl("/operation/loginrecord.html"),name: "登录日志"},*/]
         },
         {
             name: "订单管理",
             icon:"am-icon-shield",
             items:     [
-            {icon:"am-icon-table",path:"/operation/chargeorder.html", name:"下单记录"},
-            {icon:"am-icon-table",path:"/operation/transition.html", name:"交易记录"}
+            {icon:"am-icon-table",path:geturl("/operation/chargeorder.html"), name:"下单记录"},
+            {icon:"am-icon-table",path:geturl("/operation/transition.html"), name:"交易记录"}
             ]
         },
         {
             name: "数据统计",
             icon:"am-icon-file",
             items:     [
-                /*   {icon:"am-icon-table",path:"/statistics/online.html",name: "在线"},
-                {icon:"am-icon-table",path:"/statistics/newuser.html",name: "新增"}
-             {icon:"am-icon-table",path:"/statistics/active.html",name: "活跃"},*/
-              /*  {icon:"am-icon-table",path:"/statistics/remainder.html",name: "留存"}*/
+                   {icon:"am-icon-table",path:geturl("/statistics/online.html"),name: "在线"},
+                {icon:"am-icon-table",path:geturl("/statistics/newuser.html"),name: "新增"}
+                /*  {icon:"am-icon-table",path:geturl("/statistics/active.html"),name: "活跃"},
+            {icon:"am-icon-table",path:geturl("/statistics/remainder.html"),name: "留存"}*/
                 ]
-
         }
     ]
 }

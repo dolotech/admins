@@ -84,6 +84,22 @@ type ChargeOrder struct {
 	Status    uint32 // 发货结果 0成功,1失败
 }
 
+// 获取当日的所有充值
+func GetAllTransition(day string) ([]*TradingResults, error) {
+	value, err := gossdb.C().Qslice(KEY_TRADINGRESULTS+day, 0, -1)
+	if err != nil {
+		return nil, err
+	}
+	list := make([]*TradingResults, 0, len(value))
+	for _, v := range value {
+		data := &TradingResults{}
+		err := v.As(data)
+		if err == nil {
+			list = append(list, data)
+		}
+	}
+	return list, nil
+}
 func GetTransition(day string, page int, limit int) ([]*TradingResults, int64, error) {
 	size, err := gossdb.C().Qsize(KEY_TRADINGRESULTS + day)
 	if err != nil {

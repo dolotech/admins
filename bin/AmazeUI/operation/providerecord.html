@@ -98,15 +98,10 @@
                         <div class="am-u-sm-12 am-u-md-3">
                             <div class="am-form-group" id="SearchPages">
 
-                                <select name="" v-model="selected" data-am-selected="{btnSize: 'sm'}">
-                                    <option v-for="page in pages" v-bind:value="page.value" v-if="page.value == selected"
-                                            selected>
-                                        {{page.text}}
+                                <select name="" v-model="selected">
+                                    <option  v-for="page in pages" v-bind:value="page.value">
+                                        {{ page.text }}
                                     </option>
-                                    <option v-for="page in pages" v-bind:value="page.value" v-if="page.value !=  selected">
-                                        {{page.text}}
-                                    </option>
-
                                 </select>
 
 
@@ -167,7 +162,7 @@
                                 <td v-if="item.WidgetType==23" class="am-text-middle am-hide-sm-only">VIP2</td>
                                 <td v-if="item.WidgetType==24" class="am-text-middle am-hide-sm-only">VIP3</td>
                                 <td v-if="item.WidgetType==100" class="am-text-middle am-hide-sm-only">经验</td>
-                                <td v-if="item.WidgetType==0" class="am-text-middle am-hide-sm-only">错误数据</td>
+                                <td v-if="item.WidgetType== 0" class="am-text-middle am-hide-sm-only">-</td>
 
                                 <td class="am-text-middle am-hide-sm-only">{{ item.Count }}</td>
                                 <td class="am-text-middle am-hide-sm-only">{{ item.Desc }}</td>

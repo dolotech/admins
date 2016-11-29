@@ -54,66 +54,65 @@ func Edit(c echo.Context) error {
 	userid := c.FormValue("Userid")
 	nickname := c.FormValue("Nickname")
 	sex := c.FormValue("Sex")
-	phone := c.FormValue("Phone")
-	vip := c.FormValue("Vip")
-	coin := c.FormValue("Coin")
-	diamond := c.FormValue("Diamond")
-	exp := c.FormValue("Exp")
-	ticket := c.FormValue("Ticket")
-	exchange := c.FormValue("Exchange")
-	win := c.FormValue("Win")
-	lost := c.FormValue("Lost")
-	ping := c.FormValue("Ping")
 	pwd := c.FormValue("Password")
 	pwd1 := c.FormValue("Password1")
 	photo := c.FormValue("Photo")
 	user := &data.User{Userid: userid}
+	if err := user.Get(); err != nil {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "该玩家不存在"})
+	}
 	m := make(map[string]interface{})
 	if nickname != "" {
 		m["Nickname"] = nickname
+		adrd := &data.AdminRecord{
+			AdminID: data.GetCurrentUserID(c),
+			Kind:    data.OPERATE_KIND_PLAYER_MODIFY,
+			Target:  userid,
+			Pre:     user.Nickname,
+			After:   nickname,
+			Desc:    "昵称",
+		}
+		adrd.Save()
+
 	}
-	if sex == "1" {
-		m["Sex"] = 1
-	} else {
-		m["Sex"] = 2
+	s, _ := strconv.Atoi(sex)
+	if uint32(s) != user.Sex {
+		m["Sex"] = s
+		adrd := &data.AdminRecord{
+			AdminID: data.GetCurrentUserID(c),
+			Kind:    data.OPERATE_KIND_PLAYER_MODIFY,
+			Target:  userid,
+			Pre:     strconv.Itoa(int(user.Sex)),
+			After:   sex,
+			Desc:    "性别",
+		}
+		adrd.Save()
+
 	}
-	if win != "" {
-		m["Win"], _ = strconv.Atoi(win)
-	}
+
 	if photo != "" {
-		m["Photo"], _ = strconv.Atoi(photo)
-	}
-	if lost != "" {
-		m["Lost"], _ = strconv.Atoi(lost)
-	}
-	if ping != "" {
-		m["Ping"], _ = strconv.Atoi(ping)
-	}
-	if ticket != "" {
-		m["Ticket"], _ = strconv.Atoi(ticket)
-	}
-	if exchange != "" {
-		m["Exchange"], _ = strconv.Atoi(exchange)
-	}
+		//	m["Photo"], _ = strconv.Atoi(photo)
+		//	adrd := &data.AdminRecord{
+		//		AdminID: data.GetCurrentUserID(c),
+		//		Kind:    data.OPERATE_KIND_PLAYER_MODIFY,
+		//		Target:  userid,
+		//		Pre:     user.Nickname,
+		//		After:   nickname,
+		//		Desc:    "昵称",
+		//	}
+		//	adrd.Save()
 
-	if exp != "" {
-		m["Exp"], _ = strconv.Atoi(exp)
-	}
-	if vip != "" {
-		m["Vip"], _ = strconv.Atoi(vip)
-	}
-	if coin != "" {
-		m["Coin"], _ = strconv.Atoi(coin)
-	}
-	if diamond != "" {
-		m["Diamond"], _ = strconv.Atoi(diamond)
-
-	}
-	if phone != "" {
-		m["Phone"] = phone
 	}
 	if pwd != "" && pwd == pwd1 {
 		user.UpdatePWD(pwd)
+		adrd := &data.AdminRecord{
+			AdminID: data.GetCurrentUserID(c),
+			Kind:    data.OPERATE_KIND_PLAYER_MODIFY,
+			Target:  userid,
+			Desc:    "密码",
+		}
+		adrd.Save()
+
 	}
 	glog.Infoln(m, pwd, pwd1)
 	user.MultiHsetSave(m)

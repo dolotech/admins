@@ -63,7 +63,7 @@ func main() {
 	e.POST("/users/logout", user.Logout)
 
 	e.GET("/", func(c echo.Context) error {
-		return c.Redirect(http.StatusTemporaryRedirect, "/statistics/index.html")
+		return c.Redirect(http.StatusTemporaryRedirect, "/statistics/index.html?v="+data.Conf.Version)
 	})
 
 	e.POST("/roles/list", role.List, loginMiddleware)
@@ -75,6 +75,7 @@ func main() {
 	e.POST("/users/list", user.List, loginMiddleware)
 	e.POST("/users/delete", user.Delete, loginMiddleware)
 	e.POST("/users/getdetail", user.GetSelfDetail, loginMiddleware)
+	e.POST("/users/record", user.Record, loginMiddleware)
 
 	e.POST("/group/create", user.CreateGroup, loginMiddleware)
 	e.POST("/group/edit", user.EditGroup, loginMiddleware)
@@ -111,7 +112,7 @@ func main() {
 	//	}()
 	//}
 
-	user.InitAdmin()
+	data.InitAdmin()
 	e.Start(data.Conf.Port)
 }
 
