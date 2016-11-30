@@ -15,7 +15,7 @@
 	"pprof":9001,
 	"ipay":7001,
 	"serverid":1,
-	"version":"1.0.2",
+	"version":"1.0.3",
 	
 	"robotip":"127.0.0.1",
 	"robotport":7788,

@@ -107,16 +107,13 @@
                         </div>
 
 
-
-                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
-                            <input type="text" id="SearchUserid" name="SearchUserid" value=""
-                                   class="am-form-field am-input-sm" placeholder="输入您要查询的玩家ID" v-model="SearchValue"/>
-                        </div>
-                        <div class="am-u-sm-12 am-u-md-2 am-u-end">
-                            <!--  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>-->
-                            <input class="am-btn am-btn-primary" value="搜索" type="button"
-                                   v-on:click="onSearch"> </input>
-                            <input type="button" class="am-btn" value="重置" v-on:click="onReset"/>
+                        <div class="am-u-sm-12 am-u-md-3">
+                            <div class="am-input-group am-input-group-sm">
+                                <input type="text" class="am-form-field" placeholder="输入您要查询的玩家ID" v-model="SearchValue">
+                                <span class="am-input-group-btn">
+                                <button class="am-btn  am-btn-default am-btn-success tpl-am-btn-success am-icon-search"
+                                        type="button" v-on:click="onSearch"></button> </span>
+                            </div>
                         </div>
                     </div>
                 </div>

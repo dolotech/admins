@@ -15,6 +15,20 @@
     <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../assets/css/admin.css">
     <link rel="stylesheet" href="../assets/css/app.css">
+
+ <!--   <style>
+        select {
+            border: solid 1px #000;
+            appearance:none;
+            -moz-appearance:none;
+            -webkit-appearance:none;
+            padding-right: 14px;
+            background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+            background-color:transparent;
+            color:#000;
+        }
+        select::-ms-expand { display: none; }
+    </style>-->
 </head>
 
 <body data-type="index">
@@ -101,9 +115,9 @@
                             <div class="am-form-group" id="SearchPages">
 
                                 <select name="" v-model="selected">
-                                        <option  v-for="page in pages" v-bind:value="page.value">
-                                            {{ page.text }}
-                                        </option>
+                                    <option v-for="page in pages" v-bind:value="page.value">
+                                        {{ page.text }}
+                                    </option>
                                 </select>
 
                             </div>
@@ -111,24 +125,22 @@
 
                         <div id="TypeSelector">
                             <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
-                                <div class="am-form-group" >
-                                    <select  v-model="selected" >
-                                       <option  v-for="option in options" v-bind:value="option.value">
+                                <div class="am-form-group">
+                                    <select v-model="selected">
+                                        <option v-for="option in options" v-bind:value="option.value">
                                             {{ option.text }}
                                         </option>
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
-                                <input type="text"  name="SearchUserid" value=""
-                                       class="am-form-field am-input-sm" placeholder="" v-model="SearchValue"/>
-                            </div>
-                            <div class="am-u-sm-12 am-u-md-2 am-u-end">
-                                <!--  <button class="am-btn am-btn-default am-input-sm" type="submit">搜索</button>-->
-                                <input class="am-btn am-btn-primary" value="搜索" type="button"
-                                       v-on:click="onSearch"> </input>
-                                <input type="button" class="am-btn" value="重置" v-on:click="onReset"/>
+                            <div class="am-u-sm-12 am-u-md-3">
+                                <div class="am-input-group am-input-group-sm">
+                                    <input type="text" class="am-form-field" placeholder="输入搜索内容" v-model="SearchValue">
+                                <span class="am-input-group-btn">
+            <button class="am-btn  am-btn-default am-btn-success tpl-am-btn-success am-icon-search"
+                    type="button" v-on:click="onSearch"></button>
+          </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -599,8 +611,8 @@
                 typeSelector.$data.selected = "1"
                 typeSelector.$data.SearchValue = ""
                 Page:pageBar.$data.cur = 1,
-                pages.$data.selected = "30"
-                        getUserList()
+                        pages.$data.selected = "30"
+                getUserList()
             },
             onSearch: function (event) {
                 getUserList()
@@ -639,19 +651,19 @@
             PageMax: pages.$data.selected
         }
         var url = "/roles/list"
-        if (typeSelector.$data.SearchValue){
-            url =" /roles/search"
+        if (typeSelector.$data.SearchValue) {
+            url = " /roles/search"
         }
 
 
         $.ajax({
             type: "POST",
-            url:url,
+            url: url,
             data: data,
             dataType: "json",
             timeout: 10000,
             error: function (xhr, textStatus) {
-               // $.Alert("网络超时,请刷新网页!")
+                // $.Alert("网络超时,请刷新网页!")
             },
             success: function (data) {
                 if (data["status"] == "ok") {
