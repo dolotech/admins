@@ -90,28 +90,29 @@
         <div class="tpl-portlet-components">
             <div class="tpl-block">
                     <div class="am-g">
-
-                            <div class="am-form-icon am-u-sm-12 am-u-md-3">
-                                <div class="am-form-icon">
-                                    <i id="date-start-icon" class="am-icon-calendar"></i>
-                                    <input id="date-start" type="text" name="last_visit_begin" value=""
-                                           class="am-form-field am-input-sm" placeholder="选择查询的日期"/>
-                                </div>
-
-                                    <div class="am-u-sm-12 am-u-md-3 am-u-end">
-                                        <button class="am-btn am-btn-default am-input-sm" onclick="Search()" type="button"> 查询</button>
-                                        <input type="button" class="am-btn" value="今日新增" onclick="onReset()"/>
-                                    </div>
-
+                        <div class="am-form-icon am-u-sm-12 am-u-md-3">
+                            <div class="am-form-icon">
+                                <i id="date-start-icon" class="am-icon-calendar"></i>
+                                <input id="date-start" type="text" name="last_visit_begin" value=""
+                                       class="am-form-field am-input-sm" placeholder="选择查询的日期"/>
                             </div>
+                        </div>
+
+                        <div class="am-form-icon am-u-sm-12 am-u-md-3">
+                            <div class="am-u-sm-12 am-u-md-3 am-u-end">
+                                <button class="am-btn am-btn-default am-input-sm" onclick="Search()" type="button"> 查询</button>
+                            </div>
+                            <div class="am-u-sm-12 am-u-md-3 am-u-end">
+                                <button class="am-btn am-btn-default am-input-sm" onclick="onReset()" type="button"> 今日新增</button>
+                            </div>
+                        </div>
+                        <br><br>
                             <div class="am-g">
                                 <div class="am-u-sm-12">
                                     <!-- 折线图堆叠 -->
                                     <div id="remainder_char_line" style="width: 100%;height: 500px;"></div>
                                 </div>
                             </div>
-
-
                     </div>
                 </div>
             </div>
@@ -233,11 +234,6 @@
         window.onresize = myChart.resize
     }
 
-    $(document).ready(function () {
-
-
-        getOnline(new Date())
-    });
 
     $('#date-start-icon').datepicker().on('changeDate.datepicker.amui', function (event) {
         var startDate = new Date(event.date);
@@ -257,7 +253,7 @@
         var day = new Date($('#date-start').val())
         getOnline(day)
     }
-
+    getOnline(new Date())
     function getOnline(day) {
         var unix = Date.parse(new Date(day.getFullYear(), day.getMonth(), day.getDate(), 0, 0, 0)) / 1000;
         console.info(unix)
