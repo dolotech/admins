@@ -40,5 +40,8 @@ func GetNewUserStatitics(timestamp string) ([]*NewUserCountStatistics, error) {
 			list = append(list, data)
 		}
 	}
+	//	count, _ := gossdb.C().Qsize(KEY_NEWUSER_STATISTICS)
+	//	data := &NewUserCountStatistics{Unix: uint32(time.Now().Unix()), Count: uint32(count)}
+	//	list = append(list, data)
 	return list, nil
 }

@@ -140,7 +140,7 @@
         data: {items: getHeadBar()}
     })
 
-    function refrash(time, count, date) {
+    function refrash(time, count, date,ymax) {
         var myChart = echarts.init(document.getElementById("remainder_char_line"))
         option = {
             title: {
@@ -184,7 +184,8 @@
                     type: 'value',
                     axisLabel: {
                         formatter: '{value} 人'
-                    }
+                    },
+                    max:ymax
                 }
             ],
             xAxis: [
@@ -269,15 +270,20 @@
             success: function (data) {
                 if (data["status"] == "ok") {
                     var list = data["data"]
+                    var ymax = 10
                     if (list) {
                         var time = []
                         var count = []
+
                         for (var i = 0; i < list.length; i++) {
                             time[i] = format(list[i].Unix * 1000).split(" ")[1]
                             count[i] = list[i].Count
+                            if (ymax < count[i]){
+                                ymax = count[i]
+                            }
                         }
 
-                        refrash(time, count, unix)
+                        refrash(time, count, unix,ymax)
                     }
 
                 } else {
