@@ -349,14 +349,12 @@
     getChargeList()
 
     function getChargeList() {
-        var day
+        var unix = ""
         if ($('#date-start').val()){
-            day  = new Date($('#date-start').val())
-        }else{
-            day = new Date()
+            var day  = new Date($('#date-start').val())
+            var unix = Date.parse(new Date(day.getFullYear(),day.getMonth(),day.getDate(),0,0,0))/1000;
         }
 
-        var unix = Date.parse(new Date(day.getFullYear(),day.getMonth(),day.getDate(),0,0,0))/1000;
         var data={SelectedIDSearch: searchSelect.$data.selected,
             Userid: searchSelect.$data.SearchValue,
             Page:pageBar.$data.cur,
@@ -374,10 +372,16 @@
             },
             success: function (data) {
                 if (data["status"] == "ok") {
-                    console.info(data["data"])
-                    changelist.$data["items"] = data["data"]["list"]
-                    pageBar.$data.allrecords = data["data"]["count"]
-                    pageBar.$data.all= Math.ceil(data["data"]["count"] / pages.$data.selected)
+                    var list = data["list"]
+                    if (list){
+                        changelist.$data["items"] = list
+                        for (var i=0;i<list.length;i++){
+                            list[i].Ctime = format(list[i].Ctime * 1000)
+                        }
+                    }
+
+                    pageBar.$data.allrecords = data["count"]
+                    pageBar.$data.all= Math.ceil(data["count"] / pages.$data.selected)
                 }else{
                     $.Alert(data["msg"])
                 }

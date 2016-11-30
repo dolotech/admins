@@ -100,24 +100,13 @@
 
                         <div class="am-u-sm-12 am-u-md-3">
                             <div class="am-form-group" id="SearchPages">
-
-                                <select name="" v-model="selected" >
-                                    <option v-for="page in pages" v-bind:value="page.value"
-                                            v-if="page.value == selected"
-                                            selected>
-                                        {{page.text}}
+                                <select name="" v-model="selected">
+                                    <option  v-for="page in pages" v-bind:value="page.value">
+                                        {{ page.text }}
                                     </option>
-                                    <option v-for="page in pages" v-bind:value="page.value"
-                                            v-if="page.value !=  selected">
-                                        {{page.text}}
-                                    </option>
-
                                 </select>
-
-
                             </div>
                         </div>
-
 
                         <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
                             <input type="text" id="SearchUserid" name="SearchUserid" value=""
@@ -484,7 +473,7 @@
     var pages = new Vue({
         el: '#SearchPages',
         data: {
-            selected: "50",
+            selected: "30",
             pages: [
                 {text: '30', value: "30"},
                 {text: '50', value: "50"},

@@ -100,12 +100,11 @@ func GetAllTransition(day string) ([]*TradingResults, error) {
 	}
 	return list, nil
 }
-func GetTransition(day string, page int, limit int) ([]*TradingResults, int64, error) {
+func GetTransition(day string, offset int, limit int) ([]*TradingResults, int64, error) {
 	size, err := gossdb.C().Qsize(KEY_TRADINGRESULTS + day)
 	if err != nil {
 		return nil, 0, err
 	}
-	offset := page*limit - int(size)
 	value, err := gossdb.C().Qrange(KEY_TRADINGRESULTS+day, offset, limit)
 	if err != nil {
 		return nil, 0, err
@@ -120,12 +119,11 @@ func GetTransition(day string, page int, limit int) ([]*TradingResults, int64, e
 	}
 	return list, size, nil
 }
-func GetTransitionByUserid(day string, userid string, page int, limit int) ([]*TradingResults, int64, error) {
+func GetTransitionByUserid(day string, userid string, offset int, limit int) ([]*TradingResults, int64, error) {
 	size, err := gossdb.C().Qsize(KEY_TRADINGRESULTS + day + userid)
 	if err != nil {
 		return nil, 0, err
 	}
-	offset := page*limit - int(size)
 	value, err := gossdb.C().Qrange(KEY_TRADINGRESULTS+day+userid, offset, limit)
 	if err != nil {
 		return nil, 0, err
@@ -140,12 +138,11 @@ func GetTransitionByUserid(day string, userid string, page int, limit int) ([]*T
 	}
 	return list, size, nil
 }
-func GetChargeOrder(day string, page int, limit int) ([]*ChargeOrder, int64, error) {
+func GetChargeOrder(day string, offset int, limit int) ([]*ChargeOrder, int64, error) {
 	size, err := gossdb.C().Qsize(KEY_USER_CHARGEORDER + day)
 	if err != nil {
 		return nil, 0, err
 	}
-	offset := page*limit - int(size)
 	value, err := gossdb.C().Qrange(KEY_USER_CHARGEORDER+day, offset, limit)
 	if err != nil {
 		return nil, 0, err
@@ -161,12 +158,11 @@ func GetChargeOrder(day string, page int, limit int) ([]*ChargeOrder, int64, err
 	return list, size, nil
 
 }
-func GetChargeOrderByUserid(day string, userid string, page int, limit int) ([]*ChargeOrder, int64, error) {
+func GetChargeOrderByUserid(day string, userid string, offset int, limit int) ([]*ChargeOrder, int64, error) {
 	size, err := gossdb.C().Qsize(KEY_USER_CHARGEORDER + day + userid)
 	if err != nil {
 		return nil, 0, err
 	}
-	offset := page*limit - int(size)
 	value, err := gossdb.C().Qrange(KEY_USER_CHARGEORDER+day+userid, offset, limit)
 	if err != nil {
 		return nil, 0, err

@@ -58,9 +58,13 @@ func RoomCreateRecord(c echo.Context) error {
 		pageMax = 200
 	}
 	userid := c.FormValue("Userid")
+	if userid == "" {
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "搜索的用户ID为空"})
+	}
 	list, size, err := getRoomCreateRecord(userid, ((page - 1) * pageMax), pageMax)
+	glog.Infoln(list, size)
 	if err != nil || size == 0 {
 		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "列表为空"})
 	}
-	return c.JSON(http.StatusOK, data.H{"status": "ok", "data": data.H{"list": list, "count": size}})
+	return c.JSON(http.StatusOK, data.H{"status": "ok", "list": list, "count": size})
 }

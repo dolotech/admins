@@ -84,8 +84,6 @@
         </div>
     </div>
     <!-- sidebar end -->
-
-
     <div class="tpl-content-wrapper" id="list_pane">
         <ol class="am-breadcrumb">
             <li><a href="#" class="am-icon-home">首页</a></li>
@@ -100,24 +98,13 @@
 
                         <div class="am-u-sm-12 am-u-md-3">
                             <div class="am-form-group" id="SearchPages">
-
-                                <select name="" v-model="selected" >
-                                    <option v-for="page in pages" v-bind:value="page.value"
-                                            v-if="page.value == selected"
-                                            selected>
-                                        {{page.text}}
+                                <select name="" v-model="selected">
+                                    <option  v-for="page in pages" v-bind:value="page.value">
+                                        {{ page.text }}
                                     </option>
-                                    <option v-for="page in pages" v-bind:value="page.value"
-                                            v-if="page.value !=  selected">
-                                        {{page.text}}
-                                    </option>
-
                                 </select>
-
-
                             </div>
                         </div>
-
 
                         <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
                             <input type="text" id="SearchUserid" name="SearchUserid" value=""
@@ -171,16 +158,6 @@
                         <td class="am-text-middle am-hide-sm-only">{{ item.Payment }}</td>
 
                         <td class="am-text-middle am-hide-sm-only">{{ item.CTime }}</td>
-
-                        <td>
-                            <div class="am-btn-toolbar">
-                                <div class="am-btn-group am-btn-group-xs">
-                                    <button class="am-btn am-btn-default am-input-sm"
-                                            v-on:click="button_onedit(index)">编辑
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -206,83 +183,6 @@
         </div>
         <div class="tpl-alert"></div>
     </div>
-    <div style="display:none;" id="edit_pane">
-        <div class="tpl-content-wrapper">
-            <ol class="am-breadcrumb">
-                <li><a href="#" class="am-icon-home">首页</a></li>
-                <li><a href="#">分类</a></li>
-                <li class="am-active">内容</li>
-            </ol>
-            <div class="tpl-portlet-components">
-                <div class="am-g tpl-amazeui-form">
-                    <div class="am-u-sm-12 am-u-md-9">
-
-
-                        <form class="am-form am-form-horizontal" id="edit_user">
-
-                            <label class="am-u-sm-2 am-form-label">起手牌：</label>
-                            <ul class="am-pagination tpl-pagination">
-                                <li v-for="card in item.StartHandCard"><img v-bind:src="card"/></li>
-                            </ul>
-
-                            <label class="am-u-sm-2 am-form-label">打出去的牌：</label>
-                            <ul class="am-pagination tpl-pagination">
-                                <li v-for="card in item.OutCards"><img v-bind:src="card"/></li>
-                            </ul>
-
-                            <label class="am-u-sm-2 am-form-label">剩余手牌：</label>
-                            <ul class="am-pagination tpl-pagination">
-                                <li v-for="card in item.Handcard"><img v-bind:src="card"/></li>
-                            </ul>
-                            <label class="am-u-sm-2 am-form-label">碰牌：</label>
-                            <ul class="am-pagination tpl-pagination">
-                                <li v-for="card in item.Peng"><img v-bind:src="card"/></li>
-                            </ul>
-                            <label class="am-u-sm-2 am-form-label">杠牌：</label>
-                            <ul class="am-pagination tpl-pagination">
-                                <li v-for="card in item.Kong"><img v-bind:src="card"/></li>
-                            </ul>
-
-                            <div class="am-g am-margin-vertical-sm">
-                                <label class="am-u-sm-2 am-form-label">鸡牌：</label>
-                                <div v-if="item.Ji" class="am-form-group">
-                                    <div class="am-u-sm-10">
-                                        <img v-bind:src="item.Ji"/>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="am-g am-margin-vertical-sm">
-                                <label class="am-u-sm-2 am-form-label">胡牌：</label>
-                                <div v-if="item.HuCard" class="am-form-group">
-                                    <div class="am-u-sm-10">
-                                        <img v-bind:src="item.HuCard"/>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <label class="am-u-sm-2 am-form-label">打牌记录：</label>
-                            <ul class="am-pagination tpl-pagination">
-                                <li v-for="value in item.gamerecord">座位:{{value.Seat}} {{value.Value}} <img v-bind:src="value.Card"/></li>
-                            </ul>
-
-                            <div class="am-g am-margin-vertical-sm">
-                                <div class="am-form-group">
-                                    <label class="am-u-sm-2 am-form-label"></label>
-                                    <div class="am-u-sm-10">
-                                        <input type="button" class="am-btn" value="返回" v-on:click="button_onback"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
 
 </div>
 
@@ -306,116 +206,17 @@
         data:{items: getHeadBar() }
     })
 
-    var edit = new Vue({
-                el: '#edit_user',
-                data: {items: {}},
-                computed: {
-                    Coin: {
-                        get: function () {
-                            return this.items.Coin;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Coin = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
-
-                    Diamond: {
-                        get: function () {
-                            return this.items.Diamond;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Diamond = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
-                    Exp: {
-                        get: function () {
-                            return this.items.Exp;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Exp = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
-
-                    Ticket: {
-                        get: function () {
-                            return this.items.Ticket;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Ticket = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
-                    Vip: {
-                        get: function () {
-                            return this.items.Vip;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Vip = newValue.replace(/[^\d]/g, '');
-                        }
-                    },
-                    Exchange: {
-                        get: function () {
-                            return this.items.Exchange;
-
-                        },
-                        set: function (newValue) {
-                            this.items.Exchange = newValue.replace(/[^\d]/g, '');
-                        }
-                    }
-                },
-                methods: {
-                    button_onback: function () {
-                        $("#edit_pane").hide();
-                        $("#list_pane").show();
-                    },
-                    onSubmit: function () {
-                        console.info(this.$data.items)
-
-                        $.ajax({
-                            type: "POST",
-                            url: "/roles/edit",
-                            data: this.$data.items,
-
-                            dataType: "json",
-                            success: function (data) {
-                                if (data["status"] == "ok") {
-                                    $.Alert("恭喜，修改成功！")
-                                } else {
-                                    $.Alert(data["msg"])
-                                }
-                                $("#edit_pane").hide();
-                                $("#list_pane").show();
-                            }
-                        });
-
-                    }
-                }
-            }
-    )
-
     var userdatalist = new Vue({
         el: '#userdatalist',
         data: {items: []},
         methods: {
-            button_onedit: function (index) {
-                $("#list_pane").hide();
-                $("#edit_pane").show();
-                if (userdatalist.$data["items"].length > 0) {
-                    var data = userdatalist.$data["items"][index]
-                    edit.$data["items"] = data
-                }
-            }
         }
     })
 
     var pages = new Vue({
         el: '#SearchPages',
         data: {
-            selected: "50",
+            selected: "30",
             pages: [
                 {text: '30', value:"30"},
                 {text: '50', value: "50"},
@@ -424,8 +225,6 @@
             ]
         }
     })
-
-
 
     var pageBar = new Vue({
         el: '#pageflip',
@@ -491,65 +290,29 @@
     var searchSelect = new Vue({
         el: '#Search',
         data: {
-            selected: '1',
-            options: [
-                {text: '根据玩家ID搜索', value: '1'},
-                {text: '根据玩家手机号搜索', value: '2'}
-            ],
             SearchValue: "",
         },
 
         methods: {
             onReset: function () {
-                this.$data.selected = "1"
                 this.$data.SearchValue = ""
                 Page:pageBar.$data.cur = 1,
                         getUserList()
             }
             ,
             onSearch: function (event) {
-                var data={SelectedIDSearch: this.$data.selected,
-                    SearchUserid: this.$data.SearchValue,
-                    Page:pageBar.$data.cur,
-                    PageMax:pages.$data.selected
-
-                }
-                //  $.Alert(JSON.stringify(data))
-                // console.info(getcookie("mysession"))
-
-                //return
-                var data={SelectedIDSearch: searchSelect.$data.selected,
-                    SearchUserid: searchSelect.$data.SearchValue,
-                    Page:pageBar.$data.cur,
-                    PageMax:pages.$data.selected
-                }
-                $.ajax({
-                    type: "POST",
-                    url: "/operation/roomcreaterecord",
-                    data: data,
-                    dataType: "json",
-                    success: function (data) {
-                        if (data["status"] == "ok") {
-                            console.info(data["data"])
-                            userdatalist.$data["items"] = data["data"]["list"]
-                            pageBar.$data.allrecords = data["data"]["count"]
-                            pageBar.$data.all= Math.ceil(data["data"]["count"] / pages.$data.selected)
-                        }else if (data["status"] == "fail"){
-                            $.Alert(data["msg"])
-                        }
-                    }
-                });
+                getUserList()
             }
         }
     })
 
     function getUserList() {
-
-        var data={SelectedIDSearch: searchSelect.$data.selected,
+        var data={
             Userid: searchSelect.$data.SearchValue,
             Page:pageBar.$data.cur,
             PageMax:pages.$data.selected
         }
+        console.info(data)
         $.ajax({
             type: "POST",
             url: "/operation/roomcreaterecord",
@@ -557,10 +320,18 @@
             dataType: "json",
             success: function (data) {
                 if (data["status"] == "ok") {
-                    console.info(data["data"])
-                    userdatalist.$data["items"] = data["data"]["list"]
-                    pageBar.$data.allrecords = data["data"]["count"]
-                    pageBar.$data.all= Math.ceil(data["data"]["count"] / pages.$data.selected)
+                    var list = data["list"]
+                    if (list){
+                        for (var i =0;i<list.length;i++)
+                        {
+                            list[i].Expire = format( list[i].Expire*1000)
+                            list[i].CTime = format( list[i].CTime*1000)
+                        }
+                        userdatalist.$data["items"] = list
+                    }
+
+                    pageBar.$data.allrecords = data["count"]
+                    pageBar.$data.all= Math.ceil(data["count"] / pages.$data.selected)
                 }else{
                     $.Alert(data["msg"])
                 }
@@ -568,37 +339,4 @@
             }
         });
     }
-
-
-
-    // getUserList( )
-
-    $(function () {
-        var startDate = new Date(2000, 1, 1);
-        var endDate = new Date(2099, 11, 25);
-        var $alert = $('#my-alert');
-
-        $('#RegistStartIcon').datepicker().on('changeDate.datepicker.amui', function (event) {
-            if (event.date.valueOf() > endDate.valueOf()) {
-                $alert.find('p').text('开始日期应小于结束日期！').end().show();
-            } else {
-                $alert.hide();
-                startDate = new Date(event.date);
-                $('#RegistStart').val($('#RegistStartIcon').data('date') + ' 00:00:00');
-            }
-            $(this).datepicker('close');
-        });
-
-        $('#RegistEndIcon').datepicker().on('changeDate.datepicker.amui', function (event) {
-            if (event.date.valueOf() < startDate.valueOf()) {
-                $alert.find('p').text('结束日期应大于开始日期！').end().show();
-            } else {
-                $alert.hide();
-                endDate = new Date(event.date);
-                $('#RegistEnd').val($('#RegistEndIcon').data('date') + ' 23:59:59');
-            }
-            $(this).datepicker('close');
-        });
-    });
-
 </script>
