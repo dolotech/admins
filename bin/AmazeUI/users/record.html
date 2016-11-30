@@ -133,8 +133,8 @@
                         <th class="am-text-nowrap table-title">管理员账号</th>
                         <th class="am-text-nowrap table-title">操作类型</th>
                         <th class="am-text-nowrap table-title">操作目标</th>
-                        <th class="am-text-nowrap table-title">道具类型</th>
                         <th class="am-text-nowrap table-title">描述</th>
+                        <th class="am-text-nowrap table-title">道具类型</th>
                         <th class="am-text-nowrap table-title">操作数量</th>
                         <th class="am-text-nowrap table-title">操作前的值</th>
                         <th class="am-text-nowrap table-title">操作后的值</th>
@@ -173,7 +173,7 @@
 
 
                         <td class="am-text-middle am-hide-sm-only">{{ item.Target }}</td>
-
+                        <td class="am-text-middle am-hide-sm-only">{{ item.Desc }}</td>
                         <td v-if="item.WindgetID==1" class="am-text-middle am-hide-sm-only">金币</td>
                         <td v-if="item.WindgetID==2" class="am-text-middle am-hide-sm-only">兑换券</td>
                         <td v-if="item.WindgetID==3" class="am-text-middle am-hide-sm-only">入场券</td>
@@ -184,7 +184,7 @@
                         <td v-if="item.WindgetID==100" class="am-text-middle am-hide-sm-only">经验</td>
                         <td v-if="item.WindgetID==0" class="am-text-middle am-hide-sm-only">-</td>
 
-                        <td class="am-text-middle am-hide-sm-only">{{ item.Desc }}</td>
+
                         <td class="am-text-middle am-hide-sm-only">{{ item.Count }}</td>
                         <td class="am-text-middle am-hide-sm-only">{{ item.Pre }}</td>
                         <td class="am-text-middle am-hide-sm-only">{{ item.After }}</td>

@@ -277,7 +277,7 @@
                     success: function(data){
                         if( data["status"] == "ok"){
                             $.Alert(data["msg"])
-                            location.href = "/users/list.html"
+                            location.href = geturl("/users/list.html")
                         }else{
                             $.Alert(data["msg"])
                         }

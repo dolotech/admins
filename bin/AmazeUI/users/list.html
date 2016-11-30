@@ -89,9 +89,7 @@
                 <li><a href="#">分类</a></li>
                 <li class="am-active">内容</li>
                 <div class="am-fr am-cf">
-                    <a href="/users/create.html" class="am-btn am-btn-default am-input-sm" type="button">
-                        添加管理员
-                    </a>
+                    <a href="#" class="am-btn am-btn-default am-input-sm" type="button" v-on:click="onAdd()">添加管理员</a>
                 </div>
             </ol>
             <div class="tpl-portlet-components">
@@ -104,7 +102,7 @@
                           {{if eq $len 0 }}
                           <p align="center"> 没有找到你要的数据!</p>
                           {{ else }}-->
-                    <table class="am-table am-table-striped am-table-hover table-main" id="list_pane">
+                    <table class="am-table am-table-striped am-table-hover table-main" >
                         <thead>
                         <tr>
                             <td class="am-text-nowrap">登录名</td>
@@ -322,7 +320,7 @@
         }
     })
     var users = new Vue({
-        el: '#list_pane',
+        el: '#userListPane',
         data: {items: []},
         created: function() {
             $.ajax({
@@ -340,6 +338,9 @@
 
         },
         methods: {
+            onAdd:function () {
+                location.href = geturl("/users/create.html")
+            },
             onEdit: function (id) {
                 $("#userListPane").hide()
                 $("#editPane").show()

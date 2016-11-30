@@ -179,10 +179,11 @@ function getSideBar() {
             items:      [
             {icon:"am-icon-table",path:geturl("/operation/privaterecord.html"), name:"私人局记录"},
             {icon:"am-icon-table",path:geturl("/operation/matchrecord.html"),name: "比赛场记录"},
-            {icon:"am-icon-table",path:geturl("/operation/normalrecord.html"), name:"金币场记录"}
+            {icon:"am-icon-table",path:geturl("/operation/normalrecord.html"), name:"金币场记录"},
+                {icon:"am-icon-table",path:geturl("/operation/privatecreate.html"), name:"私人房创建日志"}
        /*     {icon:"am-icon-table",path:geturl("/operation/exchangerecord.html"), name:"虚拟兑换记录"},
             {icon:"am-icon-table",path:geturl("/operation/exchangerecord.html"), name:"实物兑换记录"},
-            {icon:"am-icon-table",path:geturl("/operation/privatecreate.html"), name:"私人房创建日志"}
+
             {icon:"am-icon-table",path:geturl("/operation/loginrecord.html"),name: "登录日志"},*/]
         },
         {

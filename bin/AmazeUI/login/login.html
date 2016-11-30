@@ -49,6 +49,7 @@
   <script src="../assets/js/jquery.min.js"></script>
   <script src="../assets/js/amazeui.min.js"></script>
   <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/myapp.js"></script>
   <script src="../assets/js/dialog.js"></script>
   <script src="../assets/js/jquery.md5.js"></script>
 </body>
@@ -89,7 +90,7 @@
 			success: function (data) {
 				if (data["status"] == "ok") {
 					console.info(data)
-					location.href = "/"
+					location.href = geturl("/statistics/index.html")
 				}else{
 					$.Alert(data["msg"])
 				}

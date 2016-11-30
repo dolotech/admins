@@ -23,6 +23,7 @@ type BasiceStatitics struct {
 	NewCount        uint32  // 新增
 	ActiveARPU      uint32  // 活跃ARPU值=当日收入÷当日活跃用户
 	ARPU            uint32  // 付费ARPU值=当日收入÷当日付费用户
+	RegistARPU      uint32  // 注册ARPU值=当日收入÷当日新增注册用户
 	ExpenseRate     uint32  // 付费率=付费用户÷活跃用户x100%
 	ExpenseAll      float32 // 累加付费金额
 	ExpenseCount    uint32  // 累加付费人数
@@ -101,7 +102,7 @@ func generateBaseStatitics(start uint32, end uint32) []*BasiceStatitics {
 		ARPU := allMoney / float32(chargePlayerCount)
 		activeARPU := allMoney / float32(active)
 		rate := chargePlayerCount / int(active)
-
+		registARPU := allMoney / float32(newuser)
 		basic := &BasiceStatitics{
 			Timestamp: start,
 			Keep1:     getKeep(start, 1),
@@ -113,6 +114,7 @@ func generateBaseStatitics(start uint32, end uint32) []*BasiceStatitics {
 			NewCount:        uint32(newuser),
 			ARPU:            uint32(ARPU * 100),
 			ActiveARPU:      uint32(activeARPU * 100),
+			RegistARPU:      uint32(registARPU * 100),
 			ExpenseRate:     uint32(rate * 100),
 			ExpenseAll:      allMoney,
 			ExpenseCount:    uint32(chargePlayerCount),

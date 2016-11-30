@@ -146,8 +146,10 @@
                         <th class="am-text-nowrap am-hide-sm-only table-id">日期</th>
                         <th class="am-text-nowrap table-type">新增(人)</th>
                         <th class="am-text-nowrap table-title">活跃(人)</th>
-                        <th class="am-text-nowrap table-title">活跃ARPU</th>
                         <th class="am-text-nowrap table-title">ARPU</th>
+                        <th class="am-text-nowrap table-title">活跃ARPU</th>
+                        <th class="am-text-nowrap table-title">注册ARPU</th>
+
                         <th class="am-text-nowrap table-type">付费率</th>
                         <th class="am-text-nowrap table-title">付费人数(人)</th>
                         <th class="am-text-nowrap table-title">总付费金额(元)</th>
@@ -165,8 +167,10 @@
                         <td class="am-text-middle am-hide-sm-only"> {{ item.Timestamp }}</td>
                         <td class="am-text-middle am-hide-sm-only">{{item.NewCount }}</td>
                         <td class="am-text-middle am-hide-sm-only">{{ item.Active }}</td>
-                        <td class="am-text-middle am-hide-sm-only">{{ item.ActiveARPU }}</td>
+
                         <td class="am-text-middle am-hide-sm-only">{{ item.ARPU }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ item.ActiveARPU }}</td>
+                        <td class="am-text-middle am-hide-sm-only">{{ item.RegistARPU }}</td>
                         <td class="am-text-middle am-hide-sm-only">{{ item.ExpenseRate }}</td>
                         <td class="am-text-middle am-hide-sm-only">{{ item.ExpenseCount }}</td>
                         <td class="am-text-middle am-hide-sm-only">{{ item.ExpenseAll }}</td>

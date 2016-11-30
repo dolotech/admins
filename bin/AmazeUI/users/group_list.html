@@ -87,9 +87,7 @@
                 <li><a href="#">分类</a></li>
                 <li class="am-active">内容</li>
                 <div class="am-fr am-cf">
-                    <a href="/users/group_create.html" class="am-btn am-btn-default am-input-sm" type="button">
-                        添加用户组
-                    </a>
+                    <a href="#" class="am-btn am-btn-default am-input-sm" type="button" v-on:click="onAdd()">添加用户组</a>
                 </div>
             </ol>
             <div class="tpl-portlet-components">
@@ -102,7 +100,7 @@
                           {{if eq $len 0 }}
                           <p align="center"> 没有找到你要的数据!</p>
                           {{ else }}-->
-                    <table class="am-table am-table-striped am-table-hover table-main" id="list_pane">
+                    <table class="am-table am-table-striped am-table-hover table-main" >
                         <thead>
                         <tr>
                             <td class="am-text-nowrap">组编号</td>
@@ -178,8 +176,8 @@
                                 <div class="am-form-group">
                                     <label class="am-u-sm-2 am-form-label"></label>
                                     <div class="am-u-sm-10">
-                                        <input type="button" name="send" id="send" class="am-btn am-btn-primary" v-on:click="onSave" value="保存" />
-                                        <input type="button" name="send" id="send" class="am-btn am-btn-primary" v-on:click="button_onback" value="返回" />
+                                        <input type="button" name="send" class="am-btn am-btn-primary" v-on:click="onSave" value="保存" />
+                                        <input type="button" name="send"  class="am-btn am-btn-primary" v-on:click="button_onback" value="返回" />
 
                                     </div>
                                 </div>
@@ -243,9 +241,12 @@
         }
     })
     var group = new Vue({
-        el: '#list_pane',
+        el: '#userListPane',
         data: {items: []},
         methods: {
+            onAdd:function () {
+                location.href = geturl("/users/group_create.html")
+            },
             onEdit: function (id) {
                 // $.Alert(id)
                 console.info(id)
