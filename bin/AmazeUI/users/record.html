@@ -385,10 +385,7 @@
                 AdminID:Trim($('#adminID').val())
             },
             dataType: "json",
-            timeout: 10000,
-            error: function (xhr, textStatus) {
-                $.Alert("网络超时,请刷新网页!")
-            },
+
             success: function (data) {
                 if (data["status"] == "ok") {
                     if (data.list){

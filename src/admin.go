@@ -56,6 +56,7 @@ func main() {
 	e.Static("/roles", "AmazeUI/roles", loginMiddleware)
 	e.Static("/room", "AmazeUI/room", loginMiddleware)
 	e.Static("/statistics", "AmazeUI/statistics", loginMiddleware)
+	e.Static("/tools", "AmazeUI/tools", loginMiddleware)
 
 	e.Static("/login", "AmazeUI/login")
 
@@ -100,6 +101,8 @@ func main() {
 	e.POST("/statistics/newuser", statistics.NewUser, loginMiddleware)
 	e.POST("/statistics/index", statistics.Index, loginMiddleware)
 
+	e.POST("/tools/getnotice", operation.GetNotice, loginMiddleware)
+	e.POST("/tools/issuenotice", operation.AddNotice, loginMiddleware)
 	conndb()
 	glog.Infoln(utils.TimestampToday())
 	//for i := 0; i < 1000; i++ {

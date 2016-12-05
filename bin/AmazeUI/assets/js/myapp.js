@@ -174,6 +174,13 @@ function getSideBar() {
             ]
         },
         {
+            name: "运营工具",
+            icon:"am-icon-eye",
+            items:      [
+                {icon:"am-icon-table",path:geturl("/tools/notice.html"), name:"游戏公告"}
+              ]
+        },
+        {
             name: "日志管理",
             icon:"am-icon-eye",
             items:      [

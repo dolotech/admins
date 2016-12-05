@@ -183,6 +183,7 @@ func Search(c echo.Context) error {
 
 //List 玩家列表, 根据条件检索玩家
 func List(c echo.Context) error {
+	c.Response().CloseNotify()
 	page, _ := strconv.Atoi(c.FormValue("Page")) // string
 	if page < 1 {
 		page = 1
