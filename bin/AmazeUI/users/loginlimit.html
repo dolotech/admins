@@ -1,0 +1,313 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>贵阳麻将后台管理系统</title>
+    <meta name="description" content="贵阳麻将后台管理系统">
+    <meta name="keywords" content="贵阳麻将后台管理系统">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="../assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="贵阳麻将后台管理系统" />
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/app.css">
+</head>
+
+<body data-type="index">
+    <header class="am-topbar am-topbar-inverse admin-header">
+        <div class="am-topbar-brand">
+            <strong>贵州麻将</strong>
+            <small>后台管理系统</small>
+        </div>
+        <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right"> </div>
+
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+        <!-- headbar start -->
+        <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+            <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list" id="admin-head-list">
+                <li v-for="item in items" class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                    <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+                        <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
+                    </a>
+                    <ul class="am-dropdown-content tpl-dropdown-content">
+                        <li v-for="i in item.items" >
+                           <a :href="i.path" type="button" :onclick="i.action"><span :class="i.icon"></span> </span> {{ i.name}}</a></li>
+
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- headbar end -->
+    </header>
+
+    <div class="tpl-page-container tpl-page-header-fixed">
+        <!-- sidebar start -->
+       <div class="tpl-left-nav tpl-left-nav-hover">
+            <div class="tpl-left-nav-list">
+                <ul class="tpl-left-nav-menu" id="admin-sidebar-list">
+                    <li class="tpl-left-nav-item">
+                        <a href="/" class="nav-link active">
+                            <i class="am-icon-home"></i>
+                            <span>首页</span>
+                        </a>
+                    </li>
+                    <!-- table start -->
+
+                    <li v-for="item in items" class="tpl-left-nav-item">
+                        <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                            <i :class="item.icon"></i>
+                            <span>{{ item.name }} </span>
+                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                        </a>
+                        <ul class="tpl-left-nav-sub-menu" style="display: block;">
+                            <li v-for="i in item.items">
+                                <a :href="i.path">
+                                    <i :class="i.icon"></i>
+                                    <span>{{ i.name}}</span>
+                                    <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <!-- sidebar end -->
+
+
+
+        <div class="tpl-content-wrapper"  id="userListPane" >
+            <ol class="am-breadcrumb">
+                <li><a href="#" class="am-icon-home">首页</a></li>
+                <li><a href="#">分类</a></li>
+                <li class="am-active">内容</li>
+               <!-- <div class="am-fr am-cf">
+                    <a href="#" class="am-btn am-btn-default am-input-sm" type="button" v-on:click="onAdd()">添加用户组</a>
+                </div>-->
+            </ol>
+            <div class="tpl-portlet-components">
+            <div class="tpl-block">
+
+                <div class="am-u-sm-12">
+                    <!--     <form class="am-form">-->
+
+                    <!--      {{ $len := len .users }}
+                          {{if eq $len 0 }}
+                          <p align="center"> 没有找到你要的数据!</p>
+                          {{ else }}-->
+                    <table class="am-table am-table-striped am-table-hover table-main" >
+                        <thead>
+                        <tr>
+                            <td class="am-text-nowrap">IP</td>
+                            <td class="am-text-nowrap">登陆账户</td>
+                            <td class="am-text-nowrap">登陆次数</td>
+                            <td class="am-text-nowrap">登陆时间</td>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr v-for="(v,index) in items ">
+
+                            <td>{{ v.IP }}</td>
+                            <td>{{ v.Userids }}</td>
+                            <td>{{ v.Count }}</td>
+                            <td>{{ v.LastLoginTime }}</td>
+                            <td><a href="#" type="button" v-on:click="onDelete(index )">删除</a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            </div>
+            <div class="tpl-alert"></div>
+        </div>
+        <div  style="display:none;" id="editPane">
+            <div class="tpl-content-wrapper" >
+            <ol class="am-breadcrumb">
+                <li><a href="#" class="am-icon-home">首页</a></li>
+                <li><a href="#">分类</a></li>
+                <li class="am-active">内容</li>
+            </ol>
+            <div class="tpl-portlet-components">
+                <div class="am-g tpl-amazeui-form">
+                    <div class="am-u-sm-12 am-u-md-9">
+                        <form class="am-form am-form-horizontal" id="edit_user">
+                            <div class="am-form-group am-margin-vertical-sm">
+                                <label class="am-u-sm-2 am-form-label">组名编号</label>
+                                <div class="am-u-sm-10">
+                                    <input id="id" type="text" name="username"  readonly="readonly" value="" v-model="group.Id" />
+
+                                </div>
+                            </div>
+
+                            <div class="am-form-group am-margin-vertical-sm">
+                                <label class="am-u-sm-2 am-form-label">组名称</label>
+                                <div class="am-u-sm-10">
+                                    <input id="username" type="text" name="username" value="" v-model="group.Name" />
+
+                                </div>
+                            </div>
+
+                            <div class="am-form-group am-margin-vertical-sm">
+                                <label for="realname" class="am-u-sm-2 am-form-label">权限</label>
+                                <div class="am-u-sm-10">
+                                    <input id="realname" type="text" name="realname" value="" v-model="group.Power"/>
+
+                                </div>
+                            </div>
+
+                            <div class="am-form-group am-margin-vertical-sm">
+                                <label class="am-u-sm-2 am-form-label">描述</label>
+                                <div class="am-u-sm-10">
+                                    <textarea id = "description" name="description" style="width:500px; height:160px;" v-model="group.Description"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="am-g am-margin-vertical-sm">
+                                <div class="am-form-group">
+                                    <label class="am-u-sm-2 am-form-label"></label>
+                                    <div class="am-u-sm-10">
+                                        <input type="button" name="send" class="am-btn am-btn-primary" v-on:click="onSave" value="保存" />
+                                        <input type="button" name="send"  class="am-btn am-btn-primary" v-on:click="button_onback" value="返回" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/dialog.js"></script>
+    <script src="../assets/js/vue.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/myapp.js"></script>
+    <script src="../assets/js/amazeui.min.js"></script>
+</body>
+</html>
+
+<script>
+    new Vue({
+        el:"#admin-head-list",
+        data:{items: getHeadBar() }
+    })
+    new Vue({
+        el: '#admin-sidebar-list',
+        data: {items: getSideBar() }
+    })
+
+
+    var edit = new Vue({
+        el: '#editPane',
+        data: {group:{}},
+
+        methods: {
+            button_onback: function () {
+                $("#userListPane").show()
+                $("#editPane").hide()
+
+            },
+            onSave: function () {
+                /*  $.ajax({
+                 type: "POST",
+                 url: "/users/edit",
+                 data: this.$data["user"],
+                 dataType: "json",
+                 success: function(data){
+                 if( data["status"] == "ok"){
+                 $("#userListPane").show()
+                 $("#editPane").hide()
+                 $.Alert(data["msg"])
+                 }else{
+                 $.Alert(data["msg"])
+                 }
+                 }
+                 });*/
+            }
+        }
+    })
+    var group = new Vue({
+        el: '#userListPane',
+        data: {items: []},
+        methods: {
+            onAdd:function () {
+               // location.href = geturl("/users/group_create.html")
+            },
+            onEdit: function (id) {
+                // $.Alert(id)
+                console.info(id)
+                $("#userListPane").hide()
+                $("#editPane").show()
+                this.$data.items[id].Passwd = ""
+                // edit.$data.user= this.$data.items[id]
+                //   return
+            },
+            onDelete: function (index) {
+                // $.Alert(id)
+                $.Confirm("你确定要删除？", function (result) {
+                    console.info(group.$data["items"][index].IP)
+                    if (result) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/users/delloginlimit",
+                            data: {IP:group.$data["items"][index].IP},
+                            dataType: "json",
+                            success: function (data) {
+                                if (data["status"] == "ok") {
+                                   
+                                    getlist()
+                                } else {
+                                    $.Alert(data["msg"])
+                                }
+                            }
+                        });
+                    }
+                })
+            },
+
+        }
+    })
+
+    getlist()
+   function getlist() {
+       $.ajax({
+           type: "POST",
+           url: "/users/getloginlimit",
+           data: {},
+           dataType: "json",
+           success: function(data){
+               console.info(data)
+               if( data["status"] == "ok"){
+                   var list= data["list"]
+                   console.info(data)
+                   if (list){
+                       for (var i=0;i<list.length;i++){
+                           list[i].LastLoginTime = format(list[i].LastLoginTime*1000)
+                       }
+                       group.$data["items"] = list
+                   }
+
+               }else{
+
+               }
+           }
+       });
+   }
+
+
+</script>
+
