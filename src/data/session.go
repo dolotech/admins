@@ -33,6 +33,7 @@ func (this *SessionList) Get(key string) *Session {
 func (this *SessionList) Add(ses *Session) string {
 	this.Lock()
 	defer this.Unlock()
+	// session 过期时间为24小时
 	ses.Expire = uint32(time.Now().Unix() + 86400)
 	key := utils.Md5(ses.Username + ":" + ses.Password + ":" + strconv.Itoa(int(ses.Expire)))
 	this.hash[key] = ses

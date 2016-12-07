@@ -15,6 +15,9 @@ const (
 	LOGIN_SESSION   string = "admins_login_session"
 
 	ADMIN_RECORD string = "admins_admin_record:"
+
+	// 登陆时密码输入5次自动锁定禁止该IP登陆
+	ADMIN_LOGIN_IP_LIMIT string = "admins_login_ip_limit"
 )
 
 const (

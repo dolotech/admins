@@ -137,8 +137,8 @@ function getHeadBar() {
             name:  "系统设置",
             icon: "am-icon-bars",
             items:    [
-         /*       {icon:"am-icon-user",path:"#", name:"资料"},
-                {icon:"am-icon-cog",path:"#", name:"设置"},*/
+         /*       {icon:"am-icon-user",path:"#", name:"资料"},*/
+                {icon:"am-icon-user",path:geturl("/users/loginlimit.html"), name:"限制登陆IP"},
                 {icon:"am-icon-sign-out",path:"#",action:"javascript:onlogout()", name:"退出"}]
         }
     ]

@@ -19,6 +19,10 @@ import (
 func Login(c echo.Context) error {
 	username := c.FormValue("username")
 	password := c.FormValue("password")
+	if data.GetLimitCount(c.RealIP()) >= 5 {
+		//glog.Infoln("登陆错误次数太多")
+		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "登陆错误次数太多"})
+	}
 
 	glog.Infoln("username:", username, "password:", password)
 	if len(username) == 0 || len(password) == 0 {
@@ -26,19 +30,22 @@ func Login(c echo.Context) error {
 	}
 	u := &data.Admin{Id: username}
 	if err := u.Get(); err != nil {
+		data.AddLimitCount(c.RealIP(), username)
 		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "密码或者账户错误"})
 	}
 	if password != u.Passwd {
+		data.AddLimitCount(c.RealIP(), username)
 		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "密码或者账户错误"})
 	}
-
 	session := &data.Session{Username: username, Password: password}
 	key := data.Sessions.Add(session)
+	//  默认cookie页面关闭失效
 	cookie := &http.Cookie{Path: "/", Name: "login", Value: key}
 	c.SetCookie(cookie)
 	cookie = &http.Cookie{Path: "/", Name: "version", Value: data.Conf.Version}
 	c.SetCookie(cookie)
 
+	data.DelLimitLogin(c.RealIP())
 	return c.JSON(http.StatusOK, data.H{"status": "ok"})
 }
 
@@ -227,4 +234,12 @@ func Delete(c echo.Context) error {
 		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "账号不能为空"})
 	}
 	return nil
+}
+func GetLoginLimit(c echo.Context) error {
+	return c.JSON(http.StatusOK, data.H{"status": "ok", "list": data.GetLimitIPHash()})
+}
+func DelLoginLimit(c echo.Context) error {
+	ip := c.FormValue("IP")
+	data.DelLimitIPInDb(ip)
+	return c.JSON(http.StatusOK, data.H{"status": "ok"})
 }

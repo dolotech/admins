@@ -78,6 +78,9 @@ func main() {
 	e.POST("/users/getdetail", user.GetSelfDetail, loginMiddleware)
 	e.POST("/users/record", user.Record, loginMiddleware)
 
+	e.POST("/users/getloginlimit", user.GetLoginLimit, loginMiddleware)
+	e.POST("/users/delloginlimit", user.DelLoginLimit, loginMiddleware)
+
 	e.POST("/group/create", user.CreateGroup, loginMiddleware)
 	e.POST("/group/edit", user.EditGroup, loginMiddleware)
 	e.POST("/group/list", user.Groups, loginMiddleware)
@@ -116,6 +119,7 @@ func main() {
 	//}
 
 	data.InitAdmin()
+	data.LoadLimitIPs()
 	e.Start(data.Conf.Port)
 }
 
