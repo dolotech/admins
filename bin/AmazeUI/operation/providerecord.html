@@ -346,6 +346,11 @@
                     success: function (data) {
                         if (data["status"] == "ok") {
                             console.info(data["data"])
+                            if (data["data"]["list"]){
+                                for (var i=0;i<data["data"]["list"].length;i++){
+                                    data["data"]["list"][i].Time = format(data["data"]["list"][i].Time *1000)
+                                }
+                            }
                             userdatalist.$data["items"] = data["data"]["list"]
                             pageBar.$data.allrecords = data["data"]["count"]
                             pageBar.$data.all= Math.ceil(data["data"]["count"] / pages.$data.selected)
@@ -374,6 +379,11 @@
                 console.info(data["status"],data["msg"])
                 if (data["status"] == "ok") {
                     console.info("data:",data["data"],"size:",data["data"]["count"])
+                    if (data["data"]["list"]){
+                        for (var i=0;i<data["data"]["list"].length;i++){
+                            data["data"]["list"][i].Time = format(data["data"]["list"][i].Time *1000)
+                        }
+                    }
                     userdatalist.$data["items"] = data["data"]["list"]
                     pageBar.$data.allrecords = data["data"]["count"]
                     pageBar.$data.all= Math.ceil(data["data"]["count"] / pages.$data.selected)

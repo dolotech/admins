@@ -10,6 +10,5 @@ set GOOS=linux
 
 go build  -o ./bin/admins -ldflags "-w -s" ./src/admin.go
 
-upx.exe -9 ./bin/admins
 
 pause
