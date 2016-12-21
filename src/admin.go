@@ -94,6 +94,7 @@ func main() {
 	e.POST("/operation/normalrecord", operation.NormalRecord, loginMiddleware)         //  金币场牌局记录
 	e.POST("/operation/cardrecord", operation.CardRecode, loginMiddleware)             //  金币场牌打牌记录
 	e.POST("/operation/issueprops", operation.IssueProps, loginMiddleware)             //
+	e.POST("/operation/postbox", operation.Postbox, loginMiddleware)                   //
 	e.POST("/operation/issuelist", operation.IssuePropsList, loginMiddleware)          //
 	e.POST("/operation/loginrecord", operation.LoginRecord, loginMiddleware)           //
 	e.POST("/operation/roomcreaterecord", operation.RoomCreateRecord, loginMiddleware) // 私人房创建记录
@@ -122,8 +123,6 @@ func main() {
 	data.InitAdmin()
 	data.LoadLimitIPs()
 	admincall.Init(data.Conf.CallServer)
-	test := &admincall.EmailReceiverArgs{Userid: []string{"60226", "60229"}, Data: &data.DataPostbox{Title: "test post"}}
-	test.Call()
 	e.Start(data.Conf.Port)
 }
 

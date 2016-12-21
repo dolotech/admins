@@ -167,10 +167,9 @@ function getSideBar() {
             icon:"am-icon-drupal",
             items:    [
             {icon:"am-icon-table",path:geturl("/operation/provide.html"), name:"道具/钻石发放"},
-            {icon:"am-icon-table",path:geturl("/operation/providerecord.html"), name:"发放记录"}
-/*
-            {icon:"am-icon-table",path:geturl("/operation/email.html", name:"发送邮件"},
-            {icon:"am-icon-table",path:geturl("/operation/emaillist.html", name:"邮件记录"}*/
+            {icon:"am-icon-table",path:geturl("/operation/providerecord.html"), name:"发放记录"},
+            {icon:"am-icon-table",path:geturl("/operation/postbox.html"), name:"发送邮件"}
+ /*     {icon:"am-icon-table",path:geturl("/operation/emaillist.html", name:"邮件记录"}*/
             ]
         },
         {

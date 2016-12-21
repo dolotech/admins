@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2e55aff1-9c82-4dfe-bb76-d318c9afbeca" name="Default" comment="更新登录模板">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AmazeUI/assets/js/myapp.js" afterPath="$PROJECT_DIR$/AmazeUI/assets/js/myapp.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AmazeUI/operation/provide.html" afterPath="$PROJECT_DIR$/AmazeUI/operation/provide.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AmazeUI/roles/list.html" afterPath="$PROJECT_DIR$/AmazeUI/roles/list.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf.json" afterPath="$PROJECT_DIR$/conf.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/basic/imageserver/file.go" afterPath="$PROJECT_DIR$/../src/basic/imageserver/file.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/basic/imageserver/imageserver.go" afterPath="$PROJECT_DIR$/../src/basic/imageserver/imageserver.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/admin.go" afterPath="$PROJECT_DIR$/../src/admin.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/admincall/admincall.go" afterPath="$PROJECT_DIR$/../src/admincall/admincall.go" />
     </list>
     <list id="277246b5-11e4-4704-a465-24c529c95e0d" name="Rejected commit: Default" comment="更新登录模板" />
     <ignored path="bin.iws" />
@@ -29,24 +27,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AmazeUI/roles/list.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="885">
-              <caret line="663" column="34" selection-start-line="663" selection-start-column="34" selection-end-line="663" selection-end-column="34" />
-              <folding>
-                <element signature="n#div#2;n#header#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="provide.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AmazeUI/operation/provide.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="258">
-              <caret line="183" column="7" selection-start-line="183" selection-start-column="7" selection-end-line="183" selection-end-column="7" />
+              <caret line="183" column="6" selection-start-line="183" selection-start-column="6" selection-end-line="183" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="postbox.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AmazeUI/operation/postbox.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="370">
+              <caret line="221" column="44" selection-start-line="221" selection-start-column="37" selection-end-line="221" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -60,7 +55,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/AmazeUI/users/group_edit..html" />
         <option value="$PROJECT_DIR$/AmazeUI/assets/css/amazeui.css" />
         <option value="$USER_HOME$/Desktop/admin/template/template/assets/css/core.css" />
         <option value="$PROJECT_DIR$/AmazeUI/assets/css/core.css" />
@@ -104,13 +98,14 @@
         <option value="$PROJECT_DIR$/AmazeUI/operation/privaterecord.html" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/transition.html" />
         <option value="$PROJECT_DIR$/AmazeUI/tools/notice.html" />
-        <option value="$PROJECT_DIR$/AmazeUI/assets/js/myapp.js" />
         <option value="$PROJECT_DIR$/AmazeUI/users/loginlimit.html" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/providerecord.html" />
         <option value="$PROJECT_DIR$/AmazeUI/users/list.html" />
         <option value="$USER_HOME$/AppData/Local/Temp/protobuf.js" />
         <option value="$PROJECT_DIR$/AmazeUI/roles/list.html" />
         <option value="$PROJECT_DIR$/AmazeUI/operation/provide.html" />
+        <option value="$PROJECT_DIR$/AmazeUI/assets/js/myapp.js" />
+        <option value="$PROJECT_DIR$/AmazeUI/operation/postbox.html" />
       </list>
     </option>
   </component>
@@ -198,6 +193,46 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="operation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AmazeUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AmazeUI" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -317,7 +352,7 @@
       <workItem from="1481522335050" duration="2833000" />
       <workItem from="1481594233182" duration="411000" />
       <workItem from="1481685664301" duration="1198000" />
-      <workItem from="1482288916090" duration="978000" />
+      <workItem from="1482288916090" duration="2318000" />
     </task>
     <task id="LOCAL-00001" summary="更新登录模板">
       <created>1475138471139</created>
@@ -330,7 +365,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="483496000" />
+    <option name="totallyTimeSpent" value="484836000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1084" extended-state="0" />
@@ -376,7 +411,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Desktop/admin_template/admin/index.html" />
     <entry file="file://$PROJECT_DIR$/AmazeUI/operation/privaterecord - 副本.html" />
     <entry file="file://$USER_HOME$/Desktop/Amaze UI 模板中心-模板详情.htm" />
     <entry file="file://$PROJECT_DIR$/AmazeUI/operation/matchrecord - 副本.html" />
@@ -519,14 +553,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AmazeUI/assets/js/myapp.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="140" column="91" selection-start-line="140" selection-start-column="91" selection-end-line="140" selection-end-column="91" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/users/edit.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="895">
@@ -640,10 +666,26 @@
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Temp/protobuf.js" />
+    <entry file="file://$PROJECT_DIR$/AmazeUI/assets/js/myapp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="170" column="65" selection-start-line="170" selection-start-column="58" selection-end-line="170" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AmazeUI/operation/postbox.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="221" column="44" selection-start-line="221" selection-start-column="37" selection-end-line="221" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/roles/list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="663" column="34" selection-start-line="663" selection-start-column="34" selection-end-line="663" selection-end-column="34" />
+        <state relative-caret-position="740">
+          <caret line="663" column="0" selection-start-line="663" selection-start-column="0" selection-end-line="664" selection-end-column="0" />
           <folding>
             <element signature="n#div#2;n#header#0;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -654,7 +696,7 @@
     <entry file="file://$PROJECT_DIR$/AmazeUI/operation/provide.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="258">
-          <caret line="183" column="7" selection-start-line="183" selection-start-column="7" selection-end-line="183" selection-end-column="7" />
+          <caret line="183" column="6" selection-start-line="183" selection-start-column="6" selection-end-line="183" selection-end-column="6" />
           <folding />
         </state>
       </provider>

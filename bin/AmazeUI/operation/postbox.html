@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>贵阳麻将后台管理系统</title>
+    <meta name="description" content="贵阳麻将后台管理系统">
+    <meta name="keywords" content="贵阳麻将后台管理系统">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="../assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="贵阳麻将后台管理系统" />
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/app.css">
+</head>
+
+<body data-type="index">
+    <header class="am-topbar am-topbar-inverse admin-header">
+        <div class="am-topbar-brand">
+            <strong>贵州麻将</strong>
+            <small>后台管理系统</small>
+        </div>
+        <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right"> </div>
+
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+        <!-- headbar start -->
+        <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+            <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list" id="admin-head-list">
+                <li v-for="item in items" class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                    <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+                        <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
+                    </a>
+                    <ul class="am-dropdown-content tpl-dropdown-content">
+                        <li v-for="i in item.items" >
+                           <a :href="i.path" type="button" :onclick="i.action"><span :class="i.icon"></span> </span> {{ i.name}}</a></li>
+
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- headbar end -->
+    </header>
+
+    <div class="tpl-page-container tpl-page-header-fixed">
+        <!-- sidebar start -->
+       <div class="tpl-left-nav tpl-left-nav-hover">
+            <div class="tpl-left-nav-list">
+                <ul class="tpl-left-nav-menu" id="admin-sidebar-list">
+                    <li class="tpl-left-nav-item">
+                        <a href="/" class="nav-link active">
+                            <i class="am-icon-home"></i>
+                            <span>首页</span>
+                        </a>
+                    </li>
+                    <!-- table start -->
+
+                    <!-- table start -->
+
+                    <li v-for="item in items" class="tpl-left-nav-item">
+                        <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                            <i :class="item.icon"></i>
+                            <span>{{ item.name }} </span>
+                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                        </a>
+                        <ul class="tpl-left-nav-sub-menu" style="display: block;">
+                            <li v-for="i in item.items">
+                                <a :href="i.path">
+                                    <i :class="i.icon"></i>
+                                    <span>{{ i.name}}</span>
+                                    <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <!-- sidebar end -->
+
+        <div class="tpl-content-wrapper">
+            <ol class="am-breadcrumb">
+                <li><a href="#" class="am-icon-home">首页</a></li>
+                <li><a href="#">分类</a></li>
+                <li class="am-active">内容</li>
+            </ol>
+            <div class="tpl-portlet-components">
+               <div class="am-g tpl-amazeui-form">
+                    <div class="am-u-sm-12 am-u-md-9">
+                        <form class="am-form am-form-horizontal" id="issue_props">
+                            <div  class="am-form-group">
+                                <label  class="am-u-sm-3 am-form-label">邮件标题</label>
+                                <div class="am-u-sm-9">
+                                    <input type="text" placeholder="请您输入邮件标题"  v-model="content.Title">
+                                    <small>25字以内写出您的邮件标题</small>
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <label for="user-intro" class="am-u-sm-3 am-form-label">邮件内容</label>
+                                <div class="am-u-sm-9">
+                                    <textarea class="" rows="5"  placeholder="请您输入邮件内容" v-model="content.Content"></textarea>
+                                    <small>250字以内写出您的邮件内容</small>
+                                </div>
+                            </div>
+
+
+                            <div class="am-form-group">
+                                <label  class="am-u-sm-3 am-form-label">道具类型</label>
+                                <div class="am-u-sm-9">
+                                    <select id="doc-select-1"  v-model="content.WidgetType">
+                                        <option selected="selected" value="1">金币</option>
+                                        <option value="4">钻石</option>
+                                        <option value="14">VIP等级</option>
+                                        <option value="100">经验值</option>
+                                        <option value="3">入场券</option>
+                                        <option value="2">兑换券</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div  v-if="content.WidgetType != 14" class="am-form-group">
+                                <label  class="am-u-sm-3 am-form-label">发放数量</label>
+                                <div class="am-u-sm-9">
+                                    <input type="number" id="widget_count" placeholder="输入您要发放的道具数量"  v-model="content.Count">
+                                    <small>大于0小于999999的数字</small>
+                                </div>
+                            </div>
+
+                            <div v-if="content.WidgetType == 14" class="am-form-group">
+                                <label  class="am-u-sm-3 am-form-label">VIP等级</label>
+                                <div class="am-u-sm-9">
+                                    <select  v-model="content.VIP">
+                                        <option value="22" selected="selected">VIP1 7天</option>
+                                        <option value="23">VIP2 30天</option>
+                                        <option value="24">VIP3 90天</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--     <div v-if="content.WidgetType == 14" class="am-form-icon am-u-sm-12 am-u-md-3">
+                                     <div class="am-form-icon">
+                                         <i id="date-start-icon" class="am-icon-calendar"></i>
+                                         <input id="date-start" type="text" name="last_visit_begin" value=""
+                                                class="am-form-field am-input-sm" placeholder="最后登录时间-从"/>
+                                     </div>
+                                 </div>
+         -->
+                            <div class="am-form-group">
+                                <label  class="am-u-sm-3 am-form-label">玩家ID</label>
+                                <div class="am-u-sm-9">
+
+                                    <textarea class="" rows="5" id="user-intro" placeholder="输入您要发放的玩家ID"  v-model="content.UserIds"></textarea>
+                                    <small>向多个玩家发放请用逗号","隔开</small>
+                                </div>
+                            </div>
+
+                        <!--    <div class="am-form-group">
+                                <label for="user-intro" class="am-u-sm-3 am-form-label">邮件标题</label>
+                                <div class="am-u-sm-9">
+                                    <input  placeholder="请您输入邮件标题" v-model="content.Title"></textarea>
+                                    <small>25字以内写出您的邮件标题</small>
+                                </div>
+                            </div>
+-->
+
+
+
+                            <div class="am-form-group">
+                                <div class="am-u-sm-9 am-u-sm-push-3">
+                                    <button type="button" class="am-btn am-btn-primary" v-on:click="onSubmit">提交数据</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/dialog.js"></script>
+    <script src="../assets/js/vue.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/myapp.js"></script>
+    <script src="../assets/js/amazeui.min.js"></script>
+</body>
+</html>
+
+<script type="text/javascript">
+    new Vue({
+        el: '#admin-sidebar-list',
+        data: {items: getSideBar() }
+    })
+    new Vue({
+        el:"#admin-head-list",
+        data:{items: getHeadBar() }
+    }) 
+
+    new Vue({
+        el:"#issue_props",
+        data:{content:{WidgetType:"1",Count:1,Desc:"",UserIds:"",VIP:"22"}},
+        methods:{
+            onSubmit:function () {
+
+                if (this.$data["content"].Count <= 0 || this.$data["content"].Count ==""){
+                    $.Alert("请您输入道具数量")
+                    return
+                }
+                if (this.$data["content"].UserIds==""){
+                    $.Alert("请您输入玩家ID")
+                    return
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "/operation/postbox",
+                    data: this.$data["content"],
+                    dataType: "json",
+                    success: function(data){
+                        if( data["status"] == "ok"){
+                            $.Alert("恭喜，邮件发送成功")
+                        }else{
+                            $.Alert(data["msg"])
+                        }
+
+
+                    }
+                });
+            }
+        }
+    })
+</script>

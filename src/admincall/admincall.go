@@ -21,6 +21,8 @@ type EmailReceiverArgs struct {
 func (this *EmailReceiverArgs) Call() bool {
 	ok := true
 	Client.Call("EmailReceiver.Receive", this, &ok)
-	glog.Infoln("=========", ok)
+	if !ok {
+		glog.Errorln("post error")
+	}
 	return ok
 }
