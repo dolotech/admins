@@ -22,6 +22,7 @@ type Config struct {
 	Version         string `json:"version"`
 	DiscardsTimeout int    `json:"discards_timeout"`
 	Mode            int    `json:"mode"`
+	CallServer      string `json:"callserver"` // 逻辑服务器提供给管理系统调用的URL
 }
 type SSDB struct {
 	Ip     string `json:"ip"`

@@ -8,9 +8,8 @@
 package imageserver
 
 import (
-	"basic/ssdb/gossdb"
-	"data"
 	"io"
+	"mime/multipart"
 	"net/http"
 	"os"
 	"runtime/debug"
@@ -27,71 +26,38 @@ type Imageserver struct {
 }
 
 func NewServer(path string, port int) *Imageserver {
-	return &Imageserver{path: path, port: port}
+	return &Imageserver{path: path, port: port, router: mux.NewRouter()}
 }
 func (this *Imageserver) Run() {
-	this.router = mux.NewRouter()
 	this.router.HandleFunc("/", this.homeHandler).Methods("GET")
-	this.router.HandleFunc("/", this.uploadHandler).Methods("POST")
+	//	this.router.HandleFunc("/", this.UploadHandler).Methods("POST")
 	this.router.HandleFunc("/{imgid}", this.downloadHandler).Methods("GET")
-	glog.Infoln("头像服务器监听端口: ", this.port)
 	err := http.ListenAndServe("0.0.0.0:"+strconv.Itoa(this.port), this.router)
 	if err != nil {
 		glog.Fatal("ListenAndServe error: ", err)
 	}
 }
-func (this *Imageserver) uploadHandler(w http.ResponseWriter, r *http.Request) {
+func (this *Imageserver) HandleFunc(path string, f func(http.ResponseWriter,
+	*http.Request)) *mux.Route {
+	return this.router.HandleFunc(path, f)
+}
+func SaveImage(path string, file multipart.File) (string, error) {
 	defer func() {
 		if err := recover(); err != nil {
 			glog.Errorln(string(debug.Stack()))
 		}
 	}()
-	r.ParseMultipartForm(32 << 20)
-	for _, v := range r.Form {
-		glog.Infoln(v)
-	}
-	//上传参数为uploadfile
-
-	userid := r.FormValue("userid")
-	glog.Infoln(userid)
-	if userid == "" {
-		w.Write([]byte("Error:userid empty."))
-		return
-
-	}
-	password := r.FormValue("password")
-	glog.Infoln(password)
-	if password == "" {
-		w.Write([]byte("Error:password empty."))
-		return
-	}
-	user := &data.User{Userid: userid}
-	if !user.PWDIsOK(password) {
-		w.Write([]byte("Error:password or userid error."))
-		return
-	}
-	glog.Infoln(r.FormValue("uploadfile"))
-	file, _, err := r.FormFile("uploadfile")
-	if err != nil {
-		glog.Infoln(err)
-		w.Write([]byte("Error:Upload Error."))
-		return
-	}
-	glog.Infoln(file)
-	defer file.Close()
 
 	//检测文件类型
 	buff := make([]byte, 512)
-	_, err = file.Read(buff)
+	_, err := file.Read(buff)
 	if err != nil {
 		glog.Infoln(err)
-		w.Write([]byte("Error:Upload Error."))
-		return
+		return "", err
 	}
 	filetype := http.DetectContentType(buff)
 	glog.Infoln(filetype)
 	//	if filetype != "image/jpeg" {
-	//		w.Write([]byte("Error:Not JPEG."))
 	//		return
 	//	}
 	//回绕文件指针
@@ -102,30 +68,27 @@ func (this *Imageserver) uploadHandler(w http.ResponseWriter, r *http.Request) {
 	//随机生成一个不存在的fileid
 	var imgid string
 	for {
-		imgid = this.makeImageID()
+		imgid = makeImageID()
 		glog.Infoln(imgid)
-		if !this.fileExist(this.imageID2Path(imgid)) {
+		if !fileExist(imageID2Path(path, imgid)) {
 			break
 		}
 	}
 	//提前创建整棵存储树
-	if err = this.buildTree(imgid); err != nil {
+	if err = buildTree(path, imgid); err != nil {
 		glog.Infoln(err)
 	}
 	glog.Infoln((imgid))
-	f, err := os.OpenFile(this.imageID2Path(imgid), os.O_WRONLY|os.O_CREATE, 0666)
+	f, err := os.OpenFile(imageID2Path(path, imgid), os.O_WRONLY|os.O_CREATE, 0666)
 	glog.Infoln(err)
 	if err != nil {
 		glog.Infoln(err)
-		w.Write([]byte("Error:Save Error."))
-		return
+		return "", err
 	}
 	defer f.Close()
 	io.Copy(f, file)
 
-	gossdb.C().Hset(data.KEY_USER+user.Userid, "Photo", imgid)
-	//	user.UpdatePhoto()
-	w.Write([]byte(imgid))
+	return imgid, nil
 }
 
 func (this *Imageserver) downloadHandler(w http.ResponseWriter, r *http.Request) {
@@ -146,8 +109,8 @@ func (this *Imageserver) downloadHandler(w http.ResponseWriter, r *http.Request)
 		w.Write([]byte("Error:ImageID incorrect."))
 		return
 	}
-	imgpath := this.imageID2Path(imageid)
-	if !this.fileExist(imgpath) {
+	imgpath := imageID2Path(this.path, imageid)
+	if !fileExist(imgpath) {
 		w.Write([]byte("Error:Image Not Found."))
 		return
 	}

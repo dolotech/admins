@@ -16,7 +16,7 @@
 	"ipay":7001,
 	"serverid":1,
 	"version":"1.0.5",
-	
+	"callserver":"127.0.0.1:5002",	
 	"robotip":"127.0.0.1",
 	"robotport":7788,
 	"mode":0,

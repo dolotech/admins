@@ -15,11 +15,11 @@ import (
 	"github.com/golang/glog"
 )
 
-func (this *Imageserver) imageID2Path(imageid string) string {
-	return fmt.Sprintf("%s/%s/%s/%s/%s.jpg", this.path, imageid[0:3], imageid[3:6], imageid[6:9], imageid[9:])
+func imageID2Path(path string, imageid string) string {
+	return fmt.Sprintf("%s/%s/%s/%s/%s.jpg", path, imageid[0:3], imageid[3:6], imageid[6:9], imageid[9:])
 }
 
-func (this *Imageserver) makeImageID() string {
+func makeImageID() string {
 	str := utils.Base62encode(uint64(utils.RandInt64()))
 	if len(str) < 11 {
 		var buf = make([]byte, 11-len(str))
@@ -32,7 +32,7 @@ func (this *Imageserver) makeImageID() string {
 	return str[:11]
 }
 
-func (this *Imageserver) fileExist(filename string) bool {
+func fileExist(filename string) bool {
 	if _, err := os.Stat(filename); err != nil {
 		return false
 	} else {
@@ -40,6 +40,6 @@ func (this *Imageserver) fileExist(filename string) bool {
 	}
 }
 
-func (this *Imageserver) buildTree(imageid string) error {
-	return os.MkdirAll(fmt.Sprintf("%s/%s/%s/%s", this.path, imageid[0:3], imageid[3:6], imageid[6:9]), 0777)
+func buildTree(path string, imageid string) error {
+	return os.MkdirAll(fmt.Sprintf("%s/%s/%s/%s", path, imageid[0:3], imageid[3:6], imageid[6:9]), 0777)
 }

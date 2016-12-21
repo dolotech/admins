@@ -1,6 +1,7 @@
 package main
 
 import (
+	"admincall"
 	"basic/ssdb/gossdb"
 	"basic/utils"
 	"data"
@@ -120,6 +121,9 @@ func main() {
 
 	data.InitAdmin()
 	data.LoadLimitIPs()
+	admincall.Init(data.Conf.CallServer)
+	test := &admincall.EmailReceiverArgs{Userid: []string{"60226", "60229"}, Data: &data.DataPostbox{Title: "test post"}}
+	test.Call()
 	e.Start(data.Conf.Port)
 }
 
