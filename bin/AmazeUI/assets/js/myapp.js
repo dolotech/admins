@@ -138,7 +138,7 @@ function getHeadBar() {
             icon: "am-icon-bars",
             items:    [
          /*       {icon:"am-icon-user",path:"#", name:"资料"},*/
-                {icon:"am-icon-user",path:geturl("/users/loginlimit.html"), name:"限制登陆IP"},
+                {icon:"am-icon-user",path:geturl("/users/loginlimit.html"), name:"恶意登陆IP"},
                 {icon:"am-icon-sign-out",path:"#",action:"javascript:onlogout()", name:"退出"}]
         }
     ]
@@ -163,12 +163,12 @@ function getSideBar() {
             ]
         },
         {
-            name:  "发放记录",
+            name:  "邮件和奖励",
             icon:"am-icon-drupal",
             items:    [
-            {icon:"am-icon-table",path:geturl("/operation/provide.html"), name:"道具/钻石发放"},
-            {icon:"am-icon-table",path:geturl("/operation/providerecord.html"), name:"发放记录"},
-            {icon:"am-icon-table",path:geturl("/operation/postbox.html"), name:"发送邮件"}
+          /*  {icon:"am-icon-table",path:geturl("/operation/provide.html"), name:"道具/钻石发放"},
+            {icon:"am-icon-table",path:geturl("/operation/providerecord.html"), name:"发放记录"},*/
+            {icon:"am-icon-table",path:geturl("/operation/postbox.html"), name:"发送邮件和奖励"}
  /*     {icon:"am-icon-table",path:geturl("/operation/emaillist.html", name:"邮件记录"}*/
             ]
         },
@@ -204,8 +204,8 @@ function getSideBar() {
             name: "数据统计",
             icon:"am-icon-file",
             items:     [
-                   {icon:"am-icon-table",path:geturl("/statistics/online.html"),name: "在线"},
-                {icon:"am-icon-table",path:geturl("/statistics/newuser.html"),name: "新增"}
+                   {icon:"am-icon-table",path:geturl("/statistics/online.html"),name: "在线"}
+               /* {icon:"am-icon-table",path:geturl("/statistics/newuser.html"),name: "新增"}*/
                 /*  {icon:"am-icon-table",path:geturl("/statistics/active.html"),name: "活跃"},
             {icon:"am-icon-table",path:geturl("/statistics/remainder.html"),name: "留存"}*/
                 ]

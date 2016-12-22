@@ -11,6 +11,7 @@ import (
 	"data"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/golang/glog"
 	"github.com/labstack/echo"
@@ -19,7 +20,8 @@ import (
 func Login(c echo.Context) error {
 	username := c.FormValue("username")
 	password := c.FormValue("password")
-	if data.GetLimitCount(c.RealIP()) >= 5 {
+	lip := data.GetLimitCount(c.RealIP())
+	if lip != nil && lip.Count >= 5 && time.Now().Unix()-lip.LastLoginTime < 300 {
 		//glog.Infoln("登陆错误次数太多")
 		return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "登陆错误次数太多"})
 	}

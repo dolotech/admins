@@ -16,6 +16,7 @@ const (
 	OPERATE_KIND_DEL_GROUP    uint32 = 6 //  删除组
 	OPERATE_KIND_ADD_GROUP    uint32 = 7 // 添加组
 	OPERATE_KIND_MODIFY_GROUP uint32 = 8 // 修改组
+	OPERATE_KIND_SEND_MAIL    uint32 = 9 // 发送邮件
 
 )
 

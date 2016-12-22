@@ -38,11 +38,11 @@ func LoadLimitIPs() {
 	}
 }
 
-func GetLimitCount(ip string) uint32 {
+func GetLimitCount(ip string) *LoginLimitIP {
 	if d, ok := loginErrIPHash[ip]; ok {
-		return d.Count
+		return d
 	}
-	return 0
+	return nil
 }
 func AddLimitCount(ip string, userid string) {
 	if d, ok := loginErrIPHash[ip]; !ok {

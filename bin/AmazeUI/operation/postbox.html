@@ -91,6 +91,8 @@
                <div class="am-g tpl-amazeui-form">
                     <div class="am-u-sm-12 am-u-md-9">
                         <form class="am-form am-form-horizontal" id="issue_props">
+
+
                             <div  class="am-form-group">
                                 <label  class="am-u-sm-3 am-form-label">邮件标题</label>
                                 <div class="am-u-sm-9">
@@ -107,6 +109,21 @@
                                 </div>
                             </div>
 
+
+
+                            <div class="am-form-group">
+
+                                <label  class="am-u-sm-3 am-form-label">邮件类型</label>
+                                <div class="am-u-sm-9">
+                                    <select  v-model="content.Kind">
+                                        <option value="1" selected="selected">公告邮件</option>
+                                        <option value="3">奖励邮件</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div  v-if="content.Kind == 3">
 
                             <div class="am-form-group">
                                 <label  class="am-u-sm-3 am-form-label">道具类型</label>
@@ -140,7 +157,7 @@
                                     </select>
                                 </div>
                             </div>
-
+                    </div>
                             <!--     <div v-if="content.WidgetType == 14" class="am-form-icon am-u-sm-12 am-u-md-3">
                                      <div class="am-form-icon">
                                          <i id="date-start-icon" class="am-icon-calendar"></i>
@@ -204,7 +221,7 @@
 
     new Vue({
         el:"#issue_props",
-        data:{content:{WidgetType:"1",Count:1,Desc:"",UserIds:"",VIP:"22"}},
+        data:{content:{WidgetType:"1",Count:1,Desc:"",UserIds:"",VIP:"22",Kind:1}},
         methods:{
             onSubmit:function () {
 

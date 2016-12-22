@@ -18,8 +18,10 @@ func Postbox(c echo.Context) error {
 	widgetType, _ := strconv.Atoi(c.FormValue("WidgetType")) // uint32
 	desc := c.FormValue("Desc")
 	glog.Infoln(userids, count, widgetType, desc)
-	title := c.FormValue("Title")     // string
-	content := c.FormValue("Content") // string
+	title := c.FormValue("Title")                // string
+	content := c.FormValue("Content")            // string
+	kind, _ := strconv.Atoi(c.FormValue("Kind")) //1:公告，2：圈子消息，3,：奖励
+
 	if widgetType == 14 {
 		count = 1
 		widgetType = vip
@@ -44,12 +46,48 @@ func Postbox(c echo.Context) error {
 			Data: &data.DataPostbox{
 				Title:   title,
 				Content: content,
+				Kind:    uint32(kind),
 			}}
+		if kind == 3 {
+			appendixname := ""
+			post.Data.Appendix = append(post.Data.Appendix, widget)
+			if widgetType == 22 {
+				appendixname = "VIP1"
+			} else if widgetType == 23 {
+				appendixname = "VIP2"
+			} else if widgetType == 24 {
+				appendixname = "VIP3"
+			} else if widgetType == 1 {
+				appendixname = "金币x" + c.FormValue("Count")
+			} else if widgetType == 2 {
+				appendixname = "兑换券x" + c.FormValue("Count")
+			} else if widgetType == 3 {
+				appendixname = "入场券x" + c.FormValue("Count")
+			} else if widgetType == 4 {
+				appendixname = "钻石x" + c.FormValue("Count")
+			} else if widgetType == 100 {
+				appendixname = "经验x" + c.FormValue("Count")
+			}
+			post.Data.Appendixname = appendixname
+		}
 
-		post.Data.Appendix = append(post.Data.Appendix, widget)
 		boolean := post.Call()
 		if !boolean {
 			return c.JSON(http.StatusOK, data.H{"status": "fail", "msg": "send post fail ,something error"})
+		}
+		for _, v := range userIds {
+			adrd := &data.AdminRecord{
+				AdminID: username,
+				Kind:    data.OPERATE_KIND_SEND_MAIL,
+				Target:  v,
+				Desc:    title,
+			}
+			if kind == 3 {
+				adrd.Count = (count)
+				adrd.WindgetID = uint32(widgetType)
+			}
+			adrd.Save()
+
 		}
 	}
 
