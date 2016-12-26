@@ -3,7 +3,6 @@ package main
 import (
 	"admincall"
 	"basic/ssdb/gossdb"
-	"basic/utils"
 	"data"
 
 	"flag"
@@ -111,16 +110,7 @@ func main() {
 	e.POST("/tools/getnotice", operation.GetNotice, loginMiddleware)
 	e.POST("/tools/issuenotice", operation.AddNotice, loginMiddleware)
 	conndb()
-	glog.Infoln(utils.TimestampToday())
-	//for i := 0; i < 1000; i++ {
-	//	go func() {
-	//		lastID, err := gossdb.C().Get(data.KEY_LAST_USER_ID)
-	//		glog.Errorln(err, lastID, data.KEY_LAST_USER_ID)
-	//		if err != nil {
-	//			glog.Errorln(err, lastID, data.KEY_LAST_USER_ID)
-	//		}
-	//	}()
-	//}
+
 
 	data.InitAdmin()
 	data.LoadLimitIPs()
