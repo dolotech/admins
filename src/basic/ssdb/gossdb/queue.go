@@ -233,6 +233,7 @@ func (this *Client) slice(name string, args ...int) (v []Value, err error) {
 		return nil, goerr.NewError(err, "%s %s error", qslice_cmd[index], name)
 	}
 	size := len(resp)
+
 	if size >= 1 && resp[0][0] == ok[0] && resp[0][1] == ok[1] {
 		for i := 1; i < size; i++ {
 			v = append(v, resp[i])

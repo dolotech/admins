@@ -27,7 +27,7 @@ func (c *SSDBClient) Connect() error {
 	}
 
 	//sock.SetReadDeadline(time.Now().Add(time.Minute * 15))
-	sock.SetReadDeadline(time.Now().Add(time.Second * 15))
+	sock.SetReadDeadline(time.Now().Add(time.Second * 60))
 	c.sock = sock
 	return nil
 }
@@ -150,8 +150,9 @@ func (c *SSDBClient) Send(args []interface{}) error {
 }
 
 func (c *SSDBClient) Recv() ([]Value, error) {
-	var tmp [8192]byte
+	var tmp [8192]byte // 最大8k数据
 	for {
+
 		n, err := c.sock.Read(tmp[0:])
 		if err != nil {
 			return nil, err
@@ -187,7 +188,6 @@ func (c *SSDBClient) parse() []Value {
 				return resp
 			}
 		}
-
 		size, err := strconv.Atoi(string(p))
 		if err != nil || size < 0 {
 			return nil

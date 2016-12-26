@@ -422,7 +422,8 @@
                     pageBar.$data.allrecords = data.length
                     pageBar.$data.all = Math.ceil(data.length/ pages.$data.selected)
                 } else {
-                    $.Alert(data["msg"])
+                    location.href = "/?v="+Math.random()
+                   // $.Alert(data["msg"])
                 }
             }
         });
