@@ -5,7 +5,7 @@ import (
 	"basic/ssdb/gossdb"
 	"basic/utils"
 	"data"
-	"errors"
+
 	"flag"
 	"net/http"
 	"operation"
@@ -18,6 +18,8 @@ import (
 	"github.com/golang/glog"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+
+	"errors"
 )
 
 func loginMiddleware(next echo.HandlerFunc) echo.HandlerFunc {

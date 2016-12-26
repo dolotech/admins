@@ -150,7 +150,7 @@ func (c *SSDBClient) Send(args []interface{}) error {
 }
 
 func (c *SSDBClient) Recv() ([]Value, error) {
-	var tmp [8192]byte // 最大8k数据
+	var tmp [1024*32]byte // 最大32k数据
 	for {
 
 		n, err := c.sock.Read(tmp[0:])
@@ -179,7 +179,6 @@ func (c *SSDBClient) parse() []Value {
 		}
 		p := buf[offset : offset+idx]
 		offset += idx + 1
-		//fmt.Printf("> [%s]\n", p);
 		if len(p) == 0 || (len(p) == 1 && p[0] == '\r') {
 			if len(resp) == 0 {
 				continue
@@ -189,6 +188,7 @@ func (c *SSDBClient) parse() []Value {
 			}
 		}
 		size, err := strconv.Atoi(string(p))
+
 		if err != nil || size < 0 {
 			return nil
 		}

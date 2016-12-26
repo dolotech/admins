@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2e55aff1-9c82-4dfe-bb76-d318c9afbeca" name="Default" comment="更新登录模板">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/admins" afterPath="$PROJECT_DIR$/admins" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AmazeUI/operation/matchrecord.html" afterPath="$PROJECT_DIR$/AmazeUI/operation/matchrecord.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AmazeUI/operation/normalrecord.html" afterPath="$PROJECT_DIR$/AmazeUI/operation/normalrecord.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AmazeUI/operation/privatecreate.html" afterPath="$PROJECT_DIR$/AmazeUI/operation/privatecreate.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AmazeUI/operation/privaterecord.html" afterPath="$PROJECT_DIR$/AmazeUI/operation/privaterecord.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AmazeUI/statistics/index.html" afterPath="$PROJECT_DIR$/AmazeUI/statistics/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AmazeUI/statistics/online.html" afterPath="$PROJECT_DIR$/AmazeUI/statistics/online.html" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../.idea/libraries/GOPATH__admins_.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf.json" afterPath="$PROJECT_DIR$/conf.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/admin.go" afterPath="$PROJECT_DIR$/../src/admin.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/basic/ssdb/gossdb/ssdb.go" afterPath="$PROJECT_DIR$/../src/basic/ssdb/gossdb/ssdb.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/data/data_online.go" afterPath="$PROJECT_DIR$/../src/data/data_online.go" />
     </list>
     <list id="277246b5-11e4-4704-a465-24c529c95e0d" name="Rejected commit: Default" comment="更新登录模板" />
     <ignored path="bin.iws" />
@@ -85,7 +81,7 @@
       <file leaf-file-name="privaterecord.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AmazeUI/operation/privaterecord.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="748">
+            <state relative-caret-position="1564">
               <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
               <folding />
             </state>
@@ -95,8 +91,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AmazeUI/statistics/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="502">
-              <caret line="424" column="56" selection-start-line="424" selection-start-column="56" selection-end-line="424" selection-end-column="56" />
+            <state relative-caret-position="281">
+              <caret line="400" column="0" selection-start-line="400" selection-start-column="0" selection-end-line="401" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -220,6 +216,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -345,7 +342,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -461,6 +457,7 @@
       <workItem from="1481685664301" duration="1198000" />
       <workItem from="1482288916090" duration="8561000" />
       <workItem from="1482459485208" duration="2821000" />
+      <workItem from="1482721638002" duration="12000" />
     </task>
     <task id="LOCAL-00001" summary="更新登录模板">
       <created>1475138471139</created>
@@ -473,29 +470,29 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="493900000" />
+    <option name="totallyTimeSpent" value="493912000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="54" y="-8" width="1874" height="1084" extended-state="0" />
-    <editor active="false" />
+    <frame x="54" y="-8" width="1874" height="1084" extended-state="1" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26533908" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14887063" sideWeight="0.50215286" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10638298" sideWeight="0.49784714" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -713,9 +710,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1010">
           <caret line="239" column="54" selection-start-line="239" selection-start-column="54" selection-end-line="239" selection-end-column="54" />
-          <folding>
-            <element signature="n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -724,10 +718,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4369">
           <caret line="393" column="34" selection-start-line="393" selection-start-column="34" selection-end-line="393" selection-end-column="34" />
-          <folding>
-            <element signature="n#div#2;n#header#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -773,7 +763,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/operation/privaterecord.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
+        <state relative-caret-position="1564">
           <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
           <folding />
         </state>
@@ -799,14 +789,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="282">
           <caret line="164" column="0" selection-start-line="164" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AmazeUI/statistics/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="502">
-          <caret line="424" column="56" selection-start-line="424" selection-start-column="56" selection-end-line="424" selection-end-column="56" />
+        <state relative-caret-position="281">
+          <caret line="400" column="0" selection-start-line="400" selection-start-column="0" selection-end-line="401" selection-end-column="0" />
           <folding />
         </state>
       </provider>
