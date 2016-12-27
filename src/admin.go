@@ -17,11 +17,11 @@ import (
 	"github.com/golang/glog"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-
-
 	"errors"
 )
-
+var (
+	version = "v0.0.1"
+)
 func loginMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		cookie, err := c.Cookie("login")
@@ -44,7 +44,7 @@ func main() {
 	flag.StringVar(&config, "conf", "./conf.json", "config path")
 	flag.Parse()
 	data.LoadConf(config)
-
+	data.Version = version
 	e := echo.New()
 	e.Use(middleware.Recover())
 	e.Use(middleware.Gzip())
@@ -67,12 +67,13 @@ func main() {
 	e.POST("/users/logout", user.Logout)
 
 	e.GET("/", func(c echo.Context) error {
-		return c.Redirect(http.StatusTemporaryRedirect, "/statistics/index.html?v="+data.Conf.Version)
+		return c.Redirect(http.StatusTemporaryRedirect, "/statistics/index.html?v="+data.Version)
 	})
 
 	e.POST("/roles/list", role.List, loginMiddleware)
 	e.POST("/roles/search", role.Search, loginMiddleware)
 	e.POST("/roles/edit", role.Edit, loginMiddleware)
+
 
 	e.POST("/users/create", user.Create, loginMiddleware)
 	e.POST("/users/edit", user.Edit, loginMiddleware)
@@ -100,6 +101,7 @@ func main() {
 	e.POST("/operation/issuelist", operation.IssuePropsList, loginMiddleware)          //
 	e.POST("/operation/loginrecord", operation.LoginRecord, loginMiddleware)           //
 	e.POST("/operation/roomcreaterecord", operation.RoomCreateRecord, loginMiddleware) // 私人房创建记录
+	e.POST("/operation/consume", operation.Consume, loginMiddleware)
 
 	e.POST("/operation/charge", operation.GetChargeOrder, loginMiddleware)    // 下单记录
 	e.POST("/operation/transition", operation.GetTransition, loginMiddleware) // 交易记录

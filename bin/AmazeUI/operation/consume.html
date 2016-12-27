@@ -1,0 +1,340 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>贵阳麻将后台管理系统</title>
+    <meta name="description" content="贵阳麻将后台管理系统">
+    <meta name="keywords" content="贵阳麻将后台管理系统">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="icon" type="image/png" href="../assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="贵阳麻将后台管理系统"/>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/app.css">
+</head>
+
+
+<body data-type="index">
+<header class="am-topbar am-topbar-inverse admin-header">
+    <div class="am-topbar-brand">
+        <strong>贵州麻将</strong>
+        <small>后台管理系统</small>
+    </div>
+    <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right"></div>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
+    <!-- headbar start -->
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list"
+            id="admin-head-list">
+            <li v-for="item in items" class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+                    <span :class="item.icon"></span> {{item.name}} <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content tpl-dropdown-content">
+                    <li v-for="i in item.items">
+                        <a :href="i.path" type="button" :onclick="i.action"><span :class="i.icon"></span> </span> {{
+                            i.name}}</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- headbar end -->
+</header>
+
+<div class="tpl-page-container tpl-page-header-fixed">
+    <!-- sidebar start -->
+    <div class="tpl-left-nav tpl-left-nav-hover">
+        <div class="tpl-left-nav-list">
+            <ul class="tpl-left-nav-menu" id="admin-sidebar-list">
+                <li class="tpl-left-nav-item">
+                    <a href="/" class="nav-link active">
+                        <i class="am-icon-home"></i>
+                        <span>首页</span>
+                    </a>
+                </li>
+                <!-- table start -->
+
+                <li v-for="item in items" class="tpl-left-nav-item">
+                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                        <i :class="item.icon"></i>
+                        <span>{{ item.name }} </span>
+                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                    </a>
+                    <ul class="tpl-left-nav-sub-menu" style="display: block;">
+                        <li v-for="i in item.items">
+                            <a :href="i.path">
+                                <i :class="i.icon"></i>
+                                <span>{{ i.name}}</span>
+                                <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <!-- sidebar end -->
+
+
+    <div class="tpl-content-wrapper" >
+        <ol class="am-breadcrumb">
+            <li><a href="#" class="am-icon-home">首页</a></li>
+            <li><a href="#">分类</a></li>
+            <li class="am-active">玩家消费日志</li>
+        </ol>
+
+        <div class="tpl-portlet-components">
+            <div class="tpl-block">
+                <div>
+                     <div class="am-g">
+                        <div class="am-u-sm-12 am-u-md-3">
+                            <div class="am-form-group" id="SearchPages">
+                                <select name="" v-model="selected">
+                                    <option v-for="page in pages" v-bind:value="page.value">
+                                        {{ page.text }}
+                                    </option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="am-u-sm-12 am-u-md-3" id="TypeSelector1">
+                            <div class="am-input-group am-input-group-sm">
+                                <input type="text" class="am-form-field" placeholder="输入玩家ID" v-model="SearchValue">
+                                <span class="am-input-group-btn">
+                                      <button class="am-btn  am-btn-default am-btn-success tpl-am-btn-success am-icon-search"
+                                              type="button" v-on:click="onSearch1">
+                                      </button>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-u-sm-12" >
+                        <table class="am-table am-table-striped am-table-hover table-main"  id="userListPane">
+                            <thead>
+                            <tr>
+                                <td class="am-text-nowrap">玩家ID</td>
+                                <td class="am-text-nowrap">获得/消耗途径</td>
+                                <td class="am-text-nowrap">资源类型</td>
+                                <td class="am-text-nowrap">获得/消耗数量</td>
+                                <td class="am-text-nowrap">剩余量</td>
+                                <td class="am-text-nowrap">记录时间</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr v-for="(v,index) in items ">
+                                <td>{{ v.Userid }}</td>
+                                <td v-if="v.Channel == 0">-</td>
+                                <td v-if="v.Channel == 1">金币场抽成</td>
+                                <td v-if="v.Channel == 2">金币场</td>
+                                <td v-if="v.Channel == 3">比赛场</td>
+                                <td v-if="v.Channel == 4">私人局</td>
+                                <td v-if="v.Channel == 5">破产获得</td>
+                                <td v-if="v.Channel == 6">充值购买</td>
+                                <td v-if="v.Channel == 7">签到奖励</td>
+                                <td v-if="v.Channel == 8">VIP获得</td>
+                                <td v-if="v.Channel == 9">邮件赠送</td>
+                                <td v-if="v.Channel == 10">商店购买</td>
+                                <td v-if="v.Channel == 11">兑换获得</td>
+                                <td v-if="v.Channel == 12">排行榜奖励</td>
+                                <td v-if="v.Channel == 13">活动领奖</td>
+                                <td v-if="v.Channel == 14">排行榜获得</td>
+                                <td v-if="v.Channel == 15">任务获得</td>
+
+
+                                <td v-if="v.Kind==1" class="am-text-middle am-hide-sm-only">金币</td>
+                                <td v-if="v.Kind==2" class="am-text-middle am-hide-sm-only">兑换券</td>
+                                <td v-if="v.Kind==3" class="am-text-middle am-hide-sm-only">入场券</td>
+                                <td v-if="v.Kind==4" class="am-text-middle am-hide-sm-only">钻石</td>
+                                <td v-if="v.Kind==22" class="am-text-middle am-hide-sm-only">VIP1</td>
+                                <td v-if="v.Kind==23" class="am-text-middle am-hide-sm-only">VIP2</td>
+                                <td v-if="v.Kind==24" class="am-text-middle am-hide-sm-only">VIP3</td>
+                                <td v-if="v.Kind==100" class="am-text-middle am-hide-sm-only">经验</td>
+                                <td v-if="v.Kind==101" class="am-text-middle am-hide-sm-only">-</td>
+                                <td v-if="v.Kind==102" class="am-text-middle am-hide-sm-only">赢</td>
+                                <td v-if="v.Kind==103" class="am-text-middle am-hide-sm-only">输</td>
+                                <td v-if="v.Kind==0" class="am-text-middle am-hide-sm-only">平</td>
+
+                                <td>{{ v.Count }}</td>
+                                <td>{{ v.Residual }}</td>
+                                <td>{{ v.Time }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- pagination start -->
+                        <div class="am-cf" id="pageflip">
+                            共 {{allrecords}} 条记录
+                            <div class="am-fr">
+                                <ul class="am-pagination tpl-pagination">
+                                    <li class="am-enabled" v-if="showFirst"><a href="javascript:void(0)" type="button"
+                                                                               v-on:click="cur--">«</a></li>
+                                    <li v-for="index in indexs" v-bind:class="{ 'am-active': cur == index}">
+                                        <a href="javascript:void(0)" type="button" v-on:click="btnClick(index)">{{ index
+                                            }}</a>
+                                    </li>
+                                    <li class="am-enabled" v-if="showLast"><a href="javascript:void(0)" type="button"
+                                                                              v-on:click="cur++">»</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- pagination end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/dialog.js"></script>
+    <script src="../assets/js/vue.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/myapp.js"></script>
+    <script src="../assets/js/amazeui.min.js"></script>
+    <script src="../assets/js/jquery.md5.js"></script>
+</body>
+</html>
+
+<script>
+    new Vue({
+        el: '#admin-sidebar-list',
+        data: {items: getSideBar()}
+    })
+
+    new Vue({
+        el: "#admin-head-list",
+        data: {items: getHeadBar()}
+    })
+
+
+    var pages = new Vue({
+        el: '#SearchPages',
+        data: {
+            selected: "30",
+
+            pages: [
+                {text: '30', value: "30"},
+                {text: '50', value: "50"},
+                {text: '100', value: "100"},
+                {text: '200', value: "200"}
+            ]
+        }
+    })
+    var pageBar = new Vue({
+        el: '#pageflip',
+        data: {
+            all: Math.ceil(0 / pages.$data.selected),
+            allrecords: 0,
+            cur: 1
+        },
+        watch: {
+            cur: function (oldValue, newValue) {
+                // console.log(arguments)
+                getList()
+            }
+        },
+        methods: {
+            btnClick: function (data) {//页码点击事件
+                if (data != this.cur) {
+                    this.cur = data
+
+                }
+            }
+        },
+        computed: {
+            indexs: function () {
+                var left = 1
+                var right = this.all
+                var ar = []
+                if (this.all >= 11) {
+                    if (this.cur > 5 && this.cur < this.all - 4) {
+                        left = this.cur - 5
+                        right = this.cur + 4
+                    } else {
+                        if (this.cur <= 5) {
+                            left = 1
+                            right = 10
+                        } else {
+                            right = this.all
+                            left = this.all - 9
+                        }
+                    }
+                }
+                while (left <= right) {
+                    ar.push(left)
+                    left++
+                }
+                return ar
+            },
+            showLast: function () {
+                if (this.cur == this.all) {
+                    return false
+                }
+                return true
+            },
+            showFirst: function () {
+                if (this.cur == 1) {
+                    return false
+                }
+                return true
+            }
+        }
+    })
+
+    var typeSelector = new Vue({
+        el: '#TypeSelector1',
+        data: {
+            SearchValue: "",
+        },
+        methods: {
+            onSearch1: function (event) {
+                pageBar.$data.cur = 1
+                getList()
+            }
+        }
+    })
+
+    var users = new Vue({
+        el: '#userListPane',
+        data: {items: []},
+
+    })
+
+    function getList() {
+
+        $.ajax({
+            type: "POST",
+            url: "/operation/consume",
+            data: {
+                Userid: typeSelector.$data.SearchValue,
+                Page:pageBar.$data.cur ,
+                PageMax: pages.$data.selected
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data["status"] == "ok" && data.list != undefined) {
+                    users.$data.items = data.list
+                    console.info(data.list)
+                    for (var i = 0; i < data.list.length; i++) {
+                        data.list[i].Time = format(data.list[i].Time * 1000)
+                    }
+
+                    pageBar.$data.allrecords = data["count"]
+                    pageBar.$data.all = Math.ceil(data["count"] / pages.$data.selected)
+                }
+            }
+        })
+    }
+
+
+</script>

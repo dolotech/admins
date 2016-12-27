@@ -44,7 +44,7 @@ func Login(c echo.Context) error {
 	//  默认cookie页面关闭失效
 	cookie := &http.Cookie{Path: "/", Name: "login", Value: key}
 	c.SetCookie(cookie)
-	cookie = &http.Cookie{Path: "/", Name: "version", Value: data.Conf.Version}
+	cookie = &http.Cookie{Path: "/", Name: "version", Value: data.Version}
 	c.SetCookie(cookie)
 
 	data.DelLimitLogin(c.RealIP())

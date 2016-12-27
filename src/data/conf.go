@@ -6,6 +6,8 @@ import (
 	"os"
 )
 
+
+var Version string
 var Conf Config
 
 type Config struct {
