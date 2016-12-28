@@ -17,14 +17,13 @@ import (
 	"github.com/golang/glog"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"errors"
 )
 var (
 	version = "v0.0.1"
 )
 func loginMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		cookie, err := c.Cookie("login")
+		/*cookie, err := c.Cookie("login")
 		if err != nil || cookie == nil || len(cookie.Value) <= 0 || data.Sessions.Get(cookie.Value) == nil {
 			if c.Request().Method == "GET" {
 				c.Request().Header.Add("Cache-Control", "no-cache")
@@ -34,7 +33,7 @@ func loginMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 				return errors.New("未登陆")
 			}
 			return err
-		}
+		}*/
 		return next(c)
 	}
 }

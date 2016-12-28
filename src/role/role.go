@@ -47,6 +47,7 @@ type UserData struct {
 	Lost        uint32
 	Ping        uint32
 	Photo       string
+	Address string
 }
 
 // 玩家信息编辑
@@ -174,6 +175,7 @@ func Search(c echo.Context) error {
 			Ticket:      v.Ticket,
 			Exchange:    v.Exchange,
 			Exp:         v.Exp,
+			Address:v.Address,
 		}
 		users = append(users, u)
 	}
@@ -243,6 +245,7 @@ func List(c echo.Context) error {
 			Ticket:      v.Ticket,
 			Exchange:    v.Exchange,
 			Exp:         v.Exp,
+			Address:v.Address,
 		}
 		users = append(users, u)
 	}
